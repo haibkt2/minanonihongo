@@ -36,6 +36,23 @@ function showAccuracy() {
 	   document.getElementById('login-accuracy').style.display = "block";
 	}
 </script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	 
+    $("#submitButton").click(function(event) {
+ 
+        // Stop default form Submit.
+        event.preventDefault();
+ 
+        // Call Ajax Submit.
+ 
+        ajaxSubmitForm();
+ 
+    });
+ 
+});
+</script>
 </head>
 <body>
 	<div id="application">
@@ -77,9 +94,7 @@ function showAccuracy() {
 										<td style="padding: 0; border: 0;">
 											<table class="table">
 												<tr>
-													<td colspan="4"><a style="padding: 0"
-														href="http://dungmori.com/khoa-hoc/bang-chu-cai-mien-phi">Bảng
-															chữ cái miễn phí</a></td>
+													<td colspan="4"><a style="padding: 0"href="">Bảng chữ cái miễn phí</a></td>
 												</tr>
 												<tr>
 													<td><a style="padding: 0" href="">N5</a></td>

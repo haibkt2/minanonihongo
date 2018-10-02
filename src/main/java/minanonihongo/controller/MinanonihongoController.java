@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
-import java.text.ParseException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +14,8 @@ import org.apache.http.client.ClientProtocolException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,14 +25,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
+import minanonihongo.model.Course;
 import minanonihongo.model.User;
+import minanonihongo.repository.CourseRepository;
 import minanonihongo.repository.RoleRepository;
 import minanonihongo.repository.UserRepository;
-import minanonihongo.service.CommonService;
 import minanonihongo.service.RestFB;
 import minanonihongo.service.UserServiceImpl;
 
@@ -43,6 +45,9 @@ public class MinanonihongoController {
 
 	@Autowired
 	RoleRepository roleRepository;
+	
+	@Autowired
+	CourseRepository courseRepository;
 
 	@Autowired
 	private RestFB restFb;
@@ -85,6 +90,13 @@ public class MinanonihongoController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User findUser = userRepository.findByUserId("ssssssss");
 		return "home";
+	}
+	@PostMapping("/header")
+	public ResponseEntity<?> header(Model model, String error, String logout, String view, HttpServletRequest req,
+			HttpServletResponse response, HttpSession ss) {
+		List<Course> findCourse = courseRepository.findByCourse();
+		model.addAttribute("course", findCourse);
+		return new ResponseEntity<String>("Uploaded to: <br/>" + "", HttpStatus.OK);
 	}
 
 	@RequestMapping("/facebook")
