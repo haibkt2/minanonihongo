@@ -13,7 +13,7 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
-@ComponentScan("minanonihongo.*")
+@ComponentScan("PracticeCalendar.*")
 public class ApplicationContextConfig {
 
     @Bean(name = "viewResolver")
@@ -36,7 +36,7 @@ public class ApplicationContextConfig {
     @Bean(name = "localeResolver")
     public LocaleResolver getLocaleResolver()  {
         SessionLocaleResolver resolver= new SessionLocaleResolver();
-        resolver.setDefaultLocale(new Locale("vn"));
+        resolver.setDefaultLocale(new Locale("en"));
         return resolver;
     }
 }

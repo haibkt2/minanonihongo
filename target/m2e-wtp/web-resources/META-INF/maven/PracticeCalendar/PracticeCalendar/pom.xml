@@ -4,13 +4,13 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>minanonihongo</groupId>
-	<artifactId>minanonihongo</artifactId>
+	<groupId>PracticeCalendar</groupId>
+	<artifactId>PracticeCalendar</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
-	<name>minanonihongo</name>
-	<description>minanonihongo system for Spring Boot</description>
+	<name>PracticeCalendar</name>
+	<description>PracticeCalendar system for Spring Boot</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -109,29 +109,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
 			<version>1.2.6.RELEASE</version>
-		</dependency>
-
-		<!-- org.apache.httpcomponents -->
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpcore</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>fluent-hc</artifactId>
-			<version>4.5.2</version>
-		</dependency>
-
-		<!-- restfb -->
-		<dependency>
-			<groupId>com.restfb</groupId>
-			<artifactId>restfb</artifactId>
-			<version>2.3.0</version>
 		</dependency>
 
 	</dependencies>

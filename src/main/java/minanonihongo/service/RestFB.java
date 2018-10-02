@@ -2,6 +2,7 @@ package minanonihongo.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.fluent.Request;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +12,19 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
 import com.restfb.Version;
+
+import minanonihongo.repository.UserRepository;;
 @Component
 public class RestFB {
+	
+	@Autowired
+	private UserRepository userRepository;
   @Autowired
   private Environment env;
   public String getToken(final String code) throws ClientProtocolException, IOException {
@@ -45,4 +52,16 @@ public class RestFB {
         accountNonLocked, authorities);
     return userDetail;
   }
-}
+  @SuppressWarnings("null")
+public minanonihongo.model.User setUserFb(String userId) throws Exception {
+//		String userId = user.getAvatar();
+		minanonihongo.model.User findUser = userRepository.findByUserId("4444444");
+		if(findUser == null) {
+			findUser.setUserId(userId);
+			findUser.setUserName(userId);
+			findUser.setName(userId);
+		}
+		System.out.println("sd");
+		return findUser;
+	}
+}	
