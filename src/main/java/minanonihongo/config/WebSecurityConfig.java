@@ -34,7 +34,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 				.antMatchers("/home").permitAll()
+				.antMatchers("/404").permitAll()
 				.antMatchers("/alphabet/**").permitAll()
+				.antMatchers("/tim-kiem/**").permitAll()
+				.antMatchers("/khoa-hoc/**").permitAll()
 				.antMatchers("/facebook").permitAll()
 				.antMatchers("/").permitAll()
 				.antMatchers("/downloadFile").permitAll()

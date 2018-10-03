@@ -5,7 +5,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -14,8 +19,6 @@ import org.apache.http.client.ClientProtocolException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,12 +28,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import minanonihongo.model.Course;
+import minanonihongo.model.CourseIlm;
+import minanonihongo.model.CourseIlmType;
 import minanonihongo.model.User;
+import minanonihongo.repository.CourseIlmRepository;
+import minanonihongo.repository.CourseIlmTypeRepository;
 import minanonihongo.repository.CourseRepository;
 import minanonihongo.repository.RoleRepository;
 import minanonihongo.repository.UserRepository;
@@ -45,9 +52,15 @@ public class MinanonihongoController {
 
 	@Autowired
 	RoleRepository roleRepository;
-	
+
 	@Autowired
 	CourseRepository courseRepository;
+
+	@Autowired
+	CourseIlmRepository courseIlmRepository;
+
+	@Autowired
+	CourseIlmTypeRepository courseIlmTypeRepository;
 
 	@Autowired
 	private RestFB restFb;
@@ -91,17 +104,46 @@ public class MinanonihongoController {
 		User findUser = userRepository.findByUserId("ssssssss");
 		return "home";
 	}
-	@PostMapping("/header")
-	public ResponseEntity<?> header(Model model, String error, String logout, String view, HttpServletRequest req,
-			HttpServletResponse response, HttpSession ss) {
+
+	@RequestMapping("/tim-kiem/{key}")
+	@ResponseBody
+	public String header(Model model, String error, String logout, String view, HttpServletRequest req,
+			HttpServletResponse response, HttpSession ss, @PathVariable String key) {
 		List<Course> findCourse = courseRepository.findByCourse();
 		model.addAttribute("course", findCourse);
-		return new ResponseEntity<String>("Uploaded to: <br/>" + "", HttpStatus.OK);
+		return key;
+	}
+
+	@RequestMapping("/tim-kiem/{keysearch}")
+	@ResponseBody
+	public String search(Model model, String error, String logout, String view, HttpServletRequest req,
+			HttpServletResponse response, HttpSession ss, @PathVariable String keysearch) {
+		List<Course> findCourse = courseRepository.findByCourse();
+		model.addAttribute("course", findCourse);
+		return keysearch;
+	}
+
+	@RequestMapping(value = { "/khoa-hoc/{courseName}/{lesson}", "/khoa-hoc/{courseName}" })
+	public String course(Model model, String error, String logout, String view, HttpServletRequest req,
+			HttpServletResponse response, HttpSession ss, @PathVariable String courseName,
+			@PathVariable final Optional<String> lesson) {
+		if ("bang-chu-cai".equals(courseName)) {
+			courseName = "Alphabet";
+		}
+		Course course = courseRepository.findByCourseName(courseName);
+		if (course != null) {
+			String courseId = course.getCourseId();
+			List<CourseIlm> courseIlmList = courseIlmRepository.findByCourseIlm(courseId);
+			List<CourseIlmType> courseIlmTypeList = courseIlmTypeRepository.courseIlmType(courseId);
+			model.addAttribute("courseIlmList", courseIlmList);
+			model.addAttribute("courseIlmTypeList", courseIlmTypeList);
+		}
+		return "alphabet";
 	}
 
 	@RequestMapping("/facebook")
 	public String loginFacebook(HttpServletRequest request) throws ClientProtocolException, IOException, Exception {
-		
+
 		UserServiceImpl userServiceImpl = new UserServiceImpl();
 		String code = request.getParameter("code");
 		if (code == null || code.isEmpty()) {

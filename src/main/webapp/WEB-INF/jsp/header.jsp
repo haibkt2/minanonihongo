@@ -36,23 +36,6 @@ function showAccuracy() {
 	   document.getElementById('login-accuracy').style.display = "block";
 	}
 </script>
-
-<script type="text/javascript">
-$(document).ready(function() {
-	 
-    $("#submitButton").click(function(event) {
- 
-        // Stop default form Submit.
-        event.preventDefault();
- 
-        // Call Ajax Submit.
- 
-        ajaxSubmitForm();
- 
-    });
- 
-});
-</script>
 </head>
 <body>
 	<div id="application">
@@ -61,10 +44,8 @@ $(document).ready(function() {
 				<div class="container">
 					<div class="box-container">
 						<ul class="nav-left">
-							<li><i class="zmdi zmdi-home" style="font-size: 15px;"></i>
-								Nhà liền kề số 03 VNT TOWER, số 19 Nguyễn Trãi, Thanh Xuân, Hà
-								Nội.</li>
-							<li><i class="zmdi zmdi-phone-in-talk"></i> 0969 - 868 - 485</li>
+							<li><i class="zmdi zmdi-home" style="font-size: 15px;"></i> Tổ 121 - Ngô Sỹ Liên, Liên Chiểu, Đà Nẵng</li>
+							<li><i class="zmdi zmdi-phone-in-talk"></i> 033-679-621</li>
 							<li><i class="zmdi zmdi-email"></i> haibkt2@gmail.com</li>
 						</ul>
 					</div>
@@ -94,7 +75,7 @@ $(document).ready(function() {
 										<td style="padding: 0; border: 0;">
 											<table class="table">
 												<tr>
-													<td colspan="4"><a style="padding: 0"href="">Bảng chữ cái miễn phí</a></td>
+													<td colspan="4"><a style="padding: 0"href="">Bảng chữ cái</a></td>
 												</tr>
 												<tr>
 													<td><a style="padding: 0" href="">N5</a></td>
@@ -139,36 +120,30 @@ $(document).ready(function() {
 											<div class="col-right" style="border-top: none;">
 												<div class="clearfix">
 													<div class="col-md-12">
-														<a
-															href="http://dungmori.com/khoa-hoc/bang-chu-cai-mien-phi">
-															Bảng chữ cái</a>
+														<a href="${contextPath}/khoa-hoc/bang-chu-cai">Bảng chữ cái</a>
 													</div>
 												</div>
 												<div class="col-bottom clearfix">
 													<div class="col-md-3">
-														<a href="">N5</a>
+														<a href="${contextPath}/khoa-hoc/N5">N5</a>
 													</div>
 													<div class="col-md-3">
-														<a href="">N4</a>
+														<a href="${contextPath}/khoa-hoc/N4">N4</a>
 													</div>
 													<div class="col-md-3">
-														<a href="">N3</a>
+														<a href="${contextPath}/khoa-hoc/N3">N3</a>
 													</div>
 													<div class="col-md-3">
-														<a href="">N2</a>
+														<a href="${contextPath}/khoa-hoc/N2">N2</a>
 													</div>
 												</div>
 											</div>
 										</li>
 									</ul>
 								</div></li>
-							<li><a href="" target="" class="mn-item giao-vien">Giáo
-									viên</a></li>
-							<li><a href="" target="" class="mn-item bai-viet">Bài
-									viết</a></li>
-
-							<li><a href="" class="mn-item thi-thu">Thi trực tuyến</a></li>
-							<li><a href="" target="" class="mn-item ho-tro">Hỗ trợ</a></li>
+							<li><a href="${contextPath}/vui-tieng-nhat/" target="" class="mn-item hoc-vui">Vui tiếng Nhật</a></li>
+							<li><a href="${contextPath}/van-hoa-nhat-ban/" target="" class="mn-item bai-viet">Văn hóa Nhật Bản</a></li>
+							<li><a href="${contextPath}/thi-truc-tuyen/" class="mn-item thi-thu">Thi trực tuyến</a></li>
 							<li class="item-search">
 								<div id="search-submit">&nbsp;</div> <input type="text"
 								name="key" class="search-input" id="search-input"
@@ -449,18 +424,8 @@ $(document).ready(function() {
 								<ul class="dropdown-menu user-menu">
 									<img class="caret-up"
 										src="${contextPath}/resources/img/caret-up.png" />
-									<li><a href="http://dungmori.com/account/notifications"><i
-											class="zmdi zmdi-notifications"></i> Xem thông báo <span
-											class="notification-count"> <span> </span>
-										</span> </a></li>
 									<li><a href="http://dungmori.com/account"><i
 											class="zmdi zmdi-account-box"></i> Thông tin cá nhân</a></li>
-									<li><a href="http://dungmori.com/account/courses"><i
-											class="zmdi zmdi-dns"></i> Khóa học của tôi</a></li>
-									<li><a href="http://dungmori.com/account/billing"><i
-											class="zmdi zmdi-card"></i> Lịch sử thanh toán</a></li>
-									<li><a href="http://dungmori.com/account/active"><i
-											class="zmdi zmdi-shopping-cart"></i> Nạp mã kích hoạt</a></li>
 									<li><a href="http://dungmori.com/account?focus=changePass"><i
 											class="zmdi zmdi-shield-security"></i> Thay đổi mật khẩu</a></li>
 									<div class="dropdown-divider"></div>
@@ -475,3 +440,4 @@ $(document).ready(function() {
 			</div>
 		</div>
 	<script src="${contextPath}/resources/js/bootstrap.min.js"></script>
+	<script src="${contextPath}/resources/js/app.js"></script>

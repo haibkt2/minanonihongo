@@ -31,6 +31,10 @@ public class CourseIlm implements Serializable {
     private User user;
     
     @ManyToOne
+    @JoinColumn(name="COURSE_ILM_TYPE_ID")
+    private CourseIlmType courseIlmType;
+    
+    @ManyToOne
     @JoinColumn(name="COURSE_ID")
     private Course course;
     
@@ -40,8 +44,6 @@ public class CourseIlm implements Serializable {
     
     private String locaFileCourse;
     
-    private String courseIlmType;
-
     private String courseIlmFlg;
     
     @OneToMany(mappedBy="courseIlm")
@@ -133,14 +135,6 @@ public class CourseIlm implements Serializable {
 		this.locaFileCourse = locaFileCourse;
 	}
 
-	public String getCourseIlmType() {
-		return courseIlmType;
-	}
-
-	public void setCourseIlmType(String courseIlmType) {
-		this.courseIlmType = courseIlmType;
-	}
-
 	public String getCourseIlmFlg() {
 		return courseIlmFlg;
 	}
@@ -163,6 +157,14 @@ public class CourseIlm implements Serializable {
 
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
+	}
+
+	public CourseIlmType getCourseIlmType() {
+		return courseIlmType;
+	}
+
+	public void setCourseIlmType(CourseIlmType courseIlmType) {
+		this.courseIlmType = courseIlmType;
 	}
     
     
