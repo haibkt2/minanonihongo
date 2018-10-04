@@ -41,6 +41,7 @@ import minanonihongo.repository.CourseIlmTypeRepository;
 import minanonihongo.repository.CourseRepository;
 import minanonihongo.repository.RoleRepository;
 import minanonihongo.repository.UserRepository;
+import minanonihongo.service.CourseIlmService;
 import minanonihongo.service.RestFB;
 import minanonihongo.service.UserServiceImpl;
 
@@ -61,6 +62,9 @@ public class MinanonihongoController {
 
 	@Autowired
 	CourseIlmTypeRepository courseIlmTypeRepository;
+
+	@Autowired
+	CourseIlmService courseIlmService;
 
 	@Autowired
 	private RestFB restFb;
@@ -133,9 +137,11 @@ public class MinanonihongoController {
 		Course course = courseRepository.findByCourseName(courseName);
 		if (course != null) {
 			String courseId = course.getCourseId();
-			List<CourseIlm> courseIlmList = courseIlmRepository.findByCourseIlm(courseId);
 			List<CourseIlmType> courseIlmTypeList = courseIlmTypeRepository.courseIlmType(courseId);
-			model.addAttribute("courseIlmList", courseIlmList);
+			Map<String, List<CourseIlm>> map = courseIlmService.setMapCourse(courseId, courseIlmTypeList);
+			for (CourseIlmType courseIlmType : courseIlmTypeList) {
+				model.addAttribute(courseIlmType.getCourseIlmTypeId(),(List<CourseIlm>) map.get(courseIlmType.getCourseIlmTypeName()));
+			}
 			model.addAttribute("courseIlmTypeList", courseIlmTypeList);
 		}
 		return "alphabet";

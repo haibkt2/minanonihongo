@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page import="java.util.*"%>
+<%@ page import="minanonihongo.model.*"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
@@ -80,35 +82,35 @@
 				<div class="block-title">Tiến trình học</div>
 				<div class="panel-group" id="accordion" role="tablist"
 					aria-multiselectable="true">
-					<fmt:parseNumber var="i" integerOnly="true" type="number" value="0" />
-					<c:forEach items="${courseIlmTypeList}" var="courseIlmType"
-						varStatus="indexT">
+					<c:forEach items="${courseIlmTypeList}" var="courseIlmType">
+						<c:set value="${courseIlmType.getCourseIlmTypeId()}" var="nh"></c:set>
+						<%
+							String course = (String) pageContext.getAttribute("nh");
+						%>
 						<div class="panel panel-default">
 							<div class="panel-heading" role="tab">
 								<a class="collapsed" role="button" data-toggle="collapse"
-									data-parent="#accordion" href="#collapse-${i}"
-									aria-expanded="false"> <strong> <c:out
-											value="${courseIlmType.getCourseIlmTypeName()}"></c:out>
+									data-parent="#accordion" href="#collapse-${nh}"
+									aria-expanded="false"> <strong>${courseIlmType.getCourseIlmTypeName()}
 								</strong>
 								</a>
 							</div>
-							<div id="collapse-${i}" class="panel-collapse collapse "
-								role="tabpanel">
+							<div id="collapse-${courseIlmType.getCourseIlmTypeId()}"
+								class="panel-collapse collapse " role="tabpanel">
 								<div class="panel-body">
 									<ul class="scroll-items">
-										<c:forEach items="${courseIlmList}" var="courseIlm">
-											<c:if
-												test="${courseIlm.getCourseIlmType().getCourseIlmTypeId() ne courseIlmType.getCourseIlmTypeId()}">
-
-												<li class="lesson-item-15"><a href=""
-													style="padding-right: 70px;">${courseIlm.getLessonName()}</a></li>
-											</c:if>
-										</c:forEach>
-
+										<%
+											List<CourseIlm> courseList = (List<CourseIlm>) request.getAttribute(course);
+												for (CourseIlm courseIlm : courseList) {
+										%>
+										<li class="lesson-item-15"><a href=""
+											style="padding-right: 70px;"><%=courseIlm.getLessonName()%></a></li>
+										<%
+											}
+										%>
 									</ul>
 								</div>
 							</div>
-							<c:set value="${i+1}" var="i"></c:set>
 						</div>
 					</c:forEach>
 				</div>
