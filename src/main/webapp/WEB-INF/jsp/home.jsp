@@ -7,7 +7,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
 <title>HaiLDX - Website học tiếng Nhật online số 1 tại Việt Nam
 </title>
 	<jsp:include page="header.jsp"></jsp:include>

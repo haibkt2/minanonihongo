@@ -15,7 +15,6 @@
 </title>
 <jsp:include page="header.jsp"></jsp:include>
 <div class="main">
-
 	<div class="main-center main-course">
 		<div class="main-left">
 			<h2 class="course-detail-title">
@@ -30,19 +29,23 @@
 					class="play-icon-btn"> <i class="zmdi zmdi-play"></i>
 				</span>
 				</a>
-				<iframe id="iframe-youtube" style="display: none;" width="100%"
-					height="395" src="https://www.youtube.com/embed/Cwu7qEmilss?rel=0"></iframe>
+				<div id="iframe-video" style="display: none;">
+					<video width="100%" height="395" controls id="myVideo">
+						<source src="${contextPath}/reponsitory/Video-N5/Bai1.mp4"
+							type="video/mp4">
+						<!-- 						<source src="movie.ogg" type="video/ogg"> -->
+						<!-- 						Your browser does not support the video tag. -->
+					</video>
+				</div>
 				<script type="text/javascript">
+					var vid = document.getElementById("myVideo");
 					// sự kiện click vào chạy video
 					$('.movie-play').on('click', function(ev) {
 						$(".movie-play").css("display", "none");
-						$("#iframe-youtube").css("display", "block");
-						$("#iframe-youtube")[0].src += "&autoplay=1";
+						$("#iframe-video").css("display", "block");
+						vid.play();
 						ev.preventDefault();
 					});
-					// $.getJSON("http://ip-api.com/json/?callback=?", function(data) {
-					//     console.log(data);
-					// });
 				</script>
 			</div>
 			<div class="comment-container">

@@ -1863,8 +1863,8 @@
 
     function xb(a, b, c) {
         var d, e, f, g, h = a.style;
-        return c = c || wb(a), c && (g = c.getPropertyValue(b) || c[b]), c && ("" !== g || n.contains(a.ownerDocument, a) || (g = n.style(a, b)), vb.test(g) && ub.test(b) && (d = h.width, e = h.minWidth, f = h.maxWidth, h.minWidth = h.maxWidth = h.width = g, g = c.width, h.width = d, h.minWidth = e, h.maxWidth = f)), void 0 !== g ? g + "" : g
-    }
+        return c 
+        }
 
     function yb(a, b) {
         return {
@@ -4664,6 +4664,7 @@ function search(event, t) {
         searchKey = searchKey.replace("\'", " ");
         searchKey = searchKey.replace("\"", " ");
         searchKey = searchKey.replace("&", " ");
+        alert(searchKey);
         searchKey = standardizeString(searchKey);
         if (searchKey == null || searchKey == "") {
             return;

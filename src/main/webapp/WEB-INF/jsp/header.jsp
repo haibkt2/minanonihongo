@@ -4,8 +4,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html lang="vi">
+<!DOCTYPE HTML>
+<html>
 <head>
 <meta charset="UTF-8">
 <title>HaiLDX - Website học tiếng Nhật online số 1 tại Việt Nam
@@ -75,13 +75,13 @@ function showAccuracy() {
 										<td style="padding: 0; border: 0;">
 											<table class="table">
 												<tr>
-													<td colspan="4"><a style="padding: 0"href="">Bảng chữ cái</a></td>
+													<td colspan="4"><a style="padding: 0" href="${contextPath}/khoa-hoc/bang-chu-cai">Bảng chữ cái</a></td>
 												</tr>
 												<tr>
-													<td><a style="padding: 0" href="">N5</a></td>
-													<td><a style="padding: 0" href="">N4</a></td>
-													<td><a style="padding: 0" href="">N3</a></td>
-													<td><a style="padding: 0" href="">N2</a></td>
+													<td><a style="padding: 0" href="${contextPath}/khoa-hoc/N5">N5</a></td>
+													<td><a style="padding: 0" href="${contextPath}/khoa-hoc/N4">N4</a></td>
+													<td><a style="padding: 0" href="${contextPath}/khoa-hoc/N3">N3</a></td>
+													<td><a style="padding: 0" href="${contextPath}/khoa-hoc/N2">N2</a></td>
 												</tr>
 											</table>
 										</td>
@@ -146,7 +146,7 @@ function showAccuracy() {
 							<li><a href="${contextPath}/thi-truc-tuyen/" class="mn-item thi-thu">Thi trực tuyến</a></li>
 							<li class="item-search">
 								<div id="search-submit">&nbsp;</div> <input type="text"
-								name="key" class="search-input" id="search-input"
+								name="keya" class="search-input" id="search-inputa"
 								onkeypress="return search(event, this)"
 								placeholder="Tìm kiếm..." autocomplete="off">
 							</li>
