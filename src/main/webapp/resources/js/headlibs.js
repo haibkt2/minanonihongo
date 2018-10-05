@@ -4656,6 +4656,7 @@ function swichTab(tabname) {
 
 // bắt sự kiện enter cho ô search input
 function search(event, t) {
+	alert(t.value);
     if (event.keyCode == 13) {
         var searchKey = t.value;
         searchKey = searchKey.replace("/", " ");

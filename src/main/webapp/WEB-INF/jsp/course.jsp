@@ -13,20 +13,69 @@
 <meta charset="UTF-8">
 <title>HaiLDX - Website học tiếng Nhật online số 1 tại Việt Nam
 </title>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script>
+	function searchViaAjax(t) {
+		var courseIlmId = t;
+		var lessonName = "";
+		var introduce = "";
+		var locaFileCourse = "";
+		$.ajax({
+			type : "GET",
+			contentType : "application/json",
+			url : window.location.protocol + "//" + window.location.host + window.location.pathname + "ss",
+			data : {
+				courseIlmId : courseIlmId,
+				lessonName : lessonName,
+				introduce : introduce,
+				locaFileCourse : locaFileCourse
+			},
+			dataType : 'json',
+			timeout : 100000,
+			success : function(data) {
+				console.log("SUCCESS: ", data);
+				if (data != null) {
+					var result = "<h3> You just search Person: "
+							+ data.name + "</h3>";
+					$("#ajax-response").html(result);
+				} else {
+					var result = "<h3 style='color:red'> No person found </h3>";
+					$("#ajax-response").html(result);
+				}
+			},
+			error : function(e) {
+				console.log("ERROR: ", e);
+			}
+		});
+	}
+</script>
 <jsp:include page="header.jsp"></jsp:include>
 <div class="main">
 	<div class="main-center main-course">
 		<div class="main-left">
 			<h2 class="course-detail-title">
-				Khóa học <a><b>Bảng chữ cái</b></a>
+				Khóa học : <a><b><c:if
+							test="${courseIlm.getCourse().getCourseName() eq 'Alphabet'}">
+							<c:set value="Bảng chữ cái Tiếng Nhật" var="courseName"></c:set>
+							<c:out value="${courseName}"></c:out>
+						</c:if> <c:if
+							test="${courseIlm.getCourse().getCourseName() ne 'Alphabet'}">
+							<c:out value="${courseIlm.getCourse().getCourseName()}"></c:out>
+						</c:if> </b> </a>
 			</h2>
 			<div class="course-heading">
-				<span>Clip giới thiệu lộ trình học</span>
+				<span>Giới thiệu lộ trình - phương pháp học</span>
 			</div>
 			<div class="cover-container">
+				<!-- 			introduction -->
+				${courseIlm.getIntroduce() }
+
+				<!-- end introduction -->
 				<a class="movie-play"> <img
-					src="${contextPath}/resources/img/bang-chu-cai.jpg" /> <br> <span
-					class="play-icon-btn"> <i class="zmdi zmdi-play"></i>
+					src="${contextPath}/resources/img/${courseIlm.getCourse().getCourseName()}.jpg" />
+					<br> <span class="play-icon-btn"> <i
+						class="zmdi zmdi-play"></i>
 				</span>
 				</a>
 				<div id="iframe-video" style="display: none;">
@@ -106,7 +155,8 @@
 											List<CourseIlm> courseList = (List<CourseIlm>) request.getAttribute(course);
 												for (CourseIlm courseIlm : courseList) {
 										%>
-										<li class="lesson-item-15"><a href=""
+										<li class="lesson-item" id="<%=courseIlm.getLessonName()%>"><a onclick="searchViaAjax(this.id)"
+											class="<%=courseIlm.getCourseIlmId()%>"  id="<%=courseIlm.getCourseIlmId()%>" href=""
 											style="padding-right: 70px;"><%=courseIlm.getLessonName()%></a></li>
 										<%
 											}

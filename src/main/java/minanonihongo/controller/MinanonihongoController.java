@@ -19,6 +19,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -127,9 +128,40 @@ public class MinanonihongoController {
 		return keysearch;
 	}
 
-	@RequestMapping(value = { "/khoa-hoc/{courseName}/{lesson}", "/khoa-hoc/{courseName}" })
+	@RequestMapping(value = "/khoa-hoc/{courseName}")
 	public String course(Model model, String error, String logout, String view, HttpServletRequest req,
 			HttpServletResponse response, HttpSession ss, @PathVariable String courseName,
+			@PathVariable final Optional<String> lesson) {
+		if ("bang-chu-cai".equals(courseName)) {
+			courseName = "Alphabet";
+		}
+		Course course = courseRepository.findByCourseName(courseName);
+		CourseIlm courseIlm = new CourseIlm();
+		if (course.getCourseIlms().size() > 1) {
+			courseIlm = course.getCourseIlms().get(0);
+			List<CourseIlm> courseIlms = new ArrayList<>();
+			courseIlms.add(courseIlm);
+			course.setCourseIlms(courseIlms);
+			courseIlm.setCourse(course);
+		}
+		if (course != null) {
+			String courseId = course.getCourseId();
+			List<CourseIlmType> courseIlmTypeList = courseIlmTypeRepository.courseIlmType(courseId);
+			Map<String, List<CourseIlm>> map = courseIlmService.setMapCourse(courseId, courseIlmTypeList);
+			for (CourseIlmType courseIlmType : courseIlmTypeList) {
+				model.addAttribute(courseIlmType.getCourseIlmTypeId(),
+						(List<CourseIlm>) map.get(courseIlmType.getCourseIlmTypeName()));
+			}
+			model.addAttribute("courseIlmTypeList", courseIlmTypeList);
+			model.addAttribute("courseIlm", courseIlm);
+		}
+		return "course";
+	}
+
+	@RequestMapping(value = "/khoa-hoc/{courseName}/{lesson}")
+	@ResponseBody
+	public String lessonDatail(Model model, String error, String logout, String view,
+			HttpServletRequest req, HttpServletResponse response, HttpSession ss, @PathVariable String courseName,
 			@PathVariable final Optional<String> lesson) {
 		if ("bang-chu-cai".equals(courseName)) {
 			courseName = "Alphabet";
@@ -140,11 +172,12 @@ public class MinanonihongoController {
 			List<CourseIlmType> courseIlmTypeList = courseIlmTypeRepository.courseIlmType(courseId);
 			Map<String, List<CourseIlm>> map = courseIlmService.setMapCourse(courseId, courseIlmTypeList);
 			for (CourseIlmType courseIlmType : courseIlmTypeList) {
-				model.addAttribute(courseIlmType.getCourseIlmTypeId(),(List<CourseIlm>) map.get(courseIlmType.getCourseIlmTypeName()));
+				model.addAttribute(courseIlmType.getCourseIlmTypeId(),
+						(List<CourseIlm>) map.get(courseIlmType.getCourseIlmTypeName()));
 			}
 			model.addAttribute("courseIlmTypeList", courseIlmTypeList);
 		}
-		return "alphabet";
+		return "";
 	}
 
 	@RequestMapping("/facebook")

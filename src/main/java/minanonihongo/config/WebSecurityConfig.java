@@ -37,7 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/404").permitAll()
 				.antMatchers("/alphabet/**").permitAll()
 				.antMatchers("/tim-kiem/**").permitAll()
-				.antMatchers("/khoa-hoc/**").permitAll()
+				.antMatchers("/khoa-hoc/**/**").permitAll()
 				.antMatchers("/facebook").permitAll()
 				.antMatchers("/").permitAll()
 				.antMatchers("/downloadFile").permitAll()
