@@ -7,11 +7,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%
+	request.setCharacterEncoding("UTF-8");
+%>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <title>HaiLDX - Website học tiếng Nhật online số 1 tại Việt Nam
 </title>
 <jsp:include page="header.jsp"></jsp:include>
@@ -29,29 +32,30 @@
 				Khóa học : <a><b> <c:out value="${courseName}"></c:out></b> </a>
 			</h2>
 			<div class="course-heading">
-				<span>Giới thiệu lộ trình - phương pháp học</span>
+				<span id="course-heading">${courseIlm.getLessonName()}</span>
 			</div>
-			<div class="cover-container">
-				<!-- 			introduction -->
-				${courseIlm.getIntroduce() }
-
-				<!-- end introduction -->
-				<a class="movie-play"> <img
-					src="${contextPath}/resources/img/${courseIlm.getCourse().getCourseName()}.jpg" />
+			<div class="cover-container" id="cover-container">
+				<div class="introduce" id="introduce">
+					${courseIlm.getIntroduce() }</div>
+				<br>
+				<br>
+				<a class="movie-play"> <img id="videoImg"
+					src="${contextPath}/resources/img/${courseIlm.getCourse().getCourseName()}" />
 					<br> <span class="play-icon-btn"> <i
 						class="zmdi zmdi-play"></i>
 				</span>
 				</a>
 				<div id="iframe-video" style="display: none;">
-					<video width="100%" height="395" controls id="myVideo">
-						<source src="${contextPath}/reponsitory/Video-N5/Bai1.mp4"
-							type="video/mp4">
+					<video width="100%" height="395" controls id="cVideo">
+						<source
+							src="${contextPath}/reponsitory/N5/${courseIlm.getLocaFileCourse()}"
+							type="video/mp4" id="srVideo">
 						<!-- 						<source src="movie.ogg" type="video/ogg"> -->
 						<!-- 						Your browser does not support the video tag. -->
 					</video>
 				</div>
 				<script type="text/javascript">
-					var vid = document.getElementById("myVideo");
+					var vid = document.getElementById("cVideo");
 					// sự kiện click vào chạy video
 					$('.movie-play').on('click', function(ev) {
 						$(".movie-play").css("display", "none");
@@ -148,22 +152,39 @@
 	</div>
 </div>
 <script>
-	$(".lesson-item-click").click(function(e) {
-		e.preventDefault();
-		var id = $(this).attr("data-id");
-		var url = $(this).attr("url") + "?id=" + id;
-		$.ajax({
-			url : url,
-			success : function(result) {
-				console.log(result);
-				$('.cover-container').val('s');
-
-			},
-			error : function(e) {
-				alert("Sorry! Dữ liệu lỗi.");
-			}
-		});
-	});
+	$(".lesson-item-click")
+			.click(
+					function(e) {
+						e.preventDefault();
+						var id = $(this).attr("data-id");
+						var url = $(this).attr("url") + "?id=" + id;
+						$
+								.ajax({
+									url : url,
+									contentType : "application/json;charset=utf-8",
+									success : function(obj) {
+										console.log(obj);
+										// 										obj = JSON.parse(result);
+										console.log(obj.lessonName);
+										document
+												.getElementById('course-heading').innerHTML = obj.lessonName;
+										document.getElementById('introduce').innerHTML = obj.introduce;
+										document.getElementById('videoImg').src = "${contextPath}/resources/img/"
+												+ "Bảng chữ cái Tiếng Nhật.jpg";
+										document.getElementById('srVideo').src = "${contextPath}/reponsitory/N5/"
+												+ obj.locaFileCourse;
+										var video = document.getElementById('cVideo');
+										video.load();
+										$(".movie-play")
+												.css("display", "block");
+										$("#iframe-video").css("display",
+												"none");
+									},
+									error : function(e) {
+										alert("Sorry! Dữ liệu lỗi.");
+									}
+								});
+					});
 </script>
 <div class="go-top">
 	<i class="fa fa-sort-asc"></i>

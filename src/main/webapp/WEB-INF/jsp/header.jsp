@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>HaiLDX - Website học tiếng Nhật online số 1 tại Việt Nam
+<title>HaiLDX - Tiếng Nhật cho mọi người.
 </title>
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
@@ -16,10 +16,6 @@
 	content="dID8nr1OLIVnUbbjhk0f90utfwY3Qyw7vWgl2aw7">
 
 <meta name="author" content=" HaiLDX " />
-<meta name="keywords"
-	content=" HaiLDX dạy, tiếng nhật, học, online, dễ hiểu nhất, nihongo, Japanese, miễn phí, n1, n2, n3, n4, n5 " />
-<meta name="description"
-	content="HaiLDX YouTuber dạy tiếng nhật với phong cách gần gũi dễ hiểu nhất " />
 <meta name="robots" content="index,follow" />
 <meta http-equiv="content-language" content="vi" />
 
@@ -44,8 +40,8 @@
 				<div class="container">
 					<div class="box-container">
 						<ul class="nav-left">
-							<li><i class="zmdi zmdi-home" style="font-size: 15px;"></i>
-								Tổ 121 - Ngô Sỹ Liên, Liên Chiểu, Đà Nẵng</li>
+							<li><i class="zmdi zmdi-home" style="font-size: 18px;"></i>
+								Tổ 121 - Đường Ngô Sỹ Liên,Phường Hòa Minh, Quận Liên Chiểu, Thành Phố Đà Nẵng</li>
 							<li><i class="zmdi zmdi-phone-in-talk"></i> 033-679-621</li>
 							<li><i class="zmdi zmdi-email"></i> haibkt2@gmail.com</li>
 						</ul>

@@ -42,7 +42,7 @@ function authBySocicalAccount() {
 }
 
 function logout() {
-        console.log("ÄÄƒng xuáº¥t"), $.get(window.location.origin + "/account/logout", function(e, t) {
+        console.log("Đăng xuất"), $.get(window.location.origin + "/account/logout", function(e, t) {
             "success" == e && location.reload()
         })
     }! function(e, t) {
@@ -4573,6 +4573,16 @@ function logout() {
                 scrollTop: 0
             }, "slow")
         }), $("#nav-icon").click(function() {
+            $(this).toggleClass("open")
+        }),$(function() {
+            e($("#header"))
+        }), $(function() {
+            $('[data-toggle="tooltip"]').tooltip()
+        }), autosize(document.querySelectorAll("textarea")), $(".lesson-item").click(function() {
+            $("html, body").animate({
+                scrollTop: 0
+            }, "slow")
+        }), $("#lesson-item").click(function() {
             $(this).toggleClass("open")
         })
     });

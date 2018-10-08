@@ -162,10 +162,6 @@ public class MinanonihongoController {
 			String courseId = course.getCourseId();
 			List<CourseIlmType> courseIlmTypeList = courseIlmTypeRepository.courseIlmType(courseId);
 			Map<String, List<CourseIlm>> map = courseIlmService.setMapCourse(courseId, courseIlmTypeList);
-			Gson gson = new Gson();
-			String g = gson.toJson(map);
-			System.out.println(g);
-			model.addAttribute("json", g);
 			for (CourseIlmType courseIlmType : courseIlmTypeList) {
 				model.addAttribute(courseIlmType.getCourseIlmTypeId(),
 						(List<CourseIlm>) map.get(courseIlmType.getCourseIlmTypeName()));
@@ -175,20 +171,11 @@ public class MinanonihongoController {
 		} else {
 			return "404";
 		}
-		boolean s = lesson.isPresent();
-		if (s) {
-			String courseIlmId = lesson.get().substring(0, 4);
-			if (courseIlmId.startsWith("t")) {
-				courseIlmId = courseIlmId.substring(1);
-			} else
-				courseIlmId = courseIlmId.substring(0, 3);
-
-		}
 		return "course";
 
 	}
 
-	@RequestMapping(value = { "/khoa-hoc/{courseName}/{lesson}" })
+	@RequestMapping(value = { "/khoa-hoc/{courseName}/{lesson}" }, produces = "application/json; charset=utf-8")
 	public @ResponseBody String courseDetail(Model model,@RequestParam String id) throws IOException {
 		Gson g = new Gson();
 		CourseIlm courseIlm = courseIlmRepository.findByCourseIlmId(id);
@@ -202,7 +189,7 @@ public class MinanonihongoController {
 			courseIlm.setExams(null);
 		}
 		String course = g.toJson(courseIlm);
-		System.out.println(id);
+		System.out.println(course);
 		return course;
 	}
 
