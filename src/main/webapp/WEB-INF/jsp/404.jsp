@@ -13,8 +13,7 @@
 <body>
 	<h2>User Page</h2>
 	<h3>
-		Welcome :
-		<c:out value="${request.userPrincipal.name}"></c:out>
+		ERROR
 	</h3>
 	<br />
 	<br />

@@ -31,20 +31,21 @@
 
 <script src="${contextPath}/resources/js/slick.min.js"></script>
 <script type="text/javascript">
-function showAccuracy() {
-	   document.getElementById('login-submit').style.display = "none";
-	   document.getElementById('login-accuracy').style.display = "block";
+	function showAccuracy() {
+		document.getElementById('login-submit').style.display = "none";
+		document.getElementById('login-accuracy').style.display = "block";
 	}
 </script>
 </head>
 <body>
-	<div id="application">
+	<div>
 		<div class="site-header">
 			<div class="header-top">
 				<div class="container">
 					<div class="box-container">
 						<ul class="nav-left">
-							<li><i class="zmdi zmdi-home" style="font-size: 15px;"></i> Tổ 121 - Ngô Sỹ Liên, Liên Chiểu, Đà Nẵng</li>
+							<li><i class="zmdi zmdi-home" style="font-size: 15px;"></i>
+								Tổ 121 - Ngô Sỹ Liên, Liên Chiểu, Đà Nẵng</li>
 							<li><i class="zmdi zmdi-phone-in-talk"></i> 033-679-621</li>
 							<li><i class="zmdi zmdi-email"></i> haibkt2@gmail.com</li>
 						</ul>
@@ -75,13 +76,19 @@ function showAccuracy() {
 										<td style="padding: 0; border: 0;">
 											<table class="table">
 												<tr>
-													<td colspan="4"><a style="padding: 0" href="${contextPath}/khoa-hoc/bang-chu-cai">Bảng chữ cái</a></td>
+													<td colspan="4"><a style="padding: 0"
+														href="${contextPath}/khoa-hoc/Bang-chu-cai">Bảng chữ
+															cái</a></td>
 												</tr>
 												<tr>
-													<td><a style="padding: 0" href="${contextPath}/khoa-hoc/N5">N5</a></td>
-													<td><a style="padding: 0" href="${contextPath}/khoa-hoc/N4">N4</a></td>
-													<td><a style="padding: 0" href="${contextPath}/khoa-hoc/N3">N3</a></td>
-													<td><a style="padding: 0" href="${contextPath}/khoa-hoc/N2">N2</a></td>
+													<td><a style="padding: 0"
+														href="${contextPath}/khoa-hoc/N5">N5</a></td>
+													<td><a style="padding: 0"
+														href="${contextPath}/khoa-hoc/N4">N4</a></td>
+													<td><a style="padding: 0"
+														href="${contextPath}/khoa-hoc/N3">N3</a></td>
+													<td><a style="padding: 0"
+														href="${contextPath}/khoa-hoc/N2">N2</a></td>
 												</tr>
 											</table>
 										</td>
@@ -90,16 +97,13 @@ function showAccuracy() {
 							</li>
 							<li><a href=""><i
 									class="zmdi zmdi-format-subject icon-menu-item"></i>
-									<p>Bài viết</p></a></li>
+									<p>Vui tiếng Nhật</p></a></li>
 							<li><a href=""><i
 									class="zmdi zmdi-accounts-outline icon-menu-item"></i>
-									<p>Giáo viên</p></a></li>
+									<p>Văn hóa Nhật Bản</p></a></li>
 
 							<li><a href=""><i class="zmdi zmdi-edit icon-menu-item"></i>
-									<p>Thi trực tuyến</p></a></li>
-							<li><a href=""><i
-									class="zmdi zmdi-help-outline icon-menu-item"></i>
-									<p>Hỗ trợ</p></a></li>
+									<p>Thi thử</p></a></li>
 						</ul>
 					</div>
 					<a href="" class="logo" id="logo"> <img
@@ -120,7 +124,8 @@ function showAccuracy() {
 											<div class="col-right" style="border-top: none;">
 												<div class="clearfix">
 													<div class="col-md-12">
-														<a href="${contextPath}/khoa-hoc/bang-chu-cai">Bảng chữ cái</a>
+														<a href="${contextPath}/khoa-hoc/Bang-chu-cai">Bảng
+															chữ cái</a>
 													</div>
 												</div>
 												<div class="col-bottom clearfix">
@@ -141,9 +146,12 @@ function showAccuracy() {
 										</li>
 									</ul>
 								</div></li>
-							<li><a href="${contextPath}/vui-tieng-nhat/" target="" class="mn-item hoc-vui">Vui tiếng Nhật</a></li>
-							<li><a href="${contextPath}/van-hoa-nhat-ban/" target="" class="mn-item bai-viet">Văn hóa Nhật Bản</a></li>
-							<li><a href="${contextPath}/thi-truc-tuyen/" class="mn-item thi-thu">Thi trực tuyến</a></li>
+							<li><a href="${contextPath}/vui-tieng-nhat/" target=""
+								class="mn-item hoc-vui">Vui tiếng Nhật</a></li>
+							<li><a href="${contextPath}/van-hoa-nhat-ban/" target=""
+								class="mn-item bai-viet">Văn hóa Nhật Bản</a></li>
+							<li><a href="${contextPath}/thi-truc-tuyen/"
+								class="mn-item thi-thu">Thi thử</a></li>
 							<li class="item-search">
 								<div id="search-submit">&nbsp;</div> <input type="text"
 								name="keya" class="search-input" id="search-inputa"
@@ -275,7 +283,7 @@ function showAccuracy() {
 																<label for="agree-checkbox" class="agree-policy">
 																	<input id="agree-checkbox" type="checkbox"
 																	name="agreement" checked> <span>Đồng ý
-																		với các <a href=" target="_blank">điều khoản sử
+																		với các <a href="" target="_blank">điều khoản sử
 																			dụng</a> và <a href="" target="_blank">chính sách bảo
 																			mật</a> của website HaiLDX
 																</span>
@@ -304,8 +312,7 @@ function showAccuracy() {
 														<label class="col-md-4 control-label"></label>
 														<div class="col-md-8">
 															<div class="error-container">
-																<div class="alert-danger" style="display: none;"
-																	v-show="error != null">
+																<div class="alert-danger" style="display: none;">
 																	<i class="zmdi zmdi-alert-octagon"></i> ${error}
 																</div>
 															</div>
@@ -324,8 +331,8 @@ function showAccuracy() {
 														<label class="col-md-4 control-label">Mật khẩu</label>
 														<div class="col-md-8">
 															<input id="password" type="password" class="form-control"
-																name="password" v-on:click="hideError"
-																placeholder="Mật khẩu" autocomplete="off" required
+																name="password" placeholder="Mật khẩu"
+																autocomplete="off" required
 																onkeypress="return enterToLogin(event, this)">
 														</div>
 													</div>
@@ -346,8 +353,10 @@ function showAccuracy() {
 															<button type="submit" class="btn-login" id="login-submit">
 																<span>Đăng nhập</span>
 															</button>
-															<button class="btn-login" id="login-accuracy" style="display:none;">
-																<span><i class="fa fa-spinner fa-pulse fa-fw"></i> Đang xác thực...</span>
+															<button class="btn-login" id="login-accuracy"
+																style="display: none;">
+																<span><i class="fa fa-spinner fa-pulse fa-fw"></i>
+																	Đang xác thực...</span>
 															</button>
 															<p>
 																<a href="" style="color: #333; opacity: 0.7;">Quên
@@ -365,9 +374,11 @@ function showAccuracy() {
 										<div class="col-md-8"
 											style="padding-left: 0; margin-top: 10px;">
 											<div class="break-line">Hoặc đăng nhập nhanh bằng</div>
-											<a href="https://www.facebook.com/dialog/oauth?client_id=2272220076356331&redirect_uri=https://localhost:8888/facebook">
+											<a
+												href="https://www.facebook.com/dialog/oauth?client_id=2272220076356331&redirect_uri=https://localhost:8888/facebook">
 												<button type="button"
-													class="btn btn-facebook waves-effect waves-light m-t-20" onclick="showAccuracy()">
+													class="btn btn-facebook waves-effect waves-light m-t-20"
+													onclick="showAccuracy()">
 													<i class="fa fa-facebook m-r-5"></i> Facebook
 												</button>
 											</a> <a href="" onclick="authBySocicalAccount()">
@@ -411,9 +422,6 @@ function showAccuracy() {
 								<i class="glyphicon glyphicon-search search-icon"></i>
 							</div>
 							<div class="dropdown auth-container">
-								<span class="notifications-counts"
-									v-show="countNotification != 0" style="display: none;">{{
-									countNotification }}</span>
 								<div class="dropdown-toggle" type="button"
 									data-toggle="dropdown">
 									<span class="user-name">${userId}</span> <img
@@ -439,5 +447,5 @@ function showAccuracy() {
 				</div>
 			</div>
 		</div>
-	<script src="${contextPath}/resources/js/bootstrap.min.js"></script>
-	<script src="${contextPath}/resources/js/app.js"></script>
+		<script src="${contextPath}/resources/js/bootstrap.min.js"></script>
+		<script src="${contextPath}/resources/js/app.js"></script>

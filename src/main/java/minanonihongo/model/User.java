@@ -13,64 +13,68 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 @Entity
-@NamedQuery(name="User.findAll", query="SELECT u FROM User u")
+@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
 public class User implements Serializable {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @Column(name="USER_ID")
-    private String userId;
+	@Id
+	@Column(name = "USER_ID")
+	private String userId;
 
-    private String email;
+	private String email;
 
-    private String name;
+	private String name;
 
-    private String password;
+	private String password;
 
-    private String phone;
-    
-    private Date birthday;
-    
-    private String avatar;
+	private String phone;
 
-    @Column(name="USER_NAME")
-    private String userName;
+	private Date birthday;
 
-    @ManyToOne
-    @JoinColumn(name="ROLE_ID")
-    private Role role;
-    
-    @OneToMany(mappedBy="user")
-    private List<Post> posts;
-    
-    @OneToMany(mappedBy="user")
-    private List<Document> documents;
-    
-    @OneToMany(mappedBy="user")
-    private List<CourseIlm> couseIlms;
-    
-    @OneToMany(mappedBy="user")
-    private List<Exam> Exams;
+	private String avatar;
 
-	@OneToMany(mappedBy="user")
-    private List<Comment> comments;
-	
-	@OneToMany(mappedBy="user")
-    private List<ExamResult> examResults;
+	@Column(name = "USER_NAME")
+	private String userName;
 
+	@ManyToOne
+	@JoinColumn(name = "ROLE_ID")
+	private Role role;
 
-    public User() {
-    }
+	@OneToMany(mappedBy = "user")
+	private List<Post> posts;
 
-    public String getUserId() {
-        return this.userId;
-    }
+	@OneToMany(mappedBy = "user")
+	private List<Document> documents;
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
+	@OneToMany(mappedBy = "user")
+	private List<CourseIlm> couseIlms;
 
-    public Date getBirthday() {
+	@OneToMany(mappedBy = "user")
+	private List<Exam> Exams;
+
+	@OneToMany(mappedBy = "user")
+	private List<Comment> comments;
+
+	@OneToMany(mappedBy = "user")
+	private List<ExamResult> examResults;
+
+	public User() {
+	}
+
+	public User(String userId, String name) {
+		this.userId = userId;
+		this.name = name;
+	}
+
+	public String getUserId() {
+		return this.userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public Date getBirthday() {
 		return birthday;
 	}
 
@@ -111,47 +115,46 @@ public class User implements Serializable {
 	}
 
 	public String getEmail() {
-        return this.email;
-    }
+		return this.email;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public String getName() {
-        return this.name;
-    }
+	public String getName() {
+		return this.name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public String getPassword() {
-        return this.password;
-    }
+	public String getPassword() {
+		return this.password;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public String getPhone() {
-        return this.phone;
-    }
+	public String getPhone() {
+		return this.phone;
+	}
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
 
-    public String getUserName() {
-        return this.userName;
-    }
+	public String getUserName() {
+		return this.userName;
+	}
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-    
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 
-    public Date getBrithday() {
+	public Date getBrithday() {
 		return birthday;
 	}
 
@@ -168,12 +171,12 @@ public class User implements Serializable {
 	}
 
 	public Role getRole() {
-        return this.role;
-    }
+		return this.role;
+	}
 
-    public void setRole(Role role) {
-        this.role = role;
-    }
+	public void setRole(Role role) {
+		this.role = role;
+	}
 
 	public String getAvatar() {
 		return avatar;
@@ -182,7 +185,7 @@ public class User implements Serializable {
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
 	}
-	
+
 	public List<Comment> getComments() {
 		return comments;
 	}

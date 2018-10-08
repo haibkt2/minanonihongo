@@ -23,7 +23,17 @@ public class Course implements Serializable {
 
     @OneToMany(mappedBy="course")
     private List<CourseIlm> courseIlms;
+    public Course() {
+		
+	}
+	public Course(String courseId, String courseName) {
+		this.courseId = courseId;
+		this.courseName = courseName;
+	}
 
+	public Course(String courseName) {
+		this.courseName = courseName;
+	}
 	public String getCourseId() {
 		return courseId;
 	}

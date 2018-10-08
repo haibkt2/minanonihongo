@@ -12,18 +12,31 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "course_ilm_type")
-@NamedQuery(name="CourseIlmType.findAll", query="SELECT r FROM CourseIlmType r")
+@NamedQuery(name = "CourseIlmType.findAll", query = "SELECT r FROM CourseIlmType r")
 public class CourseIlmType implements Serializable {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @Column(name="COURSE_ILM_TYPE_ID", insertable=false, updatable=false)
-    private String courseIlmTypeId;
-    
-    @OneToMany(mappedBy="courseIlmType")
-    private List<CourseIlm> courseIlms;
-    
-    private String courseIlmTypeName;
+	@Id
+	@Column(name = "COURSE_ILM_TYPE_ID", insertable = false, updatable = false)
+	private String courseIlmTypeId;
+
+	@OneToMany(mappedBy = "courseIlmType")
+	private List<CourseIlm> courseIlms;
+
+	private String courseIlmTypeName;
+
+	public CourseIlmType() {
+
+	}
+
+	public CourseIlmType(String courseIlmTypeId, String courseIlmTypeName) {
+		this.courseIlmTypeId = courseIlmTypeId;
+		this.courseIlmTypeName = courseIlmTypeName;
+	}
+
+	public CourseIlmType(String courseIlmTypeName) {
+		this.courseIlmTypeName = courseIlmTypeName;
+	}
 
 	public String getCourseIlmTypeId() {
 		return courseIlmTypeId;
@@ -48,7 +61,5 @@ public class CourseIlmType implements Serializable {
 	public void setCourseIlmTypeName(String courseIlmTypeName) {
 		this.courseIlmTypeName = courseIlmTypeName;
 	}
-    
-    
 
 }

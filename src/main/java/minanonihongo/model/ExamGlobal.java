@@ -39,6 +39,10 @@ public class ExamGlobal implements Serializable {
     @JoinColumn(name = "COURSE_ILM_ID")
     private CourseIlm courseIlm;
 
+	public ExamGlobal() {
+		
+	}
+	
 	public String getUserId() {
 		return userId;
 	}

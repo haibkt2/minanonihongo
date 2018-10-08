@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="java.util.*"%>
 <%@ page import="minanonihongo.model.*"%>
+<%@ page import="minanonihongo.service.*"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
@@ -13,56 +14,19 @@
 <meta charset="UTF-8">
 <title>HaiLDX - Website học tiếng Nhật online số 1 tại Việt Nam
 </title>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-<script>
-	function searchViaAjax(t) {
-		var courseIlmId = t;
-		var lessonName = "";
-		var introduce = "";
-		var locaFileCourse = "";
-		$.ajax({
-			type : "GET",
-			contentType : "application/json",
-			url : window.location.protocol + "//" + window.location.host + window.location.pathname + "ss",
-			data : {
-				courseIlmId : courseIlmId,
-				lessonName : lessonName,
-				introduce : introduce,
-				locaFileCourse : locaFileCourse
-			},
-			dataType : 'json',
-			timeout : 100000,
-			success : function(data) {
-				console.log("SUCCESS: ", data);
-				if (data != null) {
-					var result = "<h3> You just search Person: "
-							+ data.name + "</h3>";
-					$("#ajax-response").html(result);
-				} else {
-					var result = "<h3 style='color:red'> No person found </h3>";
-					$("#ajax-response").html(result);
-				}
-			},
-			error : function(e) {
-				console.log("ERROR: ", e);
-			}
-		});
-	}
-</script>
 <jsp:include page="header.jsp"></jsp:include>
 <div class="main">
 	<div class="main-center main-course">
+		<c:if test="${courseIlm.getCourse().getCourseName() eq 'Alphabet'}">
+			<c:set value="Bảng chữ cái" var="courseName"></c:set>
+		</c:if>
+		<c:if test="${courseIlm.getCourse().getCourseName() ne 'Alphabet'}">
+			<c:set value="${courseIlm.getCourse().getCourseName()}"
+				var="courseName"></c:set>
+		</c:if>
 		<div class="main-left">
 			<h2 class="course-detail-title">
-				Khóa học : <a><b><c:if
-							test="${courseIlm.getCourse().getCourseName() eq 'Alphabet'}">
-							<c:set value="Bảng chữ cái Tiếng Nhật" var="courseName"></c:set>
-							<c:out value="${courseName}"></c:out>
-						</c:if> <c:if
-							test="${courseIlm.getCourse().getCourseName() ne 'Alphabet'}">
-							<c:out value="${courseIlm.getCourse().getCourseName()}"></c:out>
-						</c:if> </b> </a>
+				Khóa học : <a><b> <c:out value="${courseName}"></c:out></b> </a>
 			</h2>
 			<div class="course-heading">
 				<span>Giới thiệu lộ trình - phương pháp học</span>
@@ -111,15 +75,8 @@
 						phê duyệt để sử dụng các quyền đó, mặc dù trong trường hợp này,
 						bạn chỉ có thể nhắn tin cho quản trị viên ứng dụng. Bạn cũng có
 						thể tạo mã trang cho các trang bạn không sở hữu bằng Đăng nhập
-						Facebook.
-						<comments meid="26954" avatar="1524118281_332747130_7aedaa_ad98c6"
-							tbid="8" tbname="course" num-posts="15" background="#fff"
-							ref="comment"> </comments>
-					</div>
-					<div id="facebook-comment-content" class="tab-pane fade">
-						<comment-fb
-							url="http://dungmori.com/khoa-hoc/bang-chu-cai-mien-phi"></comment-fb>
-					</div>
+						Facebook.</div>
+					<div id="facebook-comment-content" class="tab-pane fade"></div>
 				</div>
 			</div>
 		</div>
@@ -134,34 +91,53 @@
 				<div class="block-title">Tiến trình học</div>
 				<div class="panel-group" id="accordion" role="tablist"
 					aria-multiselectable="true">
-					<c:forEach items="${courseIlmTypeList}" var="courseIlmType">
+					<c:forEach items="${courseIlmTypeList}" var="courseIlmType"
+						varStatus="index">
 						<c:set value="${courseIlmType.getCourseIlmTypeId()}" var="nh"></c:set>
 						<%
 							String course = (String) pageContext.getAttribute("nh");
+								String courseName = (String) pageContext.getAttribute("courseName");
 						%>
 						<div class="panel panel-default">
 							<div class="panel-heading" role="tab">
 								<a class="collapsed" role="button" data-toggle="collapse"
-									data-parent="#accordion" href="#collapse-${nh}"
+									data-parent="#accordion" href="#collapse-01${index.index}"
 									aria-expanded="false"> <strong>${courseIlmType.getCourseIlmTypeName()}
 								</strong>
 								</a>
 							</div>
-							<div id="collapse-${courseIlmType.getCourseIlmTypeId()}"
+							<div id="collapse-01${index.index}"
 								class="panel-collapse collapse " role="tabpanel">
 								<div class="panel-body">
 									<ul class="scroll-items">
 										<%
 											List<CourseIlm> courseList = (List<CourseIlm>) request.getAttribute(course);
+												CourseIlmService courseIlmService = new CourseIlmService();
 												for (CourseIlm courseIlm : courseList) {
 										%>
-										<li class="lesson-item" id="<%=courseIlm.getLessonName()%>"><a onclick="searchViaAjax(this.id)"
-											class="<%=courseIlm.getCourseIlmId()%>"  id="<%=courseIlm.getCourseIlmId()%>" href=""
+										<li class="lesson-item"><a
+											class="lesson-item-click lesson-item" id="lesson-item"
+											href="javascript:void(0);"
+											data-id="<%=courseIlm.getCourseIlmId()%>"
+											url="${contextPath}/khoa-hoc/<%=courseIlmService.toUrlFriendly(courseName) %>/<%=courseIlm.getCourseIlmId().substring(courseIlm.getCourseIlmId().length()-3, courseIlm.getCourseIlmId().length())%>-<%=courseIlmService.toUrlFriendly(courseIlm.getLessonName()) %>"
+											style="padding-right: 70px;"><%=courseIlm.getLessonName()%></a></li>
+
+										<%
+											// 										if(courseIlm.getExams() != null)
+													for (Exam exam : courseIlm.getExams()) {
+										%>
+										<li class="test-item" id="<%=courseIlm.getLessonName()%>"><a
+											onclick="showCourseDetail(this.id)" class="test-item"
+											id="test-item"
+											href="${contextPath}/khoa-hoc/<%=courseIlmService.toUrlFriendly(courseName) %>/t<%=exam.getExamId().substring(exam.getExamId().length()-3, exam.getExamId().length())%>-<%=courseIlmService.toUrlFriendly(exam.getExamName()) %>"
 											style="padding-right: 70px;"><%=courseIlm.getLessonName()%></a></li>
 										<%
 											}
+
+												}
 										%>
 									</ul>
+
 								</div>
 							</div>
 						</div>
@@ -171,36 +147,27 @@
 		</div>
 	</div>
 </div>
-<script type="text/javascript">
-	$(".fancybox").fancybox().trigger('click');
+<script>
+	$(".lesson-item-click").click(function(e) {
+		e.preventDefault();
+		var id = $(this).attr("data-id");
+		var url = $(this).attr("url") + "?id=" + id;
+		$.ajax({
+			url : url,
+			success : function(result) {
+				console.log(result);
+				$('.cover-container').val('s');
+
+			},
+			error : function(e) {
+				alert("Sorry! Dữ liệu lỗi.");
+			}
+		});
+	});
 </script>
 <div class="go-top">
 	<i class="fa fa-sort-asc"></i>
 </div>
-<script src="${contextPath}/resources/js/lazyload.min.js"></script>
-<script type="text/javascript">
-	window.addEventListener("load", function(event) {
-		lazyload();
-	});
-</script>
-<script type="text/javascript">
-	var lastFingerprint = 0;
-</script>
-<script type="text/javascript">
-	var lastFingerprint = 1284817130;
-	var lastBrowser = "Chrome";
-	var lastOS = "Windows";
-	$.get(window.location.origin + "/api/user/tracking-online");
-	setInterval(function() {
-		$.get(window.location.origin + "/api/user/tracking-online");
-	}, 15000);
-</script>
-<script src="${contextPath}/resources/js/vue.min.js"></script>
-<script type="text/javascript">
-	var enableFIV = false;
-</script>
-<script src="${contextPath}/resources/js/components.js"></script>
-<script src="${contextPath}/resources/js/bootstrap.min.js"></script>
 </div>
 </body>
 </html>

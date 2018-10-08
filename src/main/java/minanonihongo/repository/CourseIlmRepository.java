@@ -18,4 +18,6 @@ public interface CourseIlmRepository extends CrudRepository<CourseIlm, Integer> 
 			+ " where ci.course_id = ?1 group  by ci.course_ilm_type_id" , nativeQuery = true)
     List<String> courseIlmType(String courseId);
 	
+	CourseIlm findByCourseIlmId(String courseIlmId);
+	
 }
