@@ -6,7 +6,34 @@ function setCookie(e, t, n) {
     } else o = "";
     document.cookie = e + "=" + t + o + "; path=/"
 }
-
+function getsJson(id) {
+	var url = "/main_course?id=" + id;
+	$.ajax({
+				url : url,
+				dataType : "json",
+				contentType : "application/json;charset=utf-8",
+				success : function(obj) {
+					var j = JSON.stringify(obj);
+					if(obj.lessonName != null) 
+					document.getElementById('course-heading').innerHTML = obj.lessonName;
+					document.getElementById('introduce').innerHTML = obj.introduce;
+					document.getElementById('total-number-test').innerHTML = obj.examGlobal["totalNumberTest"];
+					document.getElementById('course-name').innerHTML = obj.course["courseName"];
+					document.getElementById('videoImg').src = window.location.origin + "/resources/img/"
+							+ "Bảng chữ cái Tiếng Nhật.jpg";
+					document.getElementById('srVideo').src = window.location.origin + "/reponsitory/N5/"
+							+ "Bai-1.mp4";
+					var video = document.getElementById('cVideo');
+					video.load();
+					$(".movie-play").css("display", "block");
+					$("#iframe-video").css("display", "none");
+					return j;
+				},
+				error : function(e) {
+					alert("Sorry! Dữ liệu lỗi.");
+				}
+			});
+}
 function getCookie(e) {
     return document.cookie.length > 0 && (c_start = document.cookie.indexOf(e + "="), c_start != -1) ? (c_start = c_start + e.length + 1, c_end = document.cookie.indexOf(";", c_start), c_end == -1 && (c_end = document.cookie.length), unescape(document.cookie.substring(c_start, c_end))) : ""
 }

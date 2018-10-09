@@ -17,32 +17,36 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "exam_global")
-@NamedQuery(name="ExamGlobal.findAll", query="SELECT eg FROM ExamGlobal eg")
+@NamedQuery(name = "ExamGlobal.findAll", query = "SELECT eg FROM ExamGlobal eg")
 public class ExamGlobal implements Serializable {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @Column(name="EXAM_GB_ID")
-    private String userId;
+	@Id
+	@Column(name = "EXAM_GB_ID")
+	private String userId;
 
-    private int totalNumberTest;
+	private int totalNumberTest;
 
-    @Temporal(TemporalType.DATE)
-    @Column(name="CREATE_DATE")
-    private Date createDate;
-    
 	@Temporal(TemporalType.DATE)
-    @Column(name="UPDATE_DATE")
-    private Date updateDate;
+	@Column(name = "CREATE_DATE")
+	private Date createDate;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "UPDATE_DATE")
+	private Date updateDate;
 
 	@OneToOne
-    @JoinColumn(name = "COURSE_ILM_ID")
-    private CourseIlm courseIlm;
+	@JoinColumn(name = "COURSE_ILM_ID")
+	private CourseIlm courseIlm;
 
 	public ExamGlobal() {
-		
+
 	}
-	
+
+	public ExamGlobal(int totalNumberTest) {
+		this.totalNumberTest = totalNumberTest;
+	}
+
 	public String getUserId() {
 		return userId;
 	}

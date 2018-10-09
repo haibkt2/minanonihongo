@@ -4,44 +4,36 @@ package minanonihongo.controller;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.client.ClientProtocolException;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 
 import com.google.gson.Gson;
-import com.restfb.json.Json;
 
 import minanonihongo.model.Course;
 import minanonihongo.model.CourseIlm;
@@ -146,7 +138,7 @@ public class MinanonihongoController {
 			HttpServletResponse response, HttpSession ss, @PathVariable String courseName,
 			@PathVariable final Optional<String> lesson) {
 		if ("Bang-chu-cai".equals(courseName)) {
-			courseName = "Alphabet";
+			courseName = "Bảng chữ cái";
 		}
 		Course course = courseRepository.findByCourseName(courseName);
 		CourseIlm courseIlm = new CourseIlm();
@@ -176,21 +168,31 @@ public class MinanonihongoController {
 	}
 
 	@RequestMapping(value = { "/khoa-hoc/{courseName}/{lesson}" }, produces = "application/json; charset=utf-8")
-	public @ResponseBody String courseDetail(Model model,@RequestParam String id) throws IOException {
+	public String courseDetail(Model model, @PathVariable final String lesson) throws IOException {
+		System.out.println(lesson);
+		return "main_course";
+	}
+
+	@RequestMapping(value = { "/main_course" }, produces = "application/json; charset=utf-8")
+	public @ResponseBody String c_etail(Model model, @RequestParam String id) throws IOException {
 		Gson g = new Gson();
 		CourseIlm courseIlm = courseIlmRepository.findByCourseIlmId(id);
-		courseIlm.setCourse(new Course());
+		courseIlm.setCourse(new Course(courseIlm.getCourse().getCourseName()));
 		courseIlm.setCourseIlmType(new CourseIlmType());
-		courseIlm.setExamGlobal(new ExamGlobal());
+		if(courseIlm.getExamGlobal() != null) {
+			courseIlm.setExamGlobal(new ExamGlobal(courseIlm.getExamGlobal().getTotalNumberTest()));
+		} else {
+			courseIlm.setExamGlobal(new ExamGlobal(0));
+		}
 		courseIlm.setExamResult(new ExamResult());
 		courseIlm.setUser(new User());
 		List<Exam> exam = courseIlm.getExams();
-		if(!exam.isEmpty()) {
+		if (!exam.isEmpty()) {
 			courseIlm.setExams(null);
 		}
-		String course = g.toJson(courseIlm);
-		System.out.println(course);
-		return course;
+		String courseG = g.toJson(courseIlm);
+		System.out.println(courseG);
+		return courseG;
 	}
 
 	@RequestMapping("/facebook")

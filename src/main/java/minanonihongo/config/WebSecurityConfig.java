@@ -41,7 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/khoa-hoc/**").permitAll()
 				.antMatchers("/facebook").permitAll()
 				.antMatchers("/").permitAll()
-				.antMatchers("/downloadFile").permitAll()
+				.antMatchers("/main_course").permitAll()
 				.anyRequest()
 				.authenticated();
 		http.formLogin().loginPage("/home")

@@ -9,6 +9,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
+<script type="text/javascript">
+var json = <%=(String) request.getParameter("json")%>;
+</script>
 </head>
 <body>
 	<h2>User Page</h2>

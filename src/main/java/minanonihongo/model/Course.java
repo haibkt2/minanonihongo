@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
+
 @Entity
 @NamedQuery(name="Course.findAll", query="SELECT cr FROM Course cr")
 public class Course implements Serializable {
@@ -23,9 +24,22 @@ public class Course implements Serializable {
 
     @OneToMany(mappedBy="course")
     private List<CourseIlm> courseIlms;
+    
+    @OneToMany(mappedBy="course")
+    private List<Document> documents;
+    
     public Course() {
 		
 	}
+    
+	public List<Document> getDocuments() {
+		return documents;
+	}
+
+	public void setDocuments(List<Document> documents) {
+		this.documents = documents;
+	}
+
 	public Course(String courseId, String courseName) {
 		this.courseId = courseId;
 		this.courseName = courseName;

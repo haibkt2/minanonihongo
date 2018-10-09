@@ -29,17 +29,25 @@
 		</c:if>
 		<div class="main-left">
 			<h2 class="course-detail-title">
-				Khóa học : <a><b> <c:out value="${courseName}"></c:out></b> </a>
+				<a href="#">Khóa học <c:out value="${courseName}"></c:out></a>&nbsp;<i
+					class="zmdi zmdi-caret-right"></i>&nbsp;<b id="course-heading">${courseIlm.getLessonName()}</b>
 			</h2>
-			<div class="course-heading">
-				<span id="course-heading">${courseIlm.getLessonName()}</span>
-			</div>
+			<p style="width: 100%; float: left; margin: 5px 0 0px;">
+				<i class="zmdi zmdi-time-countdown"></i> <b id="total-number-test">${courseIlm.getExamGlobal().getTotalNumberTest()}</b> Lượt xem
+			</p>
 			<div class="cover-container" id="cover-container">
-				<div class="introduce" id="introduce">
-					${courseIlm.getIntroduce() }</div>
-				<br>
-				<br>
-				<a class="movie-play"> <img id="videoImg"
+				<div class="document" id="document">
+					<i class="zmdi zmdi-dns">&nbsp;</i><strong>Tài liệu học
+						cho khóa hoc <c:out value="${courseName}"></c:out> :
+					</strong>
+					<c:forEach items="${courseIlm.getCourse().getDocuments()}"
+						var="doc">
+						<a>${doc.getLocaFileDoc()}</a>
+						<br>
+					</c:forEach>
+				</div>
+				<div class="introduce" id="introduce">${courseIlm.getIntroduce() }</div>
+				<br> <br> <a class="movie-play"> <img id="videoImg"
 					src="${contextPath}/resources/img/${courseIlm.getCourse().getCourseName()}" />
 					<br> <span class="play-icon-btn"> <i
 						class="zmdi zmdi-play"></i>
@@ -152,40 +160,26 @@
 	</div>
 </div>
 <script>
-	$(".lesson-item-click")
-			.click(
-					function(e) {
-						e.preventDefault();
-						var id = $(this).attr("data-id");
-						var url = $(this).attr("url") + "?id=" + id;
-						$
-								.ajax({
-									url : url,
-									contentType : "application/json;charset=utf-8",
-									success : function(obj) {
-										console.log(obj);
-										// 										obj = JSON.parse(result);
-										console.log(obj.lessonName);
-										document
-												.getElementById('course-heading').innerHTML = obj.lessonName;
-										document.getElementById('introduce').innerHTML = obj.introduce;
-										document.getElementById('videoImg').src = "${contextPath}/resources/img/"
-												+ "Bảng chữ cái Tiếng Nhật.jpg";
-										document.getElementById('srVideo').src = "${contextPath}/reponsitory/N5/"
-												+ obj.locaFileCourse;
-										var video = document.getElementById('cVideo');
-										video.load();
-										$(".movie-play")
-												.css("display", "block");
-										$("#iframe-video").css("display",
-												"none");
-									},
-									error : function(e) {
-										alert("Sorry! Dữ liệu lỗi.");
-									}
-								});
-					});
+	$(".lesson-item-click").click(function(e) {
+		e.preventDefault();
+		var id = $(this).attr("data-id");
+		var url = $(this).attr("url");
+		$.ajax({
+			url : url,
+			dataType : "html",
+			contentType : "application/json;charset=utf-8",
+			success : function(obj) {
+				console.log(obj);
+				$('.main-left').html(obj);
+				getsJson(id);
+			},
+			error : function(e) {
+				alert("Sorry! ");
+			}
+		});
+	});
 </script>
+
 <div class="go-top">
 	<i class="fa fa-sort-asc"></i>
 </div>
