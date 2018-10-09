@@ -13,26 +13,26 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 </head>
 <h2 class="course-detail-title">
-	<a href="#">Khóa học <b id="course-name"><c:out value="${courseName}"></c:out></b></a>&nbsp;<i
-		class="zmdi zmdi-caret-right"></i>&nbsp;<b id="course-heading">${courseIlm.getLessonName()}</b>
+	<a href="#">Khóa học <b id="course-name"></b></a>&nbsp;<i
+		class="zmdi zmdi-caret-right"></i>&nbsp;<b id="course-heading"></b>
 </h2>
 <p style="width: 100%; float: left; margin: 5px 0 0px;">
-	<i class="zmdi zmdi-time-countdown"></i> <b id="total-number-test">${courseIlm.getExamGlobal().getTotalNumberTest()}</b>
+	<i class="zmdi zmdi-time-countdown"></i> <b id="total-number-test"></b>
 	Lượt xem
 </p>
 <div class="cover-container" id="cover-container">
-	<div class="introduce" id="introduce">${courseIlm.getIntroduce() }</div>
+	<div class="document" id="document">
+		<i class="zmdi zmdi-dns" id="file-doc">&nbsp;</i><strong id="name-doc"> </strong> 
+	</div>
+	<div class="introduce" id="introduce"></div>
 	<br> <br> <a class="movie-play"> <img id="videoImg"
-		src="${contextPath}/resources/img/${courseIlm.getCourse().getCourseName()}" />
-		<br> <span class="play-icon-btn"> <i
+		src="" /> <br> <span class="play-icon-btn"> <i
 			class="zmdi zmdi-play"></i>
 	</span>
 	</a>
 	<div id="iframe-video" style="display: none;">
 		<video width="100%" height="395" controls id="cVideo">
-			<source
-				src="${contextPath}/reponsitory/N5/${courseIlm.getLocaFileCourse()}"
-				type="video/mp4" id="srVideo">
+			<source src="" type="video/mp4" id="srVideo">
 			<!-- 						<source src="movie.ogg" type="video/ogg"> -->
 			<!-- 						Your browser does not support the video tag. -->
 		</video>

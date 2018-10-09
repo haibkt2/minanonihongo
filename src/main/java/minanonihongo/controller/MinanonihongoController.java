@@ -38,6 +38,7 @@ import com.google.gson.Gson;
 import minanonihongo.model.Course;
 import minanonihongo.model.CourseIlm;
 import minanonihongo.model.CourseIlmType;
+import minanonihongo.model.Document;
 import minanonihongo.model.Exam;
 import minanonihongo.model.ExamGlobal;
 import minanonihongo.model.ExamResult;
@@ -143,14 +144,7 @@ public class MinanonihongoController {
 		Course course = courseRepository.findByCourseName(courseName);
 		CourseIlm courseIlm = new CourseIlm();
 		if (course != null) {
-			if (course.getCourseIlms() != null && course.getCourseIlms().size() > 0) {
-				courseIlm = course.getCourseIlms().get(0);
-				List<CourseIlm> courseIlms = new ArrayList<>();
-				courseIlms.add(courseIlm);
-				course.setCourseIlms(courseIlms);
-				courseIlm.setCourse(course);
-			} else
-				courseIlm.setCourse(new Course("", courseName));
+			
 			String courseId = course.getCourseId();
 			List<CourseIlmType> courseIlmTypeList = courseIlmTypeRepository.courseIlmType(courseId);
 			Map<String, List<CourseIlm>> map = courseIlmService.setMapCourse(courseId, courseIlmTypeList);
@@ -159,6 +153,10 @@ public class MinanonihongoController {
 						(List<CourseIlm>) map.get(courseIlmType.getCourseIlmTypeName()));
 			}
 			model.addAttribute("courseIlmTypeList", courseIlmTypeList);
+			if (course.getCourseIlms() != null && course.getCourseIlms().size() > 0) {
+				courseIlm = course.getCourseIlms().get(0);
+			}
+			System.out.println(courseIlm.getCourse().getDocuments().get(0).getLocaFileDoc());
 			model.addAttribute("courseIlm", courseIlm);
 		} else {
 			return "404";
@@ -177,13 +175,18 @@ public class MinanonihongoController {
 	public @ResponseBody String c_etail(Model model, @RequestParam String id) throws IOException {
 		Gson g = new Gson();
 		CourseIlm courseIlm = courseIlmRepository.findByCourseIlmId(id);
-		courseIlm.setCourse(new Course(courseIlm.getCourse().getCourseName()));
+
 		courseIlm.setCourseIlmType(new CourseIlmType());
-		if(courseIlm.getExamGlobal() != null) {
+		if (courseIlm.getExamGlobal() != null) {
 			courseIlm.setExamGlobal(new ExamGlobal(courseIlm.getExamGlobal().getTotalNumberTest()));
 		} else {
 			courseIlm.setExamGlobal(new ExamGlobal(0));
 		}
+		Course crs = new Course(courseIlm.getCourse().getCourseName());
+		if ("000".equals(id.substring(id.length() - 3, id.length()))) {
+			crs.setDocuments(courseIlm.getCourse().getDocuments());
+		}
+		courseIlm.setCourse(crs);
 		courseIlm.setExamResult(new ExamResult());
 		courseIlm.setUser(new User());
 		List<Exam> exam = courseIlm.getExams();

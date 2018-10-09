@@ -13,10 +13,7 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
 <meta name="csrf-token"
-	content="dID8nr1OLIVnUbbjhk0f90utfwY3Qyw7vWgl2aw7">
-
-<meta name="author" content=" HaiLDX " />
-<meta name="robots" content="index,follow" />
+	content="${_csrf.token}">
 <meta http-equiv="content-language" content="vi" />
 
 <link rel="stylesheet" type="text/css"
@@ -39,11 +36,11 @@
 			<div class="header-top">
 				<div class="container">
 					<div class="box-container">
-						<ul class="nav-left">
-							<li><i class="zmdi zmdi-home" style="font-size: 18px;"></i>
-								Tổ 121 - Đường Ngô Sỹ Liên,Phường Hòa Minh, Quận Liên Chiểu, Thành Phố Đà Nẵng</li>
-							<li><i class="zmdi zmdi-phone-in-talk"></i> 033-679-621</li>
-							<li><i class="zmdi zmdi-email"></i> haibkt2@gmail.com</li>
+						<ul class="nav-left" style="font-size: 14px;">
+							<li><i class="zmdi zmdi-home" style="font-size: 20px;"></i>
+								&nbsp;Tổ 121 - Đường Ngô Sỹ Liên,Phường Hòa Minh, Quận Liên Chiểu, Thành Phố Đà Nẵng</li>
+							<li><i class="zmdi zmdi-phone-in-talk"></i>&nbsp; 033-679-621</li>
+							<li><i class="zmdi zmdi-email"></i>&nbsp; haibkt2@gmail.com</li>
 						</ul>
 					</div>
 				</div>
@@ -102,8 +99,8 @@
 									<p>Thi thử</p></a></li>
 						</ul>
 					</div>
-					<a href="" class="logo" id="logo"> <img
-						src="${contextPath}/resources/img/logo.png" alt="haildx logo">
+					<a href="${contextPath}/" class="logo" id="logo"> <img
+						src="${contextPath}/resources/img/hai-logo.png" alt="haildx logo">
 					</a> <span data-action="toggle-nav" class="nav-toggle-menu"><span>Menu</span></span>
 					<div class="block-nav-menu">
 						<div class="block-title">

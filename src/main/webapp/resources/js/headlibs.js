@@ -16,6 +16,8 @@ function getsJson(id) {
 					var j = JSON.stringify(obj);
 					if(obj.lessonName != null) 
 					document.getElementById('course-heading').innerHTML = obj.lessonName;
+//					var doc = obj.locaFileDoc;
+//					for(i)
 					document.getElementById('introduce').innerHTML = obj.introduce;
 					document.getElementById('total-number-test').innerHTML = obj.examGlobal["totalNumberTest"];
 					document.getElementById('course-name').innerHTML = obj.course["courseName"];

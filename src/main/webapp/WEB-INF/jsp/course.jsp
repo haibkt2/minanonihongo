@@ -15,7 +15,7 @@
 <html lang="vi">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<title>HaiLDX - Website học tiếng Nhật online số 1 tại Việt Nam
+<title>HaiLDX - Tiếng Nhật cho mọi người
 </title>
 <jsp:include page="header.jsp"></jsp:include>
 <div class="main">
@@ -41,10 +41,11 @@
 						cho khóa hoc <c:out value="${courseName}"></c:out> :
 					</strong>
 					<c:forEach items="${courseIlm.getCourse().getDocuments()}"
-						var="doc">
-						<a>${doc.getLocaFileDoc()}</a>
+						var="doc">sss
+						<a id="file-doc">${doc.getLocaFileDoc()}</a>
 						<br>
 					</c:forEach>
+					<br>
 				</div>
 				<div class="introduce" id="introduce">${courseIlm.getIntroduce() }</div>
 				<br> <br> <a class="movie-play"> <img id="videoImg"
