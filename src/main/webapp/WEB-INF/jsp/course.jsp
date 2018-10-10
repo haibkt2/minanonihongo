@@ -15,8 +15,7 @@
 <html lang="vi">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<title>HaiLDX - Tiếng Nhật cho mọi người
-</title>
+<title>HaiLDX - Tiếng Nhật cho mọi người</title>
 <jsp:include page="header.jsp"></jsp:include>
 <div class="main">
 	<div class="main-center main-course">
@@ -33,22 +32,26 @@
 					class="zmdi zmdi-caret-right"></i>&nbsp;<b id="course-heading">${courseIlm.getLessonName()}</b>
 			</h2>
 			<p style="width: 100%; float: left; margin: 5px 0 0px;">
-				<i class="zmdi zmdi-time-countdown"></i> <b id="total-number-test">${courseIlm.getExamGlobal().getTotalNumberTest()}</b> Lượt xem
+				<i class="zmdi zmdi-time-countdown"></i> <b id="total-number-test">${courseIlm.getExamGlobal().getTotalNumberTest()}</b>
+				<i id="view-down">Lượt xem</i>
 			</p>
 			<div class="cover-container" id="cover-container">
-				<div class="document" id="document">
-					<i class="zmdi zmdi-dns">&nbsp;</i><strong>Tài liệu học
-						cho khóa hoc <c:out value="${courseName}"></c:out> :
-					</strong>
-					<c:forEach items="${courseIlm.getCourse().getDocuments()}"
-						var="doc">sss
-						<a id="file-doc">${doc.getLocaFileDoc()}</a>
-						<br>
-					</c:forEach>
-					<br>
-				</div>
+				<c:if test="${not empty courseIlm.getCourse().getDocuments()}">
+					<div class="document" id="document">
+						<i class="zmdi zmdi-dns">&nbsp;</i><strong>Tài liệu học
+							cho khóa hoc <c:out value="${courseName}"></c:out> :
+						</strong>
+						<c:forEach items="${courseIlm.getCourse().getDocuments()}"
+							var="doc">
+							<a
+								href="${contextPath}/downloadFile?file=${doc.getLocaFileDoc()}"
+								id="file-doc">${doc.getLocaFileDoc()}</a>
+							<br>
+						</c:forEach>
+					</div>
+				</c:if>
 				<div class="introduce" id="introduce">${courseIlm.getIntroduce() }</div>
-				<br> <br> <a class="movie-play"> <img id="videoImg"
+				<br> <a class="movie-play"> <img id="videoImg"
 					src="${contextPath}/resources/img/${courseIlm.getCourse().getCourseName()}" />
 					<br> <span class="play-icon-btn"> <i
 						class="zmdi zmdi-play"></i>
@@ -170,7 +173,6 @@
 			dataType : "html",
 			contentType : "application/json;charset=utf-8",
 			success : function(obj) {
-				console.log(obj);
 				$('.main-left').html(obj);
 				getsJson(id);
 			},

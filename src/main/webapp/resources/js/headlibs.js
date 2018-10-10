@@ -15,16 +15,24 @@ function getsJson(id) {
 				success : function(obj) {
 					var j = JSON.stringify(obj);
 					if(obj.lessonName != null) 
-					document.getElementById('course-heading').innerHTML = obj.lessonName;
-//					var doc = obj.locaFileDoc;
-//					for(i)
-					document.getElementById('introduce').innerHTML = obj.introduce;
-					document.getElementById('total-number-test').innerHTML = obj.examGlobal["totalNumberTest"];
-					document.getElementById('course-name').innerHTML = obj.course["courseName"];
-					document.getElementById('videoImg').src = window.location.origin + "/resources/img/"
-							+ "Bảng chữ cái Tiếng Nhật.jpg";
-					document.getElementById('srVideo').src = window.location.origin + "/reponsitory/N5/"
-							+ "Bai-1.mp4";
+						document.getElementById('course-heading').innerHTML = obj.lessonName;
+					if(obj.introduce != null)
+						document.getElementById('introduce').innerHTML = obj.introduce;
+					if(obj.examGlobal["totalNumberTest"] != null)
+						document.getElementById('total-number-test').innerHTML = obj.examGlobal["totalNumberTest"];
+					if(obj.course["documents"] != null) {
+						for (var doc in obj.course["documents"]) {
+							document.getElementById('document').innerHTML = '<i class="zmdi zmdi-dns">&nbsp;</i><strong>Tài liệu học cho khóa hoc '+obj.course["courseName"]+'</strong> : <a href="${contextPath}/downloadFile?file='+obj.course["documents"][doc].locaFileDoc+'" id="file-doc">'+obj.course["documents"][doc].locaFileDoc+'</a><br>'
+							}
+					}
+					if(obj.course["courseName"] != null)
+						document.getElementById('course-name').innerHTML = obj.course["courseName"];
+					if(obj.introduce != null)
+						document.getElementById('videoImg').src = window.location.origin + "/resources/img/"
+								+ "Bảng chữ cái Tiếng Nhật.jpg";
+					if(obj.introduce != null)
+						document.getElementById('srVideo').src = window.location.origin + "/reponsitory/N5/"
+								+ "Bai-1.mp4";
 					var video = document.getElementById('cVideo');
 					video.load();
 					$(".movie-play").css("display", "block");

@@ -7,13 +7,15 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
-@ComponentScan("PracticeCalendar.*")
+@ComponentScan("minanonihongo.*")
+@PropertySource(value = { "classpath:application.properties" }, encoding="UTF-8")
 public class ApplicationContextConfig {
 
     @Bean(name = "viewResolver")
@@ -39,4 +41,6 @@ public class ApplicationContextConfig {
         resolver.setDefaultLocale(new Locale("en"));
         return resolver;
     }
+    
+   
 }

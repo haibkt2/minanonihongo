@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -83,6 +85,9 @@ public class MinanonihongoController {
 	@Value("${string.domain.default}")
 	private String domain;
 
+	@Value("${string.course.anphabe}")
+	private String anphabe;
+
 	@Value("${button.save.success}")
 	private String messageSave;
 
@@ -139,12 +144,15 @@ public class MinanonihongoController {
 			HttpServletResponse response, HttpSession ss, @PathVariable String courseName,
 			@PathVariable final Optional<String> lesson) {
 		if ("Bang-chu-cai".equals(courseName)) {
-			courseName = "Bảng chữ cái";
+			courseName = new String(anphabe.getBytes(Charset.forName("ISO-8859-1")), Charset.forName("UTF-8"));
 		}
 		Course course = courseRepository.findByCourseName(courseName);
-		CourseIlm courseIlm = new CourseIlm();
 		if (course != null) {
-			
+			CourseIlm courseIlm = new CourseIlm();
+			if (course.getCourseIlms() != null && course.getCourseIlms().size() > 0) {
+				courseIlm = course.getCourseIlms().get(0);
+			}
+			model.addAttribute("courseIlm", courseIlm);
 			String courseId = course.getCourseId();
 			List<CourseIlmType> courseIlmTypeList = courseIlmTypeRepository.courseIlmType(courseId);
 			Map<String, List<CourseIlm>> map = courseIlmService.setMapCourse(courseId, courseIlmTypeList);
@@ -153,11 +161,7 @@ public class MinanonihongoController {
 						(List<CourseIlm>) map.get(courseIlmType.getCourseIlmTypeName()));
 			}
 			model.addAttribute("courseIlmTypeList", courseIlmTypeList);
-			if (course.getCourseIlms() != null && course.getCourseIlms().size() > 0) {
-				courseIlm = course.getCourseIlms().get(0);
-			}
-			System.out.println(courseIlm.getCourse().getDocuments().get(0).getLocaFileDoc());
-			model.addAttribute("courseIlm", courseIlm);
+
 		} else {
 			return "404";
 		}
@@ -167,8 +171,8 @@ public class MinanonihongoController {
 
 	@RequestMapping(value = { "/khoa-hoc/{courseName}/{lesson}" }, produces = "application/json; charset=utf-8")
 	public String courseDetail(Model model, @PathVariable final String lesson) throws IOException {
-		System.out.println(lesson);
-		return "main_course";
+		// if()
+		return "main_test";
 	}
 
 	@RequestMapping(value = { "/main_course" }, produces = "application/json; charset=utf-8")
@@ -184,7 +188,11 @@ public class MinanonihongoController {
 		}
 		Course crs = new Course(courseIlm.getCourse().getCourseName());
 		if ("000".equals(id.substring(id.length() - 3, id.length()))) {
-			crs.setDocuments(courseIlm.getCourse().getDocuments());
+			List<Document> docList = new ArrayList<>();
+			for (Document doc : courseIlm.getCourse().getDocuments()) {
+				docList.add(new Document(doc.getLocaFileDoc()));
+			}
+			crs.setDocuments(docList);
 		}
 		courseIlm.setCourse(crs);
 		courseIlm.setExamResult(new ExamResult());
@@ -220,10 +228,9 @@ public class MinanonihongoController {
 	}
 
 	@RequestMapping(value = "/downloadFile", method = RequestMethod.GET)
-	public String download(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public String download(HttpServletRequest request, HttpServletResponse response, @RequestParam String file) throws IOException {
 		response.reset();
 		PrintWriter out = response.getWriter();
-		String file = request.getParameter("file");
 		String path = localPost;
 		response.setContentType("APPLICATION/OCTET-STREAM");
 		response.setHeader("Content-Disposition", "attachment; filename=\"" + file + "\"");

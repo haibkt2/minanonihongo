@@ -4,9 +4,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%
-	request.setCharacterEncoding("UTF-8");
-%>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -17,15 +14,13 @@
 		class="zmdi zmdi-caret-right"></i>&nbsp;<b id="course-heading"></b>
 </h2>
 <p style="width: 100%; float: left; margin: 5px 0 0px;">
-	<i class="zmdi zmdi-time-countdown"></i> <b id="total-number-test"></b>
-	Lượt xem
+	<i class="zmdi zmdi-time-countdown"></i> <b id="total-number-test"></b> <i>Lượt xem</i>
 </p>
 <div class="cover-container" id="cover-container">
 	<div class="document" id="document">
-		<i class="zmdi zmdi-dns" id="file-doc">&nbsp;</i><strong id="name-doc"> </strong> 
 	</div>
 	<div class="introduce" id="introduce"></div>
-	<br> <br> <a class="movie-play"> <img id="videoImg"
+	<br> <a class="movie-play"> <img id="videoImg"
 		src="" /> <br> <span class="play-icon-btn"> <i
 			class="zmdi zmdi-play"></i>
 	</span>

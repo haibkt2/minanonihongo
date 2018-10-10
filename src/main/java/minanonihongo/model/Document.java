@@ -13,33 +13,42 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@NamedQuery(name="Document.findAll", query="SELECT d FROM Document d")
+@NamedQuery(name = "Document.findAll", query = "SELECT d FROM Document d")
 public class Document implements Serializable {
-    private static final long serialVersionUID = 1L;
-    
-    @Id
-    @Column(name="DOC_ID")
-    private String docId;
-    
-    @ManyToOne
-    @JoinColumn(name="USER_ID")
-    private User user;
-    
-    @ManyToOne
-    @JoinColumn(name="COURSE_ID")
-    private Course course;
-    
-    @Temporal(TemporalType.DATE)
-    @Column(name="CREATE_DATE")
-    private Date createDate;
-    
-    @Temporal(TemporalType.DATE)
-    @Column(name="UPDATE_DATE")
-    private Date updateDate;    
+	private static final long serialVersionUID = 1L;
 
-    private String locaFileDoc;
-    
-    private String docFlg;
+	@Id
+	@Column(name = "DOC_ID")
+	private String docId;
+
+	@ManyToOne
+	@JoinColumn(name = "USER_ID")
+	private User user;
+
+	@ManyToOne
+	@JoinColumn(name = "COURSE_ID")
+	private Course course;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "CREATE_DATE")
+	private Date createDate;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "UPDATE_DATE")
+	private Date updateDate;
+
+	private String locaFileDoc;
+
+	private String docFlg;
+	
+	private int totalDownload;
+
+	public Document() {
+	}
+
+	public Document(String locaFileDoc) {
+		this.locaFileDoc = locaFileDoc;
+	}
 
 	public String getDocId() {
 		return docId;
@@ -96,6 +105,13 @@ public class Document implements Serializable {
 	public void setDocFlg(String docFlg) {
 		this.docFlg = docFlg;
 	}
-    
-    
+
+	public int getTotalDownload() {
+		return totalDownload;
+	}
+
+	public void setTotalDownload(int totalDownload) {
+		this.totalDownload = totalDownload;
+	}
+
 }

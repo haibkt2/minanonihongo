@@ -48,7 +48,11 @@ public class CourseIlmService {
 				List<CourseIlm> courseIlms = courseIlmRepository.findByCourseIlm(courseId,
 						courseIlmType.getCourseIlmTypeId());
 				for(CourseIlm courseIlm : courseIlms) {
-					courseIlm.setCourse(new Course(courseIlm.getCourse().getCourseName()));
+					Course crs = new Course(courseIlm.getCourse().getCourseName());
+					if(courseIlm.getCourse().getDocuments().size() > 0) {
+						crs.setDocuments(courseIlm.getCourse().getDocuments());
+					}
+					courseIlm.setCourse(crs);
 					courseIlm.setCourseIlmType(new CourseIlmType(courseIlm.getCourseIlmType().getCourseIlmTypeName()));
 					courseIlm.setExamGlobal(new ExamGlobal());
 					courseIlm.setExamResult(new ExamResult());
