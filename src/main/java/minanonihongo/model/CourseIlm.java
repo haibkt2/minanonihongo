@@ -58,17 +58,17 @@ public class CourseIlm implements Serializable {
     private Date updateDate;
     
 	@OneToOne(mappedBy="courseIlm")
-    private ExamGlobal examGlobal;
+    private CourseGlobal courseGlobal;
 	
 	@OneToOne(mappedBy="courseIlm")
     private ExamResult examResult;
 
-	public ExamGlobal getExamGlobal() {
-		return examGlobal;
+	public CourseGlobal getCourseGlobal() {
+		return courseGlobal;
 	}
 
-	public void setExamGlobal(ExamGlobal examGlobal) {
-		this.examGlobal = examGlobal;
+	public void setCourseGlobal(CourseGlobal courseGlobal) {
+		this.courseGlobal = courseGlobal;
 	}
 
 	public String getCourseIlmId() {

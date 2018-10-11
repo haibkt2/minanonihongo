@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import minanonihongo.model.Course;
 import minanonihongo.model.CourseIlm;
 import minanonihongo.model.CourseIlmType;
-import minanonihongo.model.ExamGlobal;
+import minanonihongo.model.CourseGlobal;
 import minanonihongo.model.ExamResult;
 import minanonihongo.model.User;
 import minanonihongo.repository.CourseIlmRepository;
@@ -54,7 +54,7 @@ public class CourseIlmService {
 					}
 					courseIlm.setCourse(crs);
 					courseIlm.setCourseIlmType(new CourseIlmType(courseIlm.getCourseIlmType().getCourseIlmTypeName()));
-					courseIlm.setExamGlobal(new ExamGlobal());
+					courseIlm.setCourseGlobal(new CourseGlobal());
 					courseIlm.setExamResult(new ExamResult());
 					courseIlm.setUser(new User());
 					courseIlm.setExams(new ArrayList<>());

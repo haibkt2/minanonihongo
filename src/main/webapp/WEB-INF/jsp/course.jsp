@@ -32,7 +32,7 @@
 					class="zmdi zmdi-caret-right"></i>&nbsp;<b id="course-heading">${courseIlm.getLessonName()}</b>
 			</h2>
 			<p style="width: 100%; float: left; margin: 5px 0 0px;">
-				<i class="zmdi zmdi-time-countdown"></i> <b id="total-number-test">${courseIlm.getExamGlobal().getTotalNumberTest()}</b>
+				<i class="zmdi zmdi-time-countdown"></i> <b id="total-number-test">${courseIlm.getCourseGlobal().getTotalNumber()}</b>
 				<i id="view-down">Lượt xem</i>
 			</p>
 			<div class="cover-container" id="cover-container">

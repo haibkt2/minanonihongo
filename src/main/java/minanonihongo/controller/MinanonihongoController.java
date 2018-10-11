@@ -23,6 +23,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,9 +43,10 @@ import minanonihongo.model.CourseIlm;
 import minanonihongo.model.CourseIlmType;
 import minanonihongo.model.Document;
 import minanonihongo.model.Exam;
-import minanonihongo.model.ExamGlobal;
+import minanonihongo.model.CourseGlobal;
 import minanonihongo.model.ExamResult;
 import minanonihongo.model.User;
+import minanonihongo.model.test;
 import minanonihongo.repository.CourseIlmRepository;
 import minanonihongo.repository.CourseIlmTypeRepository;
 import minanonihongo.repository.CourseRepository;
@@ -174,6 +176,14 @@ public class MinanonihongoController {
 		// if()
 		return "main_test";
 	}
+	
+	@RequestMapping(value = { "/test/{courseName}" }, method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+	public @ResponseBody String testDetail(Model model, @PathVariable final String courseName) throws IOException {
+		// if()
+		System.out.println("sssssssssssssss");
+		return "404";
+	}
+
 
 	@RequestMapping(value = { "/main_course" }, produces = "application/json; charset=utf-8")
 	public @ResponseBody String c_etail(Model model, @RequestParam String id) throws IOException {
@@ -181,10 +191,10 @@ public class MinanonihongoController {
 		CourseIlm courseIlm = courseIlmRepository.findByCourseIlmId(id);
 
 		courseIlm.setCourseIlmType(new CourseIlmType());
-		if (courseIlm.getExamGlobal() != null) {
-			courseIlm.setExamGlobal(new ExamGlobal(courseIlm.getExamGlobal().getTotalNumberTest()));
+		if (courseIlm.getCourseGlobal() != null) {
+			courseIlm.setCourseGlobal(new CourseGlobal(courseIlm.getCourseGlobal().getTotalNumber()));
 		} else {
-			courseIlm.setExamGlobal(new ExamGlobal(0));
+			courseIlm.setCourseGlobal(new CourseGlobal(0));
 		}
 		Course crs = new Course(courseIlm.getCourse().getCourseName());
 		if ("000".equals(id.substring(id.length() - 3, id.length()))) {

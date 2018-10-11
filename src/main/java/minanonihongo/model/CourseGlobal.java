@@ -16,16 +16,16 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "exam_global")
-@NamedQuery(name = "ExamGlobal.findAll", query = "SELECT eg FROM ExamGlobal eg")
-public class ExamGlobal implements Serializable {
+@Table(name = "course_global")
+@NamedQuery(name = "CourseGlobal.findAll", query = "SELECT eg FROM CourseGlobal eg")
+public class CourseGlobal implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "EXAM_GB_ID")
-	private String userId;
+	@Column(name = "Course_GB_ID")
+	private String courseBgId;
 
-	private int totalNumberTest;
+	private int totalNumber;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "CREATE_DATE")
@@ -39,28 +39,28 @@ public class ExamGlobal implements Serializable {
 	@JoinColumn(name = "COURSE_ILM_ID")
 	private CourseIlm courseIlm;
 
-	public ExamGlobal() {
+	public CourseGlobal() {
 
 	}
 
-	public ExamGlobal(int totalNumberTest) {
-		this.totalNumberTest = totalNumberTest;
+	public CourseGlobal(int totalNumber) {
+		this.totalNumber = totalNumber;
 	}
 
-	public String getUserId() {
-		return userId;
+	public String getCourseBgId() {
+		return courseBgId;
 	}
 
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setCourseBgId(String courseBgId) {
+		this.courseBgId = courseBgId;
 	}
 
-	public int getTotalNumberTest() {
-		return totalNumberTest;
+	public int getTotalNumber() {
+		return totalNumber;
 	}
 
-	public void setTotalNumberTest(int totalNumberTest) {
-		this.totalNumberTest = totalNumberTest;
+	public void setTotalNumber(int totalNumber) {
+		this.totalNumber = totalNumber;
 	}
 
 	public Date getCreateDate() {

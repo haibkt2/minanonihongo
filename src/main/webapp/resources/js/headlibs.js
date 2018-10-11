@@ -18,8 +18,8 @@ function getsJson(id) {
 						document.getElementById('course-heading').innerHTML = obj.lessonName;
 					if(obj.introduce != null)
 						document.getElementById('introduce').innerHTML = obj.introduce;
-					if(obj.examGlobal["totalNumberTest"] != null)
-						document.getElementById('total-number-test').innerHTML = obj.examGlobal["totalNumberTest"];
+					if(obj.courseGlobal["totalNumberTest"] != null)
+						document.getElementById('total-number-test').innerHTML = obj.courseGlobal["totalNumber"];
 					if(obj.course["documents"] != null) {
 						for (var doc in obj.course["documents"]) {
 							document.getElementById('document').innerHTML = '<i class="zmdi zmdi-dns">&nbsp;</i><strong>Tài liệu học cho khóa hoc '+obj.course["courseName"]+'</strong> : <a href="${contextPath}/downloadFile?file='+obj.course["documents"][doc].locaFileDoc+'" id="file-doc">'+obj.course["documents"][doc].locaFileDoc+'</a><br>'
