@@ -172,9 +172,9 @@ public class MinanonihongoController {
 	}
 
 	@RequestMapping(value = { "/khoa-hoc/{courseName}/{lesson}" }, produces = "application/json; charset=utf-8")
-	public String courseDetail(Model model, @PathVariable final String lesson) throws IOException {
-		// if()
-		return "main_test";
+	public String courseDetail(Model model, @PathVariable final Optional<String> lesson) throws IOException {
+		 System.out.println(lesson.get());
+		return "main_course";
 	}
 	
 	@RequestMapping(value = { "/test/{courseName}" }, method = RequestMethod.GET, produces = "application/json; charset=utf-8")

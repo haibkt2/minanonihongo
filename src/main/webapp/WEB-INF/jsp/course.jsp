@@ -49,6 +49,7 @@
 							<br>
 						</c:forEach>
 					</div>
+					<br>
 				</c:if>
 				<div class="introduce" id="introduce">${courseIlm.getIntroduce() }</div>
 				<br> <a class="movie-play"> <img id="videoImg"

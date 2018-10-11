@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import minanonihongo.model.Course;
 import minanonihongo.model.CourseIlm;
 import minanonihongo.model.CourseIlmType;
+import minanonihongo.model.Exam;
 import minanonihongo.model.CourseGlobal;
 import minanonihongo.model.ExamResult;
 import minanonihongo.model.User;
@@ -47,17 +48,30 @@ public class CourseIlmService {
 			for (CourseIlmType courseIlmType : courseIlmTypeList) {
 				List<CourseIlm> courseIlms = courseIlmRepository.findByCourseIlm(courseId,
 						courseIlmType.getCourseIlmTypeId());
-				for(CourseIlm courseIlm : courseIlms) {
+				for (CourseIlm courseIlm : courseIlms) {
 					Course crs = new Course(courseIlm.getCourse().getCourseName());
-					if(courseIlm.getCourse().getDocuments().size() > 0) {
+					if (courseIlm.getCourse().getDocuments().size() > 0) {
 						crs.setDocuments(courseIlm.getCourse().getDocuments());
 					}
 					courseIlm.setCourse(crs);
 					courseIlm.setCourseIlmType(new CourseIlmType(courseIlm.getCourseIlmType().getCourseIlmTypeName()));
-					courseIlm.setCourseGlobal(new CourseGlobal());
+					CourseGlobal courseGlobal = new CourseGlobal(0);
+					if (courseIlm.getCourseGlobal() != null) {
+						courseGlobal.setTotalNumber(courseIlm.getCourseGlobal().getTotalNumber());
+					}
+					courseIlm.setCourseGlobal(courseGlobal);
 					courseIlm.setExamResult(new ExamResult());
 					courseIlm.setUser(new User());
-					courseIlm.setExams(new ArrayList<>());
+					List<Exam> examList = new ArrayList<>();
+					Exam exam = new Exam();
+					if (courseIlm.getExams() != null) {
+						for (Exam ex : courseIlm.getExams()) {
+							// exam.setExamName(ex.getExamName());
+							examList.add(ex);
+						}
+
+					}else examList.add(exam);
+					courseIlm.setExams(examList);
 				}
 				map.put(courseIlmType.getCourseIlmTypeName(), courseIlms);
 			}
