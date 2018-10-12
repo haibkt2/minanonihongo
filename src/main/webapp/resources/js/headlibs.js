@@ -6,38 +6,39 @@ function setCookie(e, t, n) {
     } else o = "";
     document.cookie = e + "=" + t + o + "; path=/"
 }
-function getsJson(id) {
-	var url = "/main_course?id=" + id;
+function getsJson(id, ls) {
+	var url = "/detail-lesson/"+ls+"?id=" + id;
 	$.ajax({
 				url : url,
 				dataType : "json",
 				contentType : "application/json;charset=utf-8",
 				success : function(obj) {
 					var j = JSON.stringify(obj);
-					if(obj.lessonName != null) 
+					if(document.getElementById('course-heading') != null) 
 						document.getElementById('course-heading').innerHTML = obj.lessonName;
-					if(obj.introduce != null)
+					if(document.getElementById('introduce') != null)
 						document.getElementById('introduce').innerHTML = obj.introduce;
-					if(obj.courseGlobal["totalNumber"] != null)
+					if(document.getElementById('total-number-test') != null)
 						document.getElementById('total-number-test').innerHTML = obj.courseGlobal["totalNumber"];
-					if(obj.course["documents"] != null) {
+					if(document.getElementById('document') != null) {
 						for (var doc in obj.course["documents"]) {
 							document.getElementById('document').innerHTML = '<i class="zmdi zmdi-dns">&nbsp;</i><strong>Tài liệu học cho khóa hoc '+obj.course["courseName"]+'</strong> : <a href="${contextPath}/downloadFile?file='+obj.course["documents"][doc].locaFileDoc+'" id="file-doc">'+obj.course["documents"][doc].locaFileDoc+'</a><br>'
 							}
 					}
-					if(obj.course["courseName"] != null)
+					if(document.getElementById('course-name') != null)
 						document.getElementById('course-name').innerHTML = obj.course["courseName"];
-					if(obj.introduce != null)
+					if(document.getElementById('videoImg') != null)
 						document.getElementById('videoImg').src = window.location.origin + "/resources/img/"
 								+ "Bảng chữ cái Tiếng Nhật.jpg";
-					if(obj.introduce != null)
+					if(document.getElementById('srVideo') != null)
 						document.getElementById('srVideo').src = window.location.origin + "/reponsitory/N5/"
 								+ "Bai-1.mp4";
 					var video = document.getElementById('cVideo');
-					video.load();
-					$(".movie-play").css("display", "block");
-					$("#iframe-video").css("display", "none");
-					return j;
+					if(video != null) {
+						video.load();
+						$(".movie-play").css("display", "block");
+						$("#iframe-video").css("display", "none");	
+					}
 				},
 				error : function(e) {
 					alert("Sorry! Dữ liệu lỗi.");

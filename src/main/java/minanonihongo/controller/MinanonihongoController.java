@@ -118,8 +118,6 @@ public class MinanonihongoController {
 	@RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
 	public String home(Model model, String error, String logout, String view, HttpServletRequest req,
 			HttpServletResponse response, HttpSession ss) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		User findUser = userRepository.findByUserId("ssssssss");
 		return "home";
 	}
 
@@ -143,8 +141,7 @@ public class MinanonihongoController {
 
 	@RequestMapping(value = { "/khoa-hoc/{courseName}" })
 	public String course(Model model, String error, String logout, String view, HttpServletRequest req,
-			HttpServletResponse response, HttpSession ss, @PathVariable String courseName,
-			@PathVariable final Optional<String> lesson) {
+			HttpServletResponse response, HttpSession ss, @PathVariable String courseName) {
 		if ("Bang-chu-cai".equals(courseName)) {
 			courseName = new String(anphabe.getBytes(Charset.forName("ISO-8859-1")), Charset.forName("UTF-8"));
 		}
@@ -171,49 +168,24 @@ public class MinanonihongoController {
 
 	}
 
-	@RequestMapping(value = { "/khoa-hoc/{courseName}/{lesson}" }, produces = "application/json; charset=utf-8")
-	public String courseDetail(Model model, @PathVariable final Optional<String> lesson) throws IOException {
-		 System.out.println(lesson.get());
-		return "main_course";
+	@RequestMapping(value = { "/khoa-hoc/{courseName}/{lesson}/{name}" }, produces = "application/json; charset=utf-8")
+	public String courseDetail(Model model, @PathVariable final Optional<String> lesson,
+			@PathVariable final Optional<String> courseName, @PathVariable final Optional<String> name)
+			throws IOException {
+		String ls = lesson.get();
+		if ("exercise".equals(ls))
+			return "main_test";
+		else if ("study".equals(ls))
+			return "main_course";
+		else
+			return "404";
+
 	}
-	
-	@RequestMapping(value = { "/test/{courseName}" }, method = RequestMethod.GET, produces = "application/json; charset=utf-8")
-	public @ResponseBody String testDetail(Model model, @PathVariable final String courseName) throws IOException {
-		// if()
-		System.out.println("sssssssssssssss");
-		return "404";
-	}
 
-
-	@RequestMapping(value = { "/main_course" }, produces = "application/json; charset=utf-8")
-	public @ResponseBody String c_etail(Model model, @RequestParam String id) throws IOException {
-		Gson g = new Gson();
-		CourseIlm courseIlm = courseIlmRepository.findByCourseIlmId(id);
-
-		courseIlm.setCourseIlmType(new CourseIlmType());
-		if (courseIlm.getCourseGlobal() != null) {
-			courseIlm.setCourseGlobal(new CourseGlobal(courseIlm.getCourseGlobal().getTotalNumber()));
-		} else {
-			courseIlm.setCourseGlobal(new CourseGlobal(0));
-		}
-		Course crs = new Course(courseIlm.getCourse().getCourseName());
-		if ("000".equals(id.substring(id.length() - 3, id.length()))) {
-			List<Document> docList = new ArrayList<>();
-			for (Document doc : courseIlm.getCourse().getDocuments()) {
-				docList.add(new Document(doc.getLocaFileDoc()));
-			}
-			crs.setDocuments(docList);
-		}
-		courseIlm.setCourse(crs);
-		courseIlm.setExamResult(new ExamResult());
-		courseIlm.setUser(new User());
-		List<Exam> exam = courseIlm.getExams();
-		if (!exam.isEmpty()) {
-			courseIlm.setExams(null);
-		}
-		String courseG = g.toJson(courseIlm);
-		System.out.println(courseG);
-		return courseG;
+	@RequestMapping(value = { "/detail-lesson/{ls}" }, produces = "application/json; charset=utf-8")
+	public @ResponseBody String detailLesson(Model model, @RequestParam String id, @PathVariable final String ls)
+			throws IOException {
+		return courseIlmService.detailLesson(id);
 	}
 
 	@RequestMapping("/facebook")
@@ -238,7 +210,8 @@ public class MinanonihongoController {
 	}
 
 	@RequestMapping(value = "/downloadFile", method = RequestMethod.GET)
-	public String download(HttpServletRequest request, HttpServletResponse response, @RequestParam String file) throws IOException {
+	public String download(HttpServletRequest request, HttpServletResponse response, @RequestParam String file)
+			throws IOException {
 		response.reset();
 		PrintWriter out = response.getWriter();
 		String path = localPost;

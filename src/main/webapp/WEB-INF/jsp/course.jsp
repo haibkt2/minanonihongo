@@ -129,25 +129,26 @@
 									<ul class="scroll-items">
 										<%
 											List<CourseIlm> courseList = (List<CourseIlm>) request.getAttribute(course);
-												CourseIlmService courseIlmService = new CourseIlmService();
+												Common common = new Common();
 												for (CourseIlm courseIlm : courseList) {
 										%>
 										<li class="lesson-item"><a
 											class="lesson-item-click lesson-item" id="lesson-item"
-											href="javascript:void(0);"
+											ls-attr="learn" href="javascript:void(0);"
 											data-id="<%=courseIlm.getCourseIlmId()%>"
-											url="${contextPath}/khoa-hoc/<%=courseIlmService.toUrlFriendly(courseName) %>/<%=courseIlm.getCourseIlmId().substring(courseIlm.getCourseIlmId().length()-3, courseIlm.getCourseIlmId().length())%>-<%=courseIlmService.toUrlFriendly(courseIlm.getLessonName()) %>"
+											url="${contextPath}/khoa-hoc/<%=common.toUrlFriendly(courseName) %>/study/<%=common.toUrlFriendly(courseIlm.getLessonName())%>"
 											style="padding-right: 70px;"><%=courseIlm.getLessonName()%></a></li>
 
 										<%
 											// 										if(courseIlm.getExams() != null)
 													for (Exam exam : courseIlm.getExams()) {
 										%>
-										<li class="test-item" id="<%=courseIlm.getLessonName()%>"><a
-											onclick="showCourseDetail(this.id)" class="test-item"
-											id="test-item"
-											href="${contextPath}/khoa-hoc/<%=courseIlmService.toUrlFriendly(courseName) %>/t<%=exam.getExamId().substring(exam.getExamId().length()-3, exam.getExamId().length())%>-<%=courseIlmService.toUrlFriendly(exam.getExamName()) %>"
-											style="padding-right: 70px;"><%=courseIlm.getLessonName()%></a></li>
+										<li class="lesson-item"><a
+											class="lesson-item-click lesson-item" ls-attr="test"
+											id="lesson-item" href="javascript:void(0);"
+											data-id="<%=courseIlm.getCourseIlmId()%>"
+											url="${contextPath}/khoa-hoc/<%=common.toUrlFriendly(courseName) %>/exercise/<%=common.toUrlFriendly(courseIlm.getLessonName()) %>"
+											style="padding-right: 70px;"><%=exam.getExamName() + " : " + courseIlm.getLessonName()%></a></li>
 										<%
 											}
 
@@ -161,6 +162,18 @@
 					</c:forEach>
 				</div>
 			</div>
+			<div class="fr-fb">
+				<iframe
+					src="https://www.facebook.com/plugins/page.php?href=https://www.facebook.com/tiengnhatkantandesuyo&tabs=null&width=280px&height=200px&small_header=false&adapt_container_width=false&hide_cover=false&show_facepile=true&appId=2272220076356331"
+					width="280px" height="200px" style="border: none; overflow: hidden"
+					scrolling="no" frameborder="0" allowTransparency="true"
+					allow="encrypted-media"> </iframe>
+				<iframe
+					src="https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Fwww.facebook.com%2Ftiengnhatkantandesuyo&layout=button_count&size=small&mobile_iframe=true&appId=2272220076356331&width=78&height=20"
+					width="78" height="20" style="border: none; overflow: hidden"
+					scrolling="no" frameborder="0" allowTransparency="true"
+					allow="encrypted-media"></iframe>
+			</div>
 		</div>
 	</div>
 </div>
@@ -168,14 +181,17 @@
 	$(".lesson-item-click").click(function(e) {
 		e.preventDefault();
 		var id = $(this).attr("data-id");
+		var ls = $(this).attr("ls-attr");
 		var url = $(this).attr("url");
+		$(this).css('background-color', '#ac7339');
+
 		$.ajax({
 			url : url,
 			dataType : "html",
 			contentType : "application/json;charset=utf-8",
 			success : function(obj) {
 				$('.main-left').html(obj);
-				getsJson(id);
+				getsJson(id, ls);
 			},
 			error : function(e) {
 				alert("Sorry! ");
@@ -187,6 +203,8 @@
 <div class="go-top">
 	<i class="fa fa-sort-asc"></i>
 </div>
+
 </div>
+<jsp:include page="footer.jsp"></jsp:include>
 </body>
 </html>

@@ -18,50 +18,50 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "course_ilm")
-@NamedQuery(name="CourseIlm.findAll", query="SELECT c FROM CourseIlm c")
+@NamedQuery(name = "CourseIlm.findAll", query = "SELECT c FROM CourseIlm c")
 public class CourseIlm implements Serializable {
-    private static final long serialVersionUID = 1L;
-    
-    @Id
-    @Column(name="COURSE_ILM_ID")
-    private String courseIlmId;
-    
-    @ManyToOne
-    @JoinColumn(name="USER_ID")
-    private User user;
-    
-    @ManyToOne
-    @JoinColumn(name="COURSE_ILM_TYPE_ID")
-    private CourseIlmType courseIlmType;
-    
-    @ManyToOne
-    @JoinColumn(name="COURSE_ID")
-    private Course course;
-    
-    private String lessonName;
-    
-    private String introduce;
-    
-    private String locaFileCourse;
-    
-    private String courseIlmFlg;
-    
-    @OneToMany(mappedBy="courseIlm")
-    private List<Exam> exams;
-    
-    @Temporal(TemporalType.DATE)
-    @Column(name="CREATE_DATE")
-    private Date createDate;
-    
-    @Temporal(TemporalType.DATE)
-    @Column(name="UPDATE_DATE")
-    private Date updateDate;
-    
-	@OneToOne(mappedBy="courseIlm")
-    private CourseGlobal courseGlobal;
-	
-	@OneToOne(mappedBy="courseIlm")
-    private ExamResult examResult;
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@Column(name = "COURSE_ILM_ID")
+	private String courseIlmId;
+
+	@ManyToOne
+	@JoinColumn(name = "USER_ID")
+	private User user;
+
+	@ManyToOne
+	@JoinColumn(name = "COURSE_ILM_TYPE_ID")
+	private CourseIlmType courseIlmType;
+
+	@ManyToOne
+	@JoinColumn(name = "COURSE_ID")
+	private Course course;
+
+	private String lessonName;
+
+	private String introduce;
+
+	private String locaFileCourse;
+
+	private String courseIlmFlg;
+
+	@OneToMany(mappedBy = "courseIlm")
+	private List<Exam> exams;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "CREATE_DATE")
+	private Date createDate;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "UPDATE_DATE")
+	private Date updateDate;
+
+	@OneToOne(mappedBy = "courseIlm")
+	private CourseGlobal courseGlobal;
+
+	@OneToOne(mappedBy = "courseIlm")
+	private ExamResult examResult;
 
 	public CourseGlobal getCourseGlobal() {
 		return courseGlobal;
@@ -120,6 +120,8 @@ public class CourseIlm implements Serializable {
 	}
 
 	public String getIntroduce() {
+		if (introduce == null)
+			return "";
 		return introduce;
 	}
 
@@ -166,6 +168,5 @@ public class CourseIlm implements Serializable {
 	public void setCourseIlmType(CourseIlmType courseIlmType) {
 		this.courseIlmType = courseIlmType;
 	}
-    
-    
+
 }

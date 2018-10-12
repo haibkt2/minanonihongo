@@ -1,20 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page import="java.util.*"%>
+<%@ page import="minanonihongo.model.*"%>
+<%@ page import="minanonihongo.service.*"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%
+	request.setCharacterEncoding("UTF-8");
+%>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html lang="vi">
 <head>
-<title>HaiLDX - Tiếng Nhật cho mọi người
-</title>
-	<jsp:include page="header.jsp"></jsp:include>
-		<div class="site-main">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>HaiLDX - Tiếng Nhật cho mọi người</title>
+<jsp:include page="header.jsp"></jsp:include>
+</head>
+<body>
+	<div id="application">
+		<div class="main">
 			<div class="haijp-banner">
 				<div>
 					<a href="" target="_blank"> <img
-						src="${contextPath}/resources/img/baderimg.png"
+						src="${contextPath}/resources/img/baderimg2.png"
 						style="display: inline;">
 					</a>
 				</div>
@@ -37,65 +47,91 @@
 					cssEase : 'linear'
 				});
 			</script>
-
-			<div class="block-slide-banner"
-				style="background-image:url(${contextPath}/resources/img/videoimggt.png)">
-				<div class="player-home-icon">
-					<a class="fancybox fancybox.iframe"
-						href="https://www.youtube.com/embed/HbSKkQCC5JU?autoplay=1"
-						title="Xem clip giới thiệu"> <img
-						src="${contextPath}/resources/img/player-home-icon.png" />
-					</a>
+			<div class="main-center main-course">
+				<div class="main-left" style="min-height: 600px">
+					<h4>
+						<b>Giới thiệu bài học</b>
+					</h4>
+					<h4 class="sprocket-lists-title padding"
+						style="margin: 0px; line-height: 20px; color: #6e6e6e; text-rendering: optimizelegibility; font-size: 18px; position: relative; padding: 10px 0px; cursor: pointer;"
+						data-lists-toggler="">Vỡ lòng</h4>
+					<p>
+						<span style="color: black" class="sprocket-lists-item"
+							data-lists-content=""> <span style="color: black"
+							class="sprocket-padding"> <span style="color: black"
+								class="sprocket-lists-desc img-disabled">Dành cho các bạn
+									mới bắt đầu học tiếng Nhật, học bảng chữ cái hiragana và
+									katakana. Các bài luyện đọc, viết, tổng hợp, kiểm tra hiragana
+									bằng video. Các câu hội thoại cơ bản … Mới bắt đầu học tiếng
+									Nhật ai cũng phải vượt khó phần học này. Nếu thấy khó nhai thì
+									bạn có thể học song song với TIẾNG NHẬT GIAO TIẾP sẽ cảm thấy
+									thú vị hơn. <br> <a ondragstart="return false;"
+									href="/tieng-nhat-vo-long/"> ●Tiếng Nhật Vỡ Lòng</a>&nbsp;&nbsp;<a
+									ondragstart="return false;" href="/tieng-nhat-giao-tiep/">
+										●Tiếng Nhật giao tiếp</a>&nbsp;&nbsp;<a
+									ondragstart="return false;" href="/tieng-nhat-erin/"> ●Học
+										tiếng Nhật cùng Erin</a>
+							</span>
+						</span>
+						</span>
+					</p>
+					<h4 class="sprocket-lists-title padding"
+						style="margin: 0px; line-height: 20px; color: #6e6e6e; text-rendering: optimizelegibility; font-size: 18px; position: relative; padding: 10px 0px; cursor: pointer;"
+						data-lists-toggler="">Sơ cấp</h4>
+					<p>
+						<span style="color: black" class="sprocket-lists-item"
+							data-lists-content=""> <span style="color: black"
+							class="sprocket-padding"> <span style="color: black"
+								class="sprocket-lists-desc img-disabled"> <span
+									style="color: black" class="sprocket-lists-item"
+									data-lists-content=""> <span style="color: black"
+										class="sprocket-padding"> <span style="color: black"
+											class="sprocket-lists-desc img-disabled">Sau khi học
+												xong bảng chữ cái và các câu chào hỏi cơ bản, bạn học tiếp
+												giáo trình Minna ni Nihongo và tiếng Nhật giao tiếp. 50 bài
+												học Minna no Nihongo chia làm 8 thể loại: Từ vựng, ngữ pháp,
+												luyện đọc, hội thoại, luyện nghe, bài tập, hán tự và kiểm
+												tra. 30 bài học tiếng Nhật giao tiếp giúp bạn phản xạ tốt
+												cho việc nghe và nói tiếng Nhật<br> <a
+												ondragstart="return false;" href="/minna-no-nihongo/">
+													●Minna no Nihongo</a>&nbsp;&nbsp;<a ondragstart="return false;"
+												href="/tanki-master-n5/"> ●短期マスターN5</a>&nbsp;&nbsp;<a
+												ondragstart="return false;" href="/somatome-20-point/">
+													●総まとめポイント</a>
+										</span>
+									</span>
+								</span>
+							</span>
+						</span>
+						</span>
+					</p>
+					<br> Các bạn có thể cùng trao đổi kinh nghiệm học tập, giao
+					lưu, cùng nhau cố gắng .... Trao đổi cho nhau kinh nghiệm sống ở
+					Nhật, du học, làm thêm , thi cử , việc làm ... <br>
+					</p>
 				</div>
-			</div>
-
-			<b id="open-featured-popup" data-fancybox
-				data-src="#home-featured-popup" href="javascript:;"></b>
-
-			<div class="full-container block-student-feedback">
-				<div class="center-container">
-					<div class="student-feedback-title">
-						<h1 class="green-text">Nơi học tập Tiếng Nhật của</h1>
-						<h2>
-							Hơn <span class="counter green-text">40983</span> Học Viên
-						</h2>
+				<div class="main-right">
+					<div class="fr-fb">
+						<iframe
+							src="https://www.facebook.com/plugins/page.php?href=https://www.facebook.com/tiengnhatkantandesuyo&tabs=null&width=280px&height=200px&small_header=false&adapt_container_width=false&hide_cover=false&show_facepile=true&appId=2272220076356331"
+							width="280px" height="200px"
+							style="border: none; overflow: hidden" scrolling="no"
+							frameborder="0" allowTransparency="true" allow="encrypted-media">
+						</iframe>
+						<iframe
+							src="https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Fwww.facebook.com%2Ftiengnhatkantandesuyo&layout=button_count&size=small&mobile_iframe=true&appId=2272220076356331&width=78&height=20"
+							width="78" height="20" style="border: none; overflow: hidden"
+							scrolling="no" frameborder="0" allowTransparency="true"
+							allow="encrypted-media"></iframe>
 					</div>
-					<img class="img-student" style="padding: 0 15px; margin: 10px 0;"
-						src="${contextPath}/resources/img/hv.png">
 				</div>
+			</div>
+			<div class="go-top">
+				<i class="fa fa-sort-asc"></i>
 			</div>
 
-			<div class="full-container fb-comments-container">
-				<div class="center-container">
-					<div class="row row-content-fb">
-						<div class="col-md-8 col-content">
-							<div class="block-comment">
-								<ul class="nav nav-pills " role="tablist">
-									<li role="presentation" class="active"><a
-										href="#block-coment" role="tab" data-toggle="tab">Ý kiến
-											học viên</a></li>
-								</ul>
-								<div class="tab-content">
-									<div role="tabpanel" class="tab-pane active" id="block-coment">
-										<div class="block-title">
-											<strong>Ý kiến học viên</strong>
-										</div>
-										<comment-fb url="https://localhost:8888"></comment-fb>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4" style="overflow-x: hidden;">
-							<iframe
-								src="https://www.facebook.com/plugins/page.php?href=https://www.facebook.com/tiengnhatkantandesuyo&tabs=null&small_header=false&adapt_container_width=false&hide_cover=false&show_facepile=true&appId=2272220076356331"
-								style="border: none; width: 110% !important; float: left; min-height: 215px;"
-								scrolling="no" frameborder="0" allowTransparency="true">
-							</iframe>
-						</div>
-					</div>
-				</div>
-			</div>
 		</div>
+		<jsp:include page="footer.jsp"></jsp:include>
 	</div>
 </body>
 </html>

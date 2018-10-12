@@ -34,15 +34,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 				.antMatchers("/home").permitAll()
-				.antMatchers("/404").permitAll()
 				.antMatchers("/test/**").permitAll()
 				.antMatchers("/alphabet/**").permitAll()
 				.antMatchers("/tim-kiem/**").permitAll()
-				.antMatchers("/khoa-hoc/**/**").permitAll()
 				.antMatchers("/khoa-hoc/**").permitAll()
 				.antMatchers("/facebook").permitAll()
 				.antMatchers("/").permitAll()
-				.antMatchers("/main_course").permitAll()
+				.antMatchers("/detail-lesson/**").permitAll()
 				.anyRequest()
 				.authenticated();
 		http.formLogin().loginPage("/home")
@@ -59,7 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.logoutSuccessUrl("/home?logout")
 				.invalidateHttpSession(true)
 				.permitAll();
-		http.exceptionHandling().accessDeniedPage("/403");
+		http.exceptionHandling().accessDeniedPage("/404");
 
 	}
 
