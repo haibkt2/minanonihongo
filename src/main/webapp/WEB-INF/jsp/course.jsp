@@ -82,8 +82,6 @@
 				<ul class="nav nav-pills comment-tab">
 					<li class="li-tab user-tab active"><a data-toggle="pill"
 						href="#user-comment-content">Ý kiến học viên</a></li>
-					<li class="li-tab facebook-tab"><a data-toggle="pill"
-						href="#facebook-comment-content">Bình luận bằng facebook</a></li>
 				</ul>
 				<div class="tab-content">
 					<div id="user-comment-content" class="tab-pane fade in active">
@@ -93,7 +91,6 @@
 						bạn chỉ có thể nhắn tin cho quản trị viên ứng dụng. Bạn cũng có
 						thể tạo mã trang cho các trang bạn không sở hữu bằng Đăng nhập
 						Facebook.</div>
-					<div id="facebook-comment-content" class="tab-pane fade"></div>
 				</div>
 			</div>
 		</div>
@@ -182,7 +179,7 @@
 		e.preventDefault();
 		var id = $(this).attr("data-id");
 		var ls = $(this).attr("ls-attr");
-		var url = $(this).attr("url");
+		var url = $(this).attr("url")+"?id="+id;
 		$(this).css('background-color', '#ac7339');
 
 		$.ajax({
@@ -191,7 +188,6 @@
 			contentType : "application/json;charset=utf-8",
 			success : function(obj) {
 				$('.main-left').html(obj);
-				getsJson(id, ls);
 			},
 			error : function(e) {
 				alert("Sorry! ");

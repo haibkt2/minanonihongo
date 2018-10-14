@@ -1,22 +1,23 @@
 package minanonihongo.service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.google.gson.Gson;
 
 import minanonihongo.model.Course;
 import minanonihongo.model.CourseIlm;
 import minanonihongo.model.CourseIlmType;
 import minanonihongo.model.Document;
 import minanonihongo.model.Exam;
-import minanonihongo.model.CourseGlobal;
+import minanonihongo.model.ExamAnswer;
+import minanonihongo.model.ExamQuestion;
 import minanonihongo.model.ExamResult;
 import minanonihongo.model.User;
 import minanonihongo.repository.CourseIlmRepository;
@@ -33,66 +34,80 @@ public class CourseIlmService {
 			for (CourseIlmType courseIlmType : courseIlmTypeList) {
 				List<CourseIlm> courseIlms = courseIlmRepository.findByCourseIlm(courseId,
 						courseIlmType.getCourseIlmTypeId());
-				for (CourseIlm courseIlm : courseIlms) {
-					Course crs = new Course(courseIlm.getCourse().getCourseName());
-					if (courseIlm.getCourse().getDocuments().size() > 0) {
-						crs.setDocuments(courseIlm.getCourse().getDocuments());
-					}
-					courseIlm.setCourse(crs);
-					courseIlm.setCourseIlmType(new CourseIlmType(courseIlm.getCourseIlmType().getCourseIlmTypeName()));
-					CourseGlobal courseGlobal = new CourseGlobal(0);
-					if (courseIlm.getCourseGlobal() != null) {
-						courseGlobal.setTotalNumber(courseIlm.getCourseGlobal().getTotalNumber());
-					}
-					courseIlm.setCourseGlobal(courseGlobal);
-					courseIlm.setExamResult(new ExamResult());
-					courseIlm.setUser(new User());
-					List<Exam> examList = new ArrayList<>();
-					Exam exam = new Exam();
-					if (courseIlm.getExams() != null) {
-						for (Exam ex : courseIlm.getExams()) {
-							// exam.setExamName(ex.getExamName());
-							examList.add(ex);
-						}
-
-					} else {
-						examList.add(exam);
-					}
-					courseIlm.setExams(examList);
-				}
 				map.put(courseIlmType.getCourseIlmTypeName(), courseIlms);
 			}
 		}
 		return map;
 	}
 
-	public String detailLesson(String id) {
-		Gson g = new Gson();
+	public CourseIlm detailLesson(String id, String lesson) {
 		CourseIlm courseIlm = courseIlmRepository.findByCourseIlmId(id);
-		courseIlm.setCourseIlmType(new CourseIlmType());
-		if (courseIlm.getCourseGlobal() != null) {
-			courseIlm.setCourseGlobal(new CourseGlobal(courseIlm.getCourseGlobal().getTotalNumber()));
-		} else {
-			courseIlm.setCourseGlobal(new CourseGlobal(0));
-		}
-		Course crs = new Course(courseIlm.getCourse().getCourseName());
-		List<Document> docList = new ArrayList<>();
-		if ("000".equals(id.substring(id.length() - 3, id.length()))) {
-			for (Document doc : courseIlm.getCourse().getDocuments()) {
-				docList.add(new Document(doc.getLocaFileDoc()));
+		if (courseIlm == null)
+			return new CourseIlm();
+		else {
+			Course crs = new Course(courseIlm.getCourse().getCourseName());
+			List<Document> docList = new ArrayList<>();
+			if ("000".equals(id.substring(id.length() - 3, id.length()))) {
+				for (Document doc : courseIlm.getCourse().getDocuments()) {
+					docList.add(new Document(doc.getLocaFileDoc()));
+				}
 			}
+			crs.setDocuments(docList);
+			courseIlm.setCourse(crs);
+			if ("exercise".equals(lesson)) {
+				courseIlm.setLocaFileCourse(null);
+			} else if ("study".equals(lesson)) {
+				courseIlm.setExams(new ArrayList<>());
+			}
+			return courseIlm;
 		}
-		crs.setDocuments(docList);
-		courseIlm.setCourse(crs);
-		courseIlm.setExamResult(new ExamResult());
-		courseIlm.setUser(new User());
-		List<Exam> exam = courseIlm.getExams();
-		if (!exam.isEmpty()) {
-			courseIlm.setExams(null);
-		}
-		String courseG = g.toJson(courseIlm);
-		System.out.println(courseG);
-		return courseG;
 	}
 
+	public List<Map<String, String>> mapJson(CourseIlm courseIlm) throws Exception {
+		List<Map<String, String>> jsons = new ArrayList<>();
+		JSONObject lesson_tasks = new JSONObject();
+		JSONObject lesson_answers = new JSONObject();
+		JSONObject lesson_lesson = new JSONObject();
+
+		if (courseIlm.getExams() != null) {
+			for (Exam ex : courseIlm.getExams()) {
+				lesson_lesson.put("lesson_id", ex.getExamId());
+				lesson_lesson.put("course_id", ex.getCourseIlm().getCourse().getCourseName());
+				if (ex.getExamQuestion() != null) {
+					lesson_lesson.put("total_marks", ex.getExamQuestion().size());
+					for (ExamQuestion examQuestion : ex.getExamQuestion()) {
+						lesson_tasks.put("lesson_id", ex.getExamId());
+						lesson_tasks.put("id", examQuestion.getExamQuestionId());
+						lesson_tasks.put("type", 3);
+						lesson_tasks.put("value", examQuestion.getQuestion());
+						lesson_tasks.put("grade", 1);
+						JSONArray ans = new JSONArray();
+						if (examQuestion.getExamAnswer() != null) {
+							for (ExamAnswer examAnswer : examQuestion.getExamAnswer()) {
+								ans.put(getAnswer(examAnswer.getExamAnswerId(), examQuestion.getExamQuestionId(),
+										examAnswer.getAnswer(), examAnswer.getAnswerRghtWrng()));
+							}
+						}
+						lesson_answers.put(examQuestion.getExamQuestionId(), ans);
+					}
+				}
+
+			}
+		}
+		Map<String, String> map = new HashMap<>();
+		map.put("lesson_answers", lesson_answers.toString());
+		map.put("lesson_tasks", lesson_tasks.toString());
+		map.put("lesson_lesson", lesson_lesson.toString());
+		jsons.add(map);
+		return jsons;
+	}
+
+	public JSONObject getAnswer(String id, String task_id, String value, String grade) throws Exception {
+		JSONObject answer = new JSONObject();
+		answer.put("id", id);
+		answer.put("task_id", task_id);
+		answer.put("value", value);
+		answer.put("grade", grade);
+		return answer;
+	}
 }

@@ -14,9 +14,6 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <div class="footer">
         <div class="center-container">
-           <div class="col-md-2 col-sm-6 col general-box">
-              <img class="footer-logo" src="${contextPath}/resources/img/hai-logo.png">
-           </div>
 
            <div class="col-md-4 contact-box">
             <h3 class="title">Thông tin liên hệ</h3>

@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -16,14 +16,12 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,6 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.client.ClientProtocolException;
+import org.json.JSONException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -151,7 +150,6 @@ public class MinanonihongoController {
 			if (course.getCourseIlms() != null && course.getCourseIlms().size() > 0) {
 				courseIlm = course.getCourseIlms().get(0);
 			}
-			model.addAttribute("courseIlm", courseIlm);
 			String courseId = course.getCourseId();
 			List<CourseIlmType> courseIlmTypeList = courseIlmTypeRepository.courseIlmType(courseId);
 			Map<String, List<CourseIlm>> map = courseIlmService.setMapCourse(courseId, courseIlmTypeList);
@@ -160,7 +158,7 @@ public class MinanonihongoController {
 						(List<CourseIlm>) map.get(courseIlmType.getCourseIlmTypeName()));
 			}
 			model.addAttribute("courseIlmTypeList", courseIlmTypeList);
-
+			model.addAttribute("courseIlm", courseIlm);
 		} else {
 			return "404";
 		}
@@ -170,22 +168,17 @@ public class MinanonihongoController {
 
 	@RequestMapping(value = { "/khoa-hoc/{courseName}/{lesson}/{name}" }, produces = "application/json; charset=utf-8")
 	public String courseDetail(Model model, @PathVariable final Optional<String> lesson,
-			@PathVariable final Optional<String> courseName, @PathVariable final Optional<String> name)
-			throws IOException {
+			@PathVariable final Optional<String> courseName, @PathVariable final Optional<String> name,
+			@RequestParam String id) throws IOException, Exception {
 		String ls = lesson.get();
-		if ("exercise".equals(ls))
-			return "main_test";
-		else if ("study".equals(ls))
-			return "main_course";
-		else
-			return "404";
-
-	}
-
-	@RequestMapping(value = { "/detail-lesson/{ls}" }, produces = "application/json; charset=utf-8")
-	public @ResponseBody String detailLesson(Model model, @RequestParam String id, @PathVariable final String ls)
-			throws IOException {
-		return courseIlmService.detailLesson(id);
+		Gson gson = new Gson();
+		CourseIlm courseIlm = courseIlmService.detailLesson(id, ls);
+		model.addAttribute("courseIlm", courseIlm);
+		List<Map<String, String>> mapJson = courseIlmService.mapJson(courseIlm);
+		model.addAttribute("lesson_answers", mapJson.get(0).get("lesson_answers"));
+		model.addAttribute("lesson_tasks", mapJson.get(0).get("lesson_tasks"));
+		model.addAttribute("lesson_lesson", mapJson.get(0).get("lesson_lesson"));
+		return "detailCourse";
 	}
 
 	@RequestMapping("/facebook")

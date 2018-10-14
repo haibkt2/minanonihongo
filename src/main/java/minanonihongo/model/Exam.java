@@ -23,7 +23,7 @@ public class Exam implements Serializable {
     private String examName;
     
     @OneToMany(mappedBy="exam")
-    private List<ExamQA> examAnswer;
+    private List<ExamQuestion> examQuestion;
 
     @ManyToOne
     @JoinColumn(name="COURSE_ILM_ID")
@@ -46,12 +46,13 @@ public class Exam implements Serializable {
 		return examName;
 	}
 
-	public List<ExamQA> getExamAnswer() {
-		return examAnswer;
+	
+	public List<ExamQuestion> getExamQuestion() {
+		return examQuestion;
 	}
 
-	public void setExamAnswer(List<ExamQA> examAnswer) {
-		this.examAnswer = examAnswer;
+	public void setExamQuestion(List<ExamQuestion> examQuestion) {
+		this.examQuestion = examQuestion;
 	}
 
 	public CourseIlm getCourseIlm() {

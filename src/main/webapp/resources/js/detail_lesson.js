@@ -75,7 +75,6 @@ var user = new Vue({
                     _id: t,
                     course: s.course
                 };
-                    alert(window.location.origin);
                 $.ajax({
                     url: window.location.origin + "/test/gui-ket-qua",
                     type: "GET",

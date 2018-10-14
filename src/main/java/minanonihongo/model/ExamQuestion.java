@@ -1,6 +1,7 @@
 package minanonihongo.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,36 +9,44 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "exam_qa")
-@NamedQuery(name = "ExamQA.findAll", query = "SELECT eqa FROM ExamQA eqa")
-public class ExamQA implements Serializable {
+@Table(name = "exam_question")
+@NamedQuery(name = "ExamQuestion.findAll", query = "SELECT eq FROM ExamQuestion eq")
+public class ExamQuestion implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "EXAM_QA_ID")
-	private String examAnswerId;
+	@Column(name = "EXAM_QUESTION_ID")
+	private String examQuestionId;
 
 	@ManyToOne
 	@JoinColumn(name = "EXAM_ID")
 	private Exam exam;
 
-	private String answer;
-
 	private String explain;
 
 	private String question;
+	
+	@OneToMany(mappedBy="examQuestion")
+    private List<ExamAnswer> examAnswer;
 
-	private String answerRghtWrng;
-
-	public String getExamAnswerId() {
-		return examAnswerId;
+	public List<ExamAnswer> getExamAnswer() {
+		return examAnswer;
 	}
 
-	public void setExamAnswerId(String examId) {
-		this.examAnswerId = examId;
+	public void setExamAnswer(List<ExamAnswer> examAnswer) {
+		this.examAnswer = examAnswer;
+	}
+
+	public String getExamQuestionId() {
+		return examQuestionId;
+	}
+
+	public void setExamQuestionId(String examQuestionId) {
+		this.examQuestionId = examQuestionId;
 	}
 
 	public String getQuestion() {
@@ -56,28 +65,12 @@ public class ExamQA implements Serializable {
 		this.exam = exam;
 	}
 
-	public String getAnswer() {
-		return answer;
-	}
-
-	public void setAnswer(String answer) {
-		this.answer = answer;
-	}
-
 	public String getExplain() {
 		return explain;
 	}
 
 	public void setExplain(String explain) {
 		this.explain = explain;
-	}
-
-	public String getAnswerRghtWrng() {
-		return answerRghtWrng;
-	}
-
-	public void setAnswerRghtWrng(String answerRghtWrng) {
-		this.answerRghtWrng = answerRghtWrng;
 	}
 
 }
