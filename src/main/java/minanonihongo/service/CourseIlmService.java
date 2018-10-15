@@ -56,6 +56,9 @@ public class CourseIlmService {
 			courseIlm.setCourse(crs);
 			if ("exercise".equals(lesson)) {
 				courseIlm.setLocaFileCourse(null);
+				courseIlm.setVocaCourseIlms(new ArrayList<>());
+				courseIlm.setIntroduce(null);
+				courseIlm.setLessonName("Bài tập : "+ courseIlm.getLessonName());
 			} else if ("study".equals(lesson)) {
 				courseIlm.setExams(new ArrayList<>());
 			}

@@ -36,50 +36,42 @@
 				<br>
 			</c:forEach>
 		</div>
-		<br>
 	</c:if>
-	<div class="lesson-content-detail" style="max-height: 600px; margin-bottom: 30px">
-	<table border="1" cellpadding="0" cellspacing="0" style="width:600px">
- <tbody>
-  <tr>
-   <td style="height:23px; text-align:center; width:156px"><span style="font-size:14px"><strong>&nbsp;Hiragana</strong><br>
-   <strong>Katakana</strong></span></td>
-   <td style="height:23px; text-align:center; width:108px"><span style="font-size:14px"><strong>&nbsp;Kanji</strong></span></td>
-   <td style="height:23px; text-align:center; width:336px"><span style="font-size:14px"><strong>&nbsp;Ý nghĩa</strong></span></td>
-  </tr>
-  <tr>
-   <td style="height:23px; width:156px"><span style="font-size:14px">&nbsp;みます</span></td>
-   <td style="height:23px; width:108px"><span style="font-size:14px">&nbsp;見ます<br>
-   &nbsp;診ます</span></td>
-   <td style="height:23px; width:336px"><span style="font-size:14px">&nbsp;Xem, khám bệnh</span></td>
-  </tr>
-  <tr>
-   <td style="height:23px; width:156px"><span style="font-size:14px">&nbsp;さがします</span></td>
-   <td style="height:23px; width:108px"><span style="font-size:14px">&nbsp;探します<br>
-   &nbsp;捜します</span></td>
-   <td style="height:23px; width:336px"><span style="font-size:14px">&nbsp;Tìm, tìm kiếm</span></td>
-  </tr>
-  <tr>
-   <td style="height:23px; width:156px"><span style="font-size:14px">&nbsp;おくれます<br>
-   「じかんに～」</span></td>
-   <td style="height:23px; width:108px"><span style="font-size:14px">&nbsp;遅れます<br>
-   「時間に」</span></td>
-   <td style="height:23px; width:336px"><span style="font-size:14px">&nbsp;Chậm, muộn [cuộc hẹn, v.v...]</span></td>
-  </tr>
-  <tr>
-   <td style="height:23px; width:156px"><span style="font-size:14px">&nbsp;まにあいます<br>
-   「じかんに～」</span></td>
-   <td style="height:23px; width:108px"><span style="font-size:14px">&nbsp;間に合います<br>
-   「時間に」</span></td>
-   <td style="height:23px; width:336px"><span style="font-size:14px">&nbsp;Kịp [cuộc hẹn, v.v...]</span></td>
-  </tr>
- </tbody>
-</table>
+	<c:if test="${not empty courseIlm.getVocaCourseIlms()}">
+	<div class="lesson-content-detail"
+		style="max-height: 600px; margin-bottom: 30px">
+		<table border="1" cellpadding="0" cellspacing="0" style="width: 600px">
+			<tbody>
+				<tr>
+					<th style="height: 23px; text-align: center; width: 156px"><span
+						style="font-size: 14px"><strong>&nbsp;Hiragana</strong><br>
+							<strong>Katakana</strong></span></th>
+					<th style="height: 23px; text-align: center; width: 108px"><span
+						style="font-size: 14px"><strong>&nbsp;Kanji</strong></span></th>
+					<th style="height: 23px; text-align: center; width: 336px"><span
+						style="font-size: 14px"><strong>&nbsp;Ý nghĩa</strong></span></th>
+				</tr>
+				
+					<c:forEach items="${courseIlm.getVocaCourseIlms()}" var="voca">
+						<tr>
+							<td style="height: 23px; width: 156px"><span
+								style="font-size: 14px">&nbsp;${voca.getHirakana()}</span></td>
+							<td style="height: 23px; width: 108px"><span
+								style="font-size: 14px">&nbsp;${voca.getKanji()} </span></td>
+							<td style="height: 23px; width: 336px"><span
+								style="font-size: 14px">&nbsp;${voca.getExplain()}</span></td>
+						</tr>
+					</c:forEach>
+				
+			</tbody>
+		</table>
+		<br>
+		<br>
 	</div>
-	
+</c:if>
 	<div class="introduce" id="introduce">${courseIlm.getIntroduce() }</div>
-	<br>
 	<c:if test="${courseIlm.getLocaFileCourse() != null}">
+	<br>
 		<a class="movie-play"> <img id="videoImg"
 			src="${contextPath}/resources/img/${courseIlm.getCourse().getCourseName()}" />
 			<br> <span class="play-icon-btn"> <i
@@ -106,50 +98,53 @@
 						<c:forEach items="${question.getExamAnswer()}" var="answer"
 							varStatus="an">
 							<div style="width: 48%; margin-top: 10px;">
-								<label for="answer${answer.getExamAnswerId()}" class="col-md-11 answers-input"
+								<label for="answer${answer.getExamAnswerId()}"
+									class="col-md-11 answers-input"
 									style="font-weight: normal; font-size: 13px; color: gray">
-									<span style="display: none;">${answer.getExamAnswerId()}</span> <input type="radio"
+									<span style="display: none;">${answer.getExamAnswerId()}</span>
+									<input type="radio"
 									class="custom-control-input col-md-1 answers-input"
-									id="answer${answer.getExamAnswerId()}" name="task${question.getExamQuestionId()}"
-									v-on:change="storeValueToLocal(${question.getExamQuestionId()},${answer.getExamAnswerId()})"> <span
-									style="display: none;">${answer.getAnswerRghtWrng()}</span>&nbsp;&nbsp;${answer.getAnswer()}
+									id="answer${answer.getExamAnswerId()}"
+									name="task${question.getExamQuestionId()}"
+									v-on:change="storeValueToLocal(${question.getExamQuestionId()},${answer.getExamAnswerId()})">
+									<span style="display: none;">${answer.getAnswerRghtWrng()}</span>&nbsp;&nbsp;${answer.getAnswer()}
 								</label>
 							</div>
 						</c:forEach>
 					</div>
 				</c:forEach>
 				<c:if test="${exam.getExamQuestion().size() > 0}">
-				<button class="btn btn-primary trac-nghiem"
-				v-on:click="sendTestResult('t.hai', 0)">Nộp bài</button>
+					<button class="btn btn-primary trac-nghiem"
+						v-on:click="sendTestResult('t.hai', 0)">Nộp bài</button>
 				</c:if>
 			</c:forEach>
-<!-- 			<hr style="border: 0; border-bottom: 1px solid #ddd;"> -->
-<!-- 			<div class="alert mt20" id="result" style="display: none;"> -->
-<!-- 				<div v-if="results.length > 0"> -->
-<!-- 					<h4>Kết quả các bài kiểm tra đã làm</h4> -->
-<!-- 					<hr> -->
-<!-- 					<div class="alert" v-for="(result, index) in results" -->
-<!-- 						v-bind:class="[result.passed == 0 ? 'bg-warning' : 'bg-success']" -->
-<!-- 						style="font-size: 14px"> -->
-<!-- 						<p> -->
-<!-- 							Thời gian thực hiện lúc <b>{{ printTime(result.created) }}</b> -->
-<!-- 							ngày <b>{{ printDate(result.created) }}</b> -->
-<!-- 						</p> -->
-<!-- 						<p> -->
-<!-- 							Tổng điểm: <b>{{ result.grade }} / {{ result.total_marks }}</b> -->
-<!-- 						</p> -->
-<!-- 						<p> -->
-<!-- 							Kết quả: <b v-if="result.passed == 0">Không đạt yêu cầu</b><b -->
-<!-- 								v-if="result.passed != 0">Đã qua</b> -->
-<!-- 						</p> -->
-<!-- 						<button class="btn btn-info review-result" data-toggle="modal" -->
-<!-- 							data-target="#myModal" v-on:click="reviewTestResult(index)">Xem -->
-<!-- 							bài làm</button> -->
-<!-- 						<button class="btn btn-warning remove-result" data-toggle="modal" -->
-<!-- 							data-target="#removeResult" v-on:click="removeTestResult(index)">Xóa</button> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
+			<!-- 			<hr style="border: 0; border-bottom: 1px solid #ddd;"> -->
+			<!-- 			<div class="alert mt20" id="result" style="display: none;"> -->
+			<!-- 				<div v-if="results.length > 0"> -->
+			<!-- 					<h4>Kết quả các bài kiểm tra đã làm</h4> -->
+			<!-- 					<hr> -->
+			<!-- 					<div class="alert" v-for="(result, index) in results" -->
+			<!-- 						v-bind:class="[result.passed == 0 ? 'bg-warning' : 'bg-success']" -->
+			<!-- 						style="font-size: 14px"> -->
+			<!-- 						<p> -->
+			<!-- 							Thời gian thực hiện lúc <b>{{ printTime(result.created) }}</b> -->
+			<!-- 							ngày <b>{{ printDate(result.created) }}</b> -->
+			<!-- 						</p> -->
+			<!-- 						<p> -->
+			<!-- 							Tổng điểm: <b>{{ result.grade }} / {{ result.total_marks }}</b> -->
+			<!-- 						</p> -->
+			<!-- 						<p> -->
+			<!-- 							Kết quả: <b v-if="result.passed == 0">Không đạt yêu cầu</b><b -->
+			<!-- 								v-if="result.passed != 0">Đã qua</b> -->
+			<!-- 						</p> -->
+			<!-- 						<button class="btn btn-info review-result" data-toggle="modal" -->
+			<!-- 							data-target="#myModal" v-on:click="reviewTestResult(index)">Xem -->
+			<!-- 							bài làm</button> -->
+			<!-- 						<button class="btn btn-warning remove-result" data-toggle="modal" -->
+			<!-- 							data-target="#removeResult" v-on:click="removeTestResult(index)">Xóa</button> -->
+			<!-- 					</div> -->
+			<!-- 				</div> -->
+			<!-- 			</div> -->
 
 			<div class="modal fade" id="empty_answers" role="dialog"
 				tabindex="-1">
@@ -215,10 +210,9 @@
 				</div>
 			</div>
 			<script>
-				lesson_tasks = ${lesson_tasks};
-				lesson_answers = ${lesson_answers};
-				lesson_lesson = ${lesson_lesson};
-
+			lesson_tasks = ${lesson_tasks};
+			lesson_answers = ${lesson_answers};
+			lesson_lesson = ${lesson_lesson};
 				lesson_results = [];
 				lesson_writeQuestions = [];
 				course = "${courseName}"; //Them khoa hoc cho JLPT

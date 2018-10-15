@@ -17,7 +17,7 @@ public class VocaCourseIlm implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "VACA_COURSE_ILM_ID")
+	@Column(name = "VOCA_COURSE_ILM_ID")
 	private String vocaCourseIlmId;
 
 	@ManyToOne

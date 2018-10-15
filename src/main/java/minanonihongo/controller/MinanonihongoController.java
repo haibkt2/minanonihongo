@@ -126,13 +126,11 @@ public class MinanonihongoController {
 		return "post";
 	}
 
-	@RequestMapping("/tim-kiem/{key}")
+	@RequestMapping("/tim-kiem")
 	@ResponseBody
 	public String header(Model model, String error, String logout, String view, HttpServletRequest req,
-			HttpServletResponse response, HttpSession ss, @PathVariable String key) {
-		List<Course> findCourse = courseRepository.findByCourse();
-		model.addAttribute("course", findCourse);
-		return key;
+			HttpServletResponse response, HttpSession ss) {
+		return "key";
 	}
 
 	@RequestMapping("/tim-kiem/{keysearch}")
