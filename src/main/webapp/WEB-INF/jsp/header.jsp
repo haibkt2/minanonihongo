@@ -139,11 +139,11 @@
 										</li>
 									</ul>
 								</div></li>
-							<li><a href="${contextPath}/vui-tieng-nhat/" target=""
+							<li><a href="${contextPath}/vui-tieng-nhat" target=""
 								class="mn-item hoc-vui">Vui tiếng Nhật</a></li>
-							<li><a href="${contextPath}/van-hoa-nhat-ban/" target=""
+							<li><a href="${contextPath}/van-hoa-nhat-ban" target=""
 								class="mn-item bai-viet">Văn hóa Nhật Bản</a></li>
-							<li><a href="${contextPath}/thi-truc-tuyen/"
+							<li><a href="${contextPath}/thi-truc-tuyen"
 								class="mn-item thi-thu">Thi thử</a></li>
 							<li class="item-search">
 								<div id="search-submit">&nbsp;</div> <input type="text"

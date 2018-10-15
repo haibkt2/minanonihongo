@@ -49,8 +49,9 @@
 			</script>
 			<div class="main-center main-course">
 				<div class="main-left" style="min-height: 600px">
+				<br>
 					<h4>
-						<b>Giới thiệu bài học</b>
+						<p style="text-align: center; font-size: 23px "><strong>Tổng quan về tiếng Nhật</strong></p>
 					</h4>
 					<h4 class="sprocket-lists-title padding"
 						style="margin: 0px; line-height: 20px; color: #6e6e6e; text-rendering: optimizelegibility; font-size: 18px; position: relative; padding: 10px 0px; cursor: pointer;"
@@ -61,16 +62,9 @@
 							class="sprocket-padding"> <span style="color: black"
 								class="sprocket-lists-desc img-disabled">Dành cho các bạn
 									mới bắt đầu học tiếng Nhật, học bảng chữ cái hiragana và
-									katakana. Các bài luyện đọc, viết, tổng hợp, kiểm tra hiragana
-									bằng video. Các câu hội thoại cơ bản … Mới bắt đầu học tiếng
-									Nhật ai cũng phải vượt khó phần học này. Nếu thấy khó nhai thì
-									bạn có thể học song song với TIẾNG NHẬT GIAO TIẾP sẽ cảm thấy
-									thú vị hơn. <br> <a ondragstart="return false;"
-									href="/tieng-nhat-vo-long/"> ●Tiếng Nhật Vỡ Lòng</a>&nbsp;&nbsp;<a
-									ondragstart="return false;" href="/tieng-nhat-giao-tiep/">
-										●Tiếng Nhật giao tiếp</a>&nbsp;&nbsp;<a
-									ondragstart="return false;" href="/tieng-nhat-erin/"> ●Học
-										tiếng Nhật cùng Erin</a>
+									katakana. Bước đầu của sự thành công lúc nào cũng khó khăn và vất vả, mọi người phải cố gắng học và nhớ hết bảng chữ cái nhé.
+									Sẽ có những bài học thú vị đầu tiên như đếm số, các câu chào hỏi cơ bản. Bạn sẽ thấy Tiếng Nhật bắt đầu thú vị rồi đấy. :) <br> <a ondragstart="return false;"
+									href="/khoa-hoc/Bang-chu-cai"> ●Bảng chữ cái</a>&nbsp;&nbsp;
 							</span>
 						</span>
 						</span>
@@ -88,16 +82,13 @@
 										class="sprocket-padding"> <span style="color: black"
 											class="sprocket-lists-desc img-disabled">Sau khi học
 												xong bảng chữ cái và các câu chào hỏi cơ bản, bạn học tiếp
-												giáo trình Minna ni Nihongo và tiếng Nhật giao tiếp. 50 bài
-												học Minna no Nihongo chia làm 8 thể loại: Từ vựng, ngữ pháp,
-												luyện đọc, hội thoại, luyện nghe, bài tập, hán tự và kiểm
-												tra. 30 bài học tiếng Nhật giao tiếp giúp bạn phản xạ tốt
-												cho việc nghe và nói tiếng Nhật<br> <a
-												ondragstart="return false;" href="/minna-no-nihongo/">
-													●Minna no Nihongo</a>&nbsp;&nbsp;<a ondragstart="return false;"
-												href="/tanki-master-n5/"> ●短期マスターN5</a>&nbsp;&nbsp;<a
-												ondragstart="return false;" href="/somatome-20-point/">
-													●総まとめポイント</a>
+												giáo trình Minna ni Nihongo . 50 bài
+												học Minna no Nihongo chúng ta sẽ cùng nhau học về : Từ vựng, ngữ pháp,
+												luyện đọc, luyện nghe, bài tập, hán tự và kiểm
+												tra. Ngoài ra còn có nhất nhiều bài học thú vị khác về con người văn hóa của Đất nước nhật bản.<br> 
+												<a ondragstart="return false;" href="/khoa-hoc/N5">
+													●N5</a>&nbsp;&nbsp;<a ondragstart="return false;"
+												href="/khoa-hoc/N4"> ●N4</a>
 										</span>
 									</span>
 								</span>
@@ -105,10 +96,103 @@
 						</span>
 						</span>
 					</p>
-					<br> Các bạn có thể cùng trao đổi kinh nghiệm học tập, giao
+					<h4 class="sprocket-lists-title padding"
+						style="margin: 0px; line-height: 20px; color: #6e6e6e; text-rendering: optimizelegibility; font-size: 18px; position: relative; padding: 10px 0px; cursor: pointer;"
+						data-lists-toggler="">Trung cấp</h4>
+					<p>
+						<span style="color: black" class="sprocket-lists-item"
+							data-lists-content=""> <span style="color: black"
+							class="sprocket-padding"> <span style="color: black"
+								class="sprocket-lists-desc img-disabled"> <span
+									style="color: black" class="sprocket-lists-item"
+									data-lists-content=""> <span style="color: black"
+										class="sprocket-padding"> <span style="color: black"
+											class="sprocket-lists-desc img-disabled">Sau khi học
+												xong giáo trình Minano Nihongo, bạn đã có thể giao tiếp cơ bản về Tiếng Nhật. Cùng tiếp tục nâng cao từ vững, ngữ pháp, luyện nghe để có thể giao tiếp như người bản xứ nhé.
+												<br> <a ondragstart="return false;" href="/khoa-hoc/N3">
+													●N3</a>&nbsp;&nbsp;<a ondragstart="return false;"
+												href="/khoa-hoc/N2"> ●N2</a>
+										</span>
+									</span>
+								</span>
+							</span>
+						</span>
+						</span>
+					</p>
+					<h4 class="sprocket-lists-title padding"
+						style="margin: 0px; line-height: 20px; color: #6e6e6e; text-rendering: optimizelegibility; font-size: 18px; position: relative; padding: 10px 0px; cursor: pointer;"
+						data-lists-toggler="">Vui tiếng Nhật</h4>
+					<p>
+						<span style="color: black" class="sprocket-lists-item"
+							data-lists-content=""> <span style="color: black"
+							class="sprocket-padding"> <span style="color: black"
+								class="sprocket-lists-desc img-disabled"> <span
+									style="color: black" class="sprocket-lists-item"
+									data-lists-content=""> <span style="color: black"
+										class="sprocket-padding"> <span style="color: black"
+											class="sprocket-lists-desc img-disabled">Tổng hợp ngữ pháp, các bài học qua tranh ảnh thú vị.<br> <a
+												ondragstart="return false;" href="/khoa-hoc/vui-tieng-nhat">
+													●Vui tiếng Nhật</a>
+										</span>
+									</span>
+								</span>
+							</span>
+						</span>
+						</span>
+					</p>
+					<h4 class="sprocket-lists-title padding"
+						style="margin: 0px; line-height: 20px; color: #6e6e6e; text-rendering: optimizelegibility; font-size: 18px; position: relative; padding: 10px 0px; cursor: pointer;"
+						data-lists-toggler="">Thi thử</h4>
+					<p>
+						<span style="color: black" class="sprocket-lists-item"
+							data-lists-content=""> <span style="color: black"
+							class="sprocket-padding"> <span style="color: black"
+								class="sprocket-lists-desc img-disabled"> <span
+									style="color: black" class="sprocket-lists-item"
+									data-lists-content=""> <span style="color: black"
+										class="sprocket-padding"> <span style="color: black"
+											class="sprocket-lists-desc img-disabled">Cũng cố kiến thức và thử sức mình với các đề thi nhé<a
+												ondragstart="return false;" href="/khoa-hoc/thi-thu"><br>
+													●Thi thư</a>
+													&nbsp;&nbsp;<a ondragstart="return false;" href="/khoa-hoc/N5">
+													●N5</a>&nbsp;&nbsp;<a ondragstart="return false;"
+												href="/khoa-hoc/N4"> ●N4</a>&nbsp;&nbsp;<a ondragstart="return false;" href="/khoa-hoc/N3">
+													●N3</a>&nbsp;&nbsp;<a ondragstart="return false;"
+												href="/khoa-hoc/N2"> ●N2</a>
+										</span>
+									</span>
+								</span>
+							</span>
+						</span>
+						</span>
+					</p>
+					<h4 class="sprocket-lists-title padding"
+						style="margin: 0px; line-height: 20px; color: #6e6e6e; text-rendering: optimizelegibility; font-size: 18px; position: relative; padding: 10px 0px; cursor: pointer;"
+						data-lists-toggler="">Văn hóa con người Nhật Bản</h4>
+					<p>
+						<span style="color: black" class="sprocket-lists-item"
+							data-lists-content=""> <span style="color: black"
+							class="sprocket-padding"> <span style="color: black"
+								class="sprocket-lists-desc img-disabled"> <span
+									style="color: black" class="sprocket-lists-item"
+									data-lists-content=""> <span style="color: black"
+										class="sprocket-padding"> <span style="color: black"
+											class="sprocket-lists-desc img-disabled">Nơi chia sẽ tìm hiều về con người, văn hóa , ẩm thực về đất nước con người Nhật Bản. Cùng đọc những mẫu truyện vui của đất nước Nhật Bản<br> <a
+												ondragstart="return false;" href="/khoa-hoc/vui-tieng-nhat">
+													●Văn hóa Nhật Bản</a>
+										</span>
+									</span>
+								</span>
+							</span>
+						</span>
+						</span>
+					</p>
+					<br> 
+					<p>Các bạn có thể cùng trao đổi kinh nghiệm học tập, giao
 					lưu, cùng nhau cố gắng .... Trao đổi cho nhau kinh nghiệm sống ở
 					Nhật, du học, làm thêm , thi cử , việc làm ... <br>
 					</p>
+					<br>
 				</div>
 				<div class="main-right">
 					<div class="fr-fb">

@@ -48,6 +48,17 @@ public class CourseIlm implements Serializable {
 
 	@OneToMany(mappedBy = "courseIlm")
 	private List<Exam> exams;
+	
+	@OneToMany(mappedBy = "courseIlm")
+	private List<VocaCourseIlm> vocaCourseIlms;
+
+	public List<VocaCourseIlm> getVocaCourseIlms() {
+		return vocaCourseIlms;
+	}
+
+	public void setVocaCourseIlms(List<VocaCourseIlm> vocaCourseIlms) {
+		this.vocaCourseIlms = vocaCourseIlms;
+	}
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "CREATE_DATE")

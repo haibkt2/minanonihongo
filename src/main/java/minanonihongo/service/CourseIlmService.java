@@ -65,7 +65,7 @@ public class CourseIlmService {
 
 	public List<Map<String, String>> mapJson(CourseIlm courseIlm) throws Exception {
 		List<Map<String, String>> jsons = new ArrayList<>();
-		JSONObject lesson_tasks = new JSONObject();
+		JSONArray lesson_tasks = new JSONArray();
 		JSONObject lesson_answers = new JSONObject();
 		JSONObject lesson_lesson = new JSONObject();
 
@@ -76,11 +76,8 @@ public class CourseIlmService {
 				if (ex.getExamQuestion() != null) {
 					lesson_lesson.put("total_marks", ex.getExamQuestion().size());
 					for (ExamQuestion examQuestion : ex.getExamQuestion()) {
-						lesson_tasks.put("lesson_id", ex.getExamId());
-						lesson_tasks.put("id", examQuestion.getExamQuestionId());
-						lesson_tasks.put("type", 3);
-						lesson_tasks.put("value", examQuestion.getQuestion());
-						lesson_tasks.put("grade", 1);
+						lesson_tasks.put(getQuestion(ex.getExamId(), examQuestion.getExamQuestionId(), "3",
+								examQuestion.getQuestion(), 1));
 						JSONArray ans = new JSONArray();
 						if (examQuestion.getExamAnswer() != null) {
 							for (ExamAnswer examAnswer : examQuestion.getExamAnswer()) {
@@ -109,5 +106,17 @@ public class CourseIlmService {
 		answer.put("value", value);
 		answer.put("grade", grade);
 		return answer;
+	}
+
+	public JSONObject getQuestion(String lesson_id, String id, String type, String value, int grade)
+			throws Exception {
+		int index = 0;
+		JSONObject question = new JSONObject();
+		question.put("lesson_id", lesson_id);
+		question.put("id", id);
+		question.put("type", type);
+		question.put("value", ++index + "." + value);
+		question.put("grade", grade);
+		return question;
 	}
 }

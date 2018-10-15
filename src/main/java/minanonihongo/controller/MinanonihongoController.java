@@ -119,6 +119,12 @@ public class MinanonihongoController {
 			HttpServletResponse response, HttpSession ss) {
 		return "home";
 	}
+	
+	@RequestMapping(value = { "/van-hoa-nhat-ban/{postname}", "/van-hoa-nhat-ban"}, method = RequestMethod.GET)
+	public String post(Model model,@PathVariable final Optional<String> postname, HttpServletRequest req,
+			HttpServletResponse response, HttpSession ss) {
+		return "post";
+	}
 
 	@RequestMapping("/tim-kiem/{key}")
 	@ResponseBody
@@ -171,7 +177,6 @@ public class MinanonihongoController {
 			@PathVariable final Optional<String> courseName, @PathVariable final Optional<String> name,
 			@RequestParam String id) throws IOException, Exception {
 		String ls = lesson.get();
-		Gson gson = new Gson();
 		CourseIlm courseIlm = courseIlmService.detailLesson(id, ls);
 		model.addAttribute("courseIlm", courseIlm);
 		List<Map<String, String>> mapJson = courseIlmService.mapJson(courseIlm);
