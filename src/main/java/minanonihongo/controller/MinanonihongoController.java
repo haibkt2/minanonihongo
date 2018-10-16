@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -30,22 +29,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.client.ClientProtocolException;
-import org.json.JSONException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 
-import com.google.gson.Gson;
 
 import minanonihongo.model.Course;
 import minanonihongo.model.CourseIlm;
 import minanonihongo.model.CourseIlmType;
-import minanonihongo.model.Document;
-import minanonihongo.model.Exam;
-import minanonihongo.model.CourseGlobal;
-import minanonihongo.model.ExamResult;
 import minanonihongo.model.User;
-import minanonihongo.model.test;
 import minanonihongo.repository.CourseIlmRepository;
 import minanonihongo.repository.CourseIlmTypeRepository;
 import minanonihongo.repository.CourseRepository;
@@ -126,11 +118,19 @@ public class MinanonihongoController {
 		return "post";
 	}
 
-	@RequestMapping("/tim-kiem")
+	@RequestMapping(value = {"/thi-thu"}, method = RequestMethod.POST)
 	@ResponseBody
-	public String header(Model model, String error, String logout, String view, HttpServletRequest req,
+	public String result(Model model,
+			@RequestParam String grade,
+			@RequestParam String data,
+			@RequestParam String total_grade,
+			@RequestParam String course,
+			@RequestParam String passed,
+			@RequestParam String created,
+			@RequestParam String _id,
+			HttpServletRequest req,
 			HttpServletResponse response, HttpSession ss) {
-		return "key";
+		return "{\"data\":{\"01\":{\"value\":\"02\"}},\"total_grade\":\"1\",\"grade\":\"1\",\"course\":\"N5\",\"passed\":\"true\",\"created\":\"2018-10-16 13:43:14\",\"_id\":0,\"created_at\":\"2018-10-16 13:43:14\"}";
 	}
 
 	@RequestMapping("/tim-kiem/{keysearch}")

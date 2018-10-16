@@ -49,23 +49,20 @@ var user = new Vue({
                         u = $("input[name='task" + i + "']:checked").prev().text(),
                         c = {};
                     c.value = u + "", r[i] = c, void 0 != o && null != o && "" != o || (o = 0), n += parseInt(o), $("input[name='task" + i + "']:checked").prop("checked", !1), localStorage.removeItem(i)
-                } 
-//                else if (6 == s.tasks[a].type) {
-//                    for (var l = {}, d = 0; d < s.writeQuestions[i].length; d++) {
-//                        var h = s.writeQuestions[i][d].id,
-//                            c = $("#write-question" + i + "-" + h).val();
-//                        l[h + ""] = c, c == s.writeQuestions[i][d].answer && (n += parseInt(s.writeQuestions[i][d].grade)), $("#write-question" + i + "-" + h).val("")
-//                    }
-//                    r[i] = l
-//                }
+                } else if (6 == s.tasks[a].type) {
+                    for (var l = {}, d = 0; d < s.writeQuestions[i].length; d++) {
+                        var h = s.writeQuestions[i][d].id,
+                            c = $("#write-question" + i + "-" + h).val();
+                        l[h + ""] = c, c == s.writeQuestions[i][d].answer && (n += parseInt(s.writeQuestions[i][d].grade)), $("#write-question" + i + "-" + h).val("")
+                    }
+                    r[i] = l
+                }
             }
-            if (3 == t && (s.checkFinish = t), s.disable = 1, s.userScore = n, $("#myMessage").modal()) {
+            if (3 == t && (s.checkFinish = t), s.disable = 1, s.userScore = n, $("#myMessage").modal(), "no-auth" != e) {
                 r = JSON.stringify(r);
-                alert(r);
                 var f = n >= s.lesson.pass_marks,
                     m = new Date;
-                    m = Math.floor(m.getTime() / 1e3), 
-                    dataResult = {
+                m = Math.floor(m.getTime() / 1e3), dataResult = {
                     lesson_id: s.lesson.id,
                     grade: n,
                     data: r,
@@ -74,26 +71,23 @@ var user = new Vue({
                     created: m,
                     _id: t,
                     course: s.course
-                };
-                $.ajax({
-                    url: window.location.origin + "/test/gui-ket-qua",
-                    type: "GET",
-                    dataType: "json",
-                    contentType : 'application/json; charset=utf-8',
+                }, $.ajax({
+                    url: window.location.origin + "/thi-thu",
+                    type: "POST",
                     data: dataResult,
-                    error: function() {alert("error");},
+                    async: !0,
+                    error: function() {},
                     success: function(e) {
-                    	alert("ok");
-                        if ("fail" == e) {s.itemExist = !0;
-                        }
-                        else if (void 0 == e.length) s.itemExist = !1, s.results.unshift(e);
-                        else {
-                            s.itemExist = !1, s.resultExam = e, s.resultExam.forEach(function(e) {
-                                0 == e.passed && (s.checkPass = 0), s.totalScore += e.grade
-                            });
-                            var t = new Date;
-                            s.dateExam = t.getFullYear() + "年" + (t.getMonth() + 1) + "月" + t.getDate() + "日"
-                        }
+                        if ("fail" == e) s.itemExist = !0;
+                        else s.itemExist = !1, s.results.unshift(JSON.parse(e));
+                        alert(s.results);
+//                        else {
+//                            s.itemExist = !1, s.resultExam = e, s.resultExam.forEach(function(e) {
+//                                0 == e.passed && (s.checkPass = 0), s.totalScore += e.grade
+//                            });
+//                            var t = new Date;
+//                            s.dateExam = t.getFullYear() + "å¹´" + (t.getMonth() + 1) + "æœˆ" + t.getDate() + "æ—¥"
+//                        }
                     }
                 })
             }
@@ -104,20 +98,22 @@ var user = new Vue({
         },
         printTime: function(e) {
             var t = this,
-                s = new Date(1e3 * e);
+                s = new Date();
             return t.convertNumber(s.getHours()) + ":" + t.convertNumber(s.getMinutes())
         },
         printDate: function(e) {
             var t = this,
-                s = new Date(1e3 * e);
+                s = new Date();
             return t.convertNumber(s.getDate()) + "/" + t.convertNumber(s.getMonth() + 1) + "/" + s.getFullYear()
         },
         convertNumber: function(e) {
             return e < 10 ? "0" + e : e + ""
         },
         reviewTestResult: function(e) {
+        	e = 0;
+        	$("#myModal").modal("toggle");
             var t = this;
-            t.currentResult = t.results[e], t.resultData = JSON.parse(t.currentResult.data);
+            t.currentResult = t.results[e], t.resultData = t.currentResult.data;
             for (var s = 0; s < t.tasks.length; s++) {
                 var n = t.tasks[s].id;
                 if (3 == parseInt(t.tasks[s].type)) {
@@ -151,5 +147,40 @@ var user = new Vue({
         storeValueToLocal: function(e, t) {
             localStorage.setItem(e, t)
         }
+    },
+    mounted: function() {
+        for (var e = this, t = 0; t < e.tasks.length; t++)
+            for (var s = e.tasks[t].id, n = 0; n < e.answers[s].length; n++)
+                if (e.answers[s][n].id == parseInt(localStorage.getItem(s))) {
+                    $("#answer" + e.answers[s][n].id).prop("checked", !0);
+                    break
+                } if (1 == e.is_exam) {
+            var r = {
+                    rejectUnauthorized: !1
+                },
+                a = io.connect("http://45.63.127.141:5000", {
+                    transports: ["websocket"]
+                }, r);
+            a.on("connect_error", function(e) {
+                console.log("Error: " + e.message)
+            }), a.on("client", function(t) {
+                e.client = t
+            }), a.on("time", function(t) {
+                e.timer = t
+            }), a.on("notification", function(e) {
+                alert("!")
+            }), a.on("flag", function(e) {
+                1 == e ? a.on("autoSubmit1", function(e) {
+                    $(".thi-truc-tuyen-1").click()
+                }) : 2 == e ? a.on("autoSubmit2", function(e) {
+                    $(".thi-truc-tuyen-2").click()
+                }) : a.on("autoSubmit3", function(e) {
+                    $(".thi-truc-tuyen-3").click()
+                })
+            }), a.on("Timeout", function(t) {
+                e.timer = "Háº¾T GIá»œ", $(".thi-truc-tuyen-1").prop("disabled", !0), $(".thi-truc-tuyen-2").prop("disabled", !0), $(".thi-truc-tuyen-3").prop("disabled", !0)
+            })
+        }
+        $("#result").css("display", "block"), $(".server-localtion-container").css("display", "block"), $(".timer-container").css("display", "-webkit-inline-box")
     }
 });

@@ -38,20 +38,21 @@
 		</div>
 	</c:if>
 	<c:if test="${not empty courseIlm.getVocaCourseIlms()}">
-	<div class="lesson-content-detail"
-		style="max-height: 600px; margin-bottom: 30px">
-		<table border="1" cellpadding="0" cellspacing="0" style="width: 600px">
-			<tbody>
-				<tr>
-					<th style="height: 23px; text-align: center; width: 156px"><span
-						style="font-size: 14px"><strong>&nbsp;Hiragana</strong><br>
-							<strong>Katakana</strong></span></th>
-					<th style="height: 23px; text-align: center; width: 108px"><span
-						style="font-size: 14px"><strong>&nbsp;Kanji</strong></span></th>
-					<th style="height: 23px; text-align: center; width: 336px"><span
-						style="font-size: 14px"><strong>&nbsp;Ý nghĩa</strong></span></th>
-				</tr>
-				
+		<div class="lesson-content-detail"
+			style="max-height: 600px; margin-bottom: 30px">
+			<table border="1" cellpadding="0" cellspacing="0"
+				style="width: 600px">
+				<tbody>
+					<tr>
+						<th style="height: 23px; text-align: center; width: 156px"><span
+							style="font-size: 14px"><strong>&nbsp;Hiragana</strong><br>
+								<strong>Katakana</strong></span></th>
+						<th style="height: 23px; text-align: center; width: 108px"><span
+							style="font-size: 14px"><strong>&nbsp;Kanji</strong></span></th>
+						<th style="height: 23px; text-align: center; width: 336px"><span
+							style="font-size: 14px"><strong>&nbsp;Ý nghĩa</strong></span></th>
+					</tr>
+
 					<c:forEach items="${courseIlm.getVocaCourseIlms()}" var="voca">
 						<tr>
 							<td style="height: 23px; width: 156px"><span
@@ -62,16 +63,15 @@
 								style="font-size: 14px">&nbsp;${voca.getExplain()}</span></td>
 						</tr>
 					</c:forEach>
-				
-			</tbody>
-		</table>
-		<br>
-		<br>
-	</div>
-</c:if>
+
+				</tbody>
+			</table>
+			<br> <br>
+		</div>
+	</c:if>
 	<div class="introduce" id="introduce">${courseIlm.getIntroduce() }</div>
 	<c:if test="${courseIlm.getLocaFileCourse() != null}">
-	<br>
+		<br>
 		<a class="movie-play"> <img id="videoImg"
 			src="${contextPath}/resources/img/${courseIlm.getCourse().getCourseName()}" />
 			<br> <span class="play-icon-btn"> <i
@@ -98,15 +98,15 @@
 						<c:forEach items="${question.getExamAnswer()}" var="answer"
 							varStatus="an">
 							<div style="width: 48%; margin-top: 10px;">
-								<label for="answer${answer.getExamAnswerId()}"
+								<label for="answer${answer.getExamAnswerId().substring(answer.getExamAnswerId().length()-2, answer.getExamAnswerId().length())}"
 									class="col-md-11 answers-input"
 									style="font-weight: normal; font-size: 13px; color: gray">
-									<span style="display: none;">${answer.getExamAnswerId()}</span>
+									<span style="display: none;">${answer.getExamAnswerId().substring(answer.getExamAnswerId().length()-2, answer.getExamAnswerId().length())}</span>
 									<input type="radio"
 									class="custom-control-input col-md-1 answers-input"
-									id="answer${answer.getExamAnswerId()}"
-									name="task${question.getExamQuestionId()}"
-									v-on:change="storeValueToLocal(${question.getExamQuestionId()},${answer.getExamAnswerId()})">
+									id="answer${answer.getExamAnswerId().substring(answer.getExamAnswerId().length()-2, answer.getExamAnswerId().length())}"
+									name="task${question.getExamQuestionId().substring(question.getExamQuestionId().length()-2, question.getExamQuestionId().length())}"
+									v-on:change="storeValueToLocal(${question.getExamQuestionId().substring(question.getExamQuestionId().length()-2, question.getExamQuestionId().length())},${answer.getExamAnswerId().substring(answer.getExamAnswerId().length()-2, answer.getExamAnswerId().length())})">
 									<span style="display: none;">${answer.getAnswerRghtWrng()}</span>&nbsp;&nbsp;${answer.getAnswer()}
 								</label>
 							</div>
@@ -115,39 +115,38 @@
 				</c:forEach>
 				<c:if test="${exam.getExamQuestion().size() > 0}">
 					<button class="btn btn-primary trac-nghiem"
-						v-on:click="sendTestResult('t.hai', 0)">Nộp bài</button>
+						v-on:click="sendTestResult('auth', 0)">Nộp bài</button>
 				</c:if>
 			</c:forEach>
-			<!-- 			<hr style="border: 0; border-bottom: 1px solid #ddd;"> -->
-			<!-- 			<div class="alert mt20" id="result" style="display: none;"> -->
-			<!-- 				<div v-if="results.length > 0"> -->
-			<!-- 					<h4>Kết quả các bài kiểm tra đã làm</h4> -->
-			<!-- 					<hr> -->
-			<!-- 					<div class="alert" v-for="(result, index) in results" -->
-			<!-- 						v-bind:class="[result.passed == 0 ? 'bg-warning' : 'bg-success']" -->
-			<!-- 						style="font-size: 14px"> -->
-			<!-- 						<p> -->
-			<!-- 							Thời gian thực hiện lúc <b>{{ printTime(result.created) }}</b> -->
-			<!-- 							ngày <b>{{ printDate(result.created) }}</b> -->
-			<!-- 						</p> -->
-			<!-- 						<p> -->
-			<!-- 							Tổng điểm: <b>{{ result.grade }} / {{ result.total_marks }}</b> -->
-			<!-- 						</p> -->
-			<!-- 						<p> -->
-			<!-- 							Kết quả: <b v-if="result.passed == 0">Không đạt yêu cầu</b><b -->
-			<!-- 								v-if="result.passed != 0">Đã qua</b> -->
-			<!-- 						</p> -->
-			<!-- 						<button class="btn btn-info review-result" data-toggle="modal" -->
-			<!-- 							data-target="#myModal" v-on:click="reviewTestResult(index)">Xem -->
-			<!-- 							bài làm</button> -->
-			<!-- 						<button class="btn btn-warning remove-result" data-toggle="modal" -->
-			<!-- 							data-target="#removeResult" v-on:click="removeTestResult(index)">Xóa</button> -->
-			<!-- 					</div> -->
-			<!-- 				</div> -->
-			<!-- 			</div> -->
+			<hr style="border: 0; border-bottom: 1px solid #ddd;">
+			<div class="alert mt20" id="result" style="display: none;">
+				<div v-if="results.length > 0">
+					<h4>Kết quả bài kiểm tra.</h4>
+					<hr>
+					<div class="alert" 
+						v-bind:class="[result.passed == 0 ? 'bg-warning' : 'bg-success']"
+						style="font-size: 14px">
+						<p>
+							Thời gian thực hiện lúc <b>{{ printTime(result.created) }}</b>
+							ngày <b>{{ printDate(result.created) }}</b>
+						</p>
+						<p>
+							Tổng điểm: <b>{{ userScore }} / {{ lesson.total_marks }}</b>
+						</p>
+						<p>
+							Kết quả: <b v-if="result.passed == 0">Không đạt yêu cầu</b><b
+								v-if="result.passed != 0">Đã qua</b>
+						</p>
+						<button class="btn btn-info review-result" v-on:click="reviewTestResult(0)" >Xem
+							bài làm</button>
+						<button class="btn btn-warning remove-result" data-toggle="modal"
+							data-target="#removeResult" v-on:click="removeTestResult(0)">Xóa</button>
+					</div>
+				</div>
+			</div>
 
 			<div class="modal fade" id="empty_answers" role="dialog"
-				tabindex="-1">
+				tabindex="0">
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
@@ -168,25 +167,25 @@
 				</div>
 			</div>
 
-			<div class="modal fade" id="removeResult" role="dialog" tabindex="-1">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal">&times;</button>
-							<h4 class="modal-title">Xóa</h4>
-						</div>
-						<div class="modal-body">
-							<p>Bạn có muốn xóa bài kiểm tra này không?</p>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-warning"
-								v-on:click="confirmRemove()">Xóa</button>
-							<button type="button" class="btn btn-info" data-dismiss="modal">Đóng</button>
-						</div>
-					</div>
+<!-- 			<div class="modal fade" id="removeResult" role="dialog" tabindex="-1"> -->
+<!-- 				<div class="modal-dialog"> -->
+<!-- 					<div class="modal-content"> -->
+<!-- 						<div class="modal-header"> -->
+<!-- 							<button type="button" class="close" data-dismiss="modal">&times;</button> -->
+<!-- 							<h4 class="modal-title">Xóa</h4> -->
+<!-- 						</div> -->
+<!-- 						<div class="modal-body"> -->
+<!-- 							<p>Bạn có muốn xóa bài kiểm tra này không?</p> -->
+<!-- 						</div> -->
+<!-- 						<div class="modal-footer"> -->
+<!-- 							<button type="button" class="btn btn-warning" -->
+<!-- 								v-on:click="confirmRemove()">Xóa</button> -->
+<!-- 							<button type="button" class="btn btn-info" data-dismiss="modal">Đóng</button> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
 
-				</div>
-			</div>
+<!-- 				</div> -->
+<!-- 			</div> -->
 
 			<div class="modal fade" id="myMessage" role="dialog" tabindex="-1">
 				<div class="modal-dialog">
@@ -209,10 +208,69 @@
 
 				</div>
 			</div>
+			
+			
+			
+			<div class="modal fade" id="myModal">
+              <div class="modal-dialog test-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Chi tiết bài kiểm tra</h4>
+                  </div>
+                  <div class="modal-body">
+                    <table class="table table-bordered table-striped table-hover tc-table">
+                      <tbody>
+                        <tr>
+                          <td class="row_label">Kết quả</td>
+                          <td class="row_item"><b v-if="currentResult.passed == 0">Không đạt yêu cầu</b><b v-if="currentResult.passed != 0">Đã qua</b></td>
+                        </tr>
+                        <tr>
+                          <td class="row_label">Điểm đạt được</td>
+                          <td class="row_item">{{ currentResult.grade }}</td>
+                        </tr>
+                        <tr>
+                          <td class="row_label">Tổng điểm bài kiểm tra</td>
+                          <td class="row_item">{{ currentResult.total_grade }}</td>
+                        </tr>
+                        <tr>
+                          <td class="row_label">Thời gian thi</td>
+                          <td class="row_item">{{ printTime(currentResult.created) }} - {{ printDate(currentResult.created) }}</td>
+                        </tr>
+                        <tr>
+                          <td colspan="2" class="content-test-detail">
+                            <div v-for="(task, index) in tasks">
+                              <div>
+                                <p style="margin: 10px 0; font-size: 16px;" v-html="task.value"></p>
+                                <div class="col-sm-6 answer-area" style="margin-bottom: 10px;" v-for="(answer, index) in answers[task.id]">
+                                  <div class="question-answer">
+                                    <div class="labels question-answer-content" v-bind:class="[answer.grade == 0 ? '' : 'label-true', (answer.grade == 0 && answer.checked) ? 'label-false' : '']">
+                                      <input type="radio" v-if="answer.checked == true" checked onclick="this.checked = true">
+                                      <input type="radio" v-if="answer.checked != true" onclick="this.checked = false">&nbsp;&nbsp;{{ answer.value }}<span v-if="answer.grade != 0">&nbsp;(Đúng)</span>
+                                      </div>
+                                  </div>
+                                </div>
+                                
+                                <div  class="col-md-11" style="display: inline-block; width: 100%; height: 10px;"></div>
+                                <hr style="width: 100%; margin-top: 20px; margin-bottom: 30px; bottom: 0; border-color: #ddd;">
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                </table>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-primary"> Đóng </button>
+                  </div>
+                </div>
+                
+            </div>
+          </div>
 			<script>
-			lesson_tasks = ${lesson_tasks};
-			lesson_answers = ${lesson_answers};
-			lesson_lesson = ${lesson_lesson};
+				lesson_tasks = ${lesson_tasks};
+				lesson_answers = ${lesson_answers};
+				lesson_lesson = ${lesson_lesson};
 				lesson_results = [];
 				lesson_writeQuestions = [];
 				course = "${courseName}"; //Them khoa hoc cho JLPT
