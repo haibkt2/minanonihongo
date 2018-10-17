@@ -26,9 +26,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.JsonObject;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.client.ClientProtocolException;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -129,8 +133,16 @@ public class MinanonihongoController {
 			@RequestParam String created,
 			@RequestParam String _id,
 			HttpServletRequest req,
-			HttpServletResponse response, HttpSession ss) {
-		return "{\"data\":{\"01\":{\"value\":\"02\"}},\"total_grade\":\"1\",\"grade\":\"1\",\"course\":\"N5\",\"passed\":\"true\",\"created\":\"2018-10-16 13:43:14\",\"_id\":0,\"created_at\":\"2018-10-16 13:43:14\"}";
+			HttpServletResponse response, HttpSession ss) throws Exception {
+		JSONObject json = new JSONObject();
+		json.put("grade", grade);
+		json.put("data", data);
+		json.put("grade", grade);
+		json.put("total_grade", total_grade);
+		json.put("passed", passed);
+		json.put("created", created);
+		json.put("_id", _id);
+		return json.toString();
 	}
 
 	@RequestMapping("/tim-kiem/{keysearch}")

@@ -139,8 +139,6 @@
 						</p>
 						<button class="btn btn-info review-result" v-on:click="reviewTestResult(0)" >Xem
 							bài làm</button>
-						<button class="btn btn-warning remove-result" data-toggle="modal"
-							data-target="#removeResult" v-on:click="removeTestResult(0)">Xóa</button>
 					</div>
 				</div>
 			</div>
@@ -211,7 +209,7 @@
 			
 			
 			
-			<div class="modal fade" id="myModal">
+			<div class="modal fade" id="myModal" role="dialog" tabindex="-1">
               <div class="modal-dialog test-dialog">
                 <div class="modal-content">
                   <div class="modal-header">
@@ -227,11 +225,11 @@
                         </tr>
                         <tr>
                           <td class="row_label">Điểm đạt được</td>
-                          <td class="row_item">{{ currentResult.grade }}</td>
+                          <td class="row_item">{{ userScore }}</td>
                         </tr>
                         <tr>
                           <td class="row_label">Tổng điểm bài kiểm tra</td>
-                          <td class="row_item">{{ currentResult.total_grade }}</td>
+                          <td class="row_item">{{ lesson.total_marks }}</td>
                         </tr>
                         <tr>
                           <td class="row_label">Thời gian thi</td>
@@ -240,8 +238,8 @@
                         <tr>
                           <td colspan="2" class="content-test-detail">
                             <div v-for="(task, index) in tasks">
-                              <div>
-                                <p style="margin: 10px 0; font-size: 16px;" v-html="task.value"></p>
+                              <div v-if="task.type == 3 || task.type == 5">
+                                <p style="margin: 10px 0; font-size: 16px;" v-html="task.value" v-if="task.type == 3"></p>
                                 <div class="col-sm-6 answer-area" style="margin-bottom: 10px;" v-for="(answer, index) in answers[task.id]">
                                   <div class="question-answer">
                                     <div class="labels question-answer-content" v-bind:class="[answer.grade == 0 ? '' : 'label-true', (answer.grade == 0 && answer.checked) ? 'label-false' : '']">
@@ -251,9 +249,10 @@
                                   </div>
                                 </div>
                                 
-                                <div  class="col-md-11" style="display: inline-block; width: 100%; height: 10px;"></div>
-                                <hr style="width: 100%; margin-top: 20px; margin-bottom: 30px; bottom: 0; border-color: #ddd;">
+                                <div v-if="task.type == 3" class="col-md-11" style="display: inline-block; width: 100%; height: 10px;"></div>
+                                <hr v-if="task.type == 3" style="width: 100%; margin-top: 20px; margin-bottom: 30px; bottom: 0; border-color: #ddd;">
                               </div>
+                              
                             </div>
                           </td>
                         </tr>
@@ -278,7 +277,7 @@
 				is_exam = "0"; //check xem co phải là bài thi hay ko
 			</script>
 		</div>
-		<script src="${contextPath}/resources/js/vue.min.js"></script>
+		<script src="${contextPath}/resources/js/vue.js"></script>
 		<script src="${contextPath}/resources/js/app.js"></script>
 		<script src="${contextPath}/resources/js/detail_lesson.js"></script>
 	</c:if>

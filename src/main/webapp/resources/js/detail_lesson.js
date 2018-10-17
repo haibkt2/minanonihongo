@@ -79,8 +79,8 @@ var user = new Vue({
                     error: function() {},
                     success: function(e) {
                         if ("fail" == e) s.itemExist = !0;
-                        else s.itemExist = !1, s.results.unshift(JSON.parse(e));
-                        alert(s.results);
+                        else {s.itemExist = !1, s.results.unshift(e);
+                        }
 //                        else {
 //                            s.itemExist = !1, s.resultExam = e, s.resultExam.forEach(function(e) {
 //                                0 == e.passed && (s.checkPass = 0), s.totalScore += e.grade
@@ -125,10 +125,6 @@ var user = new Vue({
                         for (var a = 0; a < t.answers[n].length; a++) t.answers[n][a].checked = !1
                 }
             }
-        },
-        removeTestResult: function(e) {
-            var t = this;
-            t.currentIndex = e
         },
         confirmRemove: function() {
             var e = this,
