@@ -22,7 +22,7 @@
 		<div class="main">
 			<div class="main-center">
 				<div class="error-image">
-					<img src="${contextPath}/resources/img/404.png" />
+					<img src="${contextPath}/resources/img/error.PNG" />
 					<h2>Nội dung này không tồn tại</h2>
 					<h5>
 						Trang bạn yêu cầu không thể hiển thị ngay bây giờ. <br /> Có thể

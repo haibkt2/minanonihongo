@@ -71,25 +71,27 @@ var user = new Vue({
                     created: m,
                     _id: t,
                     course: s.course
-                }, $.ajax({
-                    url: window.location.origin + "/thi-thu",
-                    type: "POST",
-                    data: dataResult,
-                    async: !0,
-                    error: function() {},
-                    success: function(e) {
-                        if ("fail" == e) s.itemExist = !0;
-                        else {s.itemExist = !1, s.results.unshift(e);
-                        }
-//                        else {
-//                            s.itemExist = !1, s.resultExam = e, s.resultExam.forEach(function(e) {
-//                                0 == e.passed && (s.checkPass = 0), s.totalScore += e.grade
-//                            });
-//                            var t = new Date;
-//                            s.dateExam = t.getFullYear() + "å¹´" + (t.getMonth() + 1) + "æœˆ" + t.getDate() + "æ—¥"
+                };
+                s.results.unshift(dataResult);
+//                $.ajax({
+//                    url: window.location.origin + "/thi-thu",
+//                    type: "POST",
+//                    data: dataResult,
+//                    async: !0,
+//                    error: function() {},
+//                    success: function(e) {
+//                        if ("fail" == e) s.itemExist = !0;
+//                        else {s.itemExist = !1, s.results.unshift(e);
 //                        }
-                    }
-                })
+////                        else {
+////                            s.itemExist = !1, s.resultExam = e, s.resultExam.forEach(function(e) {
+////                                0 == e.passed && (s.checkPass = 0), s.totalScore += e.grade
+////                            });
+////                            var t = new Date;
+////                            s.dateExam = t.getFullYear() + "å¹´" + (t.getMonth() + 1) + "æœˆ" + t.getDate() + "æ—¥"
+////                        }
+//                    }
+//                })
             }
         },
         autoLoad: function() {
@@ -113,11 +115,13 @@ var user = new Vue({
         	e = 0;
         	$("#myModal").modal("toggle");
             var t = this;
-            t.currentResult = t.results[e], t.resultData = t.currentResult.data;
+            t.currentResult = t.results[e];
+            t.resultData = t.currentResult.data;
+            var object = JSON.parse(t.resultData);
             for (var s = 0; s < t.tasks.length; s++) {
                 var n = t.tasks[s].id;
                 if (3 == parseInt(t.tasks[s].type)) {
-                    var r = t.resultData[t.tasks[s].id];
+                    var r = object[n];
                     if (void 0 != r && void 0 != r.value && "" != r.value) {
                         answerValue = r.value;
                         for (var a = 0; a < t.answers[n].length; a++) t.answers[n][a].checked = !1, t.answers[n][a].id == answerValue && (t.answers[n][a].checked = !0)

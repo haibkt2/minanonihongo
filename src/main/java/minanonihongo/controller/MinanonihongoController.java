@@ -179,7 +179,6 @@ public class MinanonihongoController {
 			return "404";
 		}
 		return "course";
-
 	}
 
 	@RequestMapping(value = { "/khoa-hoc/{courseName}/{lesson}/{name}" }, produces = "application/json; charset=utf-8")
