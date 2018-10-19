@@ -30,7 +30,12 @@ audio:not([controls]) {
 a {
   background-color: transparent;
 }
-
+.page {
+  display: none;
+}
+.page-active {
+  display: block;
+}
 a:active, a:hover {
   outline: 0;
 }

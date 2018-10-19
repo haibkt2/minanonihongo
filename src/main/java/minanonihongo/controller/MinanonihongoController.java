@@ -121,6 +121,12 @@ public class MinanonihongoController {
 			HttpServletResponse response, HttpSession ss) {
 		return "post";
 	}
+	
+	@RequestMapping(value = { "/vui-tieng-nhat/{postname}", "/vui-tieng-nhat"}, method = RequestMethod.GET)
+	public String funnyCourse(Model model,@PathVariable final Optional<String> postname, HttpServletRequest req,
+			HttpServletResponse response, HttpSession ss) {
+		return "funnyCourse";
+	}
 
 	@RequestMapping(value = {"/thi-thu"}, method = RequestMethod.POST)
 	@ResponseBody

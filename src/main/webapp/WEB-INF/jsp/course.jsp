@@ -133,6 +133,7 @@
 											class="lesson-item-click lesson-item" id="lesson-item"
 											ls-attr="learn" href="javascript:void(0);"
 											data-id="<%=courseIlm.getCourseIlmId()%>"
+											data-name="<%=common.toUrlFriendly(courseIlm.getLessonName())%>"
 											url="${contextPath}/khoa-hoc/<%=common.toUrlFriendly(courseName) %>/study/<%=common.toUrlFriendly(courseIlm.getLessonName())%>"
 											style="padding-right: 70px;"><%=courseIlm.getLessonName()%></a></li>
 
@@ -143,7 +144,7 @@
 										<li class="lesson-item"><a
 											class="lesson-item-click lesson-item" ls-attr="test"
 											id="lesson-item" href="javascript:void(0);"
-											data-id="<%=courseIlm.getCourseIlmId()%>"
+											data-id="<%=courseIlm.getCourseIlmId()%>" data-name="<%=common.toUrlFriendly(courseIlm.getLessonName()) %>"
 											url="${contextPath}/khoa-hoc/<%=common.toUrlFriendly(courseName) %>/exercise/<%=common.toUrlFriendly(courseIlm.getLessonName()) %>"
 											style="padding-right: 70px;"><%=exam.getExamName() + " : " + courseIlm.getLessonName()%></a></li>
 										<%
@@ -181,7 +182,7 @@
 		var ls = $(this).attr("ls-attr");
 		var url = $(this).attr("url")+"?id="+id;
 		$(this).css('background-color', '#ac7339');
-
+		document.location.hash = $(this).attr("data-name");;
 		$.ajax({
 			url : url,
 			dataType : "html",
