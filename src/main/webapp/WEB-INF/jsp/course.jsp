@@ -44,7 +44,7 @@
 						<c:forEach items="${courseIlm.getCourse().getDocuments()}"
 							var="doc">
 							<a
-								href="${contextPath}/downloadFile?file=${doc.getLocaFileDoc()}"
+								href="${contextPath}/document-${courseIlm.getCourse().getCourseName()}/download?file=${doc.getLocaFileDoc()}"
 								id="file-doc">${doc.getLocaFileDoc()}</a>
 							<br>
 						</c:forEach>
@@ -53,7 +53,7 @@
 				</c:if>
 				<div class="introduce" id="introduce">${courseIlm.getIntroduce() }</div>
 				<br> <a class="movie-play"> <img id="videoImg"
-					src="${contextPath}/resources/img/${courseIlm.getCourse().getCourseName()}" />
+					src="${contextPath}/reponsitory/${courseIlm.getCourse().getCourseName()}/img/${courseIlm.getLocaFileImg()}" />
 					<br> <span class="play-icon-btn"> <i
 						class="zmdi zmdi-play"></i>
 				</span>
@@ -61,10 +61,8 @@
 				<div id="iframe-video" style="display: none;">
 					<video width="100%" height="395" controls id="cVideo">
 						<source
-							src="${contextPath}/reponsitory/N5/${courseIlm.getLocaFileCourse()}"
+							src="${contextPath}/reponsitory/${courseIlm.getCourse().getCourseName()}/video/${courseIlm.getLocaFileCourse()}"
 							type="video/mp4" id="srVideo">
-						<!-- 						<source src="movie.ogg" type="video/ogg"> -->
-						<!-- 						Your browser does not support the video tag. -->
 					</video>
 				</div>
 				<script type="text/javascript">
@@ -144,7 +142,8 @@
 										<li class="lesson-item"><a
 											class="lesson-item-click lesson-item" ls-attr="test"
 											id="lesson-item" href="javascript:void(0);"
-											data-id="<%=courseIlm.getCourseIlmId()%>" data-name="<%=common.toUrlFriendly(courseIlm.getLessonName()) %>"
+											data-id="<%=courseIlm.getCourseIlmId()%>"
+											data-name="<%=common.toUrlFriendly(courseIlm.getLessonName()) %>"
 											url="${contextPath}/khoa-hoc/<%=common.toUrlFriendly(courseName) %>/exercise/<%=common.toUrlFriendly(courseIlm.getLessonName()) %>"
 											style="padding-right: 70px;"><%=exam.getExamName() + " : " + courseIlm.getLessonName()%></a></li>
 										<%
@@ -180,9 +179,9 @@
 		e.preventDefault();
 		var id = $(this).attr("data-id");
 		var ls = $(this).attr("ls-attr");
-		var url = $(this).attr("url")+"?id="+id;
+		var url = $(this).attr("url") + "?id=" + id;
 		$(this).css('background-color', '#ac7339');
-		document.location.hash = $(this).attr("data-name");;
+		document.location.hash = $(this).attr("data-name");
 		$.ajax({
 			url : url,
 			dataType : "html",

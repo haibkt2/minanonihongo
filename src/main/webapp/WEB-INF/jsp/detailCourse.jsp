@@ -73,7 +73,7 @@
 	<c:if test="${courseIlm.getLocaFileCourse() != null}">
 		<br>
 		<a class="movie-play"> <img id="videoImg"
-			src="${contextPath}/resources/img/${courseIlm.getCourse().getCourseName()}" />
+			src="${contextPath}/reponsitory/${courseIlm.getCourse().getCourseName()}/img/${courseIlm.getLocaFileImg()}" />
 			<br> <span class="play-icon-btn"> <i
 				class="zmdi zmdi-play"></i>
 		</span>
@@ -81,7 +81,7 @@
 		<div id="iframe-video" style="display: none;">
 			<video width="100%" height="395" controls id="cVideo">
 				<source
-					src="${contextPath}/reponsitory/N5/${courseIlm.getLocaFileCourse()}"
+					src="${contextPath}/reponsitory/${courseIlm.getCourse().getCourseName()}/video/${courseIlm.getLocaFileCourse()}"
 					type="video/mp4" id="srVideo">
 			</video>
 		</div>

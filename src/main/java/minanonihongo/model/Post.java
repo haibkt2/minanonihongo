@@ -26,6 +26,8 @@ public class Post implements Serializable {
     private User user;
     
     private String postTitle;
+    
+    private int viewPost;
 
     private String postContent;
 
@@ -105,6 +107,14 @@ public class Post implements Serializable {
 
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
+	}
+
+	public int getViewPost() {
+		return viewPost;
+	}
+
+	public void setViewPost(int viewPost) {
+		this.viewPost = viewPost;
 	}
 
 }

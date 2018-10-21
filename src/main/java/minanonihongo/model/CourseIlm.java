@@ -41,6 +41,8 @@ public class CourseIlm implements Serializable {
 	private String lessonName;
 
 	private String introduce;
+	
+	private String locaFileImg;
 
 	private String locaFileCourse;
 
@@ -178,6 +180,14 @@ public class CourseIlm implements Serializable {
 
 	public void setCourseIlmType(CourseIlmType courseIlmType) {
 		this.courseIlmType = courseIlmType;
+	}
+
+	public String getLocaFileImg() {
+		return locaFileImg;
+	}
+
+	public void setLocaFileImg(String locaFileImg) {
+		this.locaFileImg = locaFileImg;
 	}
 
 }

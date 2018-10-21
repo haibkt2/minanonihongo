@@ -37,14 +37,16 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 
-
 import minanonihongo.model.Course;
 import minanonihongo.model.CourseIlm;
 import minanonihongo.model.CourseIlmType;
+import minanonihongo.model.Post;
+import minanonihongo.model.PostType;
 import minanonihongo.model.User;
 import minanonihongo.repository.CourseIlmRepository;
 import minanonihongo.repository.CourseIlmTypeRepository;
 import minanonihongo.repository.CourseRepository;
+import minanonihongo.repository.PostTypeRepository;
 import minanonihongo.repository.RoleRepository;
 import minanonihongo.repository.UserRepository;
 import minanonihongo.service.CourseIlmService;
@@ -56,6 +58,9 @@ public class MinanonihongoController {
 
 	@Autowired
 	UserRepository userRepository;
+
+	@Autowired
+	PostTypeRepository postTypeRepository;
 
 	@Autowired
 	RoleRepository roleRepository;
@@ -115,30 +120,29 @@ public class MinanonihongoController {
 			HttpServletResponse response, HttpSession ss) {
 		return "home";
 	}
-	
-	@RequestMapping(value = { "/van-hoa-nhat-ban/{postname}", "/van-hoa-nhat-ban"}, method = RequestMethod.GET)
-	public String post(Model model,@PathVariable final Optional<String> postname, HttpServletRequest req,
+
+	@RequestMapping(value = { "/van-hoa-nhat-ban/{postname}", "/van-hoa-nhat-ban" }, method = RequestMethod.GET)
+	public String post(Model model, @PathVariable final Optional<String> postname, HttpServletRequest req,
 			HttpServletResponse response, HttpSession ss) {
+		List<PostType> postTypes = (List<PostType>) postTypeRepository.findAll();
+		if (postTypes != null) {
+			List<Post> posts = postTypes.get(0).getPosts();
+			model.addAttribute("posts", posts);
+		}
 		return "post";
 	}
-	
-	@RequestMapping(value = { "/vui-tieng-nhat/{postname}", "/vui-tieng-nhat"}, method = RequestMethod.GET)
-	public String funnyCourse(Model model,@PathVariable final Optional<String> postname, HttpServletRequest req,
+
+	@RequestMapping(value = { "/vui-tieng-nhat/{postname}", "/vui-tieng-nhat" }, method = RequestMethod.GET)
+	public String funnyCourse(Model model, @PathVariable final Optional<String> postname, HttpServletRequest req,
 			HttpServletResponse response, HttpSession ss) {
 		return "funnyCourse";
 	}
 
-	@RequestMapping(value = {"/thi-thu"}, method = RequestMethod.POST)
+	@RequestMapping(value = { "/thi-thu" }, method = RequestMethod.POST)
 	@ResponseBody
-	public String result(Model model,
-			@RequestParam String grade,
-			@RequestParam String data,
-			@RequestParam String total_grade,
-			@RequestParam String course,
-			@RequestParam String passed,
-			@RequestParam String created,
-			@RequestParam String _id,
-			HttpServletRequest req,
+	public String result(Model model, @RequestParam String grade, @RequestParam String data,
+			@RequestParam String total_grade, @RequestParam String course, @RequestParam String passed,
+			@RequestParam String created, @RequestParam String _id, HttpServletRequest req,
 			HttpServletResponse response, HttpSession ss) throws Exception {
 		JSONObject json = new JSONObject();
 		json.put("grade", grade);
