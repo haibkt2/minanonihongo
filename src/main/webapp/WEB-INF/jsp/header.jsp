@@ -153,7 +153,7 @@
 							</li>
 						</ul>
 					</div>
-					<c:if test="${empty userId}">
+					<c:if test="${empty user}">
 						<div class="account-container" id="account-container">
 							<div class="search-box" onclick="showSearchInput()">
 								<i class="glyphicon glyphicon-search search-icon"></i>
@@ -409,7 +409,7 @@
 							</a>
 						</div>
 					</c:if>
-					<c:if test="${not empty userId}">
+					<c:if test="${not empty user}">
 						<div class="account-container" id="account-container">
 							<div class="search-box" onclick="showSearchInput()">
 								<i class="glyphicon glyphicon-search search-icon"></i>
@@ -417,7 +417,7 @@
 							<div class="dropdown auth-container">
 								<div class="dropdown-toggle" type="button"
 									data-toggle="dropdown">
-									<span class="user-name">${userId}</span> <img
+									<span class="user-name">${user.getUserName()}</span> <img
 										class="user-avatar-circle"
 										src="http://dungmori.com/cdn/avatar/small/1524118281_332747130_7aedaa_ad98c6" />
 									<span class="caret"></span>
@@ -434,11 +434,10 @@
 											Đăng xuất</a></li>
 								</ul>
 							</div>
-
 						</div>
 					</c:if>
 				</div>
 			</div>
 		</div>
-		<script src="${contextPath}/resources/js/bootstrap.min.js"></script>
+		<script src="${contextPath}/resources/js/vue.js"></script>
 		<script src="${contextPath}/resources/js/app.js"></script>

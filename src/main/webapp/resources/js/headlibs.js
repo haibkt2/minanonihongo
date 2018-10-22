@@ -74,14 +74,15 @@ function search(e, t) {
 }
 
 function authBySocicalAccount() {
-    console.log("LÆ°u váº¿t kiá»ƒu Ä‘Äƒng nháº­p máº¡ng xĂ£ há»™i");
     var e = new ClientJS;
     setCookie("current_browser", e.getBrowser(), 1), setCookie("current_os", e.getOS(), 1), setCookie("current_fingerprint", e.getFingerprint(), 1), setCookie("url_after_social_redirect", window.location.href, 1)
 }
 
 function logout() {
         console.log("Đăng xuất"), $.get(window.location.origin + "/account/logout", function(e, t) {
-            "success" == e && location.reload()
+            "success" == e ;
+             location.reload();
+            
         })
     }! function(e, t) {
         "object" == typeof module && "object" == typeof module.exports ? module.exports = e.document ? t(e, !0) : function(e) {

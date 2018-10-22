@@ -44,7 +44,7 @@
 						<c:forEach items="${courseIlm.getCourse().getDocuments()}"
 							var="doc">
 							<a
-								href="${contextPath}/document-${courseIlm.getCourse().getCourseName()}/download?file=${doc.getLocaFileDoc()}"
+								href="${contextPath}/document/${courseIlm.getCourse().getCourseName()}/download?file=${doc.getLocaFileDoc()}"
 								id="file-doc">${doc.getLocaFileDoc()}</a>
 							<br>
 						</c:forEach>

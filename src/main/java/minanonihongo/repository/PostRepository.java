@@ -13,4 +13,12 @@ public interface PostRepository extends CrudRepository<Post, Integer> {
 
 	@Query(value = "SELECT * FROM post WHERE post_type_id = ?1" , nativeQuery = true)
     List<Post> findByPost(String ptId);
+	
+	Post findByPostId(String postId);
+	
+	@Query(value = "SELECT * FROM post limit 4" , nativeQuery = true)
+    List<Post> findPostMn();
+	
+	@Query(value = "SELECT * FROM post where post_type_id = ?1" , nativeQuery = true)
+    List<Post> findPostCm(String postTypeId);
 }

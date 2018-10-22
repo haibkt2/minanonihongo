@@ -4,6 +4,7 @@ package minanonihongo.controller;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.List;
@@ -42,10 +43,12 @@ import minanonihongo.model.CourseIlm;
 import minanonihongo.model.CourseIlmType;
 import minanonihongo.model.Post;
 import minanonihongo.model.PostType;
+import minanonihongo.model.Role;
 import minanonihongo.model.User;
 import minanonihongo.repository.CourseIlmRepository;
 import minanonihongo.repository.CourseIlmTypeRepository;
 import minanonihongo.repository.CourseRepository;
+import minanonihongo.repository.PostRepository;
 import minanonihongo.repository.PostTypeRepository;
 import minanonihongo.repository.RoleRepository;
 import minanonihongo.repository.UserRepository;
@@ -61,6 +64,9 @@ public class MinanonihongoController {
 
 	@Autowired
 	PostTypeRepository postTypeRepository;
+
+	@Autowired
+	PostRepository postRepository;
 
 	@Autowired
 	RoleRepository roleRepository;
@@ -84,8 +90,15 @@ public class MinanonihongoController {
 	MessageSource msgSrc;
 	@Autowired
 	UserServiceImpl userserviceimpl;
+
 	@Value("${string.domain.default}")
 	private String domain;
+
+	@Value("${string.postType.name}")
+	private String postType;
+
+	@Value("${string.post.name}")
+	private String post;
 
 	@Value("${string.course.anphabe}")
 	private String anphabe;
@@ -93,11 +106,17 @@ public class MinanonihongoController {
 	@Value("${button.save.success}")
 	private String messageSave;
 
-	@Value("${string.reponsitory.post}")
+	@Value("${string.reponsitory.local.post}")
 	private String localPost;
-	@Value("${string.reponsitory.image}")
-	private String localImage;
 
+	@Value("${string.reponsitory.local.course}")
+	private String localCourse;
+	
+	
+	@Value("${string.role.default}")
+	private String roleDefault;
+	
+	
 	@GetMapping("/403")
 	public String accessDenied() {
 		return "403";
@@ -121,14 +140,39 @@ public class MinanonihongoController {
 		return "home";
 	}
 
-	@RequestMapping(value = { "/van-hoa-nhat-ban/{postname}", "/van-hoa-nhat-ban" }, method = RequestMethod.GET)
-	public String post(Model model, @PathVariable final Optional<String> postname, HttpServletRequest req,
-			HttpServletResponse response, HttpSession ss) {
+	@RequestMapping(value = { "/account/logout" }, method = RequestMethod.GET)
+	public String logout(Model model, String error, String logout, String view, HttpServletRequest req,
+			HttpServletResponse response, HttpSession ss) throws Exception {
+		ss.invalidate();
+		URL u = new URL(req.getHeader("Referer"));
+		return "redirect:" + u.getPath();
+	}
+
+	@RequestMapping(value = { "/van-hoa-nhat-ban/{postname}", "/van-hoa-nhat-ban",
+			"/van-hoa-nhat-ban/chuyen-muc/{type}" }, method = RequestMethod.GET)
+	public String post(Model model, @PathVariable final Optional<String> postname,
+			@PathVariable final Optional<String> type, HttpServletRequest req, HttpServletResponse response,
+			HttpSession ss) {
+		boolean pn = postname.isPresent();
+		boolean t = type.isPresent();
 		List<PostType> postTypes = (List<PostType>) postTypeRepository.findAll();
-		if (postTypes != null) {
-			List<Post> posts = postTypes.get(0).getPosts();
+		if (pn) {
+			String postId = post + postname.get().substring(0, 6);
+			Post post = postRepository.findByPostId(postId);
+			model.addAttribute("post", post);
+		} else if (t) {
+			String postTypeId = postType + type.get().substring(0, 5);
+			List<Post> posts = postRepository.findPostCm(postTypeId);
 			model.addAttribute("posts", posts);
+		} else {
+			if (postTypes != null) {
+				List<Post> posts = postTypes.get(0).getPosts();
+				model.addAttribute("posts", posts);
+			}
 		}
+		List<Post> postmn = postRepository.findPostMn();
+		model.addAttribute("postmn", postmn);
+		model.addAttribute("postt", postTypes);
 		return "post";
 	}
 
@@ -206,42 +250,49 @@ public class MinanonihongoController {
 	}
 
 	@RequestMapping("/facebook")
-	public String loginFacebook(HttpServletRequest request) throws ClientProtocolException, IOException, Exception {
+	public String loginFacebook(HttpServletRequest request, HttpSession session)
+			throws ClientProtocolException, IOException, Exception {
 
-		UserServiceImpl userServiceImpl = new UserServiceImpl();
 		String code = request.getParameter("code");
 		if (code == null || code.isEmpty()) {
 			return "redirect:/403?facebook=error";
 		}
 		String accessToken = restFb.getToken(code);
 		com.restfb.types.User userFb = restFb.getUserInfo(accessToken);
-		User user = new User();
-		user.setUserId(userFb.getId());
-		UserDetails userDetail = restFb.buildUser(userFb);
-		UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetail, null,
-				userDetail.getAuthorities());
-		authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-		SecurityContextHolder.getContext().setAuthentication(authentication);
+		User user = userRepository.findByUserId(userFb.getId());
+		if (user == null) {
+			user = new User();
+			user.setUserId(userFb.getId());
+			user.setUserName(userFb.getName());
+			user.setAvatar(userFb.getId());
+			user.setBirthday(userFb.getBirthdayAsDate());
+			user.setEmail(userFb.getEmail());
+			Role r = roleRepository.findByRoleId(roleDefault);
+			user.setRole(r);
+			userRepository.save(user);
+		}
+		session.setAttribute("user", user);
 		URL u = new URL(request.getHeader("Referer"));
 		return "redirect:" + u.getPath();
 	}
 
-	@RequestMapping(value = "/downloadFile", method = RequestMethod.GET)
-	public String download(HttpServletRequest request, HttpServletResponse response, @RequestParam String file)
-			throws IOException {
+	@RequestMapping(value = "/document/{course}/download", method = RequestMethod.GET)
+	public void download(HttpServletRequest request, HttpServletResponse response, @RequestParam String file,
+			@PathVariable final Optional<String> course) {
 		response.reset();
-		PrintWriter out = response.getWriter();
-		String path = localPost;
-		response.setContentType("APPLICATION/OCTET-STREAM");
-		response.setHeader("Content-Disposition", "attachment; filename=\"" + file + "\"");
-
-		FileInputStream fileInputStream = new FileInputStream(path + file);
-		int i;
-		while ((i = fileInputStream.read()) != -1) {
-			out.write(i);
+		try {
+			PrintWriter out = response.getWriter();
+			String path = localCourse + course.get() + "/doc/";
+			response.setContentType("APPLICATION/OCTET-STREAM");
+			response.setHeader("Content-Disposition", "attachment; filename=\"" + file + "\"");
+			FileInputStream fileInputStream = new FileInputStream(path + file);
+			int i;
+			while ((i = fileInputStream.read()) != -1) {
+				out.write(i);
+			}
+			fileInputStream.close();
+			out.close();
+		} catch (IOException e) {
 		}
-		fileInputStream.close();
-		out.close();
-		return "home";
 	}
 }

@@ -35,11 +35,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 				.antMatchers("/home").permitAll()
 				.antMatchers("/vui-tieng-nhat/**").permitAll()
+				.antMatchers("/document/**").permitAll()
 				.antMatchers("/thi-thu").permitAll()
 				.antMatchers("/van-hoa-nhat-ban/**").permitAll()
 				.antMatchers("/alphabet/**").permitAll()
 				.antMatchers("/tim-kiem/**").permitAll()
 				.antMatchers("/khoa-hoc/**").permitAll()
+				.antMatchers("/account/logout").permitAll()
 				.antMatchers("/facebook").permitAll()
 				.antMatchers("/").permitAll()
 				.antMatchers("/detail-lesson/**").permitAll()
@@ -52,12 +54,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.formLogin().loginPage("/")
 				.usernameParameter("userId")
 				.passwordParameter("password")
-				.defaultSuccessUrl("/home")
-				.and()
-				.logout()
-				.logoutUrl("/logout")
-				.logoutSuccessUrl("/home?logout")
-				.invalidateHttpSession(true)
 				.permitAll();
 		http.exceptionHandling().accessDeniedPage("/404");
 

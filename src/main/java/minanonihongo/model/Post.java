@@ -27,6 +27,8 @@ public class Post implements Serializable {
     
     private String postTitle;
     
+    private String postImg;
+    
     private int viewPost;
 
     private String postContent;
@@ -115,6 +117,14 @@ public class Post implements Serializable {
 
 	public void setViewPost(int viewPost) {
 		this.viewPost = viewPost;
+	}
+
+	public String getPostImg() {
+		return postImg;
+	}
+
+	public void setPostImg(String postImg) {
+		this.postImg = postImg;
 	}
 
 }
