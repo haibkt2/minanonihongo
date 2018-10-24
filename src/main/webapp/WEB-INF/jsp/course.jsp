@@ -16,6 +16,14 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <title>HaiLDX - Tiếng Nhật cho mọi người</title>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = 'https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v3.1';
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 <jsp:include page="header.jsp"></jsp:include>
 <div class="main">
 	<div class="main-center main-course">
@@ -78,17 +86,10 @@
 			</div>
 			<div class="comment-container">
 				<ul class="nav nav-pills comment-tab">
-					<li class="li-tab user-tab active"><a data-toggle="pill"
-						href="#user-comment-content">Ý kiến học viên</a></li>
+					<li class="li-tab user-tab active"><a data-toggle="pill">Ý kiến học viên</a></li>
 				</ul>
-				<div class="tab-content">
-					<div id="user-comment-content" class="tab-pane fade in active">
-						Cần có mã Trang để bắt đầu sử dụng API. Mã trang này sẽ có tất cả
-						các quyền trong Messenger ngay cả khi ứng dụng của bạn chưa được
-						phê duyệt để sử dụng các quyền đó, mặc dù trong trường hợp này,
-						bạn chỉ có thể nhắn tin cho quản trị viên ứng dụng. Bạn cũng có
-						thể tạo mã trang cho các trang bạn không sở hữu bằng Đăng nhập
-						Facebook.</div>
+				<div>
+					<div class="fb-comments" data-href="https://localhost:8888/khoa-hoc/${courseName}/${courseIlm.getLessonName()}" data-width="700px"></div>
 				</div>
 			</div>
 		</div>

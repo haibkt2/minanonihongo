@@ -178,8 +178,8 @@
 											<div class="col-md-11" data-selectable="true">
 												<form id="register-form" class="form-horizontal"
 													accept-charset="UTF-8" autocomplete="off"
-													action="${contextPath}/resources/img/login-banner.jpg"
-													method="get">
+													action="${contextPath}/register"
+													method="POST">
 													<input type="hidden" name="${_csrf.parameterName}"
 														value="${_csrf.token}">
 													<div class="form-group">
@@ -215,7 +215,13 @@
 																name="password" id="register-password"
 																placeholder="Mật khẩu"
 																style="margin-bottom: 0; border-bottom: none;"
-																autocomplete="off" required> <input
+																autocomplete="off" required>
+																<div class="error-container">
+																	<div class="alert-danger">
+																		<i class="zmdi zmdi-alert-octagon"></i>&nbsp;<p id="cf-error"></p>
+																	</div>
+																</div>
+																 <input
 																type="password" class="form-control"
 																name="password_confirm" id="register-password-confirm"
 																placeholder="Nhập lại mật khẩu" autocomplete="off"
@@ -288,27 +294,36 @@
 														<label class="col-md-4 control-label"></label>
 														<div class="col-md-8">
 															<button type="submit" class="btn-login">
-																<span>Đăng ký</span>
+																<span onclick="kt();">Đăng ký</span>
 															</button>
 														</div>
 													</div>
 												</form>
 											</div>
 										</div>
-										<div id="login-content" class="tab-pane fade in active">
+										<c:if test="${param.login eq 'error'}">
+										<script type="text/javascript">
+										$(document).ready(function(){ 
+											  $('.btn-register').trigger('click'); 
+											});
+										</script>
+										</c:if>
+										<div id="login-content" class="tab-pane fade in active" onclick="">
 											<div class="col-md-11">
 												<form id="login-form" accept-charset="UTF-8"
-													class="form-horizontal" action="s" method="get">
+													class="form-horizontal" action="${contextPath}/login">
 													<input type="hidden" name="${_csrf.parameterName}"
 														value="${_csrf.token}">
 													<div class="form-group">
 														<label class="col-md-4 control-label"></label>
 														<div class="col-md-8">
-															<div class="error-container">
-																<div class="alert-danger" style="display: none;">
-																	<i class="zmdi zmdi-alert-octagon"></i> ${error}
+															<c:if test="${param.login eq 'error'}">
+																<div class="error-container">
+																	<div class="alert-danger">
+																		<i class="zmdi zmdi-alert-octagon"></i>&nbsp;Tên đăng nhập hoặc mật khẩu không chính xác
+																	</div>
 																</div>
-															</div>
+															</c:if>
 														</div>
 													</div>
 													<div class="form-group">
@@ -439,5 +454,18 @@
 				</div>
 			</div>
 		</div>
+		<script type="text/javascript">
+		function kt() {
+			var p1 = document.getElementById("register-password").value.trim();
+			alert(p1);
+			var p2 = document.getElementById("register-password-confirm").value.trim();
+			alert(p2);
+			if (p1 != p2) {
+				document.getElementById("cf-error").innerHTML = "Chưa Nhập Đầy Đủ Thông Tin!";
+				return;
+			}
+			register-form.submit();
+		}
+		</script>
 		<script src="${contextPath}/resources/js/vue.js"></script>
 		<script src="${contextPath}/resources/js/app.js"></script>

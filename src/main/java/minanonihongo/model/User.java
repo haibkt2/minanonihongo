@@ -28,6 +28,8 @@ public class User implements Serializable {
 	private String password;
 
 	private String phone;
+	
+	private String flg;
 
 	private Date birthday;
 
@@ -192,6 +194,14 @@ public class User implements Serializable {
 
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
+	}
+
+	public String getFlg() {
+		return flg;
+	}
+
+	public void setFlg(String flg) {
+		this.flg = flg;
 	}
 
 }

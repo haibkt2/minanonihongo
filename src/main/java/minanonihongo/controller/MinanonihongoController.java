@@ -4,7 +4,6 @@ package minanonihongo.controller;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.List;
@@ -12,7 +11,8 @@ import java.util.Map;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
+import javax.websocket.server.PathParam;
+import javax.servlet.http.Cookie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -31,7 +31,11 @@ import com.google.gson.JsonObject;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.CookieStore;
+import org.apache.http.impl.client.BasicCookieStore;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -111,12 +115,10 @@ public class MinanonihongoController {
 
 	@Value("${string.reponsitory.local.course}")
 	private String localCourse;
-	
-	
+
 	@Value("${string.role.default}")
 	private String roleDefault;
-	
-	
+
 	@GetMapping("/403")
 	public String accessDenied() {
 		return "403";
@@ -127,22 +129,80 @@ public class MinanonihongoController {
 		return "404";
 	}
 
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String login(Model model, @PathParam(value = "email") String email,
+			@RequestParam(defaultValue = "false") boolean remember, @PathParam(value = "password") String password,
+			HttpSession session, HttpServletRequest req, HttpServletResponse resp) throws Exception {
+		URL u = new URL(req.getHeader("Referer"));
+		User user = userRepository.findByEmail(email, password);
+		if (user == null) {
+			model.addAttribute("login", "error");
+		} else {
+			session.setAttribute("user", user);
+			Cookie a = new Cookie("email", email);
+			Cookie b = new Cookie("password", password);
+			if (remember) {
+				a.setMaxAge(20000);
+				b.setMaxAge(20000);
+			} else {
+				a.setMaxAge(0);
+				b.setMaxAge(0);
+			}
+			resp.addCookie(a);
+			resp.addCookie(b);
+		}
+		return "redirect:" + u.getPath();
+	}
+
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	public String register(@RequestParam("mssv") String mssv, @RequestParam("name") String name,
+			@RequestParam("mail") String mail, @RequestParam("birthday") String birthday,
+			@RequestParam("phone") String phone, @RequestParam("gender") String gender, Model model,
+			HttpSession session, HttpServletRequest request) throws Exception {
+
+		User user = new User();
+		user.setUserId(mssv);
+		user.setName(name);
+		// user.setBrithday(birthday);
+		user.setPhone(phone);
+		// user.setCreateDate(userserviceimpl.currentDate());
+		// File uploadDir = new File(localImage);
+		// if (!uploadDir.exists()) {
+		// uploadDir.mkdir();
+		// }
+		String fileName = null;
+		// if (!file.isEmpty()) {
+		// try {
+		// fileName = mssv + "-" + file.getOriginalFilename();
+		// byte[] bytes = file.getBytes();
+		// BufferedOutputStream buffStream = new BufferedOutputStream(
+		// new FileOutputStream(new File(localImage + fileName)));
+		// buffStream.write(bytes);
+		// buffStream.close();
+		user.setAvatar(fileName);
+		// } catch (Exception e) {
+		// return "redirect:/home?error";
+		// }
+		// }
+		// String m = userserviceimpl.insertUser(user);
+		return "redirect:/home?mess=";
+	}
+
 	@RequestMapping(value = { "/alphabet/{name}" }, method = RequestMethod.GET)
-	public String login(Model model, String error, String logout, String view, HttpServletRequest req,
-			HttpServletResponse response, @PathVariable String name) {
+	public String login(Model model, String logout, String view, HttpServletRequest req, HttpServletResponse response,
+			@PathVariable String name) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		return "alphabet";
 	}
 
 	@RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
-	public String home(Model model, String error, String logout, String view, HttpServletRequest req,
-			HttpServletResponse response, HttpSession ss) {
+	public String home(Model model, String view, HttpServletRequest req, HttpServletResponse response, HttpSession ss) {
 		return "home";
 	}
 
 	@RequestMapping(value = { "/account/logout" }, method = RequestMethod.GET)
-	public String logout(Model model, String error, String logout, String view, HttpServletRequest req,
-			HttpServletResponse response, HttpSession ss) throws Exception {
+	public String logout(Model model, String logout, String view, HttpServletRequest req, HttpServletResponse response,
+			HttpSession ss) throws Exception {
 		ss.invalidate();
 		URL u = new URL(req.getHeader("Referer"));
 		return "redirect:" + u.getPath();
@@ -201,16 +261,16 @@ public class MinanonihongoController {
 
 	@RequestMapping("/tim-kiem/{keysearch}")
 	@ResponseBody
-	public String search(Model model, String error, String logout, String view, HttpServletRequest req,
-			HttpServletResponse response, HttpSession ss, @PathVariable String keysearch) {
+	public String search(Model model, String logout, String view, HttpServletRequest req, HttpServletResponse response,
+			HttpSession ss, @PathVariable String keysearch) {
 		List<Course> findCourse = courseRepository.findByCourse();
 		model.addAttribute("course", findCourse);
 		return keysearch;
 	}
 
 	@RequestMapping(value = { "/khoa-hoc/{courseName}" })
-	public String course(Model model, String error, String logout, String view, HttpServletRequest req,
-			HttpServletResponse response, HttpSession ss, @PathVariable String courseName) {
+	public String course(Model model, String logout, String view, HttpServletRequest req, HttpServletResponse response,
+			HttpSession ss, @PathVariable String courseName) {
 		if ("Bang-chu-cai".equals(courseName)) {
 			courseName = new String(anphabe.getBytes(Charset.forName("ISO-8859-1")), Charset.forName("UTF-8"));
 		}
@@ -262,15 +322,16 @@ public class MinanonihongoController {
 		User user = userRepository.findByUserId(userFb.getId());
 		if (user == null) {
 			user = new User();
-			user.setUserId(userFb.getId());
-			user.setUserName(userFb.getName());
-			user.setAvatar(userFb.getId());
-			user.setBirthday(userFb.getBirthdayAsDate());
-			user.setEmail(userFb.getEmail());
-			Role r = roleRepository.findByRoleId(roleDefault);
-			user.setRole(r);
-			userRepository.save(user);
 		}
+		user.setUserId(userFb.getId());
+		user.setUserName(userFb.getName());
+		user.setAvatar(userFb.getId());
+		user.setBirthday(userFb.getBirthdayAsDate());
+		user.setEmail(userFb.getEmail());
+		user.setFlg("facebook");
+		Role r = roleRepository.findByRoleId(roleDefault);
+		user.setRole(r);
+		userRepository.save(user);
 		session.setAttribute("user", user);
 		URL u = new URL(request.getHeader("Referer"));
 		return "redirect:" + u.getPath();

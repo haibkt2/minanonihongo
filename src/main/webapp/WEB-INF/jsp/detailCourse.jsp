@@ -8,6 +8,18 @@
 <html lang="vi">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<div id="fb-root"></div>
+<script>
+	(function(d, s, id) {
+		var js, fjs = d.getElementsByTagName(s)[0];
+		if (d.getElementById(id))
+			return;
+		js = d.createElement(s);
+		js.id = id;
+		js.src = 'https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v3.1';
+		fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));
+</script>
 </head>
 <c:if test="${courseIlm.getCourse().getCourseName() eq 'Alphabet'}">
 	<c:set value="Bảng chữ cái" var="courseName"></c:set>
@@ -31,8 +43,9 @@
 				khóa hoc <c:out value="${courseName}"></c:out> :
 			</strong>
 			<c:forEach items="${courseIlm.getCourse().getDocuments()}" var="doc">
-				<a href="${contextPath}/document/${courseIlm.getCourse().getCourseName()}/download?file=${doc.getLocaFileDoc()}"
-								id="file-doc">${doc.getLocaFileDoc()}</a>
+				<a
+					href="${contextPath}/document/${courseIlm.getCourse().getCourseName()}/download?file=${doc.getLocaFileDoc()}"
+					id="file-doc">${doc.getLocaFileDoc()}</a>
 				<br>
 			</c:forEach>
 		</div>
@@ -98,7 +111,8 @@
 						<c:forEach items="${question.getExamAnswer()}" var="answer"
 							varStatus="an">
 							<div style="width: 48%; margin-top: 10px;">
-								<label for="answer${answer.getExamAnswerId().substring(answer.getExamAnswerId().length()-2, answer.getExamAnswerId().length())}"
+								<label
+									for="answer${answer.getExamAnswerId().substring(answer.getExamAnswerId().length()-2, answer.getExamAnswerId().length())}"
 									class="col-md-11 answers-input"
 									style="font-weight: normal; font-size: 13px; color: gray">
 									<span style="display: none;">${answer.getExamAnswerId().substring(answer.getExamAnswerId().length()-2, answer.getExamAnswerId().length())}</span>
@@ -123,7 +137,7 @@
 				<div v-if="results.length > 0">
 					<h4>Kết quả bài kiểm tra.</h4>
 					<hr>
-					<div class="alert" 
+					<div class="alert"
 						v-bind:class="[result.passed == 0 ? 'bg-warning' : 'bg-success']"
 						style="font-size: 14px">
 						<p>
@@ -137,14 +151,13 @@
 							Kết quả: <b v-if="result.passed == 0">Không đạt yêu cầu</b><b
 								v-if="result.passed != 0">Đã qua</b>
 						</p>
-						<button class="btn btn-info review-result" v-on:click="reviewTestResult(0)" >Xem
-							bài làm</button>
+						<button class="btn btn-info review-result"
+							v-on:click="reviewTestResult(0)">Xem bài làm</button>
 					</div>
 				</div>
 			</div>
 
-			<div class="modal fade" id="empty_answers" role="dialog"
-				tabindex="0">
+			<div class="modal fade" id="empty_answers" role="dialog" tabindex="0">
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
@@ -165,25 +178,25 @@
 				</div>
 			</div>
 
-<!-- 			<div class="modal fade" id="removeResult" role="dialog" tabindex="-1"> -->
-<!-- 				<div class="modal-dialog"> -->
-<!-- 					<div class="modal-content"> -->
-<!-- 						<div class="modal-header"> -->
-<!-- 							<button type="button" class="close" data-dismiss="modal">&times;</button> -->
-<!-- 							<h4 class="modal-title">Xóa</h4> -->
-<!-- 						</div> -->
-<!-- 						<div class="modal-body"> -->
-<!-- 							<p>Bạn có muốn xóa bài kiểm tra này không?</p> -->
-<!-- 						</div> -->
-<!-- 						<div class="modal-footer"> -->
-<!-- 							<button type="button" class="btn btn-warning" -->
-<!-- 								v-on:click="confirmRemove()">Xóa</button> -->
-<!-- 							<button type="button" class="btn btn-info" data-dismiss="modal">Đóng</button> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
+			<!-- 			<div class="modal fade" id="removeResult" role="dialog" tabindex="-1"> -->
+			<!-- 				<div class="modal-dialog"> -->
+			<!-- 					<div class="modal-content"> -->
+			<!-- 						<div class="modal-header"> -->
+			<!-- 							<button type="button" class="close" data-dismiss="modal">&times;</button> -->
+			<!-- 							<h4 class="modal-title">Xóa</h4> -->
+			<!-- 						</div> -->
+			<!-- 						<div class="modal-body"> -->
+			<!-- 							<p>Bạn có muốn xóa bài kiểm tra này không?</p> -->
+			<!-- 						</div> -->
+			<!-- 						<div class="modal-footer"> -->
+			<!-- 							<button type="button" class="btn btn-warning" -->
+			<!-- 								v-on:click="confirmRemove()">Xóa</button> -->
+			<!-- 							<button type="button" class="btn btn-info" data-dismiss="modal">Đóng</button> -->
+			<!-- 						</div> -->
+			<!-- 					</div> -->
 
-<!-- 				</div> -->
-<!-- 			</div> -->
+			<!-- 				</div> -->
+			<!-- 			</div> -->
 
 			<div class="modal fade" id="myMessage" role="dialog" tabindex="-1">
 				<div class="modal-dialog">
@@ -206,75 +219,88 @@
 
 				</div>
 			</div>
-			
-			
-			
+
 			<div class="modal fade" id="myModal" role="dialog" tabindex="-1">
-              <div class="modal-dialog test-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Chi tiết bài kiểm tra</h4>
-                  </div>
-                  <div class="modal-body">
-                    <table class="table table-bordered table-striped table-hover tc-table">
-                      <tbody>
-                        <tr>
-                          <td class="row_label">Kết quả</td>
-                          <td class="row_item"><b v-if="currentResult.passed == 0">Không đạt yêu cầu</b><b v-if="currentResult.passed != 0">Đã qua</b></td>
-                        </tr>
-                        <tr>
-                          <td class="row_label">Điểm đạt được</td>
-                          <td class="row_item">{{ userScore }}</td>
-                        </tr>
-                        <tr>
-                          <td class="row_label">Tổng điểm bài kiểm tra</td>
-                          <td class="row_item">{{ lesson.total_marks }}</td>
-                        </tr>
-                        <tr>
-                          <td class="row_label">Thời gian thi</td>
-                          <td class="row_item">{{ printTime(currentResult.created) }} - {{ printDate(currentResult.created) }}</td>
-                        </tr>
-                        <tr>
-                          <td colspan="2" class="content-test-detail">
-                            <div v-for="(task, index) in tasks">
-                              <div v-if="task.type == 3 || task.type == 5">
-                                <p style="margin: 10px 0; font-size: 16px;" v-html="task.value" v-if="task.type == 3"></p>
-                                <div class="col-sm-6 answer-area" style="margin-bottom: 10px;" v-for="(answer, index) in answers[task.id]">
-                                  <div class="question-answer">
-                                    <div class="labels question-answer-content" v-bind:class="[answer.grade == 0 ? '' : 'label-true', (answer.grade == 0 && answer.checked) ? 'label-false' : '']">
-                                      <input type="radio" v-if="answer.checked == true" checked onclick="this.checked = true">
-                                      <input type="radio" v-if="answer.checked != true" onclick="this.checked = false">&nbsp;&nbsp;{{ answer.value }}<span v-if="answer.grade != 0">&nbsp;(Đúng)</span>
-                                      </div>
-                                  </div>
-                                </div>
-                                
-                                <div v-if="task.type == 3" class="col-md-11" style="display: inline-block; width: 100%; height: 10px;"></div>
-                                <hr v-if="task.type == 3" style="width: 100%; margin-top: 20px; margin-bottom: 30px; bottom: 0; border-color: #ddd;">
-                              </div>
-                              
-                            </div>
-                          </td>
-                        </tr>
-                      </tbody>
-                </table>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" data-dismiss="modal" class="btn btn-primary"> Đóng </button>
-                  </div>
-                </div>
-                
-            </div>
-          </div>
+				<div class="modal-dialog test-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title">Chi tiết bài kiểm tra</h4>
+						</div>
+						<div class="modal-body">
+							<table
+								class="table table-bordered table-striped table-hover tc-table">
+								<tbody>
+									<tr>
+										<td class="row_label">Kết quả</td>
+										<td class="row_item"><b v-if="currentResult.passed == 0">Không
+												đạt yêu cầu</b><b v-if="currentResult.passed != 0">Đã qua</b></td>
+									</tr>
+									<tr>
+										<td class="row_label">Điểm đạt được</td>
+										<td class="row_item">{{ userScore }}</td>
+									</tr>
+									<tr>
+										<td class="row_label">Tổng điểm bài kiểm tra</td>
+										<td class="row_item">{{ lesson.total_marks }}</td>
+									</tr>
+									<tr>
+										<td class="row_label">Thời gian thi</td>
+										<td class="row_item">{{ printTime(currentResult.created)
+											}} - {{ printDate(currentResult.created) }}</td>
+									</tr>
+									<tr>
+										<td colspan="2" class="content-test-detail">
+											<div v-for="(task, index) in tasks">
+												<div v-if="task.type == 3 || task.type == 5">
+													<p style="margin: 10px 0; font-size: 16px;"
+														v-html="task.value" v-if="task.type == 3"></p>
+													<div class="col-sm-6 answer-area"
+														style="margin-bottom: 10px;"
+														v-for="(answer, index) in answers[task.id]">
+														<div class="question-answer">
+															<div class="labels question-answer-content"
+																v-bind:class="[answer.grade == 0 ? '' : 'label-true', (answer.grade == 0 && answer.checked) ? 'label-false' : '']">
+																<input type="radio" v-if="answer.checked == true"
+																	checked onclick="this.checked = true"> <input
+																	type="radio" v-if="answer.checked != true"
+																	onclick="this.checked = false">&nbsp;&nbsp;{{
+																answer.value }}<span v-if="answer.grade != 0">&nbsp;(Đúng)</span>
+															</div>
+														</div>
+													</div>
+
+													<div v-if="task.type == 3" class="col-md-11"
+														style="display: inline-block; width: 100%; height: 10px;"></div>
+													<hr v-if="task.type == 3"
+														style="width: 100%; margin-top: 20px; margin-bottom: 30px; bottom: 0; border-color: #ddd;">
+												</div>
+
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="modal-footer">
+							<button type="button" data-dismiss="modal"
+								class="btn btn-primary">Đóng</button>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
 			<script>
-				lesson_tasks = ${lesson_tasks};
-				lesson_answers = ${lesson_answers};
-				lesson_lesson = ${lesson_lesson};
-				lesson_results = [];
-				lesson_writeQuestions = [];
-				course = "${courseName}"; //Them khoa hoc cho JLPT
-				posExam = null; //tu dong load cho bai thi sau
-				is_exam = "0"; //check xem co phải là bài thi hay ko
+			lesson_tasks = ${lesson_tasks};
+			lesson_answers = ${lesson_answers};
+			lesson_lesson = ${lesson_lesson};
+			lesson_results = [];
+			lesson_writeQuestions = [];
+			course = "${courseName}"; //Them khoa hoc cho JLPT
+			posExam = null; //tu dong load cho bai thi sau
+			is_exam = "0"; //check xem co phải là bài thi hay ko
+				is_exam = "0"; //check xem co phải là bài thi hay ko		
 			</script>
 		</div>
 		<script src="${contextPath}/resources/js/vue.js"></script>
@@ -292,18 +318,16 @@
 			ev.preventDefault();
 		});
 	</script>
-</div>
-<div class="comment-container">
-	<ul class="nav nav-pills comment-tab">
-		<li class="li-tab user-tab active"><a data-toggle="pill"
-			href="#user-comment-content">Ý kiến học viên</a></li>
-	</ul>
-	<div class="tab-content">
-		<div id="user-comment-content" class="tab-pane fade in active">
-			Cần có mã Trang để bắt đầu sử dụng API. Mã trang này sẽ có tất cả các
-			quyền trong Messenger ngay cả khi ứng dụng của bạn chưa được phê
-			duyệt để sử dụng các quyền đó, mặc dù trong trường hợp này, bạn chỉ
-			có thể nhắn tin cho quản trị viên ứng dụng. Bạn cũng có thể tạo mã
-			trang cho các trang bạn không sở hữu bằng Đăng nhập Facebook.</div>
-	</div>
+	<div class="comment-container">
+					<ul class="nav nav-pills comment-tab">
+						<li class="li-tab user-tab active"><a data-toggle="pill"
+							href="#user-comment-content">Ý kiến học viên</a></li>
+					</ul>
+					<div>
+						<div class="fb-comments"
+							data-href="https://localhost:8888/khoa-hoc/${courseName}#${courseIlm.getLessonName()}"
+							data-width="700px"></div>
+					</div>
+				</div>
+
 </div>

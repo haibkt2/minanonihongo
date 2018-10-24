@@ -62,7 +62,7 @@ function enterToLogin(e, t) {
 }
 
 function swichTab(e) {
-    $(".li-tab").removeClass("active"), $("." + e + "-tab").addClass("active"), $(".tab-pane").removeClass("in active"), $("#" + e + "-content").addClass("in active"), "login" == e ? $(".auth-featured-image").attr("src", window.location.origin + "/assets/img/login-banner.jpg") : $(".auth-featured-image").attr("src", window.location.origin + "/assets/img/register-banner.jpg")
+    $(".li-tab").removeClass("active"), $("." + e + "-tab").addClass("active"), $(".tab-pane").removeClass("in active"), $("#" + e + "-content").addClass("in active"), "login" == e ? $(".auth-featured-image").attr("src", window.location.origin + "/resources/img/login-banner.jpg") : $(".auth-featured-image").attr("src", window.location.origin + "/resources/img/register-banner.jpg")
 }
 
 function search(e, t) {

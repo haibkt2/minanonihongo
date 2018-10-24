@@ -42,19 +42,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/tim-kiem/**").permitAll()
 				.antMatchers("/khoa-hoc/**").permitAll()
 				.antMatchers("/account/logout").permitAll()
+				.antMatchers("/login").permitAll()
 				.antMatchers("/facebook").permitAll()
-				.antMatchers("/").permitAll()
+				.antMatchers("/register").permitAll()
+				.antMatchers("/**").permitAll()
 				.antMatchers("/detail-lesson/**").permitAll()
 				.anyRequest()
 				.authenticated();
-		http.formLogin().loginPage("/home")
-				.usernameParameter("userId")
-				.passwordParameter("password")
-				.defaultSuccessUrl("/home");
-		http.formLogin().loginPage("/")
-				.usernameParameter("userId")
-				.passwordParameter("password")
-				.permitAll();
 		http.exceptionHandling().accessDeniedPage("/404");
 
 	}

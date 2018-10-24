@@ -35,7 +35,6 @@
 					</a>
 				</div>
 			</div>
-
 			<script>
 				$('.haijp-banner').slick({
 					dots : false,
@@ -208,12 +207,16 @@
 							scrolling="no" frameborder="0" allowTransparency="true"
 							allow="encrypted-media"></iframe>
 					</div>
+					<div>
+					<br>
+					<img
+						src="${contextPath}/resources/img/banner-y-nghia.jpg">
+					</div>
 				</div>
 			</div>
 			<div class="go-top">
 				<i class="fa fa-sort-asc"></i>
 			</div>
-
 		</div>
 		<jsp:include page="footer.jsp"></jsp:include>
 	</div>
