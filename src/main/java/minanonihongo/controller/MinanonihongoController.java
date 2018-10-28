@@ -197,7 +197,7 @@ public class MinanonihongoController {
 
 	@RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
 	public String home(Model model, String view, HttpServletRequest req, HttpServletResponse response, HttpSession ss) {
-		return "home";
+		return "public/home";
 	}
 
 	@RequestMapping(value = { "/account/logout" }, method = RequestMethod.GET)
@@ -233,13 +233,13 @@ public class MinanonihongoController {
 		List<Post> postmn = postRepository.findPostMn();
 		model.addAttribute("postmn", postmn);
 		model.addAttribute("postt", postTypes);
-		return "post";
+		return "public/post";
 	}
 
 	@RequestMapping(value = { "/vui-tieng-nhat/{postname}", "/vui-tieng-nhat" }, method = RequestMethod.GET)
 	public String funnyCourse(Model model, @PathVariable final Optional<String> postname, HttpServletRequest req,
 			HttpServletResponse response, HttpSession ss) {
-		return "funnyCourse";
+		return "public/funnyCourse";
 	}
 
 	@RequestMapping(value = { "/thi-thu" }, method = RequestMethod.POST)
@@ -292,7 +292,7 @@ public class MinanonihongoController {
 		} else {
 			return "404";
 		}
-		return "course";
+		return "public/course";
 	}
 
 	@RequestMapping(value = { "/khoa-hoc/{courseName}/{lesson}/{name}" }, produces = "application/json; charset=utf-8")
@@ -306,10 +306,10 @@ public class MinanonihongoController {
 		model.addAttribute("lesson_answers", mapJson.get(0).get("lesson_answers"));
 		model.addAttribute("lesson_tasks", mapJson.get(0).get("lesson_tasks"));
 		model.addAttribute("lesson_lesson", mapJson.get(0).get("lesson_lesson"));
-		return "detailCourse";
+		return "public/detailCourse";
 	}
 
-	@RequestMapping("/facebook")
+	@RequestMapping("/facebhook")
 	public String loginFacebook(HttpServletRequest request, HttpSession session)
 			throws ClientProtocolException, IOException, Exception {
 
@@ -355,5 +355,15 @@ public class MinanonihongoController {
 			out.close();
 		} catch (IOException e) {
 		}
+	}
+	
+	@GetMapping(value= {"/addP"})
+	public String home() {
+		return "private/adpost";
+	}
+	@GetMapping("/facebook")
+	public String s(Model m, @RequestParam("content") String content ) {
+		System.out.println(content);
+		return "private/adpost";
 	}
 }

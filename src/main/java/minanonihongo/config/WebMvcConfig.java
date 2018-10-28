@@ -1,31 +1,17 @@
-
 package minanonihongo.config;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
 @Configuration
-@EnableWebMvc
-public class WebMvcConfig extends WebMvcConfigurerAdapter {
-
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-    }
-
-    @Override
-    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-        configurer.enable();
-    }
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        LocaleChangeInterceptor localeInterceptor = new LocaleChangeInterceptor();
-        localeInterceptor.setParamName("lg");
-        registry.addInterceptor(localeInterceptor).addPathPatterns("/*");
-    }
+public class WebMvcConfig extends WebMvcConfigurerAdapter{
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		//   file:D:\\data\\file\\image\\
+		registry.addResourceHandler("/public/image/**").addResourceLocations("classpath:/static/uploadmedia/");
+		registry.addResourceHandler("/static/**").addResourceLocations("classpath:/");
+		registry.addResourceHandler("/ckfinder/**").addResourceLocations("classpath:/static/ckfinder/");
+		super.addResourceHandlers(registry);
+	}
 }
