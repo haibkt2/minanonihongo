@@ -27,20 +27,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.gson.JsonObject;
+
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.CookieStore;
-import org.apache.http.impl.client.BasicCookieStore;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 
 import minanonihongo.model.Course;
 import minanonihongo.model.CourseIlm;
@@ -132,7 +124,7 @@ public class MinanonihongoController {
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Model model, @PathParam(value = "email") String email,
 			@RequestParam(defaultValue = "false") boolean remember, @PathParam(value = "password") String password,
-			HttpSession session, HttpServletRequest req, HttpServletResponse resp) throws Exception {
+			HttpSession session, HttpServletRequest req, HttpServletResponse resp, Authentication auth) throws Exception {
 		URL u = new URL(req.getHeader("Referer"));
 		User user = userRepository.findByEmail(email, password);
 		if (user == null) {
@@ -150,6 +142,7 @@ public class MinanonihongoController {
 			}
 			resp.addCookie(a);
 			resp.addCookie(b);
+			
 		}
 		return "redirect:" + u.getPath();
 	}
@@ -196,8 +189,20 @@ public class MinanonihongoController {
 	}
 
 	@RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
-	public String home(Model model, String view, HttpServletRequest req, HttpServletResponse response, HttpSession ss) {
-		return "public/home";
+	public String login(Model model, String error, String logout, String view, String mess, HttpServletRequest req,
+			HttpServletResponse response) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String userName = auth.getName();
+		User user = userRepository.findByUserName(userName);
+		if (user != null) {
+			// if (!user.getRole().getRoleName().equals("ROLE_ADMIN")) {
+			return "public/home";
+		} else {
+			if (error != null)
+				model.addAttribute("login", "error");
+			return "public/home";
+		}
+
 	}
 
 	@RequestMapping(value = { "/account/logout" }, method = RequestMethod.GET)

@@ -50,8 +50,8 @@ public class CKFinderConfig extends Configuration {
                     if (servletConf.getInitParameter("baseDir") == null) { //baseDir cua application.prop la null 
                         this.baseDir = childNode.getTextContent().trim(); //lay the ben ckfinder.xml, khi do phai thiet lap ben ckfinder.xml
                     } else { //nguoc lai lay ben application.prop
-//                        this.baseDir = servletConf.getInitParameter("baseDir");
-                    	this.baseDir = "D:/data/";
+                        this.baseDir = servletConf.getInitParameter("baseDir");
+//                    	this.baseDir = "D:/data/";
                     }
                     this.baseDir = PathUtils.escape(this.baseDir);
                     this.baseDir = PathUtils.addSlashToEnd(this.baseDir);

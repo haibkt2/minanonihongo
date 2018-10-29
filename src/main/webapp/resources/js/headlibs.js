@@ -58,7 +58,7 @@ function closeSearchBox() {
 }
 
 function enterToLogin(e, t) {
-    if (13 == e.keyCode && null != $("#email").val() && void 0 != $("#email").val() && "" != $("#email").val() && null != $("#password").val() && void 0 != $("#password").val() && "" != $("#password").val()) return $("#login-submit").click(), !1
+//    if (13 == e.keyCode && null != $("#email").val() && void 0 != $("#email").val() && "" != $("#email").val() && null != $("#password").val() && void 0 != $("#password").val() && "" != $("#password").val()) return $("#login-submit").click(), !1
 }
 
 function swichTab(e) {

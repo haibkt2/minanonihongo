@@ -17,21 +17,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Autowired
-	private UserDetailsService userDetailsService;
-
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
 
 	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-	}
+	private CheckAutheticationSuccessHandler successHandler;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		http.csrf().disable();
 		http.authorizeRequests()
 				.antMatchers("/home").permitAll()
 				.antMatchers("/addP").permitAll()
@@ -48,14 +40,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/register").permitAll()
 				.antMatchers("/**").permitAll()
 				.antMatchers("/detail-lesson/**").permitAll()
+				.antMatchers("/admin").hasAnyRole("ADMIN")
 				.anyRequest()
 				.authenticated();
+		http.formLogin().loginPage("/home")
+				.usernameParameter("email")
+				.passwordParameter("password")
+				.successHandler(successHandler);
+		http.formLogin().loginPage("/")
+				.usernameParameter("email")
+				.passwordParameter("password")
+				.successHandler(successHandler);
 		http.exceptionHandling().accessDeniedPage("/404");
 
 	}
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/resources/**", "/css/**", "/js/**", "/images/**", "/reponsitory/**");
+		web.ignoring().antMatchers("/resources/**", "/css/**", "/js/**", "/images/**","/public/**", "/reponsitory/**");
 	}
 }
