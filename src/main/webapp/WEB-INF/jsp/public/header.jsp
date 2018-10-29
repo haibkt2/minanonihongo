@@ -58,9 +58,9 @@
 						<span class="nav-span"></span><span class="nav-span"></span><span
 							class="nav-span"></span>
 						<ul class="dropdown-menu">
-							<li><a href=""><i class="zmdi zmdi-home icon-menu-item"></i>
+							<li><a href="${contextPath}/home"><i class="zmdi zmdi-home icon-menu-item"></i>
 									<p>Trang chủ</p></a></li>
-							<li><a href=""><i
+							<li><a href="${contextPath}/home"><i
 									class="zmdi zmdi-airplay icon-menu-item"></i>
 									<p>Các khóa học</p></a></li>
 							<li class="courses-detail-list">
@@ -108,7 +108,7 @@
 								class="close-nav"><span>close</span></span>
 						</div>
 						<ul class="ui-menu">
-							<li class="parent "><a href="" class="mn-item khoa-hoc">
+							<li class="parent "><a href="javascript:void(0);" class="mn-item khoa-hoc">
 									<i class=""></i> Các khóa học
 							</a>
 								<div class="submenu">
@@ -300,15 +300,11 @@
 												</form>
 											</div>
 										</div>
-										<c:if test="${param.login eq 'error'}">
+										<c:if test="${login eq 'error'}">
 											<script type="text/javascript">
 												$(document)
-														.ready(
-																function() {
-																	$(
-																			'.btn-register')
-																			.trigger(
-																					'click');
+														.ready(function() {
+																	$('.btn-register').trigger('click');
 																});
 											</script>
 										</c:if>
@@ -323,7 +319,7 @@
 													<div class="form-group">
 														<label class="col-md-4 control-label"></label>
 														<div class="col-md-8">
-															<c:if test="${param.login eq 'error'}">
+															<c:if test="${login eq 'error'}">
 																<div class="error-container">
 																	<div class="alert-danger">
 																		<i class="zmdi zmdi-alert-octagon"></i>&nbsp;Tên đăng

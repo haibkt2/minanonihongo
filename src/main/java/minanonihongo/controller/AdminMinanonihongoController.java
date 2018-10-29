@@ -116,12 +116,10 @@ public class AdminMinanonihongoController {
 	@Value("${string.reponsitory.local.course}")
 	private String localCourse;
 
-	@Value("${string.role.default}")
-	private String roleDefault;
 
 	@GetMapping("/admin")
 	public String accessDenied() {
-		return "/private/adpost";
+		return "/private/home";
 	}
 
 }

@@ -4,6 +4,7 @@ package minanonihongo.controller;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.List;
@@ -26,8 +27,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -108,8 +107,8 @@ public class MinanonihongoController {
 	@Value("${string.reponsitory.local.course}")
 	private String localCourse;
 
-	@Value("${string.role.default}")
-	private String roleDefault;
+	@Value("${string.role.user}")
+	private String roleUser;
 
 	@GetMapping("/403")
 	public String accessDenied() {
@@ -121,31 +120,33 @@ public class MinanonihongoController {
 		return "404";
 	}
 
-//	@RequestMapping(value = "/login", method = RequestMethod.GET)
-//	public String login(Model model, @PathParam(value = "email") String email,
-//			@RequestParam(defaultValue = "false") boolean remember, @PathParam(value = "password") String password,
-//			HttpSession session, HttpServletRequest req, HttpServletResponse resp, Authentication auth) throws Exception {
-//		URL u = new URL(req.getHeader("Referer"));
-//		User user = userRepository.findByEmail(email, password);
-//		if (user == null) {
-//			model.addAttribute("login", "error");
-//		} else {
-//			session.setAttribute("user", user);
-//			Cookie a = new Cookie("email", email);
-//			Cookie b = new Cookie("password", password);
-//			if (remember) {
-//				a.setMaxAge(20000);
-//				b.setMaxAge(20000);
-//			} else {
-//				a.setMaxAge(0);
-//				b.setMaxAge(0);
-//			}
-//			resp.addCookie(a);
-//			resp.addCookie(b);
-//			
-//		}
-//		return "redirect:" + u.getPath();
-//	}
+	// @RequestMapping(value = "/login", method = RequestMethod.GET)
+	// public String login(Model model, @PathParam(value = "email") String email,
+	// @RequestParam(defaultValue = "false") boolean remember, @PathParam(value =
+	// "password") String password,
+	// HttpSession session, HttpServletRequest req, HttpServletResponse resp,
+	// Authentication auth) throws Exception {
+	// URL u = new URL(req.getHeader("Referer"));
+	// User user = userRepository.findByEmail(email, password);
+	// if (user == null) {
+	// model.addAttribute("login", "error");
+	// } else {
+	// session.setAttribute("user", user);
+	// Cookie a = new Cookie("email", email);
+	// Cookie b = new Cookie("password", password);
+	// if (remember) {
+	// a.setMaxAge(20000);
+	// b.setMaxAge(20000);
+	// } else {
+	// a.setMaxAge(0);
+	// b.setMaxAge(0);
+	// }
+	// resp.addCookie(a);
+	// resp.addCookie(b);
+	//
+	// }
+	// return "redirect:" + u.getPath();
+	// }
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String register(@RequestParam("mssv") String mssv, @RequestParam("name") String name,
@@ -181,27 +182,17 @@ public class MinanonihongoController {
 		return "redirect:/home?mess=";
 	}
 
-	@RequestMapping(value = { "/alphabet/{name}" }, method = RequestMethod.GET)
-	public String login(Model model, String logout, String view, HttpServletRequest req, HttpServletResponse response,
-			@PathVariable String name) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		return "alphabet";
-	}
-
 	@RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
-	public String login(Model model, String error, String logout, String view, String mess, HttpServletRequest req,
-			HttpServletResponse response) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String userName = auth.getName();
-		User user = userRepository.findByUserName(userName);
-		if (user != null) {
-			// if (!user.getRole().getRoleName().equals("ROLE_ADMIN")) {
-			return "public/home";
-		} else {
-			if (error != null)
-				model.addAttribute("login", "error");
-			return "public/home";
+	public String login(Model model, HttpSession session, String error, HttpServletRequest req,
+			HttpServletResponse response) throws Exception {
+		if (error != null) {
+//			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//			String userName = auth.getName();
+//			User user = userRepository.findByUserName(userName);
+//			if(user)
+			model.addAttribute("login", "error");
 		}
+		return "public/home";
 
 	}
 
@@ -317,7 +308,6 @@ public class MinanonihongoController {
 	@RequestMapping("/facebhook")
 	public String loginFacebook(HttpServletRequest request, HttpSession session)
 			throws ClientProtocolException, IOException, Exception {
-
 		String code = request.getParameter("code");
 		if (code == null || code.isEmpty()) {
 			return "redirect:/403?facebook=error";
@@ -334,7 +324,7 @@ public class MinanonihongoController {
 		user.setBirthday(userFb.getBirthdayAsDate());
 		user.setEmail(userFb.getEmail());
 		user.setFlg("facebook");
-		Role r = roleRepository.findByRoleId(roleDefault);
+		Role r = roleRepository.findByRoleId(roleUser);
 		user.setRole(r);
 		userRepository.save(user);
 		session.setAttribute("user", user);
@@ -361,14 +351,10 @@ public class MinanonihongoController {
 		} catch (IOException e) {
 		}
 	}
-	
-	@GetMapping(value= {"/addP"})
+
+	@GetMapping(value = { "/addP" })
 	public String home() {
 		return "private/adpost";
 	}
-	@GetMapping("/facebook")
-	public String s(Model m, @RequestParam("content") String content ) {
-		System.out.println(content);
-		return "private/adpost";
-	}
+
 }
