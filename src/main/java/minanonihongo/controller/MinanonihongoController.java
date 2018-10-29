@@ -121,31 +121,31 @@ public class MinanonihongoController {
 		return "404";
 	}
 
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login(Model model, @PathParam(value = "email") String email,
-			@RequestParam(defaultValue = "false") boolean remember, @PathParam(value = "password") String password,
-			HttpSession session, HttpServletRequest req, HttpServletResponse resp, Authentication auth) throws Exception {
-		URL u = new URL(req.getHeader("Referer"));
-		User user = userRepository.findByEmail(email, password);
-		if (user == null) {
-			model.addAttribute("login", "error");
-		} else {
-			session.setAttribute("user", user);
-			Cookie a = new Cookie("email", email);
-			Cookie b = new Cookie("password", password);
-			if (remember) {
-				a.setMaxAge(20000);
-				b.setMaxAge(20000);
-			} else {
-				a.setMaxAge(0);
-				b.setMaxAge(0);
-			}
-			resp.addCookie(a);
-			resp.addCookie(b);
-			
-		}
-		return "redirect:" + u.getPath();
-	}
+//	@RequestMapping(value = "/login", method = RequestMethod.GET)
+//	public String login(Model model, @PathParam(value = "email") String email,
+//			@RequestParam(defaultValue = "false") boolean remember, @PathParam(value = "password") String password,
+//			HttpSession session, HttpServletRequest req, HttpServletResponse resp, Authentication auth) throws Exception {
+//		URL u = new URL(req.getHeader("Referer"));
+//		User user = userRepository.findByEmail(email, password);
+//		if (user == null) {
+//			model.addAttribute("login", "error");
+//		} else {
+//			session.setAttribute("user", user);
+//			Cookie a = new Cookie("email", email);
+//			Cookie b = new Cookie("password", password);
+//			if (remember) {
+//				a.setMaxAge(20000);
+//				b.setMaxAge(20000);
+//			} else {
+//				a.setMaxAge(0);
+//				b.setMaxAge(0);
+//			}
+//			resp.addCookie(a);
+//			resp.addCookie(b);
+//			
+//		}
+//		return "redirect:" + u.getPath();
+//	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String register(@RequestParam("mssv") String mssv, @RequestParam("name") String name,

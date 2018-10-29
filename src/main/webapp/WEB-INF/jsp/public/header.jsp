@@ -8,12 +8,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>HaiLDX - Tiếng Nhật cho mọi người.
-</title>
+<title>HaiLDX - Tiếng Nhật cho mọi người.</title>
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-<meta name="csrf-token"
-	content="${_csrf.token}">
+<meta name="csrf-token" content="${_csrf.token}">
 <meta http-equiv="content-language" content="vi" />
 
 <link rel="stylesheet" type="text/css"
@@ -38,8 +36,10 @@
 					<div class="box-container">
 						<ul class="nav-left" style="font-size: 14px;">
 							<li><i class="zmdi zmdi-home" style="font-size: 20px;"></i>
-								&nbsp;Tổ 121 - Đường Ngô Sỹ Liên,Phường Hòa Minh, Quận Liên Chiểu, Thành Phố Đà Nẵng</li>
-							<li><i class="zmdi zmdi-phone-in-talk"></i>&nbsp; 033-679-621</li>
+								&nbsp;Tổ 121 - Đường Ngô Sỹ Liên,Phường Hòa Minh, Quận Liên
+								Chiểu, Thành Phố Đà Nẵng</li>
+							<li><i class="zmdi zmdi-phone-in-talk"></i>&nbsp;
+								033-679-621</li>
 							<li><i class="zmdi zmdi-email"></i>&nbsp; haibkt2@gmail.com</li>
 						</ul>
 					</div>
@@ -178,10 +178,7 @@
 											<div class="col-md-11" data-selectable="true">
 												<form id="register-form" class="form-horizontal"
 													accept-charset="UTF-8" autocomplete="off"
-													action="${contextPath}/register"
-													method="POST">
-													<input type="hidden" name="${_csrf.parameterName}"
-														value="${_csrf.token}">
+													action="${contextPath}/register" method="POST">
 													<div class="form-group">
 														<label class="col-md-4 control-label"></label>
 														<div class="col-md-8">
@@ -216,13 +213,13 @@
 																placeholder="Mật khẩu"
 																style="margin-bottom: 0; border-bottom: none;"
 																autocomplete="off" required>
-																<div class="error-container">
-																	<div class="alert-danger">
-																		<i class="zmdi zmdi-alert-octagon"></i>&nbsp;<p id="cf-error"></p>
-																	</div>
+															<div class="error-container">
+																<div class="alert-danger">
+																	<i class="zmdi zmdi-alert-octagon"></i>&nbsp;
+																	<p id="cf-error"></p>
 																</div>
-																 <input
-																type="password" class="form-control"
+															</div>
+															<input type="password" class="form-control"
 																name="password_confirm" id="register-password-confirm"
 																placeholder="Nhập lại mật khẩu" autocomplete="off"
 																required>
@@ -293,6 +290,8 @@
 													<div class="form-group">
 														<label class="col-md-4 control-label"></label>
 														<div class="col-md-8">
+															<input type="hidden" name="${_csrf.parameterName}"
+																value="${_csrf.token}">
 															<button type="submit" class="btn-login">
 																<span onclick="kt();">Đăng ký</span>
 															</button>
@@ -302,94 +301,85 @@
 											</div>
 										</div>
 										<c:if test="${param.login eq 'error'}">
-										<script type="text/javascript">
-										$(document).ready(function(){ 
-											  $('.btn-register').trigger('click'); 
-											});
-										</script>
+											<script type="text/javascript">
+												$(document)
+														.ready(
+																function() {
+																	$(
+																			'.btn-register')
+																			.trigger(
+																					'click');
+																});
+											</script>
 										</c:if>
-										<div id="login-content" class="tab-pane fade in active" onclick="">
+										<div id="login-content" class="tab-pane fade in active"
+											onclick="">
 											<div class="col-md-11">
-											
-											<form class="form-group login_form" action="${contextPath}/home"
-								method="post">
-								<div class="row">
-									<div class="col-lg-5">
-										<input class="form-control" type="text" required
-											autocomplete="off" placeholder="Username" name="email" />
-									</div>
-									<div class="col-lg-5">
-										<input class="form-control" type="password" required
-											autocomplete="off" placeholder="Password" name="password" />
-									</div>
-									<input type="hidden" name="${_csrf.parameterName}"
-										value="${_csrf.token}" />
-									<div class="col-lg-2">
-										<button type="submit" class="btn btn-dark">Login</button>
-									</div>
-								</div>
-							</form>
-<!-- 												<form id="login-form" accept-charset="UTF-8" -->
-<%-- 													class="form-horizontal" action="${contextPath}/home" method="post"> --%>
-<!-- 													<div class="form-group"> -->
-<!-- 														<label class="col-md-4 control-label"></label> -->
-<!-- 														<div class="col-md-8"> -->
-<%-- 															<c:if test="${param.login eq 'error'}"> --%>
-<!-- 																<div class="error-container"> -->
-<!-- 																	<div class="alert-danger"> -->
-<!-- 																		<i class="zmdi zmdi-alert-octagon"></i>&nbsp;Tên đăng nhập hoặc mật khẩu không chính xác -->
-<!-- 																	</div> -->
-<!-- 																</div> -->
-<%-- 															</c:if> --%>
-<!-- 														</div> -->
-<!-- 													</div> -->
-<!-- 													<div class="form-group"> -->
-<!-- 														<label class="col-md-4 control-label">Email</label> -->
-<!-- 														<div class="col-md-8"> -->
-<!-- 															<input id="email" class="form-control" type="email" -->
-<!-- 																name="email" placeholder="Email hoặc tên đăng nhập" -->
-<!-- 																autocomplete="off"> -->
-<!-- 														</div> -->
-<!-- 													</div> -->
-<!-- 													<div class="form-group"> -->
-<!-- 														<label class="col-md-4 control-label">Mật khẩu</label> -->
-<!-- 														<div class="col-md-8"> -->
-<!-- 															<input id="password" type="password" class="form-control" -->
-<!-- 																name="password" placeholder="Mật khẩu" -->
-<!-- 																autocomplete="off"> -->
-<!-- 														</div> -->
-<!-- 													</div> -->
-<!-- 													<div class="form-group"> -->
-<!-- 														<label class="col-md-4 control-label"></label> -->
-<!-- 														<div class="col-md-8"> -->
-<!-- 															<div class="checkbox"> -->
-<!-- 																<label for="login-remember" class="agree-policy"> -->
-<!-- 																	<input id="login-remember" type="checkbox" -->
-<!-- 																	name="remember"> <span>Ghi nhớ đăng nhập</span> -->
-<!-- 																</label> -->
-<!-- 															</div> -->
-<!-- 														</div> -->
-<!-- 													</div> -->
-<!-- 													<div class="form-group"> -->
-<!-- 														<label class="col-md-4 control-label"></label> -->
-<!-- 														<div class="col-md-8"> -->
-<%-- 														<input type="hidden" name="${_csrf.parameterName}" --%>
-<%-- 														value="${_csrf.token}"> --%>
-<!-- 															<button type="submit" class="btn-login" id="login-submit"> -->
-<!-- 																<span>Đăng nhập</span> -->
-<!-- 															</button> -->
-<!-- 															<button class="btn-login" id="login-accuracy" -->
-<!-- 																style="display: none;"> -->
-<!-- 																<span><i class="fa fa-spinner fa-pulse fa-fw"></i> -->
-<!-- 																	Đang xác thực...</span> -->
-<!-- 															</button> -->
-<!-- 															<p> -->
-<!-- 																<a href="" style="color: #333; opacity: 0.7;">Quên -->
-<!-- 																	mật khẩu ?</a> -->
-<!-- 															</p> -->
-<!-- 														</div> -->
-<!-- 													</div> -->
-<!-- 												</form> -->
+
+
+												<form id="login-form" accept-charset="UTF-8"
+													class="form-horizontal" action="${contextPath}/home"
+													method="post">
+													<div class="form-group">
+														<label class="col-md-4 control-label"></label>
+														<div class="col-md-8">
+															<c:if test="${param.login eq 'error'}">
+																<div class="error-container">
+																	<div class="alert-danger">
+																		<i class="zmdi zmdi-alert-octagon"></i>&nbsp;Tên đăng
+																		nhập hoặc mật khẩu không chính xác
+																	</div>
+																</div>
+															</c:if>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-md-4 control-label">Email</label>
+														<div class="col-md-8">
+															<input id="email" class="form-control" type="email"
+																name="email" placeholder="Email hoặc tên đăng nhập"
+																autocomplete="off">
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-md-4 control-label">Mật khẩu</label>
+														<div class="col-md-8">
+															<input id="password" type="password" class="form-control"
+																name="password" placeholder="Mật khẩu"
+																autocomplete="off">
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-md-4 control-label"></label>
+														<div class="col-md-8">
+															<div class="checkbox">
+																<label for="login-remember" class="agree-policy">
+																	<input id="login-remember" type="checkbox"
+																	name="remember"> <span>Ghi nhớ đăng nhập</span>
+																</label>
+															</div>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-md-4 control-label"></label>
+														<div class="col-md-8">
+															<input type="hidden" name="${_csrf.parameterName}"
+																value="${_csrf.token}">
+															<button type="submit" class="btn-login" id="login-submit">
+																<span>Đăng nhập</span>
+															</button>
+															<button class="btn-login" id="login-accuracy"
+																style="display: none;">
+																<span><i class="fa fa-spinner fa-pulse fa-fw"></i>
+																	Đang xác thực...</span>
+															</button>
+															<p>
+																<a href="" style="color: #333; opacity: 0.7;">Quên
+																	mật khẩu ?</a>
+															</p>
+														</div>
+													</div>
+												</form>
 											</div>
 										</div>
 									</div>
@@ -472,17 +462,19 @@
 			</div>
 		</div>
 		<script type="text/javascript">
-		function kt() {
-			var p1 = document.getElementById("register-password").value.trim();
-			alert(p1);
-			var p2 = document.getElementById("register-password-confirm").value.trim();
-			alert(p2);
-			if (p1 != p2) {
-				document.getElementById("cf-error").innerHTML = "Chưa Nhập Đầy Đủ Thông Tin!";
-				return;
+			function kt() {
+				var p1 = document.getElementById("register-password").value
+						.trim();
+				alert(p1);
+				var p2 = document.getElementById("register-password-confirm").value
+						.trim();
+				alert(p2);
+				if (p1 != p2) {
+					document.getElementById("cf-error").innerHTML = "Chưa Nhập Đầy Đủ Thông Tin!";
+					return;
+				}
+				register - form.submit();
 			}
-			register-form.submit();
-		}
 		</script>
 		<script src="${contextPath}/resources/js/vue.js"></script>
 		<script src="${contextPath}/resources/js/app.js"></script>
