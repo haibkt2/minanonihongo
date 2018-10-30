@@ -10,10 +10,8 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>AdminLTE 2 | Editors</title>
-<script src="ckeditor/ckeditor.js"></script>
-<script src="ckfinder/ckfinder.js"></script>
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body>
 	<aside class="main-sidebar">
 		<section class="sidebar">
 			<div class="user-panel">
@@ -58,5 +56,6 @@
 			</ul>
 		</section>
 	</aside>
+
 </body>
 </html>

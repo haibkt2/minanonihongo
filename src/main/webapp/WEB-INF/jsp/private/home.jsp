@@ -13,20 +13,25 @@
 <script src="ckeditor/ckeditor.js"></script>
 <script src="ckfinder/ckfinder.js"></script>
 </head>
+
 <body class="hold-transition skin-blue sidebar-mini">
-	<div class="wrapper">
-		<jsp:include page="header.jsp"></jsp:include>
-		<jsp:include page="menu.jsp"></jsp:include>
-		<div class="content-wrapper">
-			<section class="content-header">
-				<span><h1 style="text-align: center;">
-						Thêm bài bài học mới : <a href="" style="color: #00c0ef">Khóa
-							học N3</a>
-					</h1></span>
-			</section>
-			<section class="content">
+<jsp:include page="header.jsp"></jsp:include>
+<jsp:include page="menu.jsp"></jsp:include>
+	<div class="content-wrapper">
+		<!-- Content Header (Page header) -->
+		<section class="content-header">
+			<span><h1 style="text-align: center;">
+					Thêm bài bài học mới : <a href="" style="color: #00c0ef">Khóa
+						học N3</a>
+				</h1></span>
+		</section>
+
+		<!-- Main content -->
+		<section class="content">
+			<div class="row">
 				<div class="col-md-12">
 					<div class="box box-info">
+						<!-- /.box-header -->
 						<div class="box-body pad">
 							<form>
 								<div class="box-body">
@@ -88,22 +93,26 @@
 										<div class="btn btn-default btn-file">
 											<i class="fa fa-fw fa-file-image-o"></i> Ảnh Nền Video<input
 												type="file" name="attachment">
-										</div>&nbsp;&nbsp;
+										</div>
+										&nbsp;&nbsp;
 										<div class="btn btn-default btn-file">
 											<i class="fa fa-fw fa-file-video-o"></i> Video Bài Học Đính
-											Kèm<input type="file" name="attachment">
+											Kèm(Max.32MB)<input type="file" name="attachment">
 										</div>
-										<p class="help-block" style="margin-left: 200px;">Max. 32MB</p>
 									</div>
 								</div>
 							</form>
 						</div>
 					</div>
+					<!-- /.box -->
 				</div>
-			</section>
-		</div>
-		<div class="control-sidebar-bg"></div>
+				<!-- /.col-->
+			</div>
+			<!-- ./row -->
+		</section>
+		<!-- /.content -->
 	</div>
+	<!-- /.content-wrapper -->
 	<script>
 		CKEDITOR
 				.replace(
