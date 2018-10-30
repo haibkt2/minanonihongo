@@ -15,7 +15,7 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <title>HaiLDX - Tiếng Nhật cho mọi người</title>
 <jsp:include page="header.jsp"></jsp:include>
-<script src="${contextPath}/resources/js/pagination.js"></script>
+<script src="${contextPath}/resources/public/js/pagination.js"></script>
 <div class="main" style="min-height: 750px">
 	<div class="main-center">
 		<div class="main-left">

@@ -30,7 +30,7 @@
             <h3 class="title">Theo dõi HaiLDX</h3>
               <div class="social">
                  <a href="https://www.facebook.com/haildx" target="_blank">
-                        <img src="${contextPath}/resources/img/fb.png" alt="img">
+                        <img src="${contextPath}/resources/public/img/fb.png" alt="img">
                         Fanpage
                  </a>
               </div>

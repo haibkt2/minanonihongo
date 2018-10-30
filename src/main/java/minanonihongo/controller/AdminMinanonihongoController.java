@@ -21,6 +21,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -56,7 +57,9 @@ import minanonihongo.repository.PostRepository;
 import minanonihongo.repository.PostTypeRepository;
 import minanonihongo.repository.RoleRepository;
 import minanonihongo.repository.UserRepository;
+import minanonihongo.service.CommonService;
 import minanonihongo.service.CourseIlmService;
+import minanonihongo.service.PostServiceImpl;
 import minanonihongo.service.RestFB;
 import minanonihongo.service.UserServiceImpl;
 
@@ -88,12 +91,15 @@ public class AdminMinanonihongoController {
 	CourseIlmService courseIlmService;
 
 	@Autowired
-	private RestFB restFb;
-
-	@Autowired
 	MessageSource msgSrc;
 	@Autowired
 	UserServiceImpl userserviceimpl;
+	
+	@Autowired
+	PostServiceImpl postServiceImpl;
+	
+	@Autowired
+	CommonService commonService;
 
 	@Value("${string.domain.default}")
 	private String domain;
@@ -121,5 +127,104 @@ public class AdminMinanonihongoController {
 	public String accessDenied() {
 		return "/private/home";
 	}
+	// show view form insert formation
+    @RequestMapping(value = "/admin/add-post", method = RequestMethod.GET)
+    public String registration(Model model, HttpServletRequest request, HttpSession session) {
 
+        // set model
+        model.addAttribute("postForm", new Post());
+        model.addAttribute("postId", commonService.autoPostid());
+        return "h";
+    }
+
+//    // Insert staff information
+//    @RequestMapping(value = "/admin/add-post", method = RequestMethod.POST)
+//    public String insertOrupdateUser(@ModelAttribute("postForm") Post postForm,
+//            Model model, HttpSession session) throws Exception {
+//        // get session userId
+//        User user = (User) session.getAttribute("user");
+//        
+//        postForm.setUser(user);
+//        postServiceImpl.doSave(postForm);
+//        model.addAttribute("message", messageSave);
+//        model.addAttribute("userId", userserviceimpl.autoCodePostId());
+//        model.addAttribute("userForm", new User());
+//        return "AddUser";
+//    }
+//
+//    // Update Staff information
+//    @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
+//    public String updateUser(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, Model model,
+//            HttpSession session, final RedirectAttributes redirectAttributes) throws ParseException {
+//        updateuserValidator.validate(userForm, bindingResult);
+//
+//        // contructor user
+//        List<Role> lstrole = (List<Role>) roleRepository.findAll();
+//        List<Timezone> lstTimezone = (List<Timezone>) timezoneRepository.findAll();
+//        String sessionUserid = (String) session.getAttribute("userid");
+//        User u = new User();
+//        u = userRepository.findByUserId(userForm.getUserId());
+//
+//        // check error input
+//        if (bindingResult.hasErrors()) {
+//            redirectAttributes.addFlashAttribute("bindingResult", bindingResult);
+//            redirectAttributes.addFlashAttribute("userForm", userForm);
+//            return "redirect:/updateUser" + "?userid=" + userForm.getUserId();
+//        }
+//
+//        model.addAttribute("lstRole", lstrole);
+//        model.addAttribute("lstTimezone", lstTimezone);
+//        userForm.setCreateId(u.getCreateId());
+//        userForm.setUpdateId(sessionUserid);
+//        userserviceimpl.insertOrupdate(userForm);
+//        session.setAttribute("userTimezone", userForm.getTimezone().getValue());
+//        session.setAttribute("userTimezoneName", userForm.getTimezone().getName());
+//        return "redirect:/updateUser" + "?userid=" + userForm.getUserId() + "&updateUser=" + messageInfo;
+//    }
+//
+//    // Show view form update information 
+//    @RequestMapping(value = "/updateUser", method = RequestMethod.GET)
+//    public String updateInfo(Model model, HttpServletRequest request,
+//            @ModelAttribute("userForm") final User userForm, Locale locale) {
+//
+//        // get parameter date
+//        String userId = request.getParameter("userid");
+//        String resetPass = request.getParameter("resetPass");
+//        String updateuser = request.getParameter("updateUser");
+//
+//        User user = new User();
+//        user = userserviceimpl.searchUserId(userId);
+//        List<Role> lstrole = (List<Role>) roleRepository.findAll();
+//        List<Timezone> lstTimezone = (List<Timezone>) timezoneRepository.findAll();
+//        Map<String, String> mapStatus = new HashMap<String, String>();
+//        String localeString = locale.toString();
+//        // Set date of week English
+//        if (localeString.equalsIgnoreCase("en")) {
+//            mapStatus = commonservice.mapStatus("en");
+//        } else if (localeString.equalsIgnoreCase("ja_JP")) {
+//            mapStatus = commonservice.mapStatus("ja_JP");
+//        }
+//        // set model
+//        model.addAttribute("listStaus", mapStatus);
+//        model.addAttribute("lstRole", lstrole);
+//        model.addAttribute("lstTimezone", lstTimezone);
+//        model.addAttribute("userForm", user);
+//
+//        if (resetPass != null) {
+//            // set message value "Reseted Password Success!"
+//
+//            model.addAttribute("message", messagePass);
+//        }
+//        if (updateuser != null) {
+//            // set message value "Update Information Success!"
+//            model.addAttribute("message", messageInfo);
+//        }
+//
+//        if (model.asMap().containsKey("bindingResult")) {
+//            model.addAttribute("org.springframework.validation.BindingResult.userForm",
+//                    model.asMap().get("bindingResult"));
+//        }
+//
+//        return "UpdateUser";
+//    }
 }

@@ -40,7 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/alphabet/**").permitAll().antMatchers("/tim-kiem/**").permitAll()
 				.antMatchers("/khoa-hoc/**").permitAll().antMatchers("/account/logout").permitAll()
 				.antMatchers("/login").permitAll().antMatchers("/facebook").permitAll().antMatchers("/register")
-				.permitAll().antMatchers("/detail-lesson/**").permitAll().antMatchers("/admin").hasAnyRole("ADMIN");
+				.permitAll().antMatchers("/detail-lesson/**").permitAll().antMatchers("/admin/**").hasAnyRole("ADMIN");
 		http.formLogin().loginPage("/home").usernameParameter("email").passwordParameter("password")
 				.successHandler(successHandler);
 		http.formLogin().loginPage("/").usernameParameter("email").passwordParameter("password")

@@ -1,7 +1,5 @@
 package minanonihongo.service;
 
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -10,14 +8,21 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
-import com.mysql.fabric.xmlrpc.base.Array;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+
+import minanonihongo.model.Post;
+import minanonihongo.repository.PostRepository;
+@Service
 public class CommonService {
-	public Date currentDate() throws ParseException {
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+	
+	@Autowired
+    private PostRepository postRepository;
+	
+	public Date currentDate() throws Exception {
 		Date date = new Date();
-		Date dateCurrent = dateFormat.parse(dateFormat.format(date));
-		return dateCurrent;
+		return date;
 	}
 
 	public String setPassword(int length) {
@@ -94,19 +99,18 @@ public class CommonService {
 		}
 		return "REQUE".concat("" + countUserId);
 	}
-	public String autoNtid(String ntId) {
-		if(ntId.isEmpty() || ntId == null) ntId = "NOTIF0000";
-		String strorderid = ntId.substring(5, 9);
-		int odId = Integer.parseInt(strorderid);
-		++odId;
-		String countUserId = "" + odId;
-		if (countUserId.trim().length() != 4) {
-			int count = 4 - countUserId.trim().length();
-			for (int i = 0; i < count; i++) {
-				countUserId = "0" + countUserId;
-			}
-		}
-		return "NOTIF".concat("" + countUserId);
-	}
-
+	public String autoPostid() {
+		List<Post> posts = (List<Post>) postRepository.findAll();
+		if(posts == null) return "POST000000";
+		String postId = posts.get(posts.size() - 1).getPostId();
+        int id = Integer.parseInt(postId.substring(4, 9)) + 1;;
+        String countPostId =""+id;
+            if(countPostId.trim().length()!=6) {
+                int count = 6-countPostId.trim().length();
+                for (int i = 0; i < count; i++) {
+                	countPostId = "0"+countPostId;
+                }
+            }
+            return "POST".concat(""+countPostId);
+        }
 }

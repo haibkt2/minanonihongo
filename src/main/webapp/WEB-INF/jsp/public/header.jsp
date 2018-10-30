@@ -15,12 +15,12 @@
 <meta http-equiv="content-language" content="vi" />
 
 <link rel="stylesheet" type="text/css"
-	href="${contextPath}/resources/css/styles.css">
+	href="${contextPath}/resources/public/css/styles.css">
 
-<link rel="icon" href="${contextPath}/resources/img/fav.png" />
-<script src="${contextPath}/resources/js/headlibs.js"></script>
+<link rel="icon" href="${contextPath}/resources/public/img/fav.png" />
+<script src="${contextPath}/resources/public/js/headlibs.js"></script>
 
-<script src="${contextPath}/resources/js/slick.min.js"></script>
+<script src="${contextPath}/resources/public/js/slick.min.js"></script>
 <script type="text/javascript">
 	function showAccuracy() {
 		document.getElementById('login-submit').style.display = "none";
@@ -100,7 +100,7 @@
 						</ul>
 					</div>
 					<a href="${contextPath}/" class="logo" id="logo"> <img
-						src="${contextPath}/resources/img/hai-logo.png" alt="haildx logo">
+						src="${contextPath}/resources/public/img/hai-logo.png" alt="haildx logo">
 					</a> <span data-action="toggle-nav" class="nav-toggle-menu"><span>Menu</span></span>
 					<div class="block-nav-menu">
 						<div class="block-title">
@@ -163,7 +163,7 @@
 								style="display: none;">
 								<div class="login-left-container">
 									<img class="auth-featured-image"
-										src="${contextPath}/resources/img/login-banner.jpg" />
+										src="${contextPath}/resources/public/img/login-banner.jpg" />
 								</div>
 								<div class="login-right-container">
 									<ul class="nav nav-pills">
@@ -442,7 +442,7 @@
 								</div>
 								<ul class="dropdown-menu user-menu">
 									<img class="caret-up"
-										src="${contextPath}/resources/img/caret-up.png" />
+										src="${contextPath}/resources/public/img/caret-up.png" />
 									<li><a href="http://dungmori.com/account"><i
 											class="zmdi zmdi-account-box"></i> Thông tin cá nhân</a></li>
 									<li><a href="http://dungmori.com/account?focus=changePass"><i
@@ -472,5 +472,5 @@
 				register - form.submit();
 			}
 		</script>
-		<script src="${contextPath}/resources/js/vue.js"></script>
-		<script src="${contextPath}/resources/js/app.js"></script>
+		<script src="${contextPath}/resources/public/js/vue.js"></script>
+		<script src="${contextPath}/resources/public/js/app.js"></script>

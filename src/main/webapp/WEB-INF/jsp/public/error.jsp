@@ -12,9 +12,9 @@
 <title>404 - Không tìm thấy trang yêu cầu</title>
 
 <link rel="stylesheet" type="text/css"
-	href="${contextPath}/resources/css/styles.css">
+	href="${contextPath}/resources/public/css/styles.css">
 
-<link rel="icon" href="${contextPath}/resources/img/fav.png" />
+<link rel="icon" href="${contextPath}/resources/public/img/fav.png" />
 </head>
 <body>
 	<div id="application">
@@ -22,7 +22,7 @@
 		<div class="main">
 			<div class="main-center">
 				<div class="error-image">
-					<img src="${contextPath}/resources/img/error.PNG" />
+					<img src="${contextPath}/resources/public/img/error.PNG" />
 					<h2>Nội dung này không tồn tại</h2>
 					<h5>
 						Trang bạn yêu cầu không thể hiển thị ngay bây giờ. <br /> Có thể

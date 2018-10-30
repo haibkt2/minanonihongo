@@ -24,13 +24,13 @@
 			<div class="haijp-banner">
 				<div>
 					<a href="" target="_blank"> <img
-						src="${contextPath}/resources/img/baderimg2.png"
+						src="${contextPath}/resources/public/img/baderimg2.png"
 						style="display: inline;">
 					</a>
 				</div>
 				<div>
 					<a href="" target="_blank"> <img
-						src="${contextPath}/resources/img/baderimg2.png"
+						src="${contextPath}/resources/public/img/baderimg2.png"
 						style="display: inline;">
 					</a>
 				</div>
@@ -210,7 +210,7 @@
 					<div>
 					<br>
 					<img
-						src="${contextPath}/resources/img/banner-y-nghia.jpg">
+						src="${contextPath}/resources/public/img/banner-y-nghia.jpg">
 					</div>
 				</div>
 			</div>
