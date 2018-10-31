@@ -54,18 +54,14 @@
 										</h4>
 										<input type="text" class="form-control" required="true"
 											name="title" path="notifyTitle" id="fullname"
-											placeholder="Enter fullname" style="width: 80%;" />
+											placeholder="Enter fullname" />
 									</div>
 								</div>
 							</div>
 						</div>
-						<!-- /.box -->
 					</div>
-					<!-- /.col-->
 				</div>
-				<!-- ./row -->
 			</section>
-
 			<section class="content">
 				<div class="row">
 					<div class="col-xs-12">
@@ -75,207 +71,36 @@
 									<label style="margin-left: 12px;"> Từ Mới</label>
 								</h4>
 							</div>
-							<!-- /.box-header -->
 							<div class="box-body" style="margin-left: 12px;">
 								<div id="example2_wrapper"
 									class="dataTables_wrapper form-inline dt-bootstrap">
 									<div class="row">
-										<div class="col-sm-6"></div>
-										<div class="col-sm-6"></div>
-									</div>
-									<div class="row">
-										<div class="col-sm-12" style="width: 80%;">
-											<table id="example2"
-												class="table table-bordered table-hover dataTable no-footer"
+										<div class="col-sm-12 tableContainer"
+											id="detail-voca tableContainer">
+											<table id="data-voca" border="0" cellpadding="0"
+												cellspacing="0"
+												class="scrollTable table table-bordered table-hover dataTable no-footer scrollTable"
 												role="grid" aria-describedby="example2_info">
-												<thead>
-													<tr role="row">
-														<th class="sorting_asc" tabindex="0"
-															aria-controls="example2" rowspan="1" colspan="1"
-															aria-label="Số: activate to sort column descending"
-															style="width: 5%" aria-sort="ascending">Số</th>
-														<th class="sorting" tabindex="0" aria-controls="example2"
-															rowspan="1" colspan="1"
-															aria-label="Hiragana/Katakana: activate to sort column ascending"
-															style="width: 20%">Hiragana/Katakana</th>
-														<th class="sorting" tabindex="0" aria-controls="example2"
-															rowspan="1" colspan="1"
-															aria-label="Kanji: activate to sort column ascending"
-															style="width: 20%">Kanji</th>
-														<th class="sorting" tabindex="0" aria-controls="example2"
-															rowspan="1" colspan="1"
-															aria-label="Ý Nghĩa: activate to sort column ascending"
-															style="width: 50%">Ý Nghĩa</th>
-														<th class="sorting" tabindex="0" aria-controls="example2"
-															rowspan="1" colspan="1"
-															aria-label=": activate to sort column ascending"
-															style="width: 5%"></th>
+												<thead class="fixedHeader">
+													<tr>
+														<td width="5%">TT</td>
+														<td width="25%">Hirakana/Katakana</td>
+														<td width="20%">Kanji</td>
+														<td width="40%">Ý Nghĩa</td>
+														<td width="10%"></td>
 													</tr>
 												</thead>
-												<tbody id="list-voca">
+												<tbody id="list-voca" class="scrollContent">
+													<tr>
+														<td width="48px">1</td>
+														<td width="242px">Katakana</td>
+														<td width="194px">Kanji</td>
+														<td width="385px">Ý Nghĩa</td>
+														<td width="80px"><a class="del-voca">&nbsp;<i
+																class="fa fa-trash-o">&nbsp;</i></a>&nbsp;&nbsp;<a>&nbsp;<i
+																class="fa fa-pencil"></i></a></td>
+													</tr>
 
-													<tr role="row" class="table-member-tr odd">
-														<td class="sorting_1">Gecko</td>
-														<td>Firefox 1.0</td>
-														<td>Win 98+ / OSX.2+</td>
-														<td>1.7</td>
-														<td><a class="dele-voca">&nbsp;<i
-																class="fa fa-trash-o">&nbsp;</i></a>&nbsp;<a>&nbsp;<i
-																class="fa fa-pencil">&nbsp;</i></a></td>
-													</tr>
-													<tr role="row" class="table-member-tr">
-														<td class="sorting_1">2</td>
-														<td>1</td>
-														<td>1</td>
-														<td>1</td>
-														<td><a class="dele-voca">&nbsp;<i
-																class="fa fa-trash-o">&nbsp;</i></a>&nbsp;<a>&nbsp;<i
-																class="fa fa-pencil">&nbsp;</i></a></td>
-													</tr>
-													<tr role="row" class="table-member-tr">
-														<td class="sorting_1">3</td>
-														<td>2</td>
-														<td>3</td>
-														<td>4</td>
-														<td><a class="dele-voca">&nbsp;<i
-																class="fa fa-trash-o">&nbsp;</i></a>&nbsp;<a>&nbsp;<i
-																class="fa fa-pencil">&nbsp;</i></a></td>
-													</tr>
-													<tr role="row" class="table-member-tr">
-														<td class="sorting_1">4</td>
-														<td>6</td>
-														<td>6</td>
-														<td>67</td>
-														<td><a class="dele-voca">&nbsp;<i
-																class="fa fa-trash-o">&nbsp;</i></a>&nbsp;<a>&nbsp;<i
-																class="fa fa-pencil">&nbsp;</i></a></td>
-													</tr>
-													<tr role="row" class="table-member-tr">
-														<td class="sorting_1">5</td>
-														<td>fdg</td>
-														<td>dsadas</td>
-														<td>dasdas</td>
-														<td><a class="dele-voca">&nbsp;<i
-																class="fa fa-trash-o">&nbsp;</i></a>&nbsp;<a>&nbsp;<i
-																class="fa fa-pencil">&nbsp;</i></a></td>
-													</tr>
-													<tr role="row" class="table-member-tr">
-														<td class="sorting_1">6</td>
-														<td>dsadasd</td>
-														<td>dsadas</td>
-														<td>dsada</td>
-														<td><a class="dele-voca">&nbsp;<i
-																class="fa fa-trash-o">&nbsp;</i></a>&nbsp;<a>&nbsp;<i
-																class="fa fa-pencil">&nbsp;</i></a></td>
-													</tr>
-													<tr role="row" class="table-member-tr">
-														<td class="sorting_1">7</td>
-														<td>sadas</td>
-														<td>dasda</td>
-														<td>dasda</td>
-														<td><a class="dele-voca">&nbsp;<i
-																class="fa fa-trash-o">&nbsp;</i></a>&nbsp;<a>&nbsp;<i
-																class="fa fa-pencil">&nbsp;</i></a></td>
-													</tr>
-													<tr role="row" class="table-member-tr">
-														<td class="sorting_1">8</td>
-														<td>dsadas</td>
-														<td>dasdas</td>
-														<td>asdasd</td>
-														<td><a class="dele-voca">&nbsp;<i
-																class="fa fa-trash-o">&nbsp;</i></a>&nbsp;<a>&nbsp;<i
-																class="fa fa-pencil">&nbsp;</i></a></td>
-													</tr>
-													<tr role="row" class="table-member-tr">
-														<td class="sorting_1">9</td>
-														<td>dasdasd</td>
-														<td>dsada</td>
-														<td>dasda</td>
-														<td><a class="dele-voca">&nbsp;<i
-																class="fa fa-trash-o">&nbsp;</i></a>&nbsp;<a>&nbsp;<i
-																class="fa fa-pencil">&nbsp;</i></a></td>
-													</tr>
-													<tr role="row" class="table-member-tr">
-														<td class="sorting_1">10</td>
-														<td>dasaa</td>
-														<td>aaaa</td>
-														<td>adsada</td>
-														<td><a class="dele-voca">&nbsp;<i
-																class="fa fa-trash-o">&nbsp;</i></a>&nbsp;<a>&nbsp;<i
-																class="fa fa-pencil">&nbsp;</i></a></td>
-													</tr>
-													<tr role="row" class="table-member-tr">
-														<td class="sorting_1">11</td>
-														<td>dsadas</td>
-														<td>dsadasd</td>
-														<td>dadada</td>
-														<td><a class="dele-voca">&nbsp;<i
-																class="fa fa-trash-o">&nbsp;</i></a>&nbsp;<a>&nbsp;<i
-																class="fa fa-pencil">&nbsp;</i></a></td>
-													</tr>
-													<tr role="row" class="table-member-tr">
-														<td class="sorting_1">12</td>
-														<td>dasdas</td>
-														<td>dasda</td>
-														<td>dadad</td>
-														<td><a class="dele-voca">&nbsp;<i
-																class="fa fa-trash-o">&nbsp;</i></a>&nbsp;<a>&nbsp;<i
-																class="fa fa-pencil">&nbsp;</i></a></td>
-													</tr>
-													<tr role="row" class="table-member-tr">
-														<td class="sorting_1">13</td>
-														<td>dadas</td>
-														<td>dsadas</td>
-														<td>dasda</td>
-														<td><a class="dele-voca">&nbsp;<i
-																class="fa fa-trash-o">&nbsp;</i></a>&nbsp;<a>&nbsp;<i
-																class="fa fa-pencil">&nbsp;</i></a></td>
-													</tr>
-													<tr role="row" class="table-member-tr">
-														<td class="sorting_1">14</td>
-														<td>dsada</td>
-														<td>dasda</td>
-														<td>dada</td>
-														<td><a class="dele-voca">&nbsp;<i
-																class="fa fa-trash-o">&nbsp;</i></a>&nbsp;<a>&nbsp;<i
-																class="fa fa-pencil">&nbsp;</i></a></td>
-													</tr>
-													<tr role="row" class="table-member-tr">
-														<td class="sorting_1">15</td>
-														<td>dsadas</td>
-														<td>dasda</td>
-														<td>dasda</td>
-														<td><a class="dele-voca">&nbsp;<i
-																class="fa fa-trash-o">&nbsp;</i></a>&nbsp;<a>&nbsp;<i
-																class="fa fa-pencil">&nbsp;</i></a></td>
-													</tr>
-													<tr role="row" class="table-member-tr">
-														<td class="sorting_1">16</td>
-														<td>dsadas</td>
-														<td>dasda</td>
-														<td>dada</td>
-														<td><a class="dele-voca">&nbsp;<i
-																class="fa fa-trash-o">&nbsp;</i></a>&nbsp;<a>&nbsp;<i
-																class="fa fa-pencil">&nbsp;</i></a></td>
-													</tr>
-													<tr role="row" class="table-member-tr">
-														<td class="sorting_1">17</td>
-														<td>sdad</td>
-														<td>dsadas</td>
-														<td>dasda</td>
-														<td><a class="dele-voca">&nbsp;<i
-																class="fa fa-trash-o">&nbsp;</i></a>&nbsp;<a>&nbsp;<i
-																class="fa fa-pencil">&nbsp;</i></a></td>
-													</tr>
-													<tr role="row" class="table-member-tr">
-														<td class="sorting_1">18</td>
-														<td>dsadas</td>
-														<td>dsadas</td>
-														<td>dsadasda</td>
-														<td><a class="dele-voca">&nbsp;<i
-																class="fa fa-trash-o">&nbsp;</i></a>&nbsp;<a>&nbsp;<i
-																class="fa fa-pencil">&nbsp;</i></a></td>
-													</tr>
 												</tbody>
 											</table>
 										</div>
@@ -283,12 +108,12 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<div class="col-xs-2">
+								<div class="col-xs-3">
 									<label style="margin-left: 5px;">Hirakana/Katakana</label> <input
 										id="hirakana" required="true" type="text" class="form-control"
-										placeholder=".col-xs-3" style="margin-left: 5px">
+										placeholder=".col-xs-4" style="margin-left: 5px">
 								</div>
-								<div class="col-xs-2">
+								<div class="col-xs-3">
 									<label>Kanji</label> <input type="text" id="kanji"
 										class="form-control" placeholder=".col-xs-4">
 								</div>
@@ -382,37 +207,24 @@
 	<script
 		src="${contextPath}/resources/private/js/bootstrap-table.min.js"></script>
 	<script>
-		$(function() {
-			$('#example2').DataTable({
-				'paging' : true,
-				'lengthChange' : false,
-				'searching' : true,
-				'ordering' : true,
-				'info' : true,
-				'autoWidth' : false
-			})
-		})
-	</script>
-
-	<script>
 		$(".btn-add-member").click(function() {
 			addMember($(this));
 			var listAdd = document.getElementById("listAdd").value;
-			document.getElementById("hirakana").value = "";	
+			document.getElementById("hirakana").value = "";
 			document.getElementById("kanji").value = "";
 			document.getElementById("translate").value = "";
 		});
-				$(".btn-add-member").click(function() {
-					alert("s");
-					var mydata = {
-						"Số" : "hai",
-						"Hiragana/Katakana" : 21,
-						"Kanji" : 3,
-						"Ý Nghĩa" : 4,
-						"s" : "okk"
-					};
-					$('#example2').bootstrapTable('append', mydata);
-				})
+		$(".btn-add-member").click(function() {
+			alert("s");
+			var mydata = {
+				"Số" : "hai",
+				"Hiragana/Katakana" : 21,
+				"Kanji" : 3,
+				"Ý Nghĩa" : 4,
+				"s" : "okk"
+			};
+			$('#data-voca').bootstrapTable('append', mydata);
+		})
 	</script>
 </body>
 </html>

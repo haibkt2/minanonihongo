@@ -28,7 +28,7 @@ function addMember(el) {
 						+ translate
 						+ "</td>"
 						+ "<td><a class =\"dele-voca\">&nbsp;<i class=\"fa fa-trash-o\">&nbsp;</i></a>&nbsp;<a>&nbsp;<i class=\"fa fa-pencil\">&nbsp;</i></a></td>";
-				$("#example2 tbody").append(newVoca);
+				$("#data-voca tbody").append(newVoca);
 				obj.push({
 					"id" : num,
 					"hirakana" : hirakana,
