@@ -303,9 +303,9 @@
 				is_exam = "0"; //check xem co phải là bài thi hay ko		
 			</script>
 		</div>
-		<script src="${contextPath}/resources/pulic/js/vue.js"></script>
-		<script src="${contextPath}/resources/pulic/js/app.js"></script>
-		<script src="${contextPath}/resources/pulic/js/detail_lesson.js"></script>
+		<script src="${contextPath}/resources/public/js/vue.js"></script>
+		<script src="${contextPath}/resources/public/js/app.js"></script>
+		<script src="${contextPath}/resources/public/js/detail_lesson.js"></script>
 	</c:if>
 
 	<script type="text/javascript">
