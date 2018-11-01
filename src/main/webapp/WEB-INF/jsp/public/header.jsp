@@ -58,7 +58,8 @@
 						<span class="nav-span"></span><span class="nav-span"></span><span
 							class="nav-span"></span>
 						<ul class="dropdown-menu">
-							<li><a href="${contextPath}/home"><i class="zmdi zmdi-home icon-menu-item"></i>
+							<li><a href="${contextPath}/home"><i
+									class="zmdi zmdi-home icon-menu-item"></i>
 									<p>Trang chủ</p></a></li>
 							<li><a href="${contextPath}/home"><i
 									class="zmdi zmdi-airplay icon-menu-item"></i>
@@ -100,7 +101,8 @@
 						</ul>
 					</div>
 					<a href="${contextPath}/" class="logo" id="logo"> <img
-						src="${contextPath}/resources/public/img/hai-logo.png" alt="haildx logo">
+						src="${contextPath}/resources/public/img/hai-logo.png"
+						alt="haildx logo">
 					</a> <span data-action="toggle-nav" class="nav-toggle-menu"><span>Menu</span></span>
 					<div class="block-nav-menu">
 						<div class="block-title">
@@ -108,8 +110,8 @@
 								class="close-nav"><span>close</span></span>
 						</div>
 						<ul class="ui-menu">
-							<li class="parent "><a href="javascript:void(0);" class="mn-item khoa-hoc">
-									<i class=""></i> Các khóa học
+							<li class="parent "><a href="javascript:void(0);"
+								class="mn-item khoa-hoc"> <i class=""></i> Các khóa học
 							</a>
 								<div class="submenu">
 									<ul class="content">
@@ -303,8 +305,12 @@
 										<c:if test="${login eq 'error'}">
 											<script type="text/javascript">
 												$(document)
-														.ready(function() {
-																	$('.btn-register').trigger('click');
+														.ready(
+																function() {
+																	$(
+																			'.btn-register')
+																			.trigger(
+																					'click');
 																});
 											</script>
 										</c:if>
@@ -447,7 +453,8 @@
 											class="zmdi zmdi-account-box"></i> Thông tin cá nhân</a></li>
 									<li><a href="http://dungmori.com/account?focus=changePass"><i
 											class="zmdi zmdi-shield-security"></i> Thay đổi mật khẩu</a></li>
-									<div class="dropdown-divider"></div>
+									<li><a href="${contextPath}/admin"><i class="zmdi zmdi-calendar-note"></i>
+											Quản lý Website</a></li>
 									<li><a onclick="logout()"><i class="zmdi zmdi-power"></i>
 											Đăng xuất</a></li>
 								</ul>
