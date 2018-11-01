@@ -14,8 +14,8 @@ function addCourse(btn) {
 	var translate;
 	var listVoca = '[]';
 	var obj = JSON.parse(listVoca);
-	for(var i = 2; i <= lg; i++){
-		id = $('#list-voca tr:nth-child('+i+')').attr("id");
+	for (var i = 2; i <= lg; i++) {
+		id = $('#list-voca tr:nth-child(' + i + ')').attr("id");
 		hirakana = document.getElementById("data-voca").rows[i].cells.item(0).innerHTML;
 		kanji = document.getElementById("data-voca").rows[i].cells.item(1).innerHTML;
 		translate = document.getElementById("data-voca").rows[i].cells.item(2).innerHTML;
@@ -31,18 +31,22 @@ function addCourse(btn) {
 }
 function addVoca() {
 	var lg = $(".scrollContent tr").length;
-	var id = parseInt($(".scrollContent tr:nth-child(" + lg + ")").attr("id")
-			.split("-")[1]) + 1;
+	var id = $('#edit-voca').attr("value");
 	var ac = "<a onclick = \"deleteRow(this)\" "
 			+ "class=\"del-voca\" href=\"javascript:void(0);\">&nbsp;<i class=\"fa fa-trash-o\">&nbsp;</i></a>&nbsp;&nbsp;"
 			+ "<a onclick = \"fixRow(this)\" href=\"javascript:void(0);\">&nbsp;<i class=\"fa fa-pencil\"></i></a></td></tr>";
 	var table = document.getElementById("data-voca");
-	var lg = $(".scrollContent tr").length + 1;
+	var lg = $(".scrollContent tr").length;
 	var hirakana = document.getElementById("hirakana").value;
 	var kanji = document.getElementById("kanji").value;
 	var translate = document.getElementById("translate").value;
 	var row = table.insertRow(lg);
-	row.id = 'num-'+id;
+	if (id == 'o') {
+		id = 'num-'+ lg;
+	} else {
+		document.getElementById("edit-voca").value = 'o';
+	}
+	row.id = id;
 	var cell1 = row.insertCell(0);
 	var cell2 = row.insertCell(1);
 	var cell3 = row.insertCell(2);
@@ -66,5 +70,6 @@ function fixRow(btn) {
 	document.getElementById("hirakana").value = row.cells.item(0).innerHTML;
 	document.getElementById("kanji").value = row.cells.item(1).innerHTML;
 	document.getElementById("translate").value = row.cells.item(2).innerHTML;
+	document.getElementById("edit-voca").value = row.id;
 	row.parentNode.removeChild(row);
 }

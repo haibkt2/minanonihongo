@@ -184,7 +184,8 @@
 				</div>
 				<!-- ./row -->
 			</section>
-			
+			<input type="hidden" name="edit-voca" id="edit-voca" value="o" />
+			<input type="hidden" name="list-current" id="list-current" />
 			<input type="hidden" name="list-current" id="list-current" />
 		</form>
 		<div></div>
