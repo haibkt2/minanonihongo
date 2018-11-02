@@ -8,18 +8,6 @@
 <html lang="vi">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<div id="fb-root"></div>
-<script>
-	(function(d, s, id) {
-		var js, fjs = d.getElementsByTagName(s)[0];
-		if (d.getElementById(id))
-			return;
-		js = d.createElement(s);
-		js.id = id;
-		js.src = 'https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v3.1';
-		fjs.parentNode.insertBefore(js, fjs);
-	}(document, 'script', 'facebook-jssdk'));
-</script>
 </head>
 <c:if test="${courseIlm.getCourse().getCourseName() eq 'Alphabet'}">
 	<c:set value="Bảng chữ cái" var="courseName"></c:set>
@@ -303,9 +291,6 @@
 				is_exam = "0"; //check xem co phải là bài thi hay ko		
 			</script>
 		</div>
-		<script src="${contextPath}/resources/public/js/vue.js"></script>
-		<script src="${contextPath}/resources/public/js/app.js"></script>
-		<script src="${contextPath}/resources/public/js/detail_lesson.js"></script>
 	</c:if>
 
 	<script type="text/javascript">
@@ -318,6 +303,9 @@
 			ev.preventDefault();
 		});
 	</script>
+<%-- 	<script src="${contextPath}/resources/public/js/vue.js"></script> --%>
+<%-- 		<script src="${contextPath}/resources/public/js/app.js"></script> --%>
+		<script src="${contextPath}/resources/public/js/detail_lesson.js"></script>
 	<div class="comment-container">
 					<ul class="nav nav-pills comment-tab">
 						<li class="li-tab user-tab active"><a data-toggle="pill"

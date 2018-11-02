@@ -19,7 +19,6 @@
 		<jsp:include page="header.jsp"></jsp:include>
 		<jsp:include page="menu.jsp"></jsp:include>
 		<div class="content-wrapper">
-			<br>
 			<section class="content-header"
 				style="margin-bottom: 15px; text-align: center;">
 				<h1>

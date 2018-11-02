@@ -2,6 +2,7 @@
 package minanonihongo.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -12,15 +13,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import minanonihongo.model.Course;
-import minanonihongo.model.CourseFunType;
 import minanonihongo.model.CourseIlm;
+import minanonihongo.model.CourseIlmType;
 import minanonihongo.model.Post;
-import minanonihongo.model.PostType;
 import minanonihongo.model.User;
 import minanonihongo.repository.CourseFunTypeRepository;
 import minanonihongo.repository.CourseIlmRepository;
@@ -48,7 +49,7 @@ public class AdminMinanonihongoController {
 
 	@Autowired
 	PostRepository postRepository;
-	
+
 	@Autowired
 	NotifyRepository notifyRepository;
 
@@ -63,7 +64,7 @@ public class AdminMinanonihongoController {
 
 	@Autowired
 	CourseIlmTypeRepository courseIlmTypeRepository;
-	
+
 	@Autowired
 	CourseFunTypeRepository courseFunTypeRepository;
 
@@ -80,7 +81,7 @@ public class AdminMinanonihongoController {
 
 	@Autowired
 	CommonService commonService;
-	
+
 	@Autowired
 	Common common;
 
@@ -111,12 +112,25 @@ public class AdminMinanonihongoController {
 		return "/private/home";
 	}
 
+	@GetMapping("/admin/courses/{courseName}")
+	public String courses(Model model, @PathVariable String courseName) {
+		common.getMenu(model);
+		Course course = courseRepository.findByCourseName(courseName);
+		if (course != null) {
+			String courseId = course.getCourseId();
+			model.addAttribute("course", course);
+		} else {
+			return "404";
+		}
+		return "/private/courses";
+	}
+
 	// show view form insert formation
-	@RequestMapping(value = "/admin/add-course", method = RequestMethod.GET)
-	public String showCourse(Model model, HttpServletRequest request, HttpSession session) {
+	@RequestMapping(value = "/admin/course/them-bai-hoc-moi/{course}", method = RequestMethod.GET)
+	public String course(Model model, HttpServletRequest request, HttpSession session) {
 		common.getMenu(model);
 		// set model
-//		model.addAttribute("courseForm", new CourseIlm());
+		// model.addAttribute("courseForm", new CourseIlm());
 		// model.addAttribute("postId", commonService.autoPostid());
 		return "/private/addCourse";
 	}
@@ -124,8 +138,8 @@ public class AdminMinanonihongoController {
 	// Insert staff information
 	@RequestMapping(value = "/admin/add-post", method = RequestMethod.POST)
 	public String doSave(@ModelAttribute("courseForm") CourseIlm courseForm, Model model, HttpSession session,
-			@RequestParam("edit-voca") String editVoca, @RequestParam("list-current") String listCurrent,@RequestParam("dele-old") String deleOld)
-			throws Exception {
+			@RequestParam("edit-voca") String editVoca, @RequestParam("list-current") String listCurrent,
+			@RequestParam("dele-old") String deleOld) throws Exception {
 		// get session userId
 		User user = (User) session.getAttribute("user");
 		courseForm.setUser(user);

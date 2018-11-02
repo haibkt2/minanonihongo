@@ -99,3 +99,11 @@ function fixRow(btn) {
 	d.setAttribute("index", index);
 	row.parentNode.removeChild(row);
 }
+$('.movie-play').on('click', function(ev) {
+	var id = $(this).attr("id");
+	var vid = document.getElementById("video-"+id.split('-')[1]);
+	$('#'+id).css("display", "none");
+	$('#video-'+id).css("display", "block");
+	vid.play();
+	ev.preventDefault();
+});

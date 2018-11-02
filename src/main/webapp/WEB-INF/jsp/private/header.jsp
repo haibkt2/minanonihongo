@@ -27,7 +27,7 @@
 </head>
 <body>
 	<header class="main-header">
-		<a href="${contextPath}/admin" class="logo"> <span class="logo-mini"><b>H</b></span>
+		<a href="${contextPath}/admin" class="logo"> <span class="logo-mini"><b>HLDX</b></span>
 			<span class="logo-lg"><b>Minanonihongo</b></span>
 		</a>
 		<nav class="navbar navbar-static-top">

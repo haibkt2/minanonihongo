@@ -25,15 +25,14 @@
 			</div>
 			<ul class="sidebar-menu" data-widget="tree">
 				<li class="header"></li>
-				<li><a href="#"> <i class="fa fa-fw fa-institution"></i> <span>Các
-							Mức Độ</span> <span class="pull-right-container"> </span>
+				<li><a href="#"> <i class="fa fa-fw fa-institution"></i> <span>Chuyên Mục Bài Học</span> <span class="pull-right-container"> </span>
 				</a>
 					<ul>
 						<c:if test="${courses != null}">
-							<li><a href=""><i class="fa fa-fw fa-check-square-o"></i>
+							<li><a href="${contextPath}/admin/de-thi"><i class="fa fa-fw fa-check-square-o"></i>
 									Đề Thi </a></li>
 							<c:forEach items="${courses}" var="course">
-								<li><a href="${contextPath}/admin/add-course"><i
+								<li><a href="${contextPath}/admin/courses/${course.courseName}"><i
 										class="fa fa-fw fa-check-square-o"></i>
 										${course.getCourseName()}</a></li>
 							</c:forEach>
@@ -51,7 +50,7 @@
 						</c:if>
 					</ul></li>
 				<li><a href="#"> <i class="fa fa-fw fa-google-wallet"></i>
-						<span>Văn Hóa Nhật Bản</span> <span class="pull-right-container">
+						<span>Bài Viết</span> <span class="pull-right-container">
 					</span>
 				</a>
 					<ul>

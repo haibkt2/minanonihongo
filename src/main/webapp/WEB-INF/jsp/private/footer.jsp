@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -6,11 +8,10 @@
 <body>
 	<footer class="main-footer">
 		<div class="pull-right hidden-xs">
-			<b>Version</b> 2.4.0
 		</div>
-		<strong>Copyright &copy; 2014-2016 <a
-			href="https://adminlte.io">Almsaeed Studio</a>.
-		</strong> All rights reserved.
+		<strong>Đồ Án Tốt Nghiệp &copy; 2018 <a
+			href="https://www.facebook.com/haildx">Nguyễn Thanh Hải</a>.
+		</strong>
 	</footer>
 </body>
 </html>

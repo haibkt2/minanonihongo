@@ -89,7 +89,7 @@
 														</tr>
 													</thead>
 													<tbody id="list-voca" class="scrollContent">
-														<tr>
+														<tr style="width: 1px;">
 															<td width="262px"></td>
 															<td width="194px"></td>
 															<td width="415px"></td>
@@ -209,11 +209,11 @@
 								filebrowserFlashUploadUrl : '../ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Flash'
 							});
 		</script>
-		<script src="${contextPath}/resources/private/js/jquery.min.js"></script>
-		<script
-			src="${contextPath}/resources/private/js/jquery.dataTables.min.js"></script>
-		<script
-			src="${contextPath}/resources/private/js/dataTables.bootstrap.min.js"></script>
+<%-- 		<script src="${contextPath}/resources/private/js/jquery.min.js"></script> --%>
+<!-- 		<script -->
+<%-- 			src="${contextPath}/resources/private/js/jquery.dataTables.min.js"></script> --%>
+<!-- 		<script -->
+<%-- 			src="${contextPath}/resources/private/js/dataTables.bootstrap.min.js"></script> --%>
 		<script src="${contextPath}/resources/private/js/add.lesson.js"></script>
 	</div>
 </body>

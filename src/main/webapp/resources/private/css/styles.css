@@ -7654,7 +7654,7 @@ button.close {
 	}
 }
 /*# sourceMappingURL=bootstrap.min.css.map */
-#example2 thead tr th {
+#data-show thead tr th {
 	text-align: center;
 }
 
@@ -7709,6 +7709,10 @@ thead.fixedHeader {
 	overflow: auto;
 	width: 100%
 }
-.del-voca
-.fa-trash-o
-:h
+#data-show tbody tr td .movie-play img {
+	width: 170px;
+	height: 110px;
+	overflow: hidden;
+	object-fit:cover;
+	margin-left: 26%;
+}
