@@ -17,7 +17,7 @@ public class CourseIlmType implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "COURSE_ILM_TYPE_ID", insertable = false, updatable = false)
+	@Column(name = "COURSE_ILM_TYPE_ID", insertable = true, updatable = true)
 	private String courseIlmTypeId;
 
 	@OneToMany(mappedBy = "courseIlmType")

@@ -1,66 +1,40 @@
 
 package minanonihongo.controller;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.URL;
-import java.nio.charset.Charset;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.websocket.server.PathParam;
-import javax.servlet.http.Cookie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.google.gson.JsonObject;
-
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.CookieStore;
-import org.apache.http.impl.client.BasicCookieStore;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 
 import minanonihongo.model.Course;
+import minanonihongo.model.CourseFunType;
 import minanonihongo.model.CourseIlm;
-import minanonihongo.model.CourseIlmType;
 import minanonihongo.model.Post;
 import minanonihongo.model.PostType;
-import minanonihongo.model.Role;
 import minanonihongo.model.User;
+import minanonihongo.repository.CourseFunTypeRepository;
 import minanonihongo.repository.CourseIlmRepository;
 import minanonihongo.repository.CourseIlmTypeRepository;
 import minanonihongo.repository.CourseRepository;
+import minanonihongo.repository.NotifyRepository;
 import minanonihongo.repository.PostRepository;
 import minanonihongo.repository.PostTypeRepository;
 import minanonihongo.repository.RoleRepository;
 import minanonihongo.repository.UserRepository;
+import minanonihongo.service.Common;
 import minanonihongo.service.CommonService;
 import minanonihongo.service.CourseIlmService;
 import minanonihongo.service.PostServiceImpl;
-import minanonihongo.service.RestFB;
 import minanonihongo.service.UserServiceImpl;
 
 @Controller
@@ -74,6 +48,9 @@ public class AdminMinanonihongoController {
 
 	@Autowired
 	PostRepository postRepository;
+	
+	@Autowired
+	NotifyRepository notifyRepository;
 
 	@Autowired
 	RoleRepository roleRepository;
@@ -86,6 +63,9 @@ public class AdminMinanonihongoController {
 
 	@Autowired
 	CourseIlmTypeRepository courseIlmTypeRepository;
+	
+	@Autowired
+	CourseFunTypeRepository courseFunTypeRepository;
 
 	@Autowired
 	CourseIlmService courseIlmService;
@@ -94,12 +74,15 @@ public class AdminMinanonihongoController {
 	MessageSource msgSrc;
 	@Autowired
 	UserServiceImpl userserviceimpl;
-	
+
 	@Autowired
 	PostServiceImpl postServiceImpl;
-	
+
 	@Autowired
 	CommonService commonService;
+	
+	@Autowired
+	Common common;
 
 	@Value("${string.domain.default}")
 	private String domain;
@@ -122,109 +105,137 @@ public class AdminMinanonihongoController {
 	@Value("${string.reponsitory.local.course}")
 	private String localCourse;
 
-
 	@GetMapping("/admin")
-	public String accessDenied() {
+	public String home(Model model) {
+		common.getMenu(model);
 		return "/private/home";
 	}
+
 	// show view form insert formation
-    @RequestMapping(value = "/admin/add-post", method = RequestMethod.GET)
-    public String registration(Model model, HttpServletRequest request, HttpSession session) {
+	@RequestMapping(value = "/admin/add-course", method = RequestMethod.GET)
+	public String showCourse(Model model, HttpServletRequest request, HttpSession session) {
+		common.getMenu(model);
+		// set model
+//		model.addAttribute("courseForm", new CourseIlm());
+		// model.addAttribute("postId", commonService.autoPostid());
+		return "/private/addCourse";
+	}
 
-        // set model
-        model.addAttribute("postForm", new Post());
-        model.addAttribute("postId", commonService.autoPostid());
-        return "h";
-    }
+	// Insert staff information
+	@RequestMapping(value = "/admin/add-post", method = RequestMethod.POST)
+	public String doSave(@ModelAttribute("courseForm") CourseIlm courseForm, Model model, HttpSession session,
+			@RequestParam("edit-voca") String editVoca, @RequestParam("list-current") String listCurrent,@RequestParam("dele-old") String deleOld)
+			throws Exception {
+		// get session userId
+		User user = (User) session.getAttribute("user");
+		courseForm.setUser(user);
+		courseIlmService.doSaveCourse(courseForm);
+		model.addAttribute("message", messageSave);
+		model.addAttribute("courseForm", new CourseIlm());
+		return "home";
+	}
 
-//    // Insert staff information
-//    @RequestMapping(value = "/admin/add-post", method = RequestMethod.POST)
-//    public String insertOrupdateUser(@ModelAttribute("postForm") Post postForm,
-//            Model model, HttpSession session) throws Exception {
-//        // get session userId
-//        User user = (User) session.getAttribute("user");
-//        
-//        postForm.setUser(user);
-//        postServiceImpl.doSave(postForm);
-//        model.addAttribute("message", messageSave);
-//        model.addAttribute("userId", userserviceimpl.autoCodePostId());
-//        model.addAttribute("userForm", new User());
-//        return "AddUser";
-//    }
-//
-//    // Update Staff information
-//    @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
-//    public String updateUser(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, Model model,
-//            HttpSession session, final RedirectAttributes redirectAttributes) throws ParseException {
-//        updateuserValidator.validate(userForm, bindingResult);
-//
-//        // contructor user
-//        List<Role> lstrole = (List<Role>) roleRepository.findAll();
-//        List<Timezone> lstTimezone = (List<Timezone>) timezoneRepository.findAll();
-//        String sessionUserid = (String) session.getAttribute("userid");
-//        User u = new User();
-//        u = userRepository.findByUserId(userForm.getUserId());
-//
-//        // check error input
-//        if (bindingResult.hasErrors()) {
-//            redirectAttributes.addFlashAttribute("bindingResult", bindingResult);
-//            redirectAttributes.addFlashAttribute("userForm", userForm);
-//            return "redirect:/updateUser" + "?userid=" + userForm.getUserId();
-//        }
-//
-//        model.addAttribute("lstRole", lstrole);
-//        model.addAttribute("lstTimezone", lstTimezone);
-//        userForm.setCreateId(u.getCreateId());
-//        userForm.setUpdateId(sessionUserid);
-//        userserviceimpl.insertOrupdate(userForm);
-//        session.setAttribute("userTimezone", userForm.getTimezone().getValue());
-//        session.setAttribute("userTimezoneName", userForm.getTimezone().getName());
-//        return "redirect:/updateUser" + "?userid=" + userForm.getUserId() + "&updateUser=" + messageInfo;
-//    }
-//
-//    // Show view form update information 
-//    @RequestMapping(value = "/updateUser", method = RequestMethod.GET)
-//    public String updateInfo(Model model, HttpServletRequest request,
-//            @ModelAttribute("userForm") final User userForm, Locale locale) {
-//
-//        // get parameter date
-//        String userId = request.getParameter("userid");
-//        String resetPass = request.getParameter("resetPass");
-//        String updateuser = request.getParameter("updateUser");
-//
-//        User user = new User();
-//        user = userserviceimpl.searchUserId(userId);
-//        List<Role> lstrole = (List<Role>) roleRepository.findAll();
-//        List<Timezone> lstTimezone = (List<Timezone>) timezoneRepository.findAll();
-//        Map<String, String> mapStatus = new HashMap<String, String>();
-//        String localeString = locale.toString();
-//        // Set date of week English
-//        if (localeString.equalsIgnoreCase("en")) {
-//            mapStatus = commonservice.mapStatus("en");
-//        } else if (localeString.equalsIgnoreCase("ja_JP")) {
-//            mapStatus = commonservice.mapStatus("ja_JP");
-//        }
-//        // set model
-//        model.addAttribute("listStaus", mapStatus);
-//        model.addAttribute("lstRole", lstrole);
-//        model.addAttribute("lstTimezone", lstTimezone);
-//        model.addAttribute("userForm", user);
-//
-//        if (resetPass != null) {
-//            // set message value "Reseted Password Success!"
-//
-//            model.addAttribute("message", messagePass);
-//        }
-//        if (updateuser != null) {
-//            // set message value "Update Information Success!"
-//            model.addAttribute("message", messageInfo);
-//        }
-//
-//        if (model.asMap().containsKey("bindingResult")) {
-//            model.addAttribute("org.springframework.validation.BindingResult.userForm",
-//                    model.asMap().get("bindingResult"));
-//        }
-//
-//        return "UpdateUser";
-//    }
+	// show view form insert formation
+	@RequestMapping(value = "/admin/add-post", method = RequestMethod.GET)
+	public String registration(Model model, HttpServletRequest request, HttpSession session) {
+
+		// set model
+		model.addAttribute("postForm", new Post());
+		model.addAttribute("postId", commonService.autoPostid());
+		return "h";
+	}
+
+	// // Insert staff information
+	// @RequestMapping(value = "/admin/add-post", method = RequestMethod.POST)
+	// public String insertOrupdateUser(@ModelAttribute("postForm") Post postForm,
+	// Model model, HttpSession session) throws Exception {
+	// // get session userId
+	// User user = (User) session.getAttribute("user");
+	//
+	// postForm.setUser(user);
+	// postServiceImpl.doSave(postForm);
+	// model.addAttribute("message", messageSave);
+	// model.addAttribute("userId", userserviceimpl.autoCodePostId());
+	// model.addAttribute("userForm", new User());
+	// return "AddUser";
+	// }
+	//
+	// // Update Staff information
+	// @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
+	// public String updateUser(@ModelAttribute("userForm") User userForm,
+	// BindingResult bindingResult, Model model,
+	// HttpSession session, final RedirectAttributes redirectAttributes) throws
+	// ParseException {
+	// updateuserValidator.validate(userForm, bindingResult);
+	//
+	// // contructor user
+	// List<Role> lstrole = (List<Role>) roleRepository.findAll();
+	// List<Timezone> lstTimezone = (List<Timezone>) timezoneRepository.findAll();
+	// String sessionUserid = (String) session.getAttribute("userid");
+	// User u = new User();
+	// u = userRepository.findByUserId(userForm.getUserId());
+	//
+	// // check error input
+	// if (bindingResult.hasErrors()) {
+	// redirectAttributes.addFlashAttribute("bindingResult", bindingResult);
+	// redirectAttributes.addFlashAttribute("userForm", userForm);
+	// return "redirect:/updateUser" + "?userid=" + userForm.getUserId();
+	// }
+	//
+	// model.addAttribute("lstRole", lstrole);
+	// model.addAttribute("lstTimezone", lstTimezone);
+	// userForm.setCreateId(u.getCreateId());
+	// userForm.setUpdateId(sessionUserid);
+	// userserviceimpl.insertOrupdate(userForm);
+	// session.setAttribute("userTimezone", userForm.getTimezone().getValue());
+	// session.setAttribute("userTimezoneName", userForm.getTimezone().getName());
+	// return "redirect:/updateUser" + "?userid=" + userForm.getUserId() +
+	// "&updateUser=" + messageInfo;
+	// }
+	//
+	// // Show view form update information
+	// @RequestMapping(value = "/updateUser", method = RequestMethod.GET)
+	// public String updateInfo(Model model, HttpServletRequest request,
+	// @ModelAttribute("userForm") final User userForm, Locale locale) {
+	//
+	// // get parameter date
+	// String userId = request.getParameter("userid");
+	// String resetPass = request.getParameter("resetPass");
+	// String updateuser = request.getParameter("updateUser");
+	//
+	// User user = new User();
+	// user = userserviceimpl.searchUserId(userId);
+	// List<Role> lstrole = (List<Role>) roleRepository.findAll();
+	// List<Timezone> lstTimezone = (List<Timezone>) timezoneRepository.findAll();
+	// Map<String, String> mapStatus = new HashMap<String, String>();
+	// String localeString = locale.toString();
+	// // Set date of week English
+	// if (localeString.equalsIgnoreCase("en")) {
+	// mapStatus = commonservice.mapStatus("en");
+	// } else if (localeString.equalsIgnoreCase("ja_JP")) {
+	// mapStatus = commonservice.mapStatus("ja_JP");
+	// }
+	// // set model
+	// model.addAttribute("listStaus", mapStatus);
+	// model.addAttribute("lstRole", lstrole);
+	// model.addAttribute("lstTimezone", lstTimezone);
+	// model.addAttribute("userForm", user);
+	//
+	// if (resetPass != null) {
+	// // set message value "Reseted Password Success!"
+	//
+	// model.addAttribute("message", messagePass);
+	// }
+	// if (updateuser != null) {
+	// // set message value "Update Information Success!"
+	// model.addAttribute("message", messageInfo);
+	// }
+	//
+	// if (model.asMap().containsKey("bindingResult")) {
+	// model.addAttribute("org.springframework.validation.BindingResult.userForm",
+	// model.asMap().get("bindingResult"));
+	// }
+	//
+	// return "UpdateUser";
+	// }
 }

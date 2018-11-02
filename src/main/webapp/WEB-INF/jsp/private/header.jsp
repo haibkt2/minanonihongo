@@ -7,6 +7,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+<title>HaiLDX - Tiếng Nhật cho mọi người.</title>
+<link rel="icon" href="${contextPath}/resources/public/img/fav.png" />
 <meta
 	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
 	name="viewport">
@@ -25,8 +27,8 @@
 </head>
 <body>
 	<header class="main-header">
-		<a href="../../index2.html" class="logo"> <span class="logo-mini"><b>A</b>LT</span>
-			<span class="logo-lg"><b>Admin</b>LTE</span>
+		<a href="${contextPath}/admin" class="logo"> <span class="logo-mini"><b>H</b></span>
+			<span class="logo-lg"><b>Minanonihongo</b></span>
 		</a>
 		<nav class="navbar navbar-static-top">
 			<a href="#" class="sidebar-toggle" data-toggle="push-menu"

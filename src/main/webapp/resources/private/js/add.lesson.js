@@ -40,11 +40,19 @@ function addVoca() {
 	var hirakana = document.getElementById("hirakana").value;
 	var kanji = document.getElementById("kanji").value;
 	var translate = document.getElementById("translate").value;
-	var row = table.insertRow(lg);
+	var row;
+	index = $('#edit-voca').attr("index");
 	if (id == 'o') {
+		
 		id = 'num-'+ lg;
 	} else {
 		document.getElementById("edit-voca").value = 'o';
+	} if(index == 'o') {
+		row = table.insertRow(lg+1);
+	} else {
+		row = table.insertRow(index);
+		var d = document.getElementById("edit-voca"); 
+		d.setAttribute("index", 'o');
 	}
 	row.id = id;
 	var cell1 = row.insertCell(0);
@@ -62,14 +70,32 @@ function addVoca() {
 
 function deleteRow(btn) {
 	var row = btn.parentNode.parentNode;
+	var id = row.id.split('-')[0];
+	if(id != 'num') {
+		var deleVoca = '[]';
+		var obj = JSON.parse(deleVoca);
+		hirakana = row.cells.item(0).innerHTML;
+		kanji = row.cells.item(1).innerHTML;
+		translate = row.cells.item(2).innerHTML;
+		obj.push({
+			"id" : id,
+			"hirakana" : hirakana,
+			"kanji" : kanji,
+			"translate" : translate
+		});
+		document.getElementById('dele-old').value = JSON.stringify(obj);
+	}
 	row.parentNode.removeChild(row);
 }
 
 function fixRow(btn) {
 	var row = btn.parentNode.parentNode;
+	var index = row.rowIndex;
 	document.getElementById("hirakana").value = row.cells.item(0).innerHTML;
 	document.getElementById("kanji").value = row.cells.item(1).innerHTML;
 	document.getElementById("translate").value = row.cells.item(2).innerHTML;
 	document.getElementById("edit-voca").value = row.id;
+	var d = document.getElementById("edit-voca"); 
+	d.setAttribute("index", index);
 	row.parentNode.removeChild(row);
 }

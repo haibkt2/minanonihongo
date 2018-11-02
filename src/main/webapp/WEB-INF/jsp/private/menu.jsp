@@ -9,50 +9,69 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>AdminLTE 2 | Editors</title>
 </head>
 <body>
 	<aside class="main-sidebar">
-		<section class="sidebar">
+		<section class="sidebar" style="height: auto;">
 			<div class="user-panel">
 				<div class="pull-left image">
 					<img src="../../dist/img/user2-160x160.jpg" class="img-circle"
 						alt="User Image">
 				</div>
 				<div class="pull-left info">
-					<p>Alexander Pierce</p>
-					<a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+					<p>${user.userName}</p>
+					<a href="#"><i class="fa fa-circle text-success"></i>Online</a>
 				</div>
 			</div>
 			<ul class="sidebar-menu" data-widget="tree">
-
-				<li class="treeview"><a href="#"> <i
-						class="fa fa-dashboard"></i> <span>Dashboard</span> <span
-						class="pull-right-container"> <i
-							class="fa fa-angle-left pull-right"></i>
+				<li class="header"></li>
+				<li><a href="#"> <i class="fa fa-fw fa-institution"></i> <span>Các
+							Mức Độ</span> <span class="pull-right-container"> </span>
+				</a>
+					<ul>
+						<c:if test="${courses != null}">
+							<li><a href=""><i class="fa fa-fw fa-check-square-o"></i>
+									Đề Thi </a></li>
+							<c:forEach items="${courses}" var="course">
+								<li><a href="${contextPath}/admin/add-course"><i
+										class="fa fa-fw fa-check-square-o"></i>
+										${course.getCourseName()}</a></li>
+							</c:forEach>
+						</c:if>
+					</ul></li>
+				<li><a href="#"> <i class="fa fa-fw fa-sun-o"></i> <span>Vui
+							Tiếng Nhật</span> <span class="pull-right-container"> </span>
+				</a>
+					<ul>
+						<c:if test="${courseFuns != null}">
+							<c:forEach items="${courseFuns}" var="courseFun">
+								<li><a href=""><i class="fa fa-fw fa-check-square-o"></i>
+										${courseFun.courseFunTypeName} </a></li>
+							</c:forEach>
+						</c:if>
+					</ul></li>
+				<li><a href="#"> <i class="fa fa-fw fa-google-wallet"></i>
+						<span>Văn Hóa Nhật Bản</span> <span class="pull-right-container">
 					</span>
 				</a>
-					<ul class="treeview-menu">
-						<li><a href="../../index.html"><i class="fa fa-circle-o"></i>
-								Dashboard v1</a></li>
-						<li><a href="../../index2.html"><i class="fa fa-circle-o"></i>
-								Dashboard v2</a></li>
+					<ul>
+						<c:if test="${posts != null}">
+							<c:forEach items="${posts}" var="post">
+								<li><a href=""><i class="fa fa-fw fa-check-square-o"></i>
+										${post.postTypeName} </a></li>
+							</c:forEach>
+						</c:if>
 					</ul></li>
-				<li class="treeview"><a href="#"> <i class="fa fa-files-o"></i>
-						<span>Layout Options</span> <span class="pull-right-container">
-							<span class="label label-primary pull-right">4</span>
-					</span>
-				</a>
-					<ul class="treeview-menu">
-						<li><a href="../layout/top-nav.html"><i
-								class="fa fa-circle-o"></i> Top Navigation</a></li>
-						<li><a href="../layout/boxed.html"><i
-								class="fa fa-circle-o"></i> Boxed</a></li>
-						<li><a href="../layout/fixed.html"><i
-								class="fa fa-circle-o"></i> Fixed</a></li>
-						<li><a href="../layout/collapsed-sidebar.html"><i
-								class="fa fa-circle-o"></i> Collapsed Sidebar</a></li>
-					</ul></li>
+				<li><a href="#"> <i class="fa fa-fw fa-bullhorn"></i> <span>Thông
+							Báo</span> <span class="pull-right-container"> </span>
+				</a></li>
+				<li><a href="#"> <i class="fa fa-fw fa-users"></i> <span>Quản
+							Lý Người Dùng</span> <span class="pull-right-container"> </span>
+				</a></li>
+				<li><a href="${contextPath}/"> <i
+						class="fa fa-fw fa-mail-forward"></i> <span>Minanonihongo</span> <span
+						class="pull-right-container"> </span>
+				</a></li>
 			</ul>
 		</section>
 	</aside>

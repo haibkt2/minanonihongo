@@ -17,7 +17,7 @@ public class PostType implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name="POST_TYPE_ID", insertable=false, updatable=false)
+    @Column(name="POST_TYPE_ID")
     private String postTypeId;
 
     @Column(name="POST_TYPE_NAME")

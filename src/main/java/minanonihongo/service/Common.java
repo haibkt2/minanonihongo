@@ -1,11 +1,29 @@
 package minanonihongo.service;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+
+import minanonihongo.model.Course;
+import minanonihongo.model.CourseFunType;
+import minanonihongo.model.PostType;
+import minanonihongo.repository.CourseFunTypeRepository;
+import minanonihongo.repository.CourseRepository;
+import minanonihongo.repository.PostTypeRepository;
 
 @Service
 public class Common {
+	@Autowired
+	PostTypeRepository postTypeRepository;
+	@Autowired
+	CourseRepository courseRepository;
+	@Autowired
+	CourseFunTypeRepository courseFunTypeRepository;
 	private static char[] SPECIAL_CHARACTERS = { ' ', '!', '"', '#', '$', '%', '*', '+', ',', ':', '<', '=', '>', '?',
 			'@', '[', '\\', ']', '^', '`', '|', '~', 'À', 'Á', 'Â', 'Ã', 'È', 'É', 'Ê', 'Ì', 'Í', 'Ò', 'Ó', 'Ô', 'Õ',
 			'Ù', 'Ú', 'Ý', 'à', 'á', 'â', 'ã', 'è', 'é', 'ê', 'ì', 'í', 'ò', 'ó', 'ô', 'õ', 'ù', 'ú', 'ý', 'Ă', 'ă',
@@ -57,5 +75,14 @@ public class Common {
 			sb.setCharAt(i, removeAccent(sb.charAt(i)));
 		}
 		return sb.toString();
+	}
+
+	public void getMenu(Model model) {
+		List<Course> courses = (List<Course>) courseRepository.findAll();
+		List<CourseFunType> courseFunTypes = (List<CourseFunType>) courseFunTypeRepository.findAll();
+		List<PostType> postTypes = (List<PostType>) postTypeRepository.findAll();
+		model.addAttribute("courses", courses);
+		model.addAttribute("courseFuns", courseFunTypes);
+		model.addAttribute("posts", postTypes);
 	}
 }

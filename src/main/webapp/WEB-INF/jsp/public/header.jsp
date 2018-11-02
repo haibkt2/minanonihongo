@@ -155,7 +155,7 @@
 							</li>
 						</ul>
 					</div>
-					<c:if test="${empty user}">
+					<c:if test="${user == null}">
 						<div class="account-container" id="account-container">
 							<div class="search-box" onclick="showSearchInput()">
 								<i class="glyphicon glyphicon-search search-icon"></i>
@@ -307,10 +307,7 @@
 												$(document)
 														.ready(
 																function() {
-																	$(
-																			'.btn-register')
-																			.trigger(
-																					'click');
+																	$('.btn-register').trigger('click');
 																});
 											</script>
 										</c:if>
@@ -441,7 +438,7 @@
 							<div class="dropdown auth-container">
 								<div class="dropdown-toggle" type="button"
 									data-toggle="dropdown">
-									<span class="user-name">${user.getUserName()}</span> <img
+									<span class="user-name">${user.userName}</span> <img
 										class="user-avatar-circle"
 										src="http://dungmori.com/cdn/avatar/small/1524118281_332747130_7aedaa_ad98c6" />
 									<span class="caret"></span>
@@ -453,7 +450,7 @@
 											class="zmdi zmdi-account-box"></i> Thông tin cá nhân</a></li>
 									<li><a href="http://dungmori.com/account?focus=changePass"><i
 											class="zmdi zmdi-shield-security"></i> Thay đổi mật khẩu</a></li>
-									<li><a href="${contextPath}/admin"><i class="zmdi zmdi-calendar-note"></i>
+									<li><a href="${contextPath}/admin"><i class="fa fa-fw fa-cogs"></i>
 											Quản lý Website</a></li>
 									<li><a onclick="logout()"><i class="zmdi zmdi-power"></i>
 											Đăng xuất</a></li>

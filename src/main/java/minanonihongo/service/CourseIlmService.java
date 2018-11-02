@@ -125,4 +125,7 @@ public class CourseIlmService {
 		question.put("grade", grade);
 		return question;
 	}
+	public void doSaveCourse(CourseIlm courseIlm) {
+		
+	}
 }
