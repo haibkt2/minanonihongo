@@ -35,19 +35,28 @@
 								<form method="POST" enctype="multipart/form-data"
 									id="fileUploadForm">
 									<div class="add-new-file" style="width: 80%">
-										<div class="add-list" style="width: 8%; float: right;">
-											<button class="btn btn-default" id="submit-file">Thêm
-												File</button>
-										</div>
-										<div style="min-width: 84%; float: left;" class="add-list">
+										<div style="width: 8%; float: right;"></div>
+										<div style="min-width: 80%; float: left;" class="add-list">
 											<input type="text" class="form-control" id="file-name"
 												value="" disabled>
 										</div>
 										<div class="btn btn-default btn-file add-list"
-											style="max-width: 8%; float: right;">
+											style="max-width: 9%; float: right;">
 											Chọn File<input type="file" name="attachment"
 												id="file-upload">
 										</div>
+									</div>
+									<div class="add-new-file" style="width: 80%; margin: 2px 0 2px 0">
+										<div style="width: 8%; float: right;"></div>
+										<div style="min-width: 89%; float: left;" class="add-list">
+											<input type="text" class="form-control"
+												name="file-descrip-doc" placeholder="Nhập Mô Tả Cho File">
+										</div>
+
+									</div>
+									<div class="add-list" style="width: 8%; float: left;margin-left: 15px;">
+										<button class="btn btn-default" id="submit-file">Thêm
+											File</button>
 									</div>
 									<input type="hidden" value="${course.courseName}"
 										name="course-name">
@@ -63,8 +72,8 @@
 												class="table table-bordered table-hover" style="width: 80%">
 												<thead>
 													<tr>
-														<th width="5%"></th>
-														<th width="90%" style="text-align: center;">Tên File</th>
+														<th width="20%">Mô Tả</th>
+														<th width="75%" style="text-align: center;">Tên File</th>
 														<th width="5%"></th>
 													</tr>
 												</thead>
@@ -72,7 +81,7 @@
 													<c:forEach items="${course.getDocuments()}" var="doc"
 														varStatus="d">
 														<tr>
-															<td></td>
+															<td>Tài Liệu Ngữ Pháp</td>
 															<td>${doc.locaFileDoc}</td>
 															<td style="min-height: 30px;"><a class="del-voca"
 																data-toggle="modal" data-target="#modal-dele-${d.index}"
@@ -120,18 +129,17 @@
 								<table id="data-show" class="table table-bordered table-hover">
 									<thead>
 										<tr>
-											<th width="5%" style="font-size: 16px">STT</th>
-											<th width="14%" style="font-size: 16px">Kiến Thức</th>
-											<th width="19%" style="font-size: 16px">Tên Bài Học</th>
-											<th width="22%" style="font-size: 16px">Giới Thiệu Bài Học</th>
-											<th width="31%" style="font-size: 16px">Video Bài Học</th>
-											<th width="9%"></th>
+											<th width="15%" style="font-size: 16px">Kiến Thức</th>
+											<th width="22%" style="font-size: 16px">Tên Bài Học</th>
+											<th width="22%" style="font-size: 16px">Giới Thiệu Bài
+												Học</th>
+											<th width="34%" style="font-size: 16px">Video Bài Học</th>
+											<th width="6%"></th>
 										</tr>
 									</thead>
 									<tbody>
 										<c:forEach items="${courseIlms}" var="cl" varStatus="id">
 											<tr>
-												<td style="text-align: center;">${id.index+1}</td>
 												<td>${cl.courseIlmType.courseIlmTypeName}</td>
 												<td>${cl.lessonName}</td>
 												<td>${cl.lessonName}</td>

@@ -139,9 +139,11 @@ public class AdminMinanonihongoController {
 
 	@RequestMapping(value = "/admin/upload-doc", method = RequestMethod.POST)
 	public String uploadDoc(Model model, HttpServletRequest request, HttpSession session,
-			@RequestParam("attachment") MultipartFile file, @RequestParam("course-name") String courseName) {
+			@RequestParam("attachment") MultipartFile file, @RequestParam("course-name") String courseName,
+			@RequestParam("file-descrip-doc") String descrip) {
 		Course course = courseRepository.findByCourseName(courseName);
-		if(course==null) return "error";
+		if (course == null)
+			return "error";
 		File uploadDir = new File(localFile);
 		if (!uploadDir.exists()) {
 			uploadDir.mkdir();
@@ -155,17 +157,17 @@ public class AdminMinanonihongoController {
 						new FileOutputStream(new File(localFile + courseName + "/doc/" + fileName)));
 				buffStream.write(bytes);
 				buffStream.close();
-				if(docServiceImpl.doSave(fileName, course)) {
+				if (docServiceImpl.doSave(fileName, course)) {
 					model.addAttribute("ok", "ok");
 				}
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
-				return "/private/home";
+				return "error";
 			}
 		}
 		Course courseNew = courseRepository.findByCourseName(courseName);
 		model.addAttribute("course", courseNew);
-		
+
 		return "/private/addDoc";
 	}
 
