@@ -36,22 +36,21 @@ function addVoca() {
 			+ "class=\"del-voca\" href=\"javascript:void(0);\">&nbsp;<i class=\"fa fa-trash-o\">&nbsp;</i></a>&nbsp;&nbsp;"
 			+ "<a onclick = \"fixRow(this)\" href=\"javascript:void(0);\">&nbsp;<i class=\"fa fa-pencil\"></i></a></td></tr>";
 	var table = document.getElementById("data-voca");
-	var lg = $(".scrollContent tr").length;
 	var hirakana = document.getElementById("hirakana").value;
 	var kanji = document.getElementById("kanji").value;
 	var translate = document.getElementById("translate").value;
 	var row;
 	index = $('#edit-voca').attr("index");
 	if (id == 'o') {
-		
-		id = 'num-'+ lg;
+		id = 'num-' + lg;
 	} else {
 		document.getElementById("edit-voca").value = 'o';
-	} if(index == 'o') {
-		row = table.insertRow(lg+1);
+	}
+	if (index == 'o') {
+		row = table.insertRow(lg + 1);
 	} else {
 		row = table.insertRow(index);
-		var d = document.getElementById("edit-voca"); 
+		var d = document.getElementById("edit-voca");
 		d.setAttribute("index", 'o');
 	}
 	row.id = id;
@@ -71,7 +70,7 @@ function addVoca() {
 function deleteRow(btn) {
 	var row = btn.parentNode.parentNode;
 	var id = row.id.split('-')[0];
-	if(id != 'num') {
+	if (id != 'num') {
 		var deleVoca = '[]';
 		var obj = JSON.parse(deleVoca);
 		hirakana = row.cells.item(0).innerHTML;
@@ -95,15 +94,55 @@ function fixRow(btn) {
 	document.getElementById("kanji").value = row.cells.item(1).innerHTML;
 	document.getElementById("translate").value = row.cells.item(2).innerHTML;
 	document.getElementById("edit-voca").value = row.id;
-	var d = document.getElementById("edit-voca"); 
+	var d = document.getElementById("edit-voca");
 	d.setAttribute("index", index);
 	row.parentNode.removeChild(row);
 }
 $('.movie-play').on('click', function(ev) {
 	var id = $(this).attr("id");
-	var vid = document.getElementById("video-"+id.split('-')[1]);
-	$('#'+id).css("display", "none");
-	$('#video-'+id).css("display", "block");
+	var vid = document.getElementById("video-" + id.split('-')[1]);
+	$('#' + id).css("display", "none");
+	$('#video-' + id).css("display", "block");
 	vid.play();
 	ev.preventDefault();
 });
+$("#file-upload").change(function() {
+	$("#file-name").val(this.files[0].name);
+	$("#submit-file").prop("disabled", false);
+});
+
+$(document).ready(function() {
+	var nf = $('#file-name').attr("value");
+	if (nf == '') {
+		$("#submit-file").prop("disabled", true);
+	} else {
+		$("#submit-file").prop("disabled", false);
+	}
+	$("#submit-file").click(function(event) {
+		event.preventDefault();
+		addDoc();
+	});
+});
+function addDoc() {
+	var form = $('#fileUploadForm')[0];
+	var data = new FormData(form);
+	$.ajax({
+		type : "POST",
+		enctype : 'multipart/form-data',
+		url : "/admin/upload-doc",
+		data : data,
+		processData : false,
+		contentType : false,
+		cache : false,
+		timeout : 1000000,
+		success : function(data) {
+			$("#submit-file").prop("disabled", true);
+			$("#result").html(data);
+			console.log("SUCCESS : ", data);
+			$('#fileUploadForm')[0].reset();
+		},
+		error : function() {
+			console.log("FAIL : ", "ERROR");
+		}
+	});
+}

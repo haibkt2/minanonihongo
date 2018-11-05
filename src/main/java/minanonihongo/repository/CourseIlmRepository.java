@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+
+import minanonihongo.model.Course;
 import minanonihongo.model.CourseIlm;
 import minanonihongo.model.CourseIlmType;
 
@@ -19,5 +21,7 @@ public interface CourseIlmRepository extends CrudRepository<CourseIlm, Integer> 
     List<String> courseIlmType(String courseId);
 	
 	CourseIlm findByCourseIlmId(String courseIlmId);
+	
+	List<CourseIlm> findByCourse(Course course);
 	
 }

@@ -1,8 +1,10 @@
 
 package minanonihongo.controller;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -17,10 +19,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import minanonihongo.model.Course;
 import minanonihongo.model.CourseIlm;
-import minanonihongo.model.CourseIlmType;
 import minanonihongo.model.Post;
 import minanonihongo.model.User;
 import minanonihongo.repository.CourseFunTypeRepository;
@@ -35,6 +37,7 @@ import minanonihongo.repository.UserRepository;
 import minanonihongo.service.Common;
 import minanonihongo.service.CommonService;
 import minanonihongo.service.CourseIlmService;
+import minanonihongo.service.DocServiceImpl;
 import minanonihongo.service.PostServiceImpl;
 import minanonihongo.service.UserServiceImpl;
 
@@ -78,7 +81,8 @@ public class AdminMinanonihongoController {
 
 	@Autowired
 	PostServiceImpl postServiceImpl;
-
+	@Autowired
+	DocServiceImpl docServiceImpl;
 	@Autowired
 	CommonService commonService;
 
@@ -100,11 +104,8 @@ public class AdminMinanonihongoController {
 	@Value("${button.save.success}")
 	private String messageSave;
 
-	@Value("${string.reponsitory.local.post}")
-	private String localPost;
-
-	@Value("${string.reponsitory.local.course}")
-	private String localCourse;
+	@Value("${string.reponsitory.local}")
+	private String localFile;
 
 	@GetMapping("/admin")
 	public String home(Model model) {
@@ -117,8 +118,9 @@ public class AdminMinanonihongoController {
 		common.getMenu(model);
 		Course course = courseRepository.findByCourseName(courseName);
 		if (course != null) {
-			String courseId = course.getCourseId();
+			List<CourseIlm> courseIlms = courseIlmRepository.findByCourse(course);
 			model.addAttribute("course", course);
+			model.addAttribute("courseIlms", courseIlms);
 		} else {
 			return "404";
 		}
@@ -133,6 +135,38 @@ public class AdminMinanonihongoController {
 		// model.addAttribute("courseForm", new CourseIlm());
 		// model.addAttribute("postId", commonService.autoPostid());
 		return "/private/addCourse";
+	}
+
+	@RequestMapping(value = "/admin/upload-doc", method = RequestMethod.POST)
+	public String uploadDoc(Model model, HttpServletRequest request, HttpSession session,
+			@RequestParam("attachment") MultipartFile file, @RequestParam("course-name") String courseName) {
+		Course course = courseRepository.findByCourseName(courseName);
+		if(course==null) return "error";
+		File uploadDir = new File(localFile);
+		if (!uploadDir.exists()) {
+			uploadDir.mkdir();
+		}
+		String fileName = null;
+		if (!file.isEmpty()) {
+			try {
+				fileName = file.getOriginalFilename();
+				byte[] bytes = file.getBytes();
+				BufferedOutputStream buffStream = new BufferedOutputStream(
+						new FileOutputStream(new File(localFile + courseName + "/doc/" + fileName)));
+				buffStream.write(bytes);
+				buffStream.close();
+				if(docServiceImpl.doSave(fileName, course)) {
+					model.addAttribute("ok", "ok");
+				}
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+				return "/private/home";
+			}
+		}
+		Course courseNew = courseRepository.findByCourseName(courseName);
+		model.addAttribute("course", courseNew);
+		
+		return "/private/addDoc";
 	}
 
 	// Insert staff information

@@ -101,10 +101,7 @@ public class MinanonihongoController {
 	@Value("${button.save.success}")
 	private String messageSave;
 
-	@Value("${string.reponsitory.local.post}")
-	private String localPost;
-
-	@Value("${string.reponsitory.local.course}")
+	@Value("${string.reponsitory.local}")
 	private String localCourse;
 
 	@Value("${string.role.user}")
