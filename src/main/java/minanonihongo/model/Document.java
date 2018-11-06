@@ -41,6 +41,8 @@ public class Document implements Serializable {
 
 	private String docFlg;
 	
+	private String descrip;
+	
 	private int totalDownload;
 
 	public Document() {
@@ -112,6 +114,14 @@ public class Document implements Serializable {
 
 	public void setTotalDownload(int totalDownload) {
 		this.totalDownload = totalDownload;
+	}
+
+	public String getDescrip() {
+		return descrip;
+	}
+
+	public void setDescrip(String descrip) {
+		this.descrip = descrip;
 	}
 
 }

@@ -178,9 +178,10 @@
 									<div class="tab-content">
 										<div id="register-content" class="tab-pane fade">
 											<div class="col-md-11" data-selectable="true">
-												<form id="register-form" class="form-horizontal"
+												<form id="register-form rg" class="form-horizontal"
 													accept-charset="UTF-8" autocomplete="off"
-													action="${contextPath}/register" method="POST">
+													action="${contextPath}/register" method="POST"
+													onsubmit="return validateForm()">
 													<div class="form-group">
 														<label class="col-md-4 control-label"></label>
 														<div class="col-md-8">
@@ -212,14 +213,9 @@
 														<div class="col-md-8">
 															<input type="password" class="form-control"
 																name="password" id="register-password"
-																placeholder="Mật khẩu"
-																style="margin-bottom: 0; border-bottom: none;"
-																autocomplete="off" required>
+																placeholder="Mật khẩu" autocomplete="off" required>
 															<div class="error-container">
-																<div class="alert-danger">
-																	<i class="zmdi zmdi-alert-octagon"></i>&nbsp;
-																	<p id="cf-error"></p>
-																</div>
+																<div class="alert-danger" id="message-error"></div>
 															</div>
 															<input type="password" class="form-control"
 																name="password_confirm" id="register-password-confirm"
@@ -239,38 +235,8 @@
 													<div class="form-group">
 														<label class="col-md-4 control-label">Ngày sinh</label>
 														<div class="col-md-8">
-															<div class="row">
-
-																<div class="col-xs-5" style="padding-right: 0;">
-
-																	<select name="birth_month" class="form-control"
-																		id="register-month">
-																		<option value="">Chọn tháng</option>
-																		<option value="1">Tháng 1</option>
-																		<option value="2">Tháng 2</option>
-																		<option value="3">Tháng 3</option>
-																		<option value="4">Tháng 4</option>
-																		<option value="5">Tháng 5</option>
-																		<option value="6">Tháng 6</option>
-																		<option value="7">Tháng 7</option>
-																		<option value="8">Tháng 8</option>
-																		<option value="9">Tháng 9</option>
-																		<option value="10">Tháng 10</option>
-																		<option value="11">Tháng 11</option>
-																		<option value="12">Tháng 12</option>
-																	</select>
-																</div>
-																<div class="col-xs-3" style="padding: 0 5px;">
-																	<input type="number" name="birth_day" id="register-day"
-																		class="form-control" placeholder="Ngày"
-																		autocomplete="off" required />
-																</div>
-																<div class="col-xs-4" style="padding-left: 0;">
-																	<input type="number" name="birth_year"
-																		id="register-year" class="form-control"
-																		placeholder="Năm" autocomplete="off" required />
-																</div>
-															</div>
+															<input type="date" class="form-control" name="date"
+																id="register-date" autocomplete="off" required>
 														</div>
 													</div>
 													<div class="form-group">
@@ -307,15 +273,21 @@
 												$(document)
 														.ready(
 																function() {
-																	$('.btn-register').trigger('click');
+																	$(
+																			'.btn-register')
+																			.trigger(
+																					'click');
 																});
+											</script>
+										</c:if>
+										<c:if test="${rg eq 'error'}">
+											<script type="text/javascript">
+												alert("Email này đã đăng ký");
 											</script>
 										</c:if>
 										<div id="login-content" class="tab-pane fade in active"
 											onclick="">
 											<div class="col-md-11">
-
-
 												<form id="login-form" accept-charset="UTF-8"
 													class="form-horizontal" action="${contextPath}/home"
 													method="post">
@@ -353,8 +325,6 @@
 														<div class="col-md-8">
 															<div class="checkbox">
 																<label for="login-remember" class="agree-policy">
-																	<input id="login-remember" type="checkbox"
-																	name="remember"> <span>Ghi nhớ đăng nhập</span>
 																</label>
 															</div>
 														</div>
@@ -438,20 +408,23 @@
 							<div class="dropdown auth-container">
 								<div class="dropdown-toggle" type="button"
 									data-toggle="dropdown">
-									<span class="user-name">${user.userName}</span> <img
+
+									<span class="user-name">${user.name}</span> <img
 										class="user-avatar-circle"
-										src="http://dungmori.com/cdn/avatar/small/1524118281_332747130_7aedaa_ad98c6" />
+										src="${contextPath}/reponsitory/Avatar/<c:if test="${user.avatar == null}">img-df.png</c:if><c:if test="${user.avatar != null}">${user.avatar }</c:if>" />
 									<span class="caret"></span>
 								</div>
 								<ul class="dropdown-menu user-menu">
 									<img class="caret-up"
 										src="${contextPath}/resources/public/img/caret-up.png" />
 									<li><a href="http://dungmori.com/account"><i
-											class="zmdi zmdi-account-box"></i> Thông tin cá nhân</a></li>
+											class="zmdi zmdi-account-box"></i>Thông tin cá nhân</a></li>
 									<li><a href="http://dungmori.com/account?focus=changePass"><i
 											class="zmdi zmdi-shield-security"></i> Thay đổi mật khẩu</a></li>
-									<li><a href="${contextPath}/admin"><i class="fa fa-fw fa-cogs"></i>
-											Quản lý Website</a></li>
+									<c:if test="${user.userId == 'ROLE00001'}">
+										<li><a href="${contextPath}/admin"><i
+												class="fa fa-fw fa-cogs"></i> Quản lý Website</a></li>
+									</c:if>
 									<li><a onclick="logout()"><i class="zmdi zmdi-power"></i>
 											Đăng xuất</a></li>
 								</ul>
@@ -461,20 +434,5 @@
 				</div>
 			</div>
 		</div>
-		<script type="text/javascript">
-			function kt() {
-				var p1 = document.getElementById("register-password").value
-						.trim();
-				alert(p1);
-				var p2 = document.getElementById("register-password-confirm").value
-						.trim();
-				alert(p2);
-				if (p1 != p2) {
-					document.getElementById("cf-error").innerHTML = "Chưa Nhập Đầy Đủ Thông Tin!";
-					return;
-				}
-				register - form.submit();
-			}
-		</script>
 		<script src="${contextPath}/resources/public/js/vue.js"></script>
 		<script src="${contextPath}/resources/public/js/app.js"></script>

@@ -87,6 +87,22 @@ function deleteRow(btn) {
 	row.parentNode.removeChild(row);
 }
 
+//function deleteCourse(btn) {
+//	var id = $(this).attr("id");
+//	$.ajax({
+//		url : "/admin/dele-course",
+//		data : id,
+//		type : "GET",
+//		dataType : "text",
+//		success : function(obj) {
+//			$('.main-left').html(obj);
+//		},
+//		error : function(e) {
+//			alert("Sorry! ");
+//		}
+//	});
+//	row.parentNode.removeChild(row);
+//}
 function fixRow(btn) {
 	var row = btn.parentNode.parentNode;
 	var index = row.rowIndex;
@@ -131,14 +147,13 @@ function addDoc() {
 		enctype : 'multipart/form-data',
 		url : "/admin/upload-doc",
 		data : data,
+		dataType : "html",
 		processData : false,
 		contentType : false,
 		cache : false,
-		timeout : 1000000,
 		success : function(data) {
 			$("#submit-file").prop("disabled", true);
 			$("#result").html(data);
-			console.log("SUCCESS : ", data);
 			$('#fileUploadForm')[0].reset();
 		},
 		error : function() {
@@ -146,3 +161,22 @@ function addDoc() {
 		}
 	});
 }
+$(".bt-dele-doc").click(function(e) {
+	e.preventDefault();
+	var id = $(this).attr("id");
+	var course = $(this).attr("course");
+	var url = "/admin/dele-doc/"+course+"/"+id;
+//	$('.modal-backdrop').css('position','initial');
+	$.ajax({
+		url : url,
+		type : "POST",
+		data: id,
+		dataType : "text",
+		success : function(data) {
+			$("#result").html(data);
+		},
+		error : function(e) {
+			alert("Sorry! ");
+		}
+	});
+});

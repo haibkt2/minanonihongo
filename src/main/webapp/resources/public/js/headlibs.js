@@ -1,3 +1,16 @@
+function validateForm() {
+				if ($('#register-password').val().length < 6) {
+					$('#message-error').html('<i class="zmdi zmdi-alert-octagon"></i>&nbsp;Mật khẩu quá ngắn').css('color', 'red');
+					return false;
+				} 
+				if ($('#register-password').val() != $('#register-password-confirm').val()) {
+					$('#message-error').html('<i class="zmdi zmdi-alert-octagon"></i>&nbsp;Xác nhận mật khẩu chưa đúng').css('color', 'red');
+					return false;
+				} 
+				if (!$("#agree-checkbox").is(':checked')) {
+					return false;
+				} 
+		}
 function setCookie(e, t, n) {
     var o;
     if (n) {

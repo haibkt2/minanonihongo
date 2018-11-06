@@ -5,6 +5,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -19,16 +20,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import minanonihongo.model.Course;
 import minanonihongo.model.CourseIlm;
+import minanonihongo.model.Document;
 import minanonihongo.model.Post;
 import minanonihongo.model.User;
 import minanonihongo.repository.CourseFunTypeRepository;
 import minanonihongo.repository.CourseIlmRepository;
 import minanonihongo.repository.CourseIlmTypeRepository;
 import minanonihongo.repository.CourseRepository;
+import minanonihongo.repository.DocRepository;
 import minanonihongo.repository.NotifyRepository;
 import minanonihongo.repository.PostRepository;
 import minanonihongo.repository.PostTypeRepository;
@@ -61,6 +65,8 @@ public class AdminMinanonihongoController {
 
 	@Autowired
 	CourseRepository courseRepository;
+	@Autowired
+	DocRepository docRepository;
 
 	@Autowired
 	CourseIlmRepository courseIlmRepository;
@@ -151,26 +157,33 @@ public class AdminMinanonihongoController {
 		String fileName = null;
 		if (!file.isEmpty()) {
 			try {
-				fileName = file.getOriginalFilename();
+				fileName = common.toUrlFriendly(file.getOriginalFilename());
 				byte[] bytes = file.getBytes();
 				BufferedOutputStream buffStream = new BufferedOutputStream(
 						new FileOutputStream(new File(localFile + courseName + "/doc/" + fileName)));
 				buffStream.write(bytes);
 				buffStream.close();
-				if (docServiceImpl.doSave(fileName, course)) {
-					model.addAttribute("ok", "ok");
+				if (!docServiceImpl.doSaveDoc(fileName, course, descrip, session)) {
+					return "error";
 				}
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 				return "error";
 			}
 		}
-		Course courseNew = courseRepository.findByCourseName(courseName);
-		model.addAttribute("course", courseNew);
-
+		model.addAttribute("course", course);
 		return "/private/addDoc";
 	}
-
+	@RequestMapping(value = "/admin/dele-doc/{courseId}/{id}", method = RequestMethod.POST)
+	public String deleDoc(Model model, HttpServletRequest request, HttpSession session, @PathVariable final String id, @PathVariable final String courseId) {
+		Document document = docRepository.findByDocId(id);
+		if(document != null) {
+			docRepository.deleteDocId(id);
+		}
+		Course course = courseRepository.findByCourseId(courseId);
+		model.addAttribute("course", course);
+		return "/private/addDoc";
+	}
 	// Insert staff information
 	@RequestMapping(value = "/admin/add-post", method = RequestMethod.POST)
 	public String doSave(@ModelAttribute("courseForm") CourseIlm courseForm, Model model, HttpSession session,

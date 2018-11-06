@@ -26,7 +26,6 @@
 									style="margin-bottom: 15px; text-align: center;">
 									<h3 class="box-title" style="float: center;">
 										Danh Sách Các Bài Học : <i style="color: blue;">${course.courseName}</i>
-
 									</h3>
 								</section>
 							</div>
@@ -54,7 +53,7 @@
 										</div>
 
 									</div>
-									<div class="add-list" style="width: 8%; float: left;margin-left: 15px;">
+									<div style="width: 8%; float: left;margin-left: 15px;">
 										<button class="btn btn-default" id="submit-file">Thêm
 											File</button>
 									</div>
@@ -81,15 +80,15 @@
 													<c:forEach items="${course.getDocuments()}" var="doc"
 														varStatus="d">
 														<tr>
-															<td>Tài Liệu Ngữ Pháp</td>
+															<td>${doc.descrip}</td>
 															<td>${doc.locaFileDoc}</td>
 															<td style="min-height: 30px;"><a class="del-voca"
 																data-toggle="modal" data-target="#modal-dele-${d.index}"
-																onclick="deleteRow(this)" href="javascript:void(0);">&nbsp;<i
+																 href="javascript:void(0);">&nbsp;<i
 																	class="fa fa-trash-o">&nbsp;</i></a></td>
 														</tr>
 														<div class="modal fade in" id="modal-dele-${d.index}"
-															style="display: none; padding-right: 17px;">
+															style="padding-right: 17px;">
 															<div class="modal-dialog">
 																<div class="modal-content">
 																	<div class="modal-header">
@@ -108,8 +107,8 @@
 																		<button type="button"
 																			class="btn btn-default pull-left"
 																			data-dismiss="modal">Hủy</button>
-																		<button type="button" class="btn btn-primary"
-																			id="${doc.docId}">Xóa</button>
+																		<button type="button" class="btn btn-primary bt-dele-doc" onclick="deleteCourse(this)"
+																			id="${doc.docId}" course="${doc.course.courseId}" >Xóa</button>
 																	</div>
 																</div>
 																<!-- /.modal-content -->

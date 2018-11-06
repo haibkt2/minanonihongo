@@ -7,6 +7,8 @@ import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -86,9 +88,6 @@ public class MinanonihongoController {
 	@Autowired
 	UserServiceImpl userserviceimpl;
 
-	@Value("${string.domain.default}")
-	private String domain;
-
 	@Value("${string.postType.name}")
 	private String postType;
 
@@ -117,76 +116,36 @@ public class MinanonihongoController {
 		return "404";
 	}
 
-	// @RequestMapping(value = "/login", method = RequestMethod.GET)
-	// public String login(Model model, @PathParam(value = "email") String email,
-	// @RequestParam(defaultValue = "false") boolean remember, @PathParam(value =
-	// "password") String password,
-	// HttpSession session, HttpServletRequest req, HttpServletResponse resp,
-	// Authentication auth) throws Exception {
-	// URL u = new URL(req.getHeader("Referer"));
-	// User user = userRepository.findByEmail(email, password);
-	// if (user == null) {
-	// model.addAttribute("login", "error");
-	// } else {
-	// session.setAttribute("user", user);
-	// Cookie a = new Cookie("email", email);
-	// Cookie b = new Cookie("password", password);
-	// if (remember) {
-	// a.setMaxAge(20000);
-	// b.setMaxAge(20000);
-	// } else {
-	// a.setMaxAge(0);
-	// b.setMaxAge(0);
-	// }
-	// resp.addCookie(a);
-	// resp.addCookie(b);
-	//
-	// }
-	// return "redirect:" + u.getPath();
-	// }
-
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public String register(@RequestParam("mssv") String mssv, @RequestParam("name") String name,
-			@RequestParam("mail") String mail, @RequestParam("birthday") String birthday,
-			@RequestParam("phone") String phone, @RequestParam("gender") String gender, Model model,
+	public String register(@RequestParam("password") String password, @RequestParam("name") String name,
+			@RequestParam("email") String email, @RequestParam("date") String date,
+			@RequestParam("phone") String phone, Model model,
 			HttpSession session, HttpServletRequest request) throws Exception {
-
-		User user = new User();
-		user.setUserId(mssv);
-		user.setName(name);
-		// user.setBrithday(birthday);
+		User u = userRepository.findByEmail(email);
+		if(u!=null) {
+			model.addAttribute("rg", "error");
+			return "public/home";
+		}
+		User user = userserviceimpl.setUser(password);
+		Date bir =new SimpleDateFormat("yyyy-MM-dd").parse(date); 
+		user.setBirthday(bir);
 		user.setPhone(phone);
-		// user.setCreateDate(userserviceimpl.currentDate());
-		// File uploadDir = new File(localImage);
-		// if (!uploadDir.exists()) {
-		// uploadDir.mkdir();
-		// }
-		String fileName = null;
-		// if (!file.isEmpty()) {
-		// try {
-		// fileName = mssv + "-" + file.getOriginalFilename();
-		// byte[] bytes = file.getBytes();
-		// BufferedOutputStream buffStream = new BufferedOutputStream(
-		// new FileOutputStream(new File(localImage + fileName)));
-		// buffStream.write(bytes);
-		// buffStream.close();
-		user.setAvatar(fileName);
-		// } catch (Exception e) {
-		// return "redirect:/home?error";
-		// }
-		// }
-		// String m = userserviceimpl.insertUser(user);
-		return "redirect:/home?mess=";
+		user.setEmail(email);
+		user.setName(name);
+		userRepository.save(user);
+		session.setAttribute("user", user);
+		URL url = new URL(request.getHeader("Referer"));
+		return "redirect:" + url.getPath();
 	}
 
 	@RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
 	public String login(Model model, HttpSession session, String error, HttpServletRequest req,
 			HttpServletResponse response) throws Exception {
 		if (error != null) {
-//			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//			String userName = auth.getName();
-//			User user = userRepository.findByUserName(userName);
-//			if(user)
+			// Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			// String userName = auth.getName();
+			// User user = userRepository.findByUserName(userName);
+			// if(user)
 			model.addAttribute("login", "error");
 		}
 		return "public/home";
@@ -316,7 +275,7 @@ public class MinanonihongoController {
 			user = new User();
 		}
 		user.setUserId(userFb.getId());
-		user.setUserName(userFb.getName());
+		user.setName(userFb.getName());
 		user.setAvatar(userFb.getId());
 		user.setBirthday(userFb.getBirthdayAsDate());
 		user.setEmail(userFb.getEmail());

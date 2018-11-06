@@ -20,14 +20,13 @@ public class DocServiceImpl {
 	private DocRepository docRepository;
 	@Autowired
 	private CommonService commonService;
-	HttpSession session;
 
-	public boolean doSave(String fileName, Course course) {
-		
+	public boolean doSaveDoc(String fileName, Course course, String descrip, HttpSession s) {
+
 		try {
 			List<Document> documents = (List<Document>) docRepository.findAll();
 			String docId = "DOC0000";
-			if (documents != null) {
+			if (documents.size() > 0) {
 				int id = Integer.parseInt(documents.get(documents.size() - 1).getDocId().substring(3, 7)) + 1;
 				String countDocId = "" + id;
 				if (countDocId.trim().length() != 4) {
@@ -43,8 +42,9 @@ public class DocServiceImpl {
 			document.setCreateDate(commonService.currentDate());
 			document.setDocId(docId);
 			document.setLocaFileDoc(fileName);
-			document.setUser((User)session.getAttribute("user"));
 			document.setUpdateDate(commonService.currentDate());
+			document.setDescrip(descrip);
+			document.setUser((User) s.getAttribute("user"));
 			docRepository.save(document);
 			return true;
 		} catch (Exception e) {

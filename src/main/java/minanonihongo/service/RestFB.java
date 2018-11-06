@@ -52,16 +52,4 @@ public class RestFB {
         accountNonLocked, authorities);
     return userDetail;
   }
-  @SuppressWarnings("null")
-public minanonihongo.model.User setUserFb(String userId) throws Exception {
-//		String userId = user.getAvatar();
-		minanonihongo.model.User findUser = userRepository.findByUserId("4444444");
-		if(findUser == null) {
-			findUser.setUserId(userId);
-			findUser.setUserName(userId);
-			findUser.setName(userId);
-		}
-		System.out.println("sd");
-		return findUser;
-	}
 }	

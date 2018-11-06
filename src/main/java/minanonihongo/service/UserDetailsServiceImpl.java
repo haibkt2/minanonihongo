@@ -1,17 +1,8 @@
-/*
- * System name: Time record system
- * Company name: ARCH-VN
- * Author: doan-xuanliem
- * Create day: 2017/11/30
- * Version: 1.0
- */
-
 package minanonihongo.service;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,25 +17,12 @@ import minanonihongo.model.Role;
 import minanonihongo.model.User;
 import minanonihongo.repository.UserRepository;
 
-/*
- * Class name: UserDetailsServiceImpl
- *
- * Used in order to lookup the username, password and GrantedAuthorities for any given user
- */
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
      @Autowired
     private UserRepository userRepository;
 
-     /*
-      * Method name: loadUserByUsername
-      *
-      * Locates the user based on the username.
-      * Parameters: username
-      * Returns: user record
-      * Throws: UsernameNotFoundException
-      */
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
