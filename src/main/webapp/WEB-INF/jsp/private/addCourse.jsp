@@ -214,7 +214,7 @@
 <%-- 			src="${contextPath}/resources/private/js/jquery.dataTables.min.js"></script> --%>
 <!-- 		<script -->
 <%-- 			src="${contextPath}/resources/private/js/dataTables.bootstrap.min.js"></script> --%>
-		<script src="${contextPath}/resources/private/js/add.lesson.js"></script>
+		<script src="${contextPath}/resources/private/js/up.lesson.js"></script>
 	</div>
 </body>
 

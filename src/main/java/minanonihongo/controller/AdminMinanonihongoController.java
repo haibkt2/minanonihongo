@@ -172,19 +172,37 @@ public class AdminMinanonihongoController {
 			}
 		}
 		model.addAttribute("course", course);
-		return "/private/addDoc";
+		return "/private/upDoc";
 	}
+
 	@RequestMapping(value = "/admin/dele-doc/{courseId}/{id}", method = RequestMethod.POST)
-	public String deleDoc(Model model, HttpServletRequest request, HttpSession session, @PathVariable final String id, @PathVariable final String courseId) {
+	public String deleDoc(Model model, HttpServletRequest request, HttpSession session, @PathVariable final String id,
+			@PathVariable final String courseId) {
 		Document document = docRepository.findByDocId(id);
-		if(document != null) {
+		Course course = courseRepository.findByCourseId(courseId);
+		if (document != null && course != null) {
+			File file = new File(localFile+course.getCourseName()+"/doc/"+document.getLocaFileDoc());
+			file.delete();
 			docRepository.deleteDocId(id);
 		}
-		Course course = courseRepository.findByCourseId(courseId);
 		model.addAttribute("course", course);
-		return "/private/addDoc";
+		return "/private/upDoc";
 	}
-	// Insert staff information
+	@RequestMapping(value = "/admin/dele-course/{courseId}/{id}", method = RequestMethod.POST)
+	public String deleCourse(Model model, HttpServletRequest request, HttpSession session, @PathVariable final String id,
+			@PathVariable final String courseId) {
+		CourseIlm courseIlm = courseIlmRepository.findByCourseIlmId(id);
+		Course course = courseRepository.findByCourseId(courseId);
+		if (courseIlm != null && course != null) {
+			File fimg = new File(localFile+course.getCourseName()+"/img/"+courseIlm.getLocaFileImg());
+			fimg.delete();
+			File fvd = new File(localFile+course.getCourseName()+"/video/"+courseIlm.getLocaFileCourse());
+			fvd.delete();
+			courseIlmRepository.deleteCourseIlmId(id);
+		}
+		model.addAttribute("course", course);
+		return "/private/upDoc";
+	}
 	@RequestMapping(value = "/admin/add-post", method = RequestMethod.POST)
 	public String doSave(@ModelAttribute("courseForm") CourseIlm courseForm, Model model, HttpSession session,
 			@RequestParam("edit-voca") String editVoca, @RequestParam("list-current") String listCurrent,

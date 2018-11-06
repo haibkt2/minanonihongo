@@ -235,7 +235,7 @@
 													<div class="form-group">
 														<label class="col-md-4 control-label">Ngày sinh</label>
 														<div class="col-md-8">
-															<input type="date" class="form-control" name="date"
+															<input type="date" class="form-control" name="date" style="height: auto;"
 																id="register-date" autocomplete="off" required>
 														</div>
 													</div>

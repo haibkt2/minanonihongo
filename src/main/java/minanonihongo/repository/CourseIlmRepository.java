@@ -3,14 +3,13 @@ package minanonihongo.repository;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import minanonihongo.model.Course;
 import minanonihongo.model.CourseIlm;
-import minanonihongo.model.CourseIlmType;
-
-
 
 public interface CourseIlmRepository extends CrudRepository<CourseIlm, Integer> {
 	@Query(value = "SELECT * FROM course_ilm where course_id = ?1 and course_ilm_type_id = ?2 ORDER BY course_ilm_id" , nativeQuery = true)
@@ -23,5 +22,8 @@ public interface CourseIlmRepository extends CrudRepository<CourseIlm, Integer> 
 	CourseIlm findByCourseIlmId(String courseIlmId);
 	
 	List<CourseIlm> findByCourse(Course course);
-	
+	@Modifying
+	@Transactional
+	@Query(value="Delete from course_ilm where course_ilm_id = ?1",nativeQuery = true)
+	int deleteCourseIlmId(String courseId);
 }

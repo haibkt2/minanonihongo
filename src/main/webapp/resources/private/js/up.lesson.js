@@ -87,22 +87,6 @@ function deleteRow(btn) {
 	row.parentNode.removeChild(row);
 }
 
-//function deleteCourse(btn) {
-//	var id = $(this).attr("id");
-//	$.ajax({
-//		url : "/admin/dele-course",
-//		data : id,
-//		type : "GET",
-//		dataType : "text",
-//		success : function(obj) {
-//			$('.main-left').html(obj);
-//		},
-//		error : function(e) {
-//			alert("Sorry! ");
-//		}
-//	});
-//	row.parentNode.removeChild(row);
-//}
 function fixRow(btn) {
 	var row = btn.parentNode.parentNode;
 	var index = row.rowIndex;
@@ -166,7 +150,6 @@ $(".bt-dele-doc").click(function(e) {
 	var id = $(this).attr("id");
 	var course = $(this).attr("course");
 	var url = "/admin/dele-doc/"+course+"/"+id;
-//	$('.modal-backdrop').css('position','initial');
 	$.ajax({
 		url : url,
 		type : "POST",
@@ -174,6 +157,24 @@ $(".bt-dele-doc").click(function(e) {
 		dataType : "text",
 		success : function(data) {
 			$("#result").html(data);
+		},
+		error : function(e) {
+			alert("Sorry! ");
+		}
+	});
+});
+$(".bt-dele-course").click(function(e) {
+	e.preventDefault();
+	var course = $(this).attr("course");
+	var id = $(this).attr("id");
+	var url = "/admin/dele-course/"+course+"/"+id;
+	$.ajax({
+		url : url,
+		type : "POST",
+		data: id,
+		dataType : "text",
+		success : function(data) {
+			$(".box-body").html(data);
 		},
 		error : function(e) {
 			alert("Sorry! ");

@@ -45,7 +45,8 @@
 												id="file-upload">
 										</div>
 									</div>
-									<div class="add-new-file" style="width: 80%; margin: 2px 0 2px 0">
+									<div class="add-new-file"
+										style="width: 80%; margin: 2px 0 2px 0">
 										<div style="width: 8%; float: right;"></div>
 										<div style="min-width: 89%; float: left;" class="add-list">
 											<input type="text" class="form-control"
@@ -53,7 +54,7 @@
 										</div>
 
 									</div>
-									<div style="width: 8%; float: left;margin-left: 15px;">
+									<div style="width: 8%; float: left; margin-left: 15px;">
 										<button class="btn btn-default" id="submit-file">Thêm
 											File</button>
 									</div>
@@ -62,32 +63,33 @@
 								</form>
 								<br>
 								<div id="result">
-									<c:if test="${not empty course.getDocuments()}">
-										<div style="margin-left: 15px; font-size: 16px">
-											<br> <strong>Tài liệu <c:out
-													value="${courseName}"></c:out> :
-											</strong> <br> <br>
-											<table id="data-show-doc"
-												class="table table-bordered table-hover" style="width: 80%">
-												<thead>
-													<tr>
-														<th width="20%">Mô Tả</th>
-														<th width="75%" style="text-align: center;">Tên File</th>
-														<th width="5%"></th>
-													</tr>
-												</thead>
-												<tbody>
+									<div style="margin-left: 15px; font-size: 16px">
+										<br> <strong>Tài liệu <c:out
+												value="${courseName}"></c:out>
+										</strong> <br>
+										<table id="data-show-doc"
+											class="table table-bordered table-hover" style="width: 80%">
+											<thead>
+												<tr>
+													<th width="20%">Mô Tả</th>
+													<th width="75%" style="text-align: center;">Tên File</th>
+													<th width="5%"></th>
+												</tr>
+											</thead>
+											<tbody>
+												<c:if test="${not empty course.getDocuments()}">
 													<c:forEach items="${course.getDocuments()}" var="doc"
 														varStatus="d">
 														<tr>
 															<td>${doc.descrip}</td>
 															<td>${doc.locaFileDoc}</td>
 															<td style="min-height: 30px;"><a class="del-voca"
-																data-toggle="modal" data-target="#modal-dele-${d.index}"
-																 href="javascript:void(0);">&nbsp;<i
+																data-toggle="modal"
+																data-target="#modal-dele-doc-${d.index}"
+																href="javascript:void(0);">&nbsp;<i
 																	class="fa fa-trash-o">&nbsp;</i></a></td>
 														</tr>
-														<div class="modal fade in" id="modal-dele-${d.index}"
+														<div class="modal fade in" id="modal-dele-doc-${d.index}"
 															style="padding-right: 17px;">
 															<div class="modal-dialog">
 																<div class="modal-content">
@@ -101,44 +103,45 @@
 																			chắc muốn xóa :</h4>
 																	</div>
 																	<div class="modal-body">
-																		<p>${doc.locaFileDoc}</p>
+																		<p>File tài liêu : ${doc.locaFileDoc}</p>
 																	</div>
 																	<div class="modal-footer">
 																		<button type="button"
 																			class="btn btn-default pull-left"
 																			data-dismiss="modal">Hủy</button>
-																		<button type="button" class="btn btn-primary bt-dele-doc" onclick="deleteCourse(this)"
-																			id="${doc.docId}" course="${doc.course.courseId}" >Xóa</button>
+																		<button type="button"
+																			class="btn btn-primary bt-dele-doc"
+																			onclick="deleteCourse(this)" id="${doc.docId}"
+																			course="${doc.course.courseId}" data-dismiss="modal">Xóa</button>
 																	</div>
 																</div>
-																<!-- /.modal-content -->
 															</div>
-															<!-- /.modal-dialog -->
 														</div>
 													</c:forEach>
-												</tbody>
-											</table>
-										</div>
-										<br>
-									</c:if>
+												</c:if>
+											</tbody>
+										</table>
+									</div>
+									<br>
 								</div>
 							</div>
-							<!-- /.box-header -->
 							<div class="box-body">
 								<table id="data-show" class="table table-bordered table-hover">
 									<thead>
 										<tr>
-											<th width="15%" style="font-size: 16px">Kiến Thức</th>
-											<th width="22%" style="font-size: 16px">Tên Bài Học</th>
-											<th width="22%" style="font-size: 16px">Giới Thiệu Bài
+											<th width="5%" style="font-size: 16px">STT</th>
+											<th width="14%" style="font-size: 16px">Kiến Thức</th>
+											<th width="21%" style="font-size: 16px">Tên Bài Học</th>
+											<th width="20%" style="font-size: 16px">Giới Thiệu Bài
 												Học</th>
-											<th width="34%" style="font-size: 16px">Video Bài Học</th>
+											<th width="33%" style="font-size: 16px">Video Bài Học</th>
 											<th width="6%"></th>
 										</tr>
 									</thead>
 									<tbody>
 										<c:forEach items="${courseIlms}" var="cl" varStatus="id">
 											<tr>
+												<td>${id.index+1}</td>
 												<td>${cl.courseIlmType.courseIlmTypeName}</td>
 												<td>${cl.lessonName}</td>
 												<td>${cl.lessonName}</td>
@@ -159,29 +162,50 @@
 														</video>
 													</div></td>
 												<td style="min-height: 30px;"><a class="del-voca"
-													onclick="deleteRow(this)" href="javascript:void(0);">&nbsp;<i
-														class="fa fa-trash-o">&nbsp;</i></a>&nbsp;&nbsp;<a
-													onclick="fixRow(this)" href="javascript:void(0);">&nbsp;<i
+													data-toggle="modal"
+													data-target="#modal-dele-course-${id.index}"
+													href="javascript:void(0);">&nbsp;<i
+														class="fa fa-trash-o">&nbsp;</i></a> &nbsp;&nbsp;<a
+													href="javascript:void(0);">&nbsp;<i
 														class="fa fa-pencil"></i></a></td>
 											</tr>
+											<div class="modal fade in" id="modal-dele-course-${id.index}"
+												style="padding-right: 17px;">
+												<div class="modal-dialog">
+													<div class="modal-content">
+														<div class="modal-header">
+															<button type="button" class="close" data-dismiss="modal"
+																aria-label="Close">
+																<span aria-hidden="true">×</span>
+															</button>
+															<h4 class="modal-title"
+																style="text-align: center; color: red">Bạn có chắc
+																muốn xóa :</h4>
+														</div>
+														<div class="modal-body">
+															<p>Bài học : ${cl.lessonName}</p>
+														</div>
+														<div class="modal-footer">
+															<button type="button" class="btn btn-default pull-left"
+																data-dismiss="modal">Hủy</button>
+															<button type="button"
+																class="btn btn-primary bt-dele-course"
+																id="${cl.courseIlmId}" course="${cl.course.courseId}"
+																data-dismiss="modal">Xóa</button>
+														</div>
+													</div>
+												</div>
+											</div>
 										</c:forEach>
 									</tbody>
 								</table>
 							</div>
-							<!-- /.box-body -->
 						</div>
-						<!-- /.box -->
-
 					</div>
-					<!-- /.col -->
 				</div>
-				<!-- /.row -->
 			</section>
-			<!-- /.content -->
 		</div>
-		<!-- /.content-wrapper -->
 		<jsp:include page="footer.jsp"></jsp:include>
-		<!-- /.content-wrapper -->
 		<script>
 			$(function() {
 				$('#data-show').DataTable({
@@ -194,15 +218,12 @@
 				})
 			})
 		</script>
-		<script type="text/javascript">
-			// sự kiện click vào chạy video
-		</script>
 		<script src="${contextPath}/resources/private/js/jquery.min.js"></script>
 		<script
 			src="${contextPath}/resources/private/js/jquery.dataTables.min.js"></script>
 		<script
 			src="${contextPath}/resources/private/js/dataTables.bootstrap.min.js"></script>
-		<script src="${contextPath}/resources/private/js/add.lesson.js"></script>
+		<script src="${contextPath}/resources/private/js/up.lesson.js"></script>
 	</div>
 </body>
 
