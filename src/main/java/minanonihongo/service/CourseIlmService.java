@@ -5,9 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,15 +15,36 @@ import minanonihongo.model.Document;
 import minanonihongo.model.Exam;
 import minanonihongo.model.ExamAnswer;
 import minanonihongo.model.ExamQuestion;
-import minanonihongo.model.ExamResult;
-import minanonihongo.model.User;
+import minanonihongo.model.VocaCourseIlm;
+import minanonihongo.repository.CourseGlobalRepository;
 import minanonihongo.repository.CourseIlmRepository;
+import minanonihongo.repository.ExamAnswerRepository;
+import minanonihongo.repository.ExamQuestionRepository;
+import minanonihongo.repository.ExamRepository;
+import minanonihongo.repository.VocaCourseIlmRepository;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 @Service
 public class CourseIlmService {
 
 	@Autowired
 	private CourseIlmRepository courseIlmRepository;
+	
+	@Autowired
+	ExamRepository examRepository;
+
+	@Autowired
+	ExamQuestionRepository examQuestionRepository;
+
+	@Autowired
+	ExamAnswerRepository examAnswerRepository;
+
+	@Autowired
+	VocaCourseIlmRepository vocaCourseIlmRepository;
+	
+	@Autowired
+	CourseGlobalRepository courseGlobalRepository;
 
 	public Map<String, List<CourseIlm>> setMapCourse(String courseId, List<CourseIlmType> courseIlmTypeList) {
 		Map<String, List<CourseIlm>> map = new HashMap<>();
@@ -58,7 +76,7 @@ public class CourseIlmService {
 				courseIlm.setLocaFileCourse(null);
 				courseIlm.setVocaCourseIlms(new ArrayList<>());
 				courseIlm.setIntroduce(null);
-				courseIlm.setLessonName("Bài tập : "+ courseIlm.getLessonName());
+				courseIlm.setLessonName("Bài tập : " + courseIlm.getLessonName());
 			} else if ("study".equals(lesson)) {
 				courseIlm.setExams(new ArrayList<>());
 			}
@@ -74,25 +92,36 @@ public class CourseIlmService {
 
 		if (courseIlm.getExams() != null) {
 			for (Exam ex : courseIlm.getExams()) {
-				lesson_lesson.put("id", ex.getExamId().substring(ex.getExamId().length()-2, ex.getExamId().length()));
-				lesson_lesson.put("course_id", ex.getCourseIlm().getCourse().getCourseId().substring(ex.getCourseIlm().getCourse().getCourseId().length()-1, ex.getCourseIlm().getCourse().getCourseId().length()));
+				lesson_lesson.put("id", ex.getExamId().substring(ex.getExamId().length() - 2, ex.getExamId().length()));
+				lesson_lesson.put("course_id",
+						ex.getCourseIlm().getCourse().getCourseId().substring(
+								ex.getCourseIlm().getCourse().getCourseId().length() - 1,
+								ex.getCourseIlm().getCourse().getCourseId().length()));
 				if (ex.getExamQuestion() != null) {
 					lesson_lesson.put("total_marks", ex.getExamQuestion().size());
 					for (ExamQuestion examQuestion : ex.getExamQuestion()) {
-						lesson_tasks.put(getQuestion(ex.getExamId().substring(ex.getExamId().length()-2, ex.getExamId().length()), 
-								examQuestion.getExamQuestionId().substring(examQuestion.getExamQuestionId().length()-2,examQuestion.getExamQuestionId().length()),
-								"3", 
-								examQuestion.getQuestion(), 1));
+						lesson_tasks.add(getQuestion(
+								ex.getExamId().substring(ex.getExamId().length() - 2, ex.getExamId().length()),
+								examQuestion.getExamQuestionId().substring(
+										examQuestion.getExamQuestionId().length() - 2,
+										examQuestion.getExamQuestionId().length()),
+								"3", examQuestion.getQuestion(), 1));
 						JSONArray ans = new JSONArray();
 						if (examQuestion.getExamAnswer() != null) {
 							for (ExamAnswer examAnswer : examQuestion.getExamAnswer()) {
-								ans.put(getAnswer(examAnswer.getExamAnswerId().substring(examAnswer.getExamAnswerId().length()-2, examAnswer.getExamAnswerId().length()), 
-										examQuestion.getExamQuestionId().substring(examQuestion.getExamQuestionId().length()-2, examQuestion.getExamQuestionId().length()),
-										examAnswer.getAnswer(), 
-										examAnswer.getAnswerRghtWrng()));
+								ans.add(getAnswer(
+										examAnswer.getExamAnswerId().substring(
+												examAnswer.getExamAnswerId().length() - 2,
+												examAnswer.getExamAnswerId().length()),
+										examQuestion.getExamQuestionId().substring(
+												examQuestion.getExamQuestionId().length() - 2,
+												examQuestion.getExamQuestionId().length()),
+										examAnswer.getAnswer(), examAnswer.getAnswerRghtWrng()));
 							}
 						}
-						lesson_answers.put(examQuestion.getExamQuestionId().substring(examQuestion.getExamQuestionId().length()-2,examQuestion.getExamQuestionId().length()), ans);
+						lesson_answers.put(examQuestion.getExamQuestionId().substring(
+								examQuestion.getExamQuestionId().length() - 2,
+								examQuestion.getExamQuestionId().length()), ans);
 					}
 				}
 
@@ -125,7 +154,32 @@ public class CourseIlmService {
 		question.put("grade", grade);
 		return question;
 	}
+
 	public void doSaveCourse(CourseIlm courseIlm) {
-		
+
+	}
+
+	public boolean deleCourse(CourseIlm courseIlm) {
+		List<Exam> exams = courseIlm.getExams();
+		for (Exam ex : exams) {
+			List<ExamQuestion> examQuestions = ex.getExamQuestion();
+			for (ExamQuestion eQuestion : examQuestions) {
+				List<ExamAnswer> examAnswers = eQuestion.getExamAnswer();
+				for (ExamAnswer eAnswer : examAnswers) {
+					examAnswerRepository.delete(eAnswer);
+				}
+				examQuestionRepository.delete(eQuestion);
+			}
+			examRepository.delete(ex);
+		}
+		if (courseIlm.getCourseGlobal() != null) {
+			courseGlobalRepository.delete(courseIlm.getCourseGlobal());
+		}
+		List<VocaCourseIlm> vocaCourseIlms = courseIlm.getVocaCourseIlms();
+		if (vocaCourseIlms != null && vocaCourseIlms.size() > 0) {
+			vocaCourseIlmRepository.deleteVocaCourseIlmId(courseIlm.getCourseIlmId());
+		}
+		courseIlmRepository.delete(courseIlm);
+		return true;
 	}
 }

@@ -18,7 +18,7 @@ public class CourseIlmType implements Serializable {
 
 	@Id
 	@Column(name = "COURSE_ILM_TYPE_ID", insertable = true, updatable = true)
-	private String courseIlmTypeId;
+	private int courseIlmTypeId;
 
 	@OneToMany(mappedBy = "courseIlmType")
 	private List<CourseIlm> courseIlms;
@@ -29,7 +29,7 @@ public class CourseIlmType implements Serializable {
 
 	}
 
-	public CourseIlmType(String courseIlmTypeId, String courseIlmTypeName) {
+	public CourseIlmType(int courseIlmTypeId, String courseIlmTypeName) {
 		this.courseIlmTypeId = courseIlmTypeId;
 		this.courseIlmTypeName = courseIlmTypeName;
 	}
@@ -38,11 +38,11 @@ public class CourseIlmType implements Serializable {
 		this.courseIlmTypeName = courseIlmTypeName;
 	}
 
-	public String getCourseIlmTypeId() {
+	public int getCourseIlmTypeId() {
 		return courseIlmTypeId;
 	}
 
-	public void setCourseIlmTypeId(String courseIlmTypeId) {
+	public void setCourseIlmTypeId(int courseIlmTypeId) {
 		this.courseIlmTypeId = courseIlmTypeId;
 	}
 

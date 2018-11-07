@@ -54,14 +54,7 @@ public class CourseIlm implements Serializable {
 	@OneToMany(mappedBy = "courseIlm")
 	private List<VocaCourseIlm> vocaCourseIlms;
 
-	public List<VocaCourseIlm> getVocaCourseIlms() {
-		return vocaCourseIlms;
-	}
-
-	public void setVocaCourseIlms(List<VocaCourseIlm> vocaCourseIlms) {
-		this.vocaCourseIlms = vocaCourseIlms;
-	}
-
+	
 	@Temporal(TemporalType.DATE)
 	@Column(name = "CREATE_DATE")
 	private Date createDate;
@@ -75,6 +68,14 @@ public class CourseIlm implements Serializable {
 
 	@OneToOne(mappedBy = "courseIlm")
 	private ExamResult examResult;
+
+	public List<VocaCourseIlm> getVocaCourseIlms() {
+		return vocaCourseIlms;
+	}
+
+	public void setVocaCourseIlms(List<VocaCourseIlm> vocaCourseIlms) {
+		this.vocaCourseIlms = vocaCourseIlms;
+	}
 
 	public CourseGlobal getCourseGlobal() {
 		return courseGlobal;

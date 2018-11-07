@@ -421,7 +421,7 @@
 											class="zmdi zmdi-account-box"></i>Thông tin cá nhân</a></li>
 									<li><a href="http://dungmori.com/account?focus=changePass"><i
 											class="zmdi zmdi-shield-security"></i> Thay đổi mật khẩu</a></li>
-									<c:if test="${user.userId == 'ROLE00001'}">
+									<c:if test="${user.role.roleId == 'ROLE00001'}">
 										<li><a href="${contextPath}/admin"><i
 												class="fa fa-fw fa-cogs"></i> Quản lý Website</a></li>
 									</c:if>

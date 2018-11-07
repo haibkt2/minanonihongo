@@ -1,11 +1,6 @@
 
 package minanonihongo.service;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +30,7 @@ public class UserServiceImpl {
 		User user = new User();
 		List<User> users = userRepository.findUserRg();
 		String userId = "USER00000000001";
-		if (users.size() >= 0) {
+		if (users.size() > 0) {
 			int id = Integer.parseInt(users.get(users.size() - 1).getUserId().substring(4, 15)) + 1;
 			String countUsId = "" + id;
 			if (countUsId.trim().length() != 11) {

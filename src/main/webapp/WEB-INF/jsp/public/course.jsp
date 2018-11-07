@@ -108,7 +108,7 @@
 						varStatus="index">
 						<c:set value="${courseIlmType.getCourseIlmTypeId()}" var="nh"></c:set>
 						<%
-							String course = (String) pageContext.getAttribute("nh");
+							String course = "menu"+ pageContext.getAttribute("nh");
 								String courseName = (String) pageContext.getAttribute("courseName");
 						%>
 						<div class="panel panel-default">

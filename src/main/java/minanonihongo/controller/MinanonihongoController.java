@@ -4,7 +4,6 @@ package minanonihongo.controller;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
@@ -12,15 +11,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.websocket.server.PathParam;
-import javax.servlet.http.Cookie;
+
+import org.apache.http.client.ClientProtocolException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.MessageSource;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,11 +28,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.http.client.ClientProtocolException;
-import org.json.JSONObject;
 
 import minanonihongo.model.Course;
 import minanonihongo.model.CourseIlm;
@@ -84,8 +78,6 @@ public class MinanonihongoController {
 	private RestFB restFb;
 
 	@Autowired
-	MessageSource msgSrc;
-	@Autowired
 	UserServiceImpl userserviceimpl;
 
 	@Value("${string.postType.name}")
@@ -97,8 +89,6 @@ public class MinanonihongoController {
 	@Value("${string.course.anphabe}")
 	private String anphabe;
 
-	@Value("${button.save.success}")
-	private String messageSave;
 
 	@Value("${string.reponsitory.local}")
 	private String localCourse;
@@ -236,7 +226,7 @@ public class MinanonihongoController {
 			List<CourseIlmType> courseIlmTypeList = courseIlmTypeRepository.courseIlmType(courseId);
 			Map<String, List<CourseIlm>> map = courseIlmService.setMapCourse(courseId, courseIlmTypeList);
 			for (CourseIlmType courseIlmType : courseIlmTypeList) {
-				model.addAttribute(courseIlmType.getCourseIlmTypeId(),
+				model.addAttribute("menu"+courseIlmType.getCourseIlmTypeId(),
 						(List<CourseIlm>) map.get(courseIlmType.getCourseIlmTypeName()));
 			}
 			model.addAttribute("courseIlmTypeList", courseIlmTypeList);

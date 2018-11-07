@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
@@ -25,7 +26,9 @@
 							học N3</a>
 					</h1></span>
 			</section>
-			<form action="/home">
+			<form:form action="${contextPath}/admin/fix-course"
+				modelAttribute="courseIlmForm" enctype="multipart/form-data">
+				<form:input path="courseIlmId" type="hidden"/>
 				<!-- Main content -->
 				<section class="content">
 					<div class="row">
@@ -41,20 +44,18 @@
 												</h4>
 											</div>
 											<div style="width: 15%; margin-left: 120px;">
-												<select class="form-control">
-													<option>Mustard</option>
-													<option>Ketchup</option>
-													<option>Relish</option>
-												</select>
+												<form:select class="form-control" path="courseIlmType">
+													<form:options items="${courseIlmType}" itemLabel="courseIlmTypeName" itemValue="courseIlmTypeId" />
+												</form:select>
 											</div>
 										</div>
 										<div class="form-group" style="">
 											<h4>
 												<label> Tên Bài Học</label>
 											</h4>
-											<input type="text" class="form-control" name="title"
-												path="notifyTitle" id="fullname"
-												placeholder="Enter fullname" />
+											<form:input type="text" class="form-control"
+												name="lessonName" path="lessonName" id="lessonName"
+												placeholder="Tên Bài Học" />
 										</div>
 									</div>
 								</div>
@@ -89,23 +90,27 @@
 														</tr>
 													</thead>
 													<tbody id="list-voca" class="scrollContent">
-														<tr style="width: 1px;">
+														<tr style="width: 1px; margin: 0px">
 															<td width="262px"></td>
 															<td width="194px"></td>
 															<td width="415px"></td>
 															<td width="79px"></td>
 														</tr>
-														<tr id="voca01">
-															<td>Katakana</td>
-															<td>Kanji</td>
-															<td>Ý Nghĩa</td>
-															<td><a class="del-voca" onclick="deleteRow(this)"
-																href="javascript:void(0);">&nbsp;<i
-																	class="fa fa-trash-o">&nbsp;</i></a>&nbsp;&nbsp;<a
-																onclick="fixRow(this)" href="javascript:void(0);">&nbsp;<i
-																	class="fa fa-pencil"></i></a></td>
-														</tr>
-
+														<c:if test="${courseIlmForm != null}">
+															<c:forEach items="${courseIlmForm.vocaCourseIlms}"
+																var="voca">
+																<tr id="${voca.vocaCourseIlmId}">
+																	<td>${voca.hirakana}</td>
+																	<td>${voca.kanji}</td>
+																	<td>${voca.translate}</td>
+																	<td><a class="del-voca" onclick="deleteRow(this)"
+																		href="javascript:void(0);">&nbsp;<i
+																			class="fa fa-trash-o">&nbsp;</i></a>&nbsp;&nbsp;<a
+																		onclick="fixRow(this)" href="javascript:void(0);">&nbsp;<i
+																			class="fa fa-pencil"></i></a></td>
+																</tr>
+															</c:forEach>
+														</c:if>
 													</tbody>
 												</table>
 											</div>
@@ -155,8 +160,8 @@
 											<h4>
 												<label> Nội Dung Bài Học</label>
 											</h4>
-											<textarea class="ckeditor" id="content" name="content"
-												required="true" rows="12"></textarea>
+											<form:textarea class="ckeditor" id="introduce"
+												name="introduce" path="introduce" required="true" rows="12"></form:textarea>
 										</div>
 										<div class="form-group">
 											<h4>
@@ -187,10 +192,10 @@
 					<!-- ./row -->
 				</section>
 				<input type="hidden" name="edit-voca" id="edit-voca" value="o"
-					index="o" /> <input type="hidden" name="list-current"
-					id="list-current" /> <input type="hidden" name="dele-old"
-					id="dele-old" />
-			</form>
+					index="o" />
+				<input type="hidden" name="list-current" id="list-current" />
+				<input type="hidden" name="dele-old" id="dele-old" />
+			</form:form>
 			<div></div>
 			<!-- /.content -->
 		</div>
@@ -199,7 +204,7 @@
 		<script>
 			CKEDITOR
 					.replace(
-							'content',
+							'introduce',
 							{
 								filebrowserBrowseUrl : '../ckfinder/ckfinder.html',
 								filebrowserImageBrowseUrl : '../ckfinder/ckfinder.html?type=Images',
@@ -209,11 +214,11 @@
 								filebrowserFlashUploadUrl : '../ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Flash'
 							});
 		</script>
-<%-- 		<script src="${contextPath}/resources/private/js/jquery.min.js"></script> --%>
-<!-- 		<script -->
-<%-- 			src="${contextPath}/resources/private/js/jquery.dataTables.min.js"></script> --%>
-<!-- 		<script -->
-<%-- 			src="${contextPath}/resources/private/js/dataTables.bootstrap.min.js"></script> --%>
+		<%-- 		<script src="${contextPath}/resources/private/js/jquery.min.js"></script> --%>
+		<!-- 		<script -->
+		<%-- 			src="${contextPath}/resources/private/js/jquery.dataTables.min.js"></script> --%>
+		<!-- 		<script -->
+		<%-- 			src="${contextPath}/resources/private/js/dataTables.bootstrap.min.js"></script> --%>
 		<script src="${contextPath}/resources/private/js/up.lesson.js"></script>
 	</div>
 </body>

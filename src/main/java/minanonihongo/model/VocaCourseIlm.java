@@ -11,7 +11,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "voca_course_ilm")
+@Table(name = "`voca_course_ilm`")
 @NamedQuery(name = "VocaCourseIlm.findAll", query = "SELECT vc FROM VocaCourseIlm vc")
 public class VocaCourseIlm implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -28,7 +28,7 @@ public class VocaCourseIlm implements Serializable {
 
 	private String kanji;
 	
-	private String explain;
+	private String translate;
 
 	public String getVocaCourseIlmId() {
 		return vocaCourseIlmId;
@@ -36,6 +36,14 @@ public class VocaCourseIlm implements Serializable {
 
 	public void setVocaCourseIlmId(String vocaCourseIlmId) {
 		this.vocaCourseIlmId = vocaCourseIlmId;
+	}
+
+	public CourseIlm getCourseIlm() {
+		return courseIlm;
+	}
+
+	public void setCourseIlm(CourseIlm courseIlm) {
+		this.courseIlm = courseIlm;
 	}
 
 	public CourseIlm getCourseIlms() {
@@ -62,12 +70,12 @@ public class VocaCourseIlm implements Serializable {
 		this.kanji = kanji;
 	}
 
-	public String getExplain() {
-		return explain;
+	public String getTranslate() {
+		return translate;
 	}
 
-	public void setExplain(String explain) {
-		this.explain = explain;
+	public void setTranslate(String translate) {
+		this.translate = translate;
 	}
 
 

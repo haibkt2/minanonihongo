@@ -126,10 +126,12 @@
 								</div>
 							</div>
 							<div class="box-body">
+								<div style="text-align: center; color: blue; font-size: 18px">${mess_up_course}</div>
+								<br>
 								<table id="data-show" class="table table-bordered table-hover">
 									<thead>
 										<tr>
-											<th width="5%" style="font-size: 16px">STT</th>
+											<th width="3%" style="font-size: 16px">STT</th>
 											<th width="14%" style="font-size: 16px">Kiến Thức</th>
 											<th width="21%" style="font-size: 16px">Tên Bài Học</th>
 											<th width="20%" style="font-size: 16px">Giới Thiệu Bài
@@ -144,7 +146,7 @@
 												<td>${id.index+1}</td>
 												<td>${cl.courseIlmType.courseIlmTypeName}</td>
 												<td>${cl.lessonName}</td>
-												<td>${cl.lessonName}</td>
+												<td>${cl.introduce}</td>
 												<td><a class="movie-play" onclick="adminView(this)"
 													id="fr-${id.index}"> <img id="videoImg"
 														src="${contextPath}/reponsitory/N2/img/d.jpg" /> <br>
@@ -166,7 +168,7 @@
 													data-target="#modal-dele-course-${id.index}"
 													href="javascript:void(0);">&nbsp;<i
 														class="fa fa-trash-o">&nbsp;</i></a> &nbsp;&nbsp;<a
-													href="javascript:void(0);">&nbsp;<i
+													href="${contextPath}/admin/fix-course?id=${cl.courseIlmId}">&nbsp;<i
 														class="fa fa-pencil"></i></a></td>
 											</tr>
 											<div class="modal fade in" id="modal-dele-course-${id.index}"

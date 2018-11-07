@@ -5,13 +5,12 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.List;
-import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,51 +19,30 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import minanonihongo.model.Course;
 import minanonihongo.model.CourseIlm;
+import minanonihongo.model.CourseIlmType;
 import minanonihongo.model.Document;
 import minanonihongo.model.Post;
 import minanonihongo.model.User;
-import minanonihongo.repository.CourseFunTypeRepository;
 import minanonihongo.repository.CourseIlmRepository;
 import minanonihongo.repository.CourseIlmTypeRepository;
 import minanonihongo.repository.CourseRepository;
 import minanonihongo.repository.DocRepository;
-import minanonihongo.repository.NotifyRepository;
-import minanonihongo.repository.PostRepository;
-import minanonihongo.repository.PostTypeRepository;
-import minanonihongo.repository.RoleRepository;
-import minanonihongo.repository.UserRepository;
 import minanonihongo.service.Common;
 import minanonihongo.service.CommonService;
 import minanonihongo.service.CourseIlmService;
 import minanonihongo.service.DocServiceImpl;
-import minanonihongo.service.PostServiceImpl;
-import minanonihongo.service.UserServiceImpl;
+import minanonihongo.service.VocaCourseIlmService;
 
 @Controller
 public class AdminMinanonihongoController {
 
 	@Autowired
-	UserRepository userRepository;
-
-	@Autowired
-	PostTypeRepository postTypeRepository;
-
-	@Autowired
-	PostRepository postRepository;
-
-	@Autowired
-	NotifyRepository notifyRepository;
-
-	@Autowired
-	RoleRepository roleRepository;
-
-	@Autowired
 	CourseRepository courseRepository;
+
 	@Autowired
 	DocRepository docRepository;
 
@@ -75,40 +53,19 @@ public class AdminMinanonihongoController {
 	CourseIlmTypeRepository courseIlmTypeRepository;
 
 	@Autowired
-	CourseFunTypeRepository courseFunTypeRepository;
-
-	@Autowired
 	CourseIlmService courseIlmService;
 
 	@Autowired
-	MessageSource msgSrc;
-	@Autowired
-	UserServiceImpl userserviceimpl;
-
-	@Autowired
-	PostServiceImpl postServiceImpl;
-	@Autowired
 	DocServiceImpl docServiceImpl;
+
 	@Autowired
 	CommonService commonService;
 
 	@Autowired
+	VocaCourseIlmService vocaCourseIlmService;
+
+	@Autowired
 	Common common;
-
-	@Value("${string.domain.default}")
-	private String domain;
-
-	@Value("${string.postType.name}")
-	private String postType;
-
-	@Value("${string.post.name}")
-	private String post;
-
-	@Value("${string.course.anphabe}")
-	private String anphabe;
-
-	@Value("${button.save.success}")
-	private String messageSave;
 
 	@Value("${string.reponsitory.local}")
 	private String localFile;
@@ -181,28 +138,34 @@ public class AdminMinanonihongoController {
 		Document document = docRepository.findByDocId(id);
 		Course course = courseRepository.findByCourseId(courseId);
 		if (document != null && course != null) {
-			File file = new File(localFile+course.getCourseName()+"/doc/"+document.getLocaFileDoc());
+			File file = new File(localFile + course.getCourseName() + "/doc/" + document.getLocaFileDoc());
 			file.delete();
 			docRepository.deleteDocId(id);
 		}
 		model.addAttribute("course", course);
 		return "/private/upDoc";
 	}
+
 	@RequestMapping(value = "/admin/dele-course/{courseId}/{id}", method = RequestMethod.POST)
-	public String deleCourse(Model model, HttpServletRequest request, HttpSession session, @PathVariable final String id,
-			@PathVariable final String courseId) {
+	public String deleCourse(Model model, HttpServletRequest request, HttpSession session,
+			@PathVariable final String id, @PathVariable final String courseId) {
 		CourseIlm courseIlm = courseIlmRepository.findByCourseIlmId(id);
 		Course course = courseRepository.findByCourseId(courseId);
 		if (courseIlm != null && course != null) {
-			File fimg = new File(localFile+course.getCourseName()+"/img/"+courseIlm.getLocaFileImg());
-			fimg.delete();
-			File fvd = new File(localFile+course.getCourseName()+"/video/"+courseIlm.getLocaFileCourse());
-			fvd.delete();
-			courseIlmRepository.deleteCourseIlmId(id);
+			String f_img = localFile + course.getCourseName() + "/img/" + courseIlm.getLocaFileImg();
+			String f_fvd = localFile + course.getCourseName() + "/img/" + courseIlm.getLocaFileImg();
+			List<CourseIlm> courseIlms = courseIlmRepository.findByCourse(course);
+			model.addAttribute("courseIlms", courseIlms);
+			if (courseIlmService.deleCourse(courseIlm)) {
+				File fimg = new File(f_img);
+				fimg.delete();
+				File fvd = new File(f_fvd);
+				fvd.delete();
+			}
 		}
-		model.addAttribute("course", course);
-		return "/private/upDoc";
+		return "/private/upCourse";
 	}
+
 	@RequestMapping(value = "/admin/add-post", method = RequestMethod.POST)
 	public String doSave(@ModelAttribute("courseForm") CourseIlm courseForm, Model model, HttpSession session,
 			@RequestParam("edit-voca") String editVoca, @RequestParam("list-current") String listCurrent,
@@ -211,9 +174,31 @@ public class AdminMinanonihongoController {
 		User user = (User) session.getAttribute("user");
 		courseForm.setUser(user);
 		courseIlmService.doSaveCourse(courseForm);
-		model.addAttribute("message", messageSave);
+		// model.addAttribute("message", messageSave);
 		model.addAttribute("courseForm", new CourseIlm());
 		return "home";
+	}
+
+	@RequestMapping(value = "/admin/fix-course", method = RequestMethod.GET)
+	public String fixCourse(Model model, HttpServletRequest request, HttpSession session,
+			@RequestParam("id") String id) {
+		common.getMenu(model);
+		CourseIlm courseIlm = courseIlmRepository.findByCourseIlmId(id);
+		List<CourseIlmType> courseIlmType = (List<CourseIlmType>) courseIlmTypeRepository.findAll();
+		model.addAttribute("courseIlmForm", courseIlm);
+		model.addAttribute("courseIlmType", courseIlmType);
+		return "/private/upCourseIlm";
+	}
+
+	@RequestMapping(value = "/admin/fix-course", method = RequestMethod.POST)
+	public String fixUpCourse(Model model, HttpServletRequest request, HttpSession session,
+			@ModelAttribute("courseIlmForm") CourseIlm courseIlmForm, @RequestParam("list-current") String listCurrent,
+			@RequestParam("dele-old") String deleOld) throws Exception {
+		courseIlmForm.setUser((User) session.getAttribute("user"));
+		if (vocaCourseIlmService.setVocaCourseIlm(listCurrent, deleOld, courseIlmForm)) {
+		model.addAttribute("mess_up_course", "Cập nhật bài học : " + courseIlmForm.getLessonName() + " thành công!");
+		}
+		return "/private/upCourseIlm";
 	}
 
 	// show view form insert formation
