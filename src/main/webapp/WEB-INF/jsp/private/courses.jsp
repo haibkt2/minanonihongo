@@ -71,7 +71,7 @@
 											class="table table-bordered table-hover" style="width: 80%">
 											<thead>
 												<tr>
-													<th width="20%">Mô Tả</th>
+													<th width="20%" style="text-align: center;">Mô Tả</th>
 													<th width="75%" style="text-align: center;">Tên File</th>
 													<th width="5%"></th>
 												</tr>
@@ -81,7 +81,13 @@
 													<c:forEach items="${course.getDocuments()}" var="doc"
 														varStatus="d">
 														<tr>
-															<td>${doc.descrip}</td>
+															<td><p class="ds-nd">${doc.descrip}<a
+																		href="javascript:void(0);" onclick="fixDoc()">&nbsp;&nbsp;&nbsp;<i
+																		class="fa fa-pencil"></i></a>
+																<p>
+																<div class="ds-nd-fix">
+																	<input class="form-control">&nbsp;&nbsp;&nbsp;<i class="fa fa-pencil"></i>
+																</div></td>
 															<td>${doc.locaFileDoc}</td>
 															<td style="min-height: 30px;"><a class="del-voca"
 																data-toggle="modal"
@@ -126,7 +132,13 @@
 								</div>
 							</div>
 							<div class="box-body">
-								<div style="text-align: center; color: blue; font-size: 18px">${mess_up_course}</div>
+								<div style="text-align: center; color: blue; font-size: 18px">
+									<c:if test="${course_up != null }">
+										<i class="fa fa-fw fa-chevron-down"></i>
+										<c:out
+											value="Cập Nhật Bài Viết : ${course_up.lessonName } Thành Công"></c:out>
+									</c:if>
+								</div>
 								<br>
 								<table id="data-show" class="table table-bordered table-hover">
 									<thead>
@@ -149,9 +161,9 @@
 												<td>${cl.introduce}</td>
 												<td><a class="movie-play" onclick="adminView(this)"
 													id="fr-${id.index}"> <img id="videoImg"
-														src="${contextPath}/reponsitory/N2/img/d.jpg" /> <br>
-														<span class="play-icon-btn"> <i
-															class="zmdi zmdi-play"></i>
+														src="${contextPath}/reponsitory/${cl.course.courseName}/img/${cl.locaFileImg}" />
+														<br> <span class="play-icon-btn"> <i
+															class="fa fa-fw fa-play"></i>
 													</span>
 												</a>
 													<div id="video-fr-${id.index}"
@@ -159,7 +171,7 @@
 														<video width="170px" height="110px" controls
 															id="video-${id.index}">
 															<source
-																src="${contextPath}/reponsitory/N5/video/Bai-1.mp4"
+																src="${contextPath}/reponsitory/${cl.course.courseName}/video/${cl.locaFileCourse}"
 																type="video/mp4">
 														</video>
 													</div></td>
@@ -185,7 +197,12 @@
 																muốn xóa :</h4>
 														</div>
 														<div class="modal-body">
-															<p>Bài học : ${cl.lessonName}</p>
+															<p style="font-size: 18px">
+																Bài học : ${cl.lessonName}<i>(<strong>Cảnh
+																		báo: </strong>Các bài tập, bài kiểm tra .. liên quan cũng bị
+																	xóa ??) <br> Hãy chắc chắn!!
+																</i>
+															</p>
 														</div>
 														<div class="modal-footer">
 															<button type="button" class="btn btn-default pull-left"

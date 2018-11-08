@@ -70,9 +70,9 @@ function addVoca() {
 function deleteRow(btn) {
 	var row = btn.parentNode.parentNode;
 	var id = row.id.split('-')[0];
+	var l_d = $('#dele-old').attr("value");
+	var obj = JSON.parse(l_d);
 	if (id != 'num') {
-		var deleVoca = '[]';
-		var obj = JSON.parse(deleVoca);
 		hirakana = row.cells.item(0).innerHTML;
 		kanji = row.cells.item(1).innerHTML;
 		translate = row.cells.item(2).innerHTML;
@@ -84,6 +84,7 @@ function deleteRow(btn) {
 		});
 		document.getElementById('dele-old').value = JSON.stringify(obj);
 	}
+	alert(JSON.stringify(obj));
 	row.parentNode.removeChild(row);
 }
 
@@ -181,3 +182,25 @@ $(".bt-dele-course").click(function(e) {
 		}
 	});
 });
+function fixDoc() {
+	var form = $('#fileUploadForm')[0];
+	var data = new FormData(form);
+	$.ajax({
+		type : "POST",
+		enctype : 'multipart/form-data',
+		url : "/admin/upload-doc",
+		data : data,
+		dataType : "html",
+		processData : false,
+		contentType : false,
+		cache : false,
+		success : function(data) {
+			$("#submit-file").prop("disabled", true);
+			$("#result").html(data);
+			$('#fileUploadForm')[0].reset();
+		},
+		error : function() {
+			console.log("FAIL : ", "ERROR");
+		}
+	});
+}

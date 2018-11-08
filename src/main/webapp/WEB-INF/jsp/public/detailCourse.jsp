@@ -29,8 +29,9 @@
 		<div class="document" id="document">
 			<i class="zmdi zmdi-dns">&nbsp;</i><strong>Tài liệu học cho
 				khóa hoc <c:out value="${courseName}"></c:out> :
-			</strong>
+			</strong><br>
 			<c:forEach items="${courseIlm.getCourse().getDocuments()}" var="doc">
+			${doc.descrip} :
 				<a
 					href="${contextPath}/document/${courseIlm.getCourse().getCourseName()}/download?file=${doc.getLocaFileDoc()}"
 					id="file-doc">${doc.getLocaFileDoc()}</a>
@@ -61,7 +62,7 @@
 							<td style="height: 23px; width: 108px"><span
 								style="font-size: 14px">&nbsp;${voca.getKanji()} </span></td>
 							<td style="height: 23px; width: 336px"><span
-								style="font-size: 14px">&nbsp;${voca.getExplain()}</span></td>
+								style="font-size: 14px">&nbsp;${voca.translate}</span></td>
 						</tr>
 					</c:forEach>
 

@@ -169,12 +169,12 @@
 											</h4>
 											<div class="btn btn-default btn-file">
 												<i class="fa fa-fw fa-file-image-o"></i> Ảnh Nền Video<input
-													type="file" name="attachment">
+													type="file" name="file-img">
 											</div>
 											&nbsp;&nbsp;
 											<div class="btn btn-default btn-file">
 												<i class="fa fa-fw fa-file-video-o"></i> Video Bài Học Đính
-												Kèm(Max.32MB)<input type="file" name="attachment">
+												Kèm(Max.32MB)<input type="file" name="file-video">
 											</div>
 										</div>
 										<button class="btn btn-primary" onclick="addCourse();">
@@ -194,7 +194,7 @@
 				<input type="hidden" name="edit-voca" id="edit-voca" value="o"
 					index="o" />
 				<input type="hidden" name="list-current" id="list-current" />
-				<input type="hidden" name="dele-old" id="dele-old" />
+				<input type="hidden" name="dele-old" id="dele-old" value="[]"/>
 			</form:form>
 			<div></div>
 			<!-- /.content -->

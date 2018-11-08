@@ -4,6 +4,7 @@ package minanonihongo.controller;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.nio.charset.Charset;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -77,9 +78,13 @@ public class AdminMinanonihongoController {
 	}
 
 	@GetMapping("/admin/courses/{courseName}")
-	public String courses(Model model, @PathVariable String courseName) {
+	public String courses(Model model, @PathVariable String courseName, HttpServletRequest request) {
 		common.getMenu(model);
 		Course course = courseRepository.findByCourseName(courseName);
+		String mess = request.getParameter("mess_up");
+		if(mess != null) {
+			model.addAttribute("course_up", courseIlmRepository.findByCourseIlmId(mess));
+		}
 		if (course != null) {
 			List<CourseIlm> courseIlms = courseIlmRepository.findByCourse(course);
 			model.addAttribute("course", course);
@@ -192,13 +197,48 @@ public class AdminMinanonihongoController {
 
 	@RequestMapping(value = "/admin/fix-course", method = RequestMethod.POST)
 	public String fixUpCourse(Model model, HttpServletRequest request, HttpSession session,
+			@RequestParam("file-img") MultipartFile img, @RequestParam("file-video") MultipartFile video,
 			@ModelAttribute("courseIlmForm") CourseIlm courseIlmForm, @RequestParam("list-current") String listCurrent,
 			@RequestParam("dele-old") String deleOld) throws Exception {
+		CourseIlm cIlm = courseIlmRepository.findByCourseIlmId(courseIlmForm.getCourseIlmId());
 		courseIlmForm.setUser((User) session.getAttribute("user"));
-		if (vocaCourseIlmService.setVocaCourseIlm(listCurrent, deleOld, courseIlmForm)) {
-		model.addAttribute("mess_up_course", "Cập nhật bài học : " + courseIlmForm.getLessonName() + " thành công!");
+		if (video.isEmpty()) {
+			courseIlmForm.setLocaFileCourse(cIlm.getLocaFileCourse());
+		} else {
+			String fileName = null;
+			try {
+				fileName = common.toUrlFriendly(video.getOriginalFilename());
+				byte[] bytes = video.getBytes();
+				BufferedOutputStream buffStream = new BufferedOutputStream(new FileOutputStream(
+						new File(localFile + cIlm.getCourse().getCourseName() + "/video/" + fileName)));
+				buffStream.write(bytes);
+				buffStream.close();
+				courseIlmForm.setLocaFileCourse(fileName);
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+				return "error";
+			}
 		}
-		return "/private/upCourseIlm";
+		if (img.isEmpty()) {
+			courseIlmForm.setLocaFileImg(cIlm.getLocaFileImg());
+		} else {
+			String fileName = null;
+			try {
+				fileName = common.toUrlFriendly(img.getOriginalFilename());
+				byte[] bytes = img.getBytes();
+				BufferedOutputStream buffStream = new BufferedOutputStream(new FileOutputStream(
+						new File(localFile + cIlm.getCourse().getCourseName() + "/img/" + fileName)));
+				buffStream.write(bytes);
+				buffStream.close();
+				courseIlmForm.setLocaFileImg(fileName);
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+				return "error";
+			}
+		}
+		vocaCourseIlmService.setVocaCourseIlm(listCurrent, deleOld, courseIlmForm);
+		String mess	 = courseIlmForm.getCourseIlmId();
+		return "redirect:/admin/courses/" + courseIlmForm.getCourse().getCourseName() + "?mess_up=" + mess;
 	}
 
 	// show view form insert formation

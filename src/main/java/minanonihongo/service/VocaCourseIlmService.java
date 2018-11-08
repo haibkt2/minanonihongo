@@ -1,6 +1,5 @@
 package minanonihongo.service;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,48 +20,56 @@ public class VocaCourseIlmService {
 
 	@Autowired
 	VocaCourseIlmRepository vocaCourseIlmRepository;
-	
+
 	@Autowired
 	CourseIlmRepository courseIlmRepository;
-	
+
 	@Autowired
 	CommonService commonService;
 
 	public boolean setVocaCourseIlm(String listCurrent, String deleOld, CourseIlm courseIlm) throws Exception {
+		CourseIlm cIlm = courseIlmRepository.findByCourseIlmId(courseIlm.getCourseIlmId());
 		List<VocaCourseIlm> vocaCourseIlms = new ArrayList<VocaCourseIlm>();
 		courseIlm.setVocaCourseIlms(vocaCourseIlms);
-        courseIlm.setCourse(courseIlmRepository.findByCourseIlmId(courseIlm.getCourseIlmId()).getCourse());
-        courseIlm.setCourseGlobal(
-				courseIlmRepository.findByCourseIlmId(courseIlm.getCourseIlmId()).getCourseGlobal());
-		courseIlm.setCourseIlmType(courseIlmRepository.findByCourseIlmId(courseIlm.getCourseIlmId()).getCourseIlmType());
-		courseIlm.setExams(courseIlmRepository.findByCourseIlmId(courseIlm.getCourseIlmId()).getExams());
-		courseIlm.setExamResult(courseIlmRepository.findByCourseIlmId(courseIlm.getCourseIlmId()).getExamResult());
-		courseIlm.setCreateDate(courseIlmRepository.findByCourseIlmId(courseIlm.getCourseIlmId()).getCreateDate());
+		courseIlm.setCourse(cIlm.getCourse());
+		courseIlm.setCourseGlobal(cIlm.getCourseGlobal());
+		courseIlm.setCourseIlmType(cIlm.getCourseIlmType());
+		courseIlm.setExams(cIlm.getExams());
+		courseIlm.setExamResult(cIlm.getExamResult());
+		courseIlm.setCreateDate(cIlm.getCreateDate());
 		courseIlm.setCourseIlmFlg("1");
 		courseIlm.setUpdateDate(commonService.currentDate());
-		courseIlm.setLocaFileCourse("demo");
-		courseIlm.setLocaFileImg("demo");
 		try {
-            JSONArray nameArray = (JSONArray) JSONSerializer.toJSON(listCurrent);
-            System.out.println(nameArray.size());
-            for(Object js : nameArray){
-                JSONObject json = (JSONObject) js;
-                VocaCourseIlm vocaCourseIlm = new VocaCourseIlm();
-                vocaCourseIlm.setHirakana(json.getString("hirakana"));
-                vocaCourseIlm.setTranslate(json.getString("translate"));
-                vocaCourseIlm.setKanji(json.getString("kanji"));
-                vocaCourseIlm.setCourseIlms(courseIlm);
-                vocaCourseIlm.setVocaCourseIlmId(setVocaId());
-                vocaCourseIlmRepository.save(vocaCourseIlm);
-                vocaCourseIlms.add(vocaCourseIlm);
-            }
-    		courseIlmRepository.save(courseIlm);
-            return true;
-        } catch (JSONException e) {
-        	return false;
-        }
-		
+			JSONArray ld = (JSONArray) JSONSerializer.toJSON(deleOld);
+			for (Object jd : ld) {
+				JSONObject json = (JSONObject) jd;
+				VocaCourseIlm vocaCourseIlm = vocaCourseIlmRepository.findByVocaCourseIlmId(json.getString("id"));
+				vocaCourseIlmRepository.delete(vocaCourseIlm);
+			}
+			JSONArray lc = (JSONArray) JSONSerializer.toJSON(listCurrent);
+			for (Object js : lc) {
+				JSONObject json = (JSONObject) js;
+				VocaCourseIlm vocaCourseIlm = new VocaCourseIlm();
+				vocaCourseIlm.setHirakana(json.getString("hirakana"));
+				vocaCourseIlm.setTranslate(json.getString("translate"));
+				vocaCourseIlm.setKanji(json.getString("kanji"));
+				vocaCourseIlm.setCourseIlms(courseIlm);
+				if (vocaCourseIlmRepository.findByVocaCourseIlmId(json.getString("id")) == null) {
+					vocaCourseIlm.setVocaCourseIlmId(setVocaId());
+				} else {
+					vocaCourseIlm.setVocaCourseIlmId(json.getString("id"));
+				}
+				vocaCourseIlmRepository.save(vocaCourseIlm);
+				vocaCourseIlms.add(vocaCourseIlm);
+			}
+			courseIlmRepository.save(courseIlm);
+			return true;
+		} catch (JSONException e) {
+			return false;
+		}
+
 	}
+
 	public String setVocaId() {
 		List<VocaCourseIlm> vocas = (List<VocaCourseIlm>) vocaCourseIlmRepository.findAll();
 		String vocaId = "VOCA00000000001";

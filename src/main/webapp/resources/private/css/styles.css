@@ -7953,3 +7953,16 @@ thead.fixedHeader {
    flex: 1 1 0px;
 /*   border: 1px solid black; */
 }
+.movie-play .play-icon-btn {
+  margin-top: -70px;
+  margin-left: 210px;
+  position: absolute;
+  font-size: 18px;
+  padding: 3.4px 4.5px;
+  border-radius: 50%;
+  opacity: 0.9;
+  width: 29px;
+  height: 31px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+}

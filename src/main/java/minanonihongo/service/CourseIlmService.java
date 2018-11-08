@@ -67,7 +67,7 @@ public class CourseIlmService {
 			List<Document> docList = new ArrayList<>();
 			if ("000".equals(id.substring(id.length() - 3, id.length()))) {
 				for (Document doc : courseIlm.getCourse().getDocuments()) {
-					docList.add(new Document(doc.getLocaFileDoc()));
+					docList.add(new Document(doc.getLocaFileDoc(), doc.getDescrip()));
 				}
 			}
 			crs.setDocuments(docList);

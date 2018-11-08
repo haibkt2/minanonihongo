@@ -48,8 +48,9 @@ public class Document implements Serializable {
 	public Document() {
 	}
 
-	public Document(String locaFileDoc) {
+	public Document(String locaFileDoc,String descrip) {
 		this.locaFileDoc = locaFileDoc;
+		this.descrip = descrip;
 	}
 
 	public String getDocId() {

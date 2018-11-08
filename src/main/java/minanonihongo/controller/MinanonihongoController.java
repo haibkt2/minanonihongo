@@ -132,10 +132,6 @@ public class MinanonihongoController {
 	public String login(Model model, HttpSession session, String error, HttpServletRequest req,
 			HttpServletResponse response) throws Exception {
 		if (error != null) {
-			// Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			// String userName = auth.getName();
-			// User user = userRepository.findByUserName(userName);
-			// if(user)
 			model.addAttribute("login", "error");
 		}
 		return "public/home";

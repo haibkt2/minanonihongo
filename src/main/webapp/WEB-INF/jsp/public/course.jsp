@@ -49,8 +49,10 @@
 						<i class="zmdi zmdi-dns">&nbsp;</i><strong>Tài liệu học
 							cho khóa hoc <c:out value="${courseName}"></c:out> :
 						</strong>
+						<br>
 						<c:forEach items="${courseIlm.getCourse().getDocuments()}"
 							var="doc">
+							${doc.descrip} :
 							<a
 								href="${contextPath}/document/${courseIlm.getCourse().getCourseName()}/download?file=${doc.getLocaFileDoc()}"
 								id="file-doc">${doc.getLocaFileDoc()}</a>
