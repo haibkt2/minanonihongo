@@ -38,7 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable();
 		http.authorizeRequests().antMatchers("/home").permitAll().antMatchers("/").permitAll().antMatchers("/addP")
 				.permitAll().antMatchers("/vui-tieng-nhat/**").permitAll().antMatchers("/document/**").permitAll()
-				.antMatchers("/thi-thu").permitAll().antMatchers("/van-hoa-nhat-ban/**").permitAll()
+				.antMatchers("/thi-thu/**").permitAll().antMatchers("/van-hoa-nhat-ban/**").permitAll()
 				.antMatchers("/alphabet/**").permitAll().antMatchers("/tim-kiem/**").permitAll()
 				.antMatchers("/khoa-hoc/**").permitAll().antMatchers("/account/logout").permitAll()
 				.antMatchers("/login").permitAll().antMatchers("/facebook").permitAll().antMatchers("/register")

@@ -180,21 +180,16 @@ public class MinanonihongoController {
 		return "public/funnyCourse";
 	}
 
-	@RequestMapping(value = { "/thi-thu" }, method = RequestMethod.POST)
-	@ResponseBody
-	public String result(Model model, @RequestParam String grade, @RequestParam String data,
-			@RequestParam String total_grade, @RequestParam String course, @RequestParam String passed,
-			@RequestParam String created, @RequestParam String _id, HttpServletRequest req,
+	@RequestMapping(value = { "/thi-thu" })
+	public String exam(Model model, HttpServletRequest req,
 			HttpServletResponse response, HttpSession ss) throws Exception {
-		JSONObject json = new JSONObject();
-		json.put("grade", grade);
-		json.put("data", data);
-		json.put("grade", grade);
-		json.put("total_grade", total_grade);
-		json.put("passed", passed);
-		json.put("created", created);
-		json.put("_id", _id);
-		return json.toString();
+	 return "public/exam";
+	}
+
+	@RequestMapping(value = { "/thi-thu/bang-xep-hang" })
+	public String examRS(Model model, HttpServletRequest req,
+			HttpServletResponse response, HttpSession ss) throws Exception {
+	 return "public/examRs";
 	}
 
 	@RequestMapping("/tim-kiem/{keysearch}")
@@ -247,7 +242,7 @@ public class MinanonihongoController {
 		return "public/detailCourse";
 	}
 
-	@RequestMapping("/facebhook")
+	@RequestMapping("/facebook")
 	public String loginFacebook(HttpServletRequest request, HttpSession session)
 			throws ClientProtocolException, IOException, Exception {
 		String code = request.getParameter("code");

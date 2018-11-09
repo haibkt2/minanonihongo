@@ -1,3 +1,39 @@
+var startDate = new Date();
+function getServerTime() {
+	var diff = new Date().getTime() - startDate.getTime();
+	var serverTimezone = document.getElementById("serverTimezone").value;
+	var serverTime = document.getElementById("serverTime").value;
+	var userTimezone = document.getElementById("userTimezone").value;
+	var mytime;
+
+	if (userTimezone == "null") {
+		serverTimezone = userTimezone = 1;
+		startDate = mytime = new Date();
+	} else {
+		mytime = new Date(parseInt(serverTime));
+	}
+
+	mytime.setMilliseconds(mytime.getMilliseconds()
+			- ((serverTimezone - userTimezone) * 3600000));
+	mytime.setMilliseconds(mytime.getMilliseconds() + diff);
+
+	var month = [ "01", "02", "03", "04", "05", "06", "07", "08", "09", "10",
+			"11", "12" ];
+	var year = mytime.getFullYear();
+	var day = addZero(mytime.getDate());
+	var hours = addZero(mytime.getHours());
+	var minutes = addZero(mytime.getMinutes());
+	var seconds = addZero(mytime.getSeconds());
+
+	var currentTime = " <span style='font-size: 25px;'> " + year + "/"
+			+ month[mytime.getMonth()] + "/" + day + "</span> <span>  " + hours
+			+ ":" + minutes + ":" + seconds + "</span></h4>";
+
+	document.getElementById("header-time").innerHTML = currentTime;
+
+	var t = setTimeout(getServerTime, 500);
+}
+
 function validateForm() {
 				if ($('#register-password').val().length < 6) {
 					$('#message-error').html('<i class="zmdi zmdi-alert-octagon"></i>&nbsp;Mật khẩu quá ngắn').css('color', 'red');
@@ -75,7 +111,7 @@ function enterToLogin(e, t) {
 }
 
 function swichTab(e) {
-    $(".li-tab").removeClass("active"), $("." + e + "-tab").addClass("active"), $(".tab-pane").removeClass("in active"), $("#" + e + "-content").addClass("in active"), "login" == e ? $(".auth-featured-image").attr("src", window.location.origin + "/resources/img/login-banner.jpg") : $(".auth-featured-image").attr("src", window.location.origin + "/resources/img/register-banner.jpg")
+    $(".li-tab").removeClass("active"), $("." + e + "-tab").addClass("active"), $(".tab-pane").removeClass("in active"), $("#" + e + "-content").addClass("in active"), "login" == e ? $(".auth-featured-image").attr("src", window.location.origin + "/resources/public/img/login-banner.jpg") : $(".auth-featured-image").attr("src", window.location.origin + "/resources/public/img/register-banner.jpg")
 }
 
 function search(e, t) {

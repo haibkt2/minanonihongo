@@ -145,8 +145,8 @@
 								class="mn-item hoc-vui">Vui tiếng Nhật</a></li>
 							<li><a href="${contextPath}/van-hoa-nhat-ban" target=""
 								class="mn-item bai-viet">Văn hóa Nhật Bản</a></li>
-							<li><a href="${contextPath}/thi-truc-tuyen"
-								class="mn-item thi-thu">Thi thử</a></li>
+							<li><a href="${contextPath}/thi-thu" class="mn-item thi-thu">Thi
+									thử</a></li>
 							<li class="item-search">
 								<div id="search-submit">&nbsp;</div> <input type="text"
 								name="keya" class="search-input" id="search-inputa"
@@ -164,8 +164,7 @@
 							<div class="login-container" id="auth-container"
 								style="display: none;">
 								<div class="login-left-container">
-									<img class="auth-featured-image"
-										src="${contextPath}/resources/public/img/login-banner.jpg" />
+									<img class="auth-featured-image" src="${contextPath}/resources/public/img/login-banner.jpg" />
 								</div>
 								<div class="login-right-container">
 									<ul class="nav nav-pills">
@@ -235,8 +234,9 @@
 													<div class="form-group">
 														<label class="col-md-4 control-label">Ngày sinh</label>
 														<div class="col-md-8">
-															<input type="date" class="form-control" name="date" style="height: auto;"
-																id="register-date" autocomplete="off" required>
+															<input type="date" class="form-control" name="date"
+																style="height: auto;" id="register-date"
+																autocomplete="off" required>
 														</div>
 													</div>
 													<div class="form-group">
@@ -389,12 +389,13 @@
 										data-animation-duration="300"><a><p>Tạo tài khoản</p></a></li>
 								</ul>
 							</div>
-							<a data-fancybox data-animation-duration="300"
-								href="#auth-container" class="register-box">
-								<div class="btn-login">Tạo tài khoản</div>
-							</a> <a data-fancybox data-animation-duration="300"
-								href="#auth-container" class="login-box">
-								<div class="btn-register">
+							<a data-fancybox="" data-animation-duration="300"
+								data-src="#auth-container">
+								<div class="btn-login" onclick="swichTab('register')">Tạo
+									tài khoản</div>
+							</a> <a data-fancybox="" data-animation-duration="300"
+								data-src="#auth-container">
+								<div class="btn-register" onclick="swichTab('login')">
 									<i class="zmdi zmdi-lock-outline"></i> Đăng nhập
 								</div>
 							</a>
