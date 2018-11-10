@@ -135,7 +135,6 @@ public class MinanonihongoController {
 			model.addAttribute("login", "error");
 		}
 		return "public/home";
-
 	}
 
 	@RequestMapping(value = { "/account/logout" }, method = RequestMethod.GET)
@@ -180,13 +179,13 @@ public class MinanonihongoController {
 		return "public/funnyCourse";
 	}
 
-	@RequestMapping(value = { "/thi-thu" })
+	@RequestMapping(value = { "/luyen-de" })
 	public String exam(Model model, HttpServletRequest req,
 			HttpServletResponse response, HttpSession ss) throws Exception {
-	 return "public/exam";
+	 return "public/menuExam";
 	}
 
-	@RequestMapping(value = { "/thi-thu/bang-xep-hang" })
+	@RequestMapping(value = { "/thi-thu-truc-tuyen" })
 	public String examRS(Model model, HttpServletRequest req,
 			HttpServletResponse response, HttpSession ss) throws Exception {
 	 return "public/examRs";
@@ -234,11 +233,12 @@ public class MinanonihongoController {
 			@RequestParam String id) throws IOException, Exception {
 		String ls = lesson.get();
 		CourseIlm courseIlm = courseIlmService.detailLesson(id, ls);
-		model.addAttribute("courseIlm", courseIlm);
+		CourseIlm c = courseIlm;
 		List<Map<String, String>> mapJson = courseIlmService.mapJson(courseIlm);
 		model.addAttribute("lesson_answers", mapJson.get(0).get("lesson_answers"));
 		model.addAttribute("lesson_tasks", mapJson.get(0).get("lesson_tasks"));
 		model.addAttribute("lesson_lesson", mapJson.get(0).get("lesson_lesson"));
+		model.addAttribute("courseIlm", c);
 		return "public/detailCourse";
 	}
 

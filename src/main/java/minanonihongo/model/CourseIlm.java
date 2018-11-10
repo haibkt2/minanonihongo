@@ -66,8 +66,6 @@ public class CourseIlm implements Serializable {
 	@OneToOne(mappedBy = "courseIlm")
 	private CourseGlobal courseGlobal;
 
-	@OneToOne(mappedBy = "courseIlm")
-	private ExamResult examResult;
 
 	public List<VocaCourseIlm> getVocaCourseIlms() {
 		return vocaCourseIlms;
@@ -95,14 +93,6 @@ public class CourseIlm implements Serializable {
 
 	public void setExams(List<Exam> exams) {
 		this.exams = exams;
-	}
-
-	public ExamResult getExamResult() {
-		return examResult;
-	}
-
-	public void setExamResult(ExamResult examResult) {
-		this.examResult = examResult;
 	}
 
 	public void setCourseIlmId(String courseIlmId) {

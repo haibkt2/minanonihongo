@@ -146,9 +146,9 @@
 											<th width="3%" style="font-size: 16px">STT</th>
 											<th width="14%" style="font-size: 16px">Kiến Thức</th>
 											<th width="21%" style="font-size: 16px">Tên Bài Học</th>
-											<th width="20%" style="font-size: 16px">Giới Thiệu Bài
+											<th width="33%" style="font-size: 16px">Giới Thiệu Bài
 												Học</th>
-											<th width="33%" style="font-size: 16px">Video Bài Học</th>
+											<th width="22%" style="font-size: 16px">Video Bài Học</th>
 											<th width="6%"></th>
 										</tr>
 									</thead>
@@ -158,7 +158,7 @@
 												<td>${id.index+1}</td>
 												<td>${cl.courseIlmType.courseIlmTypeName}</td>
 												<td>${cl.lessonName}</td>
-												<td>${cl.introduce}</td>
+												<td><span class="brief">${cl.introduce}</span></td>
 												<td><a class="movie-play" onclick="adminView(this)"
 													id="fr-${id.index}"> <img id="videoImg"
 														src="${contextPath}/reponsitory/${cl.course.courseName}/img/${cl.locaFileImg}" />
@@ -167,7 +167,7 @@
 													</span>
 												</a>
 													<div id="video-fr-${id.index}"
-														style="display: none; margin-left: 26%;">
+														style="display: none; margin-left: 10%;">
 														<video width="170px" height="110px" controls
 															id="video-${id.index}">
 															<source

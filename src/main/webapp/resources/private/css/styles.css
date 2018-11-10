@@ -7941,7 +7941,7 @@ thead.fixedHeader {
 	height: 110px;
 	overflow: hidden;
 	object-fit: cover;
-	margin-left: 26%;
+	margin-left: 10%;
 }
 
 .add-new-file {
@@ -7955,7 +7955,7 @@ thead.fixedHeader {
 }
 .movie-play .play-icon-btn {
   margin-top: -70px;
-  margin-left: 210px;
+  margin-left: 8%;
   position: absolute;
   font-size: 18px;
   padding: 3.4px 4.5px;
@@ -7965,4 +7965,17 @@ thead.fixedHeader {
   height: 31px;
   background: rgba(0, 0, 0, 0.8);
   color: #fff;
+}
+.brief {
+	text-align: justify;
+	width: 200px;
+	float: left;
+	display: -webkit-box;
+	line-height: 1.2;
+	-webkit-line-clamp: 3;
+	max-height: calc(16px * 1.2 * 3);
+	font-size: 16px;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }

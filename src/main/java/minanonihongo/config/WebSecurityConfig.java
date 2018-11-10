@@ -36,13 +36,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable();
-		http.authorizeRequests().antMatchers("/home").permitAll().antMatchers("/").permitAll().antMatchers("/addP")
-				.permitAll().antMatchers("/vui-tieng-nhat/**").permitAll().antMatchers("/document/**").permitAll()
-				.antMatchers("/thi-thu/**").permitAll().antMatchers("/van-hoa-nhat-ban/**").permitAll()
-				.antMatchers("/alphabet/**").permitAll().antMatchers("/tim-kiem/**").permitAll()
-				.antMatchers("/khoa-hoc/**").permitAll().antMatchers("/account/logout").permitAll()
-				.antMatchers("/login").permitAll().antMatchers("/facebook").permitAll().antMatchers("/register")
-				.permitAll().antMatchers("/detail-lesson/**").permitAll().antMatchers("/admin/**").hasAnyRole("ADMIN");
+		http.authorizeRequests()
+			.antMatchers("/home").permitAll()
+			.antMatchers("/").permitAll()
+			.antMatchers("/addP").permitAll()
+			.antMatchers("/vui-tieng-nhat/**").permitAll()
+			.antMatchers("/document/**").permitAll()
+			.antMatchers("/luyen-de/**").permitAll()
+			.antMatchers("/van-hoa-nhat-ban/**").permitAll()
+			.antMatchers("/alphabet/**").permitAll()
+			.antMatchers("/tim-kiem/**").permitAll()
+			.antMatchers("/khoa-hoc/**").permitAll()
+			.antMatchers("/account/logout").permitAll()
+			.antMatchers("/login").permitAll()
+			.antMatchers("/facebook").permitAll()
+			.antMatchers("/register").permitAll()
+			.antMatchers("/detail-lesson/**").permitAll()
+			.antMatchers("/thi-thu-truc-tuyen/**").permitAll()
+			.antMatchers("/admin/**").hasAnyRole("ADMIN");
 		http.formLogin().loginPage("/home").usernameParameter("email").passwordParameter("password")
 				.successHandler(successHandler);
 		http.formLogin().loginPage("/").usernameParameter("email").passwordParameter("password")

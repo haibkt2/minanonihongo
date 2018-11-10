@@ -17,13 +17,17 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <title>HaiLDX - Tiếng Nhật cho mọi người</title>
 <div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = 'https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v3.1';
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
+<script>
+	(function(d, s, id) {
+		var js, fjs = d.getElementsByTagName(s)[0];
+		if (d.getElementById(id))
+			return;
+		js = d.createElement(s);
+		js.id = id;
+		js.src = 'https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v3.1';
+		fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));
+</script>
 <jsp:include page="header.jsp"></jsp:include>
 <div class="main">
 	<div class="main-center main-course">
@@ -48,8 +52,7 @@
 					<div class="document" id="document">
 						<i class="zmdi zmdi-dns">&nbsp;</i><strong>Tài liệu học
 							cho khóa hoc <c:out value="${courseName}"></c:out> :
-						</strong>
-						<br>
+						</strong> <br>
 						<c:forEach items="${courseIlm.getCourse().getDocuments()}"
 							var="doc">
 							${doc.descrip} :
@@ -88,10 +91,13 @@
 			</div>
 			<div class="comment-container">
 				<ul class="nav nav-pills comment-tab">
-					<li class="li-tab user-tab active"><a data-toggle="pill">Ý kiến học viên</a></li>
+					<li class="li-tab user-tab active"><a data-toggle="pill">Ý
+							kiến học viên</a></li>
 				</ul>
 				<div>
-					<div class="fb-comments" data-href="https://localhost:8888/khoa-hoc/${courseName}/${courseIlm.getLessonName()}" data-width="700px"></div>
+					<div class="fb-comments"
+						data-href="https://localhost:8888/khoa-hoc/${courseName}/${courseIlm.getLessonName()}"
+						data-width="700px"></div>
 				</div>
 			</div>
 		</div>
@@ -110,7 +116,7 @@
 						varStatus="index">
 						<c:set value="${courseIlmType.getCourseIlmTypeId()}" var="nh"></c:set>
 						<%
-							String course = "menu"+ pageContext.getAttribute("nh");
+							String course = "menu" + pageContext.getAttribute("nh");
 								String courseName = (String) pageContext.getAttribute("courseName");
 						%>
 						<div class="panel panel-default">
@@ -137,22 +143,8 @@
 											data-name="<%=common.toUrlFriendly(courseIlm.getLessonName())%>"
 											url="${contextPath}/khoa-hoc/<%=common.toUrlFriendly(courseName) %>/study/<%=common.toUrlFriendly(courseIlm.getLessonName())%>"
 											style="padding-right: 70px;"><%=courseIlm.getLessonName()%></a></li>
-
-										<%
-											// 										if(courseIlm.getExams() != null)
-													for (Exam exam : courseIlm.getExams()) {
-										%>
-										<li class="lesson-item"><a
-											class="lesson-item-click lesson-item" ls-attr="test"
-											id="lesson-item" href="javascript:void(0);"
-											data-id="<%=courseIlm.getCourseIlmId()%>"
-											data-name="<%=common.toUrlFriendly(courseIlm.getLessonName()) %>"
-											url="${contextPath}/khoa-hoc/<%=common.toUrlFriendly(courseName) %>/exercise/<%=common.toUrlFriendly(courseIlm.getLessonName()) %>"
-											style="padding-right: 70px;"><%=exam.getExamName() + " : " + courseIlm.getLessonName()%></a></li>
 										<%
 											}
-
-												}
 										%>
 									</ul>
 

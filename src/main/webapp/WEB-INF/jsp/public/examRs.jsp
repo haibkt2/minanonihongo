@@ -21,7 +21,7 @@
 <div class="main">
 	<div class="main-center">
 		<div class="main-ranking-left">
-			<div class="main-ranking-left">
+			<div class="main-exam-left" style="width: 180px">
 				<div class="exam-left-menu">
 					<a href="${contextPath}/thi-thu/bang-xep-hang"
 						class="item-exam ranking exam"> <img
@@ -35,6 +35,18 @@
 					</a>
 				</div>
 			</div>
+			<div class="main-exam-left" style="width: 180px">
+			<div class="exam-left-menu">
+				<a href="${contextPath}/thi-thu/bang-xep-hang"
+					class="item-exam ranking"> <img
+					src="${contextPath}/resources/public/img/first-prize.png"
+					style="height: 20px; width: 20px;"> <span>Xếp Hạng Online</span>
+				</a> <a href="${contextPath}/thi-thu" class="item-exam exam"> <img
+					src="${contextPath}/resources/public/img/checkbox-pen-outline.png"
+					style="height: 20px; width: 20px;"> <span>Thi Trực Tuyến</span>
+				</a>
+			</div>
+		</div>
 		</div>
 		<div class="main-ranking-right">
 			<div id="main-ranking-right" style="display: block;">

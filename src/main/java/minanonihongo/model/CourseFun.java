@@ -36,8 +36,6 @@ public class CourseFun implements Serializable {
 	
 	private String locaFileImg;
 
-	private String locaFileCourseFun;
-
 	private String courseIlmFlg;
 
 	@ManyToOne
@@ -69,12 +67,6 @@ public class CourseFun implements Serializable {
 	}
 	public void setLocaFileImg(String locaFileImg) {
 		this.locaFileImg = locaFileImg;
-	}
-	public String getLocaFileCourseFun() {
-		return locaFileCourseFun;
-	}
-	public void setLocaFileCourseFun(String locaFileCourseFun) {
-		this.locaFileCourseFun = locaFileCourseFun;
 	}
 	public String getCourseIlmFlg() {
 		return courseIlmFlg;

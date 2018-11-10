@@ -54,12 +54,6 @@ public class User implements Serializable {
 	@OneToMany(mappedBy = "user")
 	private List<Exam> Exams;
 
-	@OneToMany(mappedBy = "user")
-	private List<Comment> comments;
-
-	@OneToMany(mappedBy = "user")
-	private List<ExamResult> examResults;
-
 	public User() {
 	}
 
@@ -98,14 +92,6 @@ public class User implements Serializable {
 
 	public void setExams(List<Exam> exams) {
 		Exams = exams;
-	}
-
-	public List<ExamResult> getExamResults() {
-		return examResults;
-	}
-
-	public void setExamResults(List<ExamResult> examResults) {
-		this.examResults = examResults;
 	}
 
 	public List<Post> getPosts() {
@@ -186,14 +172,6 @@ public class User implements Serializable {
 
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
-	}
-
-	public List<Comment> getComments() {
-		return comments;
-	}
-
-	public void setComments(List<Comment> comments) {
-		this.comments = comments;
 	}
 
 	public String getFlg() {

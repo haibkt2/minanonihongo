@@ -106,7 +106,7 @@
 			<span class="list-group-item item-heading">Chuyên mục</span>
 			<c:forEach items="${postt}" var="postt">
 				<a
-					href="${contextPath}/van-hoa-nhat-ban/chuyen-muc/${postt.getPostTypeId().substring(7)}-${postt.getPostTypeName()}"
+					href="${contextPath}/van-hoa-nhat-ban/chuyen-muc/${postt.getPostTypeId()}-${postt.getPostTypeName()}"
 					class="list-group-item ${postt.getPostTypeName()}">${postt.getPostTypeName()}</a>
 			</c:forEach>
 		</div>

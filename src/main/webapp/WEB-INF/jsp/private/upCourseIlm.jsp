@@ -43,13 +43,13 @@
 													<label>Loại Bài Học :</label>
 												</h4>
 											</div>
-											<div style="width: 15%; margin-left: 120px;">
+											<div style="width: 220px; margin-left: 120px;">
 												<form:select class="form-control" path="courseIlmType">
 													<form:options items="${courseIlmType}" itemLabel="courseIlmTypeName" itemValue="courseIlmTypeId" />
 												</form:select>
 											</div>
 										</div>
-										<div class="form-group" style="">
+										<div class="form-group" style="width: 975px;">
 											<h4>
 												<label> Tên Bài Học</label>
 											</h4>
@@ -154,7 +154,7 @@
 							<div class="box box-info">
 								<!-- /.box-header -->
 								<div class="box-body pad">
-									<div class="box-body" style="width: 80%;">
+									<div class="box-body">
 										<div class="form-group" style="width: 100%"></div>
 										<div class="form-group">
 											<h4>

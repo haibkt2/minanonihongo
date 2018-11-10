@@ -35,7 +35,6 @@ public class VocaCourseIlmService {
 		courseIlm.setCourseGlobal(cIlm.getCourseGlobal());
 		courseIlm.setCourseIlmType(cIlm.getCourseIlmType());
 		courseIlm.setExams(cIlm.getExams());
-		courseIlm.setExamResult(cIlm.getExamResult());
 		courseIlm.setCreateDate(cIlm.getCreateDate());
 		courseIlm.setCourseIlmFlg("1");
 		courseIlm.setUpdateDate(commonService.currentDate());
