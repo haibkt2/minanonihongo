@@ -25,8 +25,9 @@
 		var="courseName"></c:set>
 </c:if>
 <h2 class="course-detail-title">
-	<a href="#">Khóa học <c:out value="${courseName}"></c:out></a>&nbsp;<i
-		class="zmdi zmdi-caret-right"></i>&nbsp;<b id="course-heading">${courseIlm.getLessonName()}</b>
+	<a href="${contextPath}/khoa-hoc/${courseName}">Khóa học <c:out
+			value="${courseName}"></c:out></a>&nbsp;<i class="zmdi zmdi-caret-right"></i>&nbsp;<b
+		id="course-heading">${courseIlm.getLessonName()}</b>
 </h2>
 <p style="width: 100%; float: left; margin: 5px 0 0px;">
 	<i class="zmdi zmdi-time-countdown"></i> <b id="total-number-test">${courseIlm.getCourseGlobal().getTotalNumber()}</b>
@@ -55,61 +56,54 @@
 	</c:if>
 
 	<div class="img-group-wrap clearfix group-7">
-		<div class="homedeatails-links" style="text-align: center">
-			<c:if test="${not empty courseIlm.getVocaCourseIlms()}">
+		<c:if test="${empty courseIlm.getCourse().getDocuments()}">
+			<div class="homedeatails-links" style="text-align: center">
 				<a id="ct-voca" href="javascript:void(0);" class="home-lk go active">
 					<img src="${contextPath}/resources/public/img/minna_01.png">
 					<span>Từ Vựng</span>
+				</a> <a id="ct-gra" href="javascript:void(0);" class="home-lk go"> <img
+					src="${contextPath}/resources/public/img/minna_02.png"> 
+					<c:if test=""></c:if>
+					
+					
+					<span>Ngữ Pháp</span>
+				</a> <a id="ct-exam" href="javascript:void(0);" class="home-lk go">
+					<img src="${contextPath}/resources/public/img/minna_03.png">
+					<span>Ôn Tập</span>
 				</a>
-			</c:if>
-			<c:if test="${not empty courseIlm.getLocaFileCourse()}">
-				<a id="ct-gra" href="javascript:void(0);" class="home-lk go"> <img
-					src="${contextPath}/resources/public/img/minna_02.png"> <span>Ngữ
-						Pháp</span>
-				</a>
-			</c:if>
-			<c:if test="${not empty courseIlm.getExams()}">
-				<a id="ct-exam" href="javascript:void(0);" class="home-lk go"> <img
-					src="${contextPath}/resources/public/img/minna_03.png"> <span>Luyện
-						Tập</span>
-				</a>
-			</c:if>
-		</div>
+			</div>
+		</c:if>
 		<div class="divider divider3"></div>
 	</div>
 
 	<div class="ct-voca">
 		<c:if test="${not empty courseIlm.getVocaCourseIlms()}">
 			<div class="tableContainer" id="detail-voca tableContainer">
-					<table id="data-voca"
-						class="scrollTable table table-bordered table-hover dataTable no-footer scrollTable"
-						role="grid" aria-describedby="example2_info">
-						<thead class="fixedHeader">
-							<tr>
-								<td width="25%"><label>Hirakana/Katakana</label></td>
-								<td width="20%"><label>Kanji</label></td>
-								<td width="45%"><label>Ý Nghĩa</label></td>
-								
-							</tr>
-						</thead>
-						<tbody id="list-voca" class="scrollContent">
-							<tr style="max-height: 0.1px">
-								<td width="25%"></td>
-								<td width="20%"></td>
-								<td width="43%"></td>
-							</tr>
-							<c:if test="${courseIlm != null}">
-								<c:forEach items="${courseIlm.vocaCourseIlms}" var="voca">
-									<tr id="${voca.vocaCourseIlmId}">
-										<td>${voca.hirakana}</td>
-										<td>${voca.kanji}</td>
-										<td>${voca.translate}</td>
-									</tr>
-								</c:forEach>
-							</c:if>
-						</tbody>
-					</table>
-				</div>
+				<table id="data-voca"
+					class="scrollTable table table-bordered table-hover dataTable no-footer scrollTable"
+					role="grid" aria-describedby="example2_info">
+					<thead class="fixedHeader">
+						<tr>
+							<td width="25%"><label>Hirakana<br>Katakana
+							</label></td>
+							<td width="20%"><label>Kanji</label></td>
+							<td width="45%"><label>Ý Nghĩa</label></td>
+
+						</tr>
+					</thead>
+					<tbody id="list-voca" class="scrollContent">
+						<c:if test="${courseIlm != null}">
+							<c:forEach items="${courseIlm.vocaCourseIlms}" var="voca">
+								<tr id="${voca.vocaCourseIlmId}">
+									<td width="25%">${voca.hirakana}</td>
+									<td width="20%">${voca.kanji}</td>
+									<td width="45%">${voca.translate}</td>
+								</tr>
+							</c:forEach>
+						</c:if>
+					</tbody>
+				</table>
+			</div>
 		</c:if>
 	</div>
 	<div class="ct-gra">
@@ -119,7 +113,7 @@
 			<a class="movie-play"> <img id="videoImg"
 				src="${contextPath}/reponsitory/${courseIlm.getCourse().getCourseName()}/img/${courseIlm.getLocaFileImg()}" />
 				<br> <span class="play-icon-btn"> <i
-						class="zmdi zmdi-play"></i>
+					class="zmdi zmdi-play"></i>
 			</span>
 			</a>
 			<div id="iframe-video" style="display: none;">
@@ -306,9 +300,18 @@
 
 				</div>
 				<script>
-					lesson_tasks = ${lesson_tasks};
-					lesson_answers = ${lesson_answers};
-					lesson_lesson = ${lesson_lesson};
+					lesson_tasks = $
+					{
+						lesson_tasks
+					};
+					lesson_answers = $
+					{
+						lesson_answers
+					};
+					lesson_lesson = $
+					{
+						lesson_lesson
+					};
 					lesson_results = [];
 					lesson_writeQuestions = [];
 					course = "${courseName}"; //Them khoa hoc cho JLPT
@@ -318,6 +321,8 @@
 				</script>
 			</div>
 		</c:if>
+		<br>
+		<br>
 	</div>
 	<script type="text/javascript">
 		var vid = document.getElementById("cVideo");
