@@ -39,7 +39,7 @@
 								&nbsp;Tổ 121 - Đường Ngô Sỹ Liên,Phường Hòa Minh, Quận Liên
 								Chiểu, Thành Phố Đà Nẵng</li>
 							<li><i class="zmdi zmdi-phone-in-talk"></i>&nbsp;
-								033-679-621</li>
+								0336-679-621</li>
 							<li><i class="zmdi zmdi-email"></i>&nbsp; haibkt2@gmail.com</li>
 						</ul>
 					</div>
@@ -91,10 +91,10 @@
 							</li>
 							<li><a href=""><i
 									class="zmdi zmdi-format-subject icon-menu-item"></i>
-									<p>Vui tiếng Nhật</p></a></li>
+									<p>Vui Tiếng Nhật</p></a></li>
 							<li><a href=""><i
 									class="zmdi zmdi-accounts-outline icon-menu-item"></i>
-									<p>Văn hóa Nhật Bản</p></a></li>
+									<p>Bài Viết Về Nhật Bản</p></a></li>
 
 							<li><a href=""><i class="zmdi zmdi-edit icon-menu-item"></i>
 									<p>Thi thử</p></a></li>
@@ -111,7 +111,7 @@
 						</div>
 						<ul class="ui-menu">
 							<li class="parent "><a href="javascript:void(0);"
-								class="mn-item khoa-hoc"> <i class=""></i> Các khóa học
+								class="mn-item khoa-hoc"> <i class=""></i>Các Khóa Học
 							</a>
 								<div class="submenu">
 									<ul class="content">
@@ -119,8 +119,7 @@
 											<div class="col-right" style="border-top: none;">
 												<div class="clearfix">
 													<div class="col-md-12">
-														<a href="${contextPath}/khoa-hoc/Bang-chu-cai">Bảng
-															chữ cái</a>
+														<a href="${contextPath}/khoa-hoc/Bang-chu-cai">Bảng Chữ Cái</a>
 													</div>
 												</div>
 												<div class="col-bottom clearfix">
@@ -142,9 +141,9 @@
 									</ul>
 								</div></li>
 							<li><a href="${contextPath}/vui-tieng-nhat" target=""
-								class="mn-item hoc-vui">Vui tiếng Nhật</a></li>
+								class="mn-item hoc-vui">Vui Tiếng Nhật</a></li>
 							<li><a href="${contextPath}/van-hoa-nhat-ban" target=""
-								class="mn-item bai-viet">Văn hóa Nhật Bản</a></li>
+								class="mn-item bai-viet">Bài Viết Về Nhật Bản</a></li>
 							<li class="parent"><a href="javascript:void(0);"
 								class="mn-item thi-thu"> <i class=""></i> Luyện Thi
 							</a>
@@ -437,9 +436,9 @@
 								<ul class="dropdown-menu user-menu">
 									<img class="caret-up"
 										src="${contextPath}/resources/public/img/caret-up.png" />
-									<li><a href="http://dungmori.com/account"><i
+									<li><a href=""><i
 											class="zmdi zmdi-account-box"></i>Thông tin cá nhân</a></li>
-									<li><a href="http://dungmori.com/account?focus=changePass"><i
+									<li><a href=""><i
 											class="zmdi zmdi-shield-security"></i> Thay đổi mật khẩu</a></li>
 									<c:if test="${user.role.roleId == 'ROLE00001'}">
 										<li><a href="${contextPath}/admin"><i

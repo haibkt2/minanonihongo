@@ -21,8 +21,8 @@
               <i class="zmdi zmdi-email"></i>&nbsp;&nbsp;Email : haibkt2@gmail.com
             </a>
             <br>
-            <a href="tel:+03636679621">
-              <i class="zmdi zmdi-phone-in-talk"></i>&nbsp;&nbsp;Tel : 033-679-621
+            <a href="tel:+0336.679.621">
+              <i class="zmdi zmdi-phone-in-talk"></i>&nbsp;&nbsp;Tel : 0336-679-621
             </a>
            </div>
 

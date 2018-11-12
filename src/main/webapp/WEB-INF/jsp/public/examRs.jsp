@@ -25,11 +25,11 @@
 				<div class="exam-left-menu">
 					<a href="${contextPath}/thi-thu/bang-xep-hang"
 						class="item-exam ranking exam"> <img
-						src="http://dungmori.com/assets/img/first-prize.png"
+						src="/assets/img/first-prize.png"
 						style="height: 20px; width: 20px;"> <span>Bảng xếp
 							hạng</span>
 					</a> <a href="${contextPath}/thi-thu" class="item-exam"> <img
-						src="http://dungmori.com/assets/img/checkbox-pen-outline.png"
+						src="/assets/img/checkbox-pen-outline.png"
 						style="height: 20px; width: 20px;"> <span>Vào phòng
 							thi</span>
 					</a>
@@ -84,7 +84,7 @@
 				<div class="title-exam-cover">
 					<span class="title-text"> TOP 100 HỌC VIÊN ĐIỂM CAO N5 </span> <span
 						class="hoatiet1"><img
-						src="http://dungmori.com/assets/img/hoatiet1.png"></span>
+						src="/assets/img/hoatiet1.png"></span>
 				</div>
 				<div class="findMe"></div>
 				<div class="no-rank">
@@ -112,7 +112,7 @@
 								<td class="text-left indexRank"><img
 									src="${contextPath}/resources/public/img/no1.png"> <!----></td>
 								<td class="text-left avatar"><img
-									src="http://dungmori.com/assets/img/default-avatar.jpg"
+									src="/img/default-avatar.jpg"
 									alt="Avatar"> <span>Dong Toan</span></td>
 								<td class="text-center score"><span>173</span></td>
 								<td class="text-center passed"><span class="ok"><i

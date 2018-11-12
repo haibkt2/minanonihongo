@@ -24,11 +24,11 @@
 			<div class="exam-left-menu">
 				<a href="${contextPath}/thi-thu/bang-xep-hang"
 					class="item-exam ranking"> <img
-					src="http://dungmori.com/assets/img/first-prize.png"
+					src="/assets/img/first-prize.png"
 					style="height: 20px; width: 20px;"> <span>Bảng xếp
 						hạng</span>
 				</a> <a href="${contextPath}/thi-thu" class="item-exam exam"> <img
-					src="http://dungmori.com/assets/img/checkbox-pen-outline.png"
+					src="/assets/img/checkbox-pen-outline.png"
 					style="height: 20px; width: 20px;"> <span>Vào phòng
 						thi</span>
 				</a>

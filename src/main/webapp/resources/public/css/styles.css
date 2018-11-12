@@ -18294,7 +18294,15 @@ a:hover, a:focus {
 img {
 	max-width: 100%;
 }
-
+.introduce{
+	width: 100%;
+	float: left;
+	padding: 20px 20px;
+	margin-bottom: 30px;
+	text-align: left;
+	border: 1px #999 dashed;
+	margin-top: 34px;
+}
 ul, ol {
 	margin: 0;
 	padding: 0;

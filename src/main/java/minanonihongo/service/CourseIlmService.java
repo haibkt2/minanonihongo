@@ -100,8 +100,10 @@ public class CourseIlmService {
 								ex.getCourseIlm().getCourse().getCourseId().length()));
 				if (ex.getExamQuestion() != null) {
 					lesson_lesson.put("total_marks", ex.getExamQuestion().size());
+					int index = 0;
 					for (ExamQuestion examQuestion : ex.getExamQuestion()) {
-						lesson_tasks.add(getQuestion(
+						index++;
+						lesson_tasks.add(getQuestion(index,
 								ex.getExamId().substring(ex.getExamId().length() - 2, ex.getExamId().length()),
 								examQuestion.getExamQuestionId().substring(
 										examQuestion.getExamQuestionId().length() - 2,
@@ -145,14 +147,13 @@ public class CourseIlmService {
 		return answer;
 	}
 
-	public JSONObject getQuestion(String lesson_id, String id, String type, String value, int grade, String ex) throws Exception {
-		int index = 0;
+	public JSONObject getQuestion(int index,String lesson_id, String id, String type, String value, int grade, String ex) throws Exception {
 		JSONObject question = new JSONObject();
 		question.put("lesson_id", lesson_id);
 		question.put("id", id);
 		question.put("ex", ex);
 		question.put("type", type);
-		question.put("value", ++index + " ." + value);
+		question.put("value", index + " ." + value);
 		question.put("grade", grade);
 		return question;
 	}

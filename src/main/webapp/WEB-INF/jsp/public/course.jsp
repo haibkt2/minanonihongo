@@ -16,18 +16,6 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <title>HaiLDX - Tiếng Nhật cho mọi người</title>
-<div id="fb-root"></div>
-<script>
-	(function(d, s, id) {
-		var js, fjs = d.getElementsByTagName(s)[0];
-		if (d.getElementById(id))
-			return;
-		js = d.createElement(s);
-		js.id = id;
-		js.src = 'https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v3.1';
-		fjs.parentNode.insertBefore(js, fjs);
-	}(document, 'script', 'facebook-jssdk'));
-</script>
 <jsp:include page="header.jsp"></jsp:include>
 <div class="main">
 	<div class="main-center main-course">
@@ -39,6 +27,18 @@
 				var="courseName"></c:set>
 		</c:if>
 		<div class="main-left">
+		<div id="fb-root"></div>
+<script>
+	(function(d, s, id) {
+		var js, fjs = d.getElementsByTagName(s)[0];
+		if (d.getElementById(id))
+			return;
+		js = d.createElement(s);
+		js.id = id;
+		js.src = 'https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v3.1';
+		fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));
+</script>
 			<h2 class="course-detail-title">
 				<a href="#">Khóa học <c:out value="${courseName}"></c:out></a>&nbsp;<i
 					class="zmdi zmdi-caret-right"></i>&nbsp;<b id="course-heading">${courseIlm.getLessonName()}</b>
@@ -96,7 +96,7 @@
 				</ul>
 				<div>
 					<div class="fb-comments"
-						data-href="https://localhost:8888/khoa-hoc/${courseName}/${courseIlm.getLessonName()}"
+						data-href="https://localhost:8888/khoa-hoc/${courseName}#${courseIlm.getLessonName()}"
 						data-width="700px"></div>
 				</div>
 			</div>

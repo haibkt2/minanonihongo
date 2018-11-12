@@ -5,6 +5,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
+<html>
+<head></head>
+<body>
 <div id="fb-root"></div>
 <script>
 	(function(d, s, id) {
@@ -33,13 +36,8 @@
 	<i class="zmdi zmdi-time-countdown"></i> <b id="total-number-test">${courseIlm.getCourseGlobal().getTotalNumber()}</b>
 	<i id="view-down">Lượt xem</i>
 </p>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
 <div class="cover-container" id="cover-container">
+<br>
 	<c:if test="${not empty courseIlm.getCourse().getDocuments()}">
 		<div class="document" id="document">
 			<i class="zmdi zmdi-dns">&nbsp;</i><strong>Tài liệu học cho
@@ -105,9 +103,11 @@
 				</table>
 			</div>
 		</c:if>
+		<br>
+		<br>
 	</div>
 	<div class="ct-gra">
-		<div class="introduce" id="introduce">${courseIlm.getIntroduce() }</div>
+		<div class="introduce" id="introduce" style="margin-left: 10px">${courseIlm.getIntroduce()}</div>
 		<c:if test="${courseIlm.getLocaFileCourse() != null}">
 			<br>
 			<a class="movie-play"> <img id="videoImg"
@@ -124,6 +124,8 @@
 				</video>
 			</div>
 		</c:if>
+		<br>
+		<br>
 	</div>
 	<div class="ct-exam">
 		<c:if test="${not empty courseIlm.getExams()}">
@@ -301,9 +303,13 @@
 
 				</div>
 				<script>
-					lesson_tasks = ${lesson_tasks};
-					lesson_answers = ${lesson_answers};
-					lesson_lesson = ${lesson_lesson};
+				lesson_tasks = ${lesson_tasks};
+				lesson_answers = ${lesson_answers};
+				lesson_lesson = ${lesson_lesson};
+				lesson_results = [];
+				lesson_writeQuestions = [];
+					lesson_results = [];
+					lesson_writeQuestions = [];
 					lesson_results = [];
 					lesson_writeQuestions = [];
 					course = "${courseName}"; //Them khoa hoc cho JLPT
@@ -316,6 +322,25 @@
 		<br>
 		<br>
 	</div>
+	<div class="comment-container">
+	<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = 'https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v3.2';
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+				<ul class="nav nav-pills comment-tab">
+					<li class="li-tab user-tab active"><a data-toggle="pill">Ý
+							kiến học viên</a></li>
+				</ul>
+				<div>
+					<div class="fb-comments"
+						data-href="https://localhost:8888/khoa-hoc/${courseName}#${courseIlm.getLessonName()}"
+						data-width="700px" data-numposts="5"></div>
+				</div>
+			</div>
 	<script type="text/javascript">
 		var vid = document.getElementById("cVideo");
 		// sự kiện click vào chạy video
@@ -339,16 +364,6 @@
 		});
 	</script>
 	<script src="${contextPath}/resources/public/js/detail_lesson.js"></script>
-	<div class="comment-container">
-		<ul class="nav nav-pills comment-tab">
-			<li class="li-tab user-tab active"><a data-toggle="pill"
-				href="#user-comment-content">Ý kiến học viên</a></li>
-		</ul>
-		<div>
-			<div class="fb-comments"
-				data-href="https://localhost:8888/khoa-hoc/${courseName}#${courseIlm.getLessonName()}"
-				data-width="700px"></div>
-		</div>
-	</div>
-
 </div>
+</body>
+</html>
