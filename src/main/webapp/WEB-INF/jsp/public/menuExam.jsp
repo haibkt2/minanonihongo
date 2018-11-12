@@ -40,7 +40,7 @@
 							<td><p></p>
 								<p>
 									<a class="right-link long"
-										href="../de-luyen-thi-trac-nghiem-cap-do-n5.html"> <span
+										href="${contextPath}/luyen-de/N5"> <span
 										class="right-link-inner"> <span
 											class="right-link-content"> <span class="fa icon-book">
 											</span> <span class="right-txt"> <span class="right-big">N5
@@ -54,7 +54,7 @@
 							<td><p></p>
 								<p>
 									<a class="right-link long"
-										href="../de-luyen-thi-trac-nghiem-cap-do-n4.html"> <span
+										href="${contextPath}/luyen-de/N4"> <span
 										class="right-link-inner"> <span
 											class="right-link-content"> <span class="fa icon-book">
 											</span> <span class="right-txt"> <span class="right-big">N4
@@ -64,7 +64,7 @@
 							<td><p></p>
 								<p>
 									<a class="right-link long"
-										href="../de-luyen-thi-trac-nghiem-cap-do-n3.html"> <span
+										href="${contextPath}/luyen-de/N3"> <span
 										class="right-link-inner"> <span
 											class="right-link-content"> <span class="fa icon-book">
 											</span> <span class="right-txt"> <span class="right-big">N3
@@ -78,7 +78,7 @@
 							<td><p></p>
 								<p>
 									<a class="right-link long"
-										href="../de-luyen-thi-trac-nghiem-cap-do-n2.html"> <span
+										href="${contextPath}/luyen-de/N2"> <span
 										class="right-link-inner"> <span
 											class="right-link-content"> <span class="fa icon-book">
 											</span> <span class="right-txt"> <span class="right-big">N2
@@ -112,8 +112,7 @@
 										href="../de-luyen-thi-trac-nghiem-cap-do-n5.html"> <span
 										class="right-link-inner"> <span
 											class="right-link-content"> <span class="fa icon-book">
-											</span> <span class="right-txt"> <span class="right-big">N5
-														(言語知識)</span><span class="right-small"> </span>
+											</span> <span class="right-txt"> <span class="right-big">JLPT N5</span><span class="right-small"> </span>
 											</span>
 										</span>
 									</span>
@@ -126,8 +125,7 @@
 										href="../de-luyen-thi-trac-nghiem-cap-do-n4.html"> <span
 										class="right-link-inner"> <span
 											class="right-link-content"> <span class="fa icon-book">
-											</span> <span class="right-txt"> <span class="right-big">N4
-														(言語知識)</span><span class="right-small"> </span></span></span></span></a>
+											</span> <span class="right-txt"> <span class="right-big">JLPT N4</span><span class="right-small"> </span></span></span></span></a>
 								</p>
 								<p></p></td>
 							<td><p></p>
@@ -136,8 +134,7 @@
 										href="../de-luyen-thi-trac-nghiem-cap-do-n3.html"> <span
 										class="right-link-inner"> <span
 											class="right-link-content"> <span class="fa icon-book">
-											</span> <span class="right-txt"> <span class="right-big">N3
-														(言語知識)</span>
+											</span> <span class="right-txt"> <span class="right-big">JLPT N3</span>
 											</span>
 										</span>
 									</span>
@@ -150,8 +147,7 @@
 										href="../de-luyen-thi-trac-nghiem-cap-do-n2.html"> <span
 										class="right-link-inner"> <span
 											class="right-link-content"> <span class="fa icon-book">
-											</span> <span class="right-txt"> <span class="right-big">N2
-														(言語知識)</span>
+											</span> <span class="right-txt"> <span class="right-big">JLPT N2</span>
 											</span>
 										</span>
 									</span>

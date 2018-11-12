@@ -26,6 +26,9 @@ public class Course implements Serializable {
     private List<CourseIlm> courseIlms;
     
     @OneToMany(mappedBy="course")
+    private List<JLPT> jlpt;
+    
+    @OneToMany(mappedBy="course")
     private List<Document> documents;
     
     public Course() {
@@ -70,6 +73,14 @@ public class Course implements Serializable {
 
 	public void setCourseIlms(List<CourseIlm> courseIlms) {
 		this.courseIlms = courseIlms;
+	}
+
+	public List<JLPT> getJlpt() {
+		return jlpt;
+	}
+
+	public void setJlpt(List<JLPT> jlpt) {
+		this.jlpt = jlpt;
 	}
     
 }

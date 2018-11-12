@@ -260,7 +260,7 @@
 										<tr>
 											<td colspan="2" class="content-test-detail">
 												<div v-for="(task, index) in tasks">
-													<div v-if="task.type == 3 || task.type == 5">
+													<div v-if="task.type == 3">
 														<p style="margin: 10px 0; font-size: 16px;"
 															v-html="task.value" v-if="task.type == 3"></p>
 														<div class="col-sm-6 answer-area"
@@ -272,11 +272,12 @@
 																	<input type="radio" v-if="answer.checked == true"
 																		checked onclick="this.checked = true"> <input
 																		type="radio" v-if="answer.checked != true"
-																		onclick="this.checked = false">&nbsp;&nbsp;{{
-																	answer.value }}<span v-if="answer.grade != 0">&nbsp;(Đúng)</span>
+																		onclick="this.checked = false">&nbsp;&nbsp;{{answer.value }}<span v-if="answer.grade != 0">&nbsp;(Đúng)</span>
 																</div>
 															</div>
 														</div>
+														<p style="margin: 10px 0; font-size: 16px;"
+															v-html="task.ex" v-if="task.type == 3"></p>
 
 														<div v-if="task.type == 3" class="col-md-11"
 															style="display: inline-block; width: 100%; height: 10px;"></div>
@@ -300,18 +301,9 @@
 
 				</div>
 				<script>
-					lesson_tasks = $
-					{
-						lesson_tasks
-					};
-					lesson_answers = $
-					{
-						lesson_answers
-					};
-					lesson_lesson = $
-					{
-						lesson_lesson
-					};
+					lesson_tasks = ${lesson_tasks};
+					lesson_answers = ${lesson_answers};
+					lesson_lesson = ${lesson_lesson};
 					lesson_results = [];
 					lesson_writeQuestions = [];
 					course = "${courseName}"; //Them khoa hoc cho JLPT

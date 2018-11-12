@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import minanonihongo.model.Course;
 import minanonihongo.model.CourseIlm;
 import minanonihongo.model.CourseIlmType;
+import minanonihongo.model.JLPT;
 import minanonihongo.model.Post;
 import minanonihongo.model.PostType;
 import minanonihongo.model.Role;
@@ -39,6 +40,7 @@ import minanonihongo.model.User;
 import minanonihongo.repository.CourseIlmRepository;
 import minanonihongo.repository.CourseIlmTypeRepository;
 import minanonihongo.repository.CourseRepository;
+import minanonihongo.repository.JLPTRepository;
 import minanonihongo.repository.PostRepository;
 import minanonihongo.repository.PostTypeRepository;
 import minanonihongo.repository.RoleRepository;
@@ -72,6 +74,9 @@ public class MinanonihongoController {
 	CourseIlmTypeRepository courseIlmTypeRepository;
 
 	@Autowired
+	JLPTRepository jlptRepository;
+
+	@Autowired
 	CourseIlmService courseIlmService;
 
 	@Autowired
@@ -88,7 +93,9 @@ public class MinanonihongoController {
 
 	@Value("${string.course.anphabe}")
 	private String anphabe;
-
+	
+	@Value("${string.jlpt.practice}")
+	private String practice;
 
 	@Value("${string.reponsitory.local}")
 	private String localCourse;
@@ -108,16 +115,15 @@ public class MinanonihongoController {
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String register(@RequestParam("password") String password, @RequestParam("name") String name,
-			@RequestParam("email") String email, @RequestParam("date") String date,
-			@RequestParam("phone") String phone, Model model,
-			HttpSession session, HttpServletRequest request) throws Exception {
+			@RequestParam("email") String email, @RequestParam("date") String date, @RequestParam("phone") String phone,
+			Model model, HttpSession session, HttpServletRequest request) throws Exception {
 		User u = userRepository.findByEmail(email);
-		if(u!=null) {
+		if (u != null) {
 			model.addAttribute("rg", "error");
 			return "public/home";
 		}
 		User user = userserviceimpl.setUser(password);
-		Date bir =new SimpleDateFormat("yyyy-MM-dd").parse(date); 
+		Date bir = new SimpleDateFormat("yyyy-MM-dd").parse(date);
 		user.setBirthday(bir);
 		user.setPhone(phone);
 		user.setEmail(email);
@@ -145,59 +151,10 @@ public class MinanonihongoController {
 		return "redirect:" + u.getPath();
 	}
 
-	@RequestMapping(value = { "/van-hoa-nhat-ban/{postname}", "/van-hoa-nhat-ban",
-			"/van-hoa-nhat-ban/chuyen-muc/{type}" }, method = RequestMethod.GET)
-	public String post(Model model, @PathVariable final Optional<String> postname,
-			@PathVariable final Optional<String> type, HttpServletRequest req, HttpServletResponse response,
-			HttpSession ss) {
-		boolean pn = postname.isPresent();
-		boolean t = type.isPresent();
-		List<PostType> postTypes = (List<PostType>) postTypeRepository.findAll();
-		if (pn) {
-			String postId = post + postname.get().substring(0, 6);
-			Post post = postRepository.findByPostId(postId);
-			model.addAttribute("post", post);
-		} else if (t) {
-			String postTypeId = postType + type.get().substring(0, 5);
-			List<Post> posts = postRepository.findPostCm(postTypeId);
-			model.addAttribute("posts", posts);
-		} else {
-			if (postTypes != null) {
-				List<Post> posts = postTypes.get(0).getPosts();
-				model.addAttribute("posts", posts);
-			}
-		}
-		List<Post> postmn = postRepository.findPostMn();
-		model.addAttribute("postmn", postmn);
-		model.addAttribute("postt", postTypes);
-		return "public/post";
-	}
-
 	@RequestMapping(value = { "/vui-tieng-nhat/{postname}", "/vui-tieng-nhat" }, method = RequestMethod.GET)
 	public String funnyCourse(Model model, @PathVariable final Optional<String> postname, HttpServletRequest req,
 			HttpServletResponse response, HttpSession ss) {
 		return "public/funnyCourse";
-	}
-
-	@RequestMapping(value = { "/luyen-de" })
-	public String exam(Model model, HttpServletRequest req,
-			HttpServletResponse response, HttpSession ss) throws Exception {
-	 return "public/menuExam";
-	}
-
-	@RequestMapping(value = { "/thi-thu-truc-tuyen" })
-	public String examRS(Model model, HttpServletRequest req,
-			HttpServletResponse response, HttpSession ss) throws Exception {
-	 return "public/examRs";
-	}
-
-	@RequestMapping("/tim-kiem/{keysearch}")
-	@ResponseBody
-	public String search(Model model, String logout, String view, HttpServletRequest req, HttpServletResponse response,
-			HttpSession ss, @PathVariable String keysearch) {
-		List<Course> findCourse = courseRepository.findByCourse();
-		model.addAttribute("course", findCourse);
-		return keysearch;
 	}
 
 	@RequestMapping(value = { "/khoa-hoc/{courseName}" })
@@ -216,7 +173,7 @@ public class MinanonihongoController {
 			List<CourseIlmType> courseIlmTypeList = courseIlmTypeRepository.courseIlmType(courseId);
 			Map<String, List<CourseIlm>> map = courseIlmService.setMapCourse(courseId, courseIlmTypeList);
 			for (CourseIlmType courseIlmType : courseIlmTypeList) {
-				model.addAttribute("menu"+courseIlmType.getCourseIlmTypeId(),
+				model.addAttribute("menu" + courseIlmType.getCourseIlmTypeId(),
 						(List<CourseIlm>) map.get(courseIlmType.getCourseIlmTypeName()));
 			}
 			model.addAttribute("courseIlmTypeList", courseIlmTypeList);
@@ -289,9 +246,65 @@ public class MinanonihongoController {
 		}
 	}
 
-	@GetMapping(value = { "/addP" })
-	public String home() {
-		return "private/adpost";
+	@RequestMapping(value = { "/van-hoa-nhat-ban/{postname}", "/van-hoa-nhat-ban",
+			"/van-hoa-nhat-ban/chuyen-muc/{type}" }, method = RequestMethod.GET)
+	public String post(Model model, @PathVariable final Optional<String> postname,
+			@PathVariable final Optional<String> type, HttpServletRequest req, HttpServletResponse response,
+			HttpSession ss) {
+		boolean pn = postname.isPresent();
+		boolean t = type.isPresent();
+		List<PostType> postTypes = (List<PostType>) postTypeRepository.findAll();
+		if (pn) {
+			String postId = post + postname.get().substring(0, 6);
+			Post post = postRepository.findByPostId(postId);
+			model.addAttribute("post", post);
+		} else if (t) {
+			String postTypeId = postType + type.get().substring(0, 5);
+			List<Post> posts = postRepository.findPostCm(postTypeId);
+			model.addAttribute("posts", posts);
+		} else {
+			if (postTypes != null) {
+				List<Post> posts = postTypes.get(0).getPosts();
+				model.addAttribute("posts", posts);
+			}
+		}
+		List<Post> postmn = postRepository.findPostMn();
+		model.addAttribute("postmn", postmn);
+		model.addAttribute("postt", postTypes);
+		return "public/post";
 	}
 
+	@RequestMapping(value = { "/luyen-de" })
+	public String examMenu(Model model, HttpServletRequest req, HttpServletResponse response, HttpSession ss)
+			throws Exception {
+		return "public/menuExam";
+	}
+
+	@RequestMapping(value = { "/luyen-de/{courseName}" })
+	public String examList(Model model, HttpServletRequest req, HttpServletResponse response,
+			@PathVariable String courseName) throws Exception {
+		Course course = courseRepository.findByCourseName(courseName);
+		if (course == null) {
+			return "404";
+		} else {
+			 List<JLPT> jlpt = jlptRepository.findExJLPT(course.getCourseId(), practice);
+		}
+		
+		return "public/menuExam";
+	}
+
+	@RequestMapping(value = { "/thi-thu-truc-tuyen" })
+	public String examRS(Model model, HttpServletRequest req, HttpServletResponse response, HttpSession ss)
+			throws Exception {
+		return "public/examRs";
+	}
+
+	@RequestMapping("/tim-kiem/{keysearch}")
+	@ResponseBody
+	public String search(Model model, String logout, String view, HttpServletRequest req, HttpServletResponse response,
+			HttpSession ss, @PathVariable String keysearch) {
+		List<Course> findCourse = courseRepository.findByCourse();
+		model.addAttribute("course", findCourse);
+		return keysearch;
+	}
 }

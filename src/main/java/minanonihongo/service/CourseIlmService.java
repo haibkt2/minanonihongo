@@ -106,7 +106,7 @@ public class CourseIlmService {
 								examQuestion.getExamQuestionId().substring(
 										examQuestion.getExamQuestionId().length() - 2,
 										examQuestion.getExamQuestionId().length()),
-								"3", examQuestion.getQuestion(), 1));
+								"3", examQuestion.getQuestion(), 1, examQuestion.getExplain()));
 						JSONArray ans = new JSONArray();
 						if (examQuestion.getExamAnswer() != null) {
 							for (ExamAnswer examAnswer : examQuestion.getExamAnswer()) {
@@ -145,11 +145,12 @@ public class CourseIlmService {
 		return answer;
 	}
 
-	public JSONObject getQuestion(String lesson_id, String id, String type, String value, int grade) throws Exception {
+	public JSONObject getQuestion(String lesson_id, String id, String type, String value, int grade, String ex) throws Exception {
 		int index = 0;
 		JSONObject question = new JSONObject();
 		question.put("lesson_id", lesson_id);
 		question.put("id", id);
+		question.put("ex", ex);
 		question.put("type", type);
 		question.put("value", ++index + " ." + value);
 		question.put("grade", grade);

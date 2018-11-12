@@ -53,6 +53,9 @@ public class User implements Serializable {
 
 	@OneToMany(mappedBy = "user")
 	private List<Exam> Exams;
+	
+	@OneToMany(mappedBy = "user")
+	private List<JLPT> jlpts;
 
 	public User() {
 	}
@@ -180,6 +183,14 @@ public class User implements Serializable {
 
 	public void setFlg(String flg) {
 		this.flg = flg;
+	}
+
+	public List<JLPT> getJlpts() {
+		return jlpts;
+	}
+
+	public void setJlpts(List<JLPT> jlpts) {
+		this.jlpts = jlpts;
 	}
 
 }
