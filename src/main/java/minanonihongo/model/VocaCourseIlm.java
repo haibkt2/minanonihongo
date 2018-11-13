@@ -25,6 +25,10 @@ public class VocaCourseIlm implements Serializable {
 	private CourseIlm courseIlm;
 
 	private String hirakana;
+	
+	private String audio;
+	
+	private String example;
 
 	private String kanji;
 	
@@ -76,6 +80,22 @@ public class VocaCourseIlm implements Serializable {
 
 	public void setTranslate(String translate) {
 		this.translate = translate;
+	}
+
+	public String getAudio() {
+		return audio;
+	}
+
+	public void setAudio(String audio) {
+		this.audio = audio;
+	}
+
+	public String getExample() {
+		return example;
+	}
+
+	public void setExample(String example) {
+		this.example = example;
 	}
 
 

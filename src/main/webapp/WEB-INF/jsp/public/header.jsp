@@ -165,12 +165,12 @@
 										</li>
 									</ul>
 								</div></li>
-							<li class="item-search">
-								<div id="search-submit">&nbsp;</div> <input type="text"
-								name="keya" class="search-input" id="search-inputa"
-								onkeypress="return search(event, this)"
-								placeholder="Tìm kiếm..." autocomplete="off">
-							</li>
+<!-- 							<li class="item-search"> -->
+<!-- 								<div id="search-submit">&nbsp;</div> <input type="text" -->
+<!-- 								name="keya" class="search-input" id="search-inputa" -->
+<!-- 								onkeypress="return search(event, this)" -->
+<!-- 								placeholder="Tìm kiếm..." autocomplete="off"> -->
+<!-- 							</li> -->
 						</ul>
 					</div>
 					<c:if test="${user == null}">

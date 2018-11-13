@@ -307,4 +307,11 @@ public class MinanonihongoController {
 		model.addAttribute("course", findCourse);
 		return keysearch;
 	}
+	@RequestMapping("/tra-cuu/{keysearch}")
+	public String searchVoca(Model model, HttpServletRequest req, HttpServletResponse response,
+			HttpSession ss, @PathVariable String keysearch) {
+		List<Course> findCourse = courseRepository.findByCourse();
+		model.addAttribute("course", findCourse);
+		return "public/dictionary";
+	}
 }

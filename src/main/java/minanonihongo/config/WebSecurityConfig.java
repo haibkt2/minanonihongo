@@ -46,6 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/van-hoa-nhat-ban/**").permitAll()
 			.antMatchers("/alphabet/**").permitAll()
 			.antMatchers("/tim-kiem/**").permitAll()
+			.antMatchers("/tra-cuu/**").permitAll()
 			.antMatchers("/khoa-hoc/**").permitAll()
 			.antMatchers("/account/logout").permitAll()
 			.antMatchers("/login").permitAll()

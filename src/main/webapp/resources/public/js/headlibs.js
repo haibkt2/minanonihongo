@@ -33,6 +33,16 @@ function getServerTime() {
 
 	var t = setTimeout(getServerTime, 500);
 }
+function playMp4(a) {
+    var b = $("#mp3Mini_" + a)[0];
+    b.play(), $("#jp-play-" + a).hide(), $("#jp-pause-" + a).css("display", "inline-block"), b.addEventListener("ended", function(b) {
+        pauseMp4(a)
+    })
+}
+function pauseMp4(a) {
+    var b = $("#mp3Mini_" + a)[0];
+    b.pause(), b.currentTime = 0, $("#jp-play-" + a).show(), $("#jp-pause-" + a).hide()
+}
 
 function validateForm() {
 				if ($('#register-password').val().length < 6) {
@@ -121,7 +131,26 @@ function search(e, t) {
         return window.location.href = window.location.origin + "/tim-kiem/" + n, !1
     }
 }
-
+function searchVoca(e, t) {
+    if (13 == e.keyCode) {
+        var n = t.value;
+        if (n = n.replace("/", " "), n = n.replace("<", " "), n = n.replace(">", " "), n = n.replace("'", " "), n = n.replace('"', " "), n = n.replace("&", " "), n = standardizeString(n), null == n || "" == n) return;
+       var url = window.location.origin + "/tra-cuu/" + n
+        $.ajax({
+			url : url,
+			dataType : "html",
+			contentType : "application/json;charset=utf-8",
+			success : function(obj) {
+				$('.rs-search-voca').css("display","block");
+				$('.rs-search-voca').html(obj);
+			},
+			error : function(e) {
+				alert("Sorry! ");
+			}
+		});
+        return;
+    }
+}
 function authBySocicalAccount() {
     var e = new ClientJS;
     setCookie("current_browser", e.getBrowser(), 1), setCookie("current_os", e.getOS(), 1), setCookie("current_fingerprint", e.getFingerprint(), 1), setCookie("url_after_social_redirect", window.location.href, 1)
