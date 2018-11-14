@@ -37,6 +37,7 @@ import minanonihongo.model.Post;
 import minanonihongo.model.PostType;
 import minanonihongo.model.Role;
 import minanonihongo.model.User;
+import minanonihongo.model.VocaCourseIlm;
 import minanonihongo.repository.CourseIlmRepository;
 import minanonihongo.repository.CourseIlmTypeRepository;
 import minanonihongo.repository.CourseRepository;
@@ -45,6 +46,7 @@ import minanonihongo.repository.PostRepository;
 import minanonihongo.repository.PostTypeRepository;
 import minanonihongo.repository.RoleRepository;
 import minanonihongo.repository.UserRepository;
+import minanonihongo.repository.VocaCourseIlmRepository;
 import minanonihongo.service.CourseIlmService;
 import minanonihongo.service.RestFB;
 import minanonihongo.service.UserServiceImpl;
@@ -72,6 +74,9 @@ public class MinanonihongoController {
 
 	@Autowired
 	CourseIlmTypeRepository courseIlmTypeRepository;
+	
+	@Autowired
+	VocaCourseIlmRepository vocaCourseIlmRepository;
 
 	@Autowired
 	JLPTRepository jlptRepository;
@@ -140,6 +145,8 @@ public class MinanonihongoController {
 		if (error != null) {
 			model.addAttribute("login", "error");
 		}
+		List<Course> courses = courseRepository.findByCourse();
+		model.addAttribute("course", courses);
 		return "public/home";
 	}
 
@@ -310,8 +317,9 @@ public class MinanonihongoController {
 	@RequestMapping("/tra-cuu/{keysearch}")
 	public String searchVoca(Model model, HttpServletRequest req, HttpServletResponse response,
 			HttpSession ss, @PathVariable String keysearch) {
-		List<Course> findCourse = courseRepository.findByCourse();
-		model.addAttribute("course", findCourse);
+		List<VocaCourseIlm> findVoca = vocaCourseIlmRepository.searchVocaCourseIlm(keysearch);
+		model.addAttribute("voca", findVoca);
+		model.addAttribute("key", keysearch);
 		return "public/dictionary";
 	}
 }

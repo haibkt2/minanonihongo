@@ -344,4 +344,18 @@ public class AdminMinanonihongoController {
 	//
 	// return "UpdateUser";
 	// }
+	@RequestMapping(value = "/admin/upload-doc-descrip/{id}/{descrip}", method = RequestMethod.POST)
+	public String uploadMtDoc(Model model, HttpServletRequest request, @PathVariable final String id,
+			@PathVariable final String descrip) {
+		Document doc = docRepository.findByDocId(id);
+		if (doc == null) {
+			return "error";
+		} else {
+			doc.setDescrip(descrip);
+			docRepository.save(doc);
+			Course course = courseRepository.findByCourseId(doc.getCourse().getCourseId());
+			model.addAttribute("course", course);
+		}
+		return "/private/upDoc";
+	}
 }

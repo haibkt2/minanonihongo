@@ -10,7 +10,7 @@
 <meta charset="utf-8">
 <title>HaiLDX - Thêm bài học mới.</title>
 <link rel="icon" href="${contextPath}/resources/public/img/fav.png" />
-<title>AdminLTE 2 | Editors</title>
+<title></title>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 	<div class="wrapper">
@@ -71,8 +71,8 @@
 											class="table table-bordered table-hover" style="width: 80%">
 											<thead>
 												<tr>
-													<th width="20%" style="text-align: center;">Mô Tả</th>
-													<th width="75%" style="text-align: center;">Tên File</th>
+													<th width="30%" style="text-align: center;">Mô Tả</th>
+													<th width="65%" style="text-align: center;">Tên File</th>
 													<th width="5%"></th>
 												</tr>
 											</thead>
@@ -81,12 +81,16 @@
 													<c:forEach items="${course.getDocuments()}" var="doc"
 														varStatus="d">
 														<tr>
-															<td><p class="ds-nd">${doc.descrip}<a
-																		href="javascript:void(0);" onclick="fixDoc()">&nbsp;&nbsp;&nbsp;<i
+															<td id="ds-nd-fix-${d.index}"><p class="mt ds-nd-fix-${d.index}" value="${doc.descrip}" id="${doc.docId}">${doc.descrip}<a
+																		style="float: right;margin-right: 8px" href="javascript:void(0);" onclick="fixDoc(this)">&nbsp;&nbsp;&nbsp;<i
 																		class="fa fa-pencil"></i></a>
-																<p>
-																<div class="ds-nd-fix">
-																	<input class="form-control">&nbsp;&nbsp;&nbsp;<i class="fa fa-pencil"></i>
+																</p>
+																<div id="ds-nd-fix" class="ip-fix ds-nd-fix-${d.index}">
+																	<input class="form-control ds-nd-fix-${d.index}" type="text"><a style="float: left;margin-left: 8px"
+																		href="javascript:void(0);" onclick="upMtDoc(this)"><i
+																		class="fa fa-fw fa-upload"></i></a><a style="float: right; margin-right: 8px"
+																		href="javascript:void(0);" onclick="delMtDoc(this)"><i
+																		class="fa fa-fw fa-times"></i></a>
 																</div></td>
 															<td>${doc.locaFileDoc}</td>
 															<td style="min-height: 30px;"><a class="del-voca"

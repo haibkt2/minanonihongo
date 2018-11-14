@@ -18,7 +18,7 @@ public interface VocaCourseIlmRepository extends CrudRepository<VocaCourseIlm, I
 	@Query(value="Delete from voca_course_ilm where course_ilm_id = ?1",nativeQuery = true)
 	int deleteVocaCourseIlmId(String courseId);
 	
-	@Query(value="Delete from voca_course_ilm where course_ilm_id = ?1",nativeQuery = true)
+	@Query(value="Select * from voca_course_ilm where hirakana like %?1% or kanji like %?1%",nativeQuery = true)
 	List<VocaCourseIlm> searchVocaCourseIlm(String voca);
 
 	VocaCourseIlm findByVocaCourseIlmId(String id);

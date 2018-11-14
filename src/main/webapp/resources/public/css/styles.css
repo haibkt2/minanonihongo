@@ -32270,12 +32270,12 @@ thead.fixedHeader {
 .rs-search-voca {
 	min-height: 30px;
 	width: 100%;
-	border-left : 1px solid #003366;
-	border-bottom : 1px solid #003366;
-	border-right : 1px solid #003366;
-	margin: 0;
-	border-radius: 8px;
-	padding: 2px 0;
+/* 	border-left : 1px solid #003366; */
+/* 	border-bottom : 1px solid #003366; */
+/* 	border-right : 1px solid #003366; */
+/* 	margin: 0; */
+/* 	border-radius: 8px; */
+/* 	padding: 2px 0; */
 	display: none;
 }
 

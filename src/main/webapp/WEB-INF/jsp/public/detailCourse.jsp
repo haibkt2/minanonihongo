@@ -315,18 +315,9 @@
 
 					</div>
 					<script>
-						lesson_tasks = $
-						{
-							lesson_tasks
-						};
-						lesson_answers = $
-						{
-							lesson_answers
-						};
-						lesson_lesson = $
-						{
-							lesson_lesson
-						};
+						lesson_tasks = ${lesson_tasks};
+						lesson_answers = ${lesson_answers};
+						lesson_lesson = ${lesson_lesson};
 						lesson_results = [];
 						lesson_writeQuestions = [];
 						lesson_results = [];

@@ -28,7 +28,7 @@
 			</section>
 			<form:form action="${contextPath}/admin/fix-course"
 				modelAttribute="courseIlmForm" enctype="multipart/form-data">
-				<form:input path="courseIlmId" type="hidden"/>
+				<form:input path="courseIlmId" type="hidden" />
 				<!-- Main content -->
 				<section class="content">
 					<div class="row">
@@ -45,7 +45,8 @@
 											</div>
 											<div style="width: 220px; margin-left: 120px;">
 												<form:select class="form-control" path="courseIlmType">
-													<form:options items="${courseIlmType}" itemLabel="courseIlmTypeName" itemValue="courseIlmTypeId" />
+													<form:options items="${courseIlmType}"
+														itemLabel="courseIlmTypeName" itemValue="courseIlmTypeId" />
 												</form:select>
 											</div>
 										</div>
@@ -72,6 +73,7 @@
 										<label style="margin-left: 12px;"> Từ Mới</label>
 									</h4>
 								</div>
+
 								<div class="box-body" style="margin-left: 12px;">
 									<div id="example2_wrapper"
 										class="dataTables_wrapper form-inline dt-bootstrap">
@@ -83,17 +85,19 @@
 													role="grid" aria-describedby="example2_info">
 													<thead class="fixedHeader">
 														<tr>
-															<td width="27%"><label>Hirakana/Katakana</label></td>
-															<td width="20%"><label>Kanji</label></td>
-															<td width="43%"><label>Ý Nghĩa</label></td>
+															<td width="15%"><label>Hirakana/Katakana</label></td>
+															<td width="13%"><label>Kanji</label></td>
+															<td width="35%"><label>Ý Nghĩa</label></td>
+															<td width="27%"><label>Ví dụ</label></td>
 															<td width="10%"></td>
 														</tr>
 													</thead>
 													<tbody id="list-voca" class="scrollContent">
 														<tr style="width: 1px; margin: 0px">
-															<td width="262px"></td>
-															<td width="194px"></td>
-															<td width="415px"></td>
+															<td width="146px"></td>
+															<td width="126px"></td>
+															<td width="339px"></td>
+															<td width="261px"></td>
 															<td width="79px"></td>
 														</tr>
 														<c:if test="${courseIlmForm != null}">
@@ -117,24 +121,42 @@
 										</div>
 									</div>
 								</div>
-								<div class="form-group">
-									<div class="col-xs-3">
-										<label style="margin-left: 5px;">Hirakana/Katakana</label> <input
-											id="hirakana" type="text" class="form-control"
-											placeholder=".col-xs-4" style="margin-left: 5px">
-									</div>
-									<div class="col-xs-3">
-										<label>Kanji</label> <input type="text" id="kanji"
-											class="form-control" placeholder=".col-xs-4">
-									</div>
-									<div class="col-xs-5">
-										<label>Dịch nghĩa</label> <input type="text" id="translate"
-											class="form-control" placeholder=".col-xs-5">
-									</div>
-									<div>
-										<button type="button" onclick="addVoca()"
-											class="btn btn-info btn-flat btn-add-member"
-											style="margin-top: 25px">Thêm</button>
+								<div style="width: 100%; font-size: 20px; margin-left: 15px">
+									<a onclick="showMnVc()"
+										href="javascript:void(0);">&nbsp;<i
+										class="fa fa-fw fa-plus-square-o"></i></a>
+
+								</div>
+								<div class="mana-voca" style="display:none;">
+									<div class="form-group">
+										<div class="col-xs-3">
+											<label style="margin-left: 10px;">Hirakana/Katakana</label> <input
+												id="hirakana" type="text" class="form-control"
+												placeholder="Hirakana/Katakana.." style="margin-left: 5px">
+										</div>
+										<div class="col-xs-2">
+											<label style="margin-left: 5px">Kanji</label> <input
+												type="text" id="kanji" class="form-control"
+												placeholder="Kanji..">
+										</div>
+										<div class="col-xs-3">
+											<label style="margin-left: 5px">Dịch nghĩa</label> <input
+												type="text" id="translate" class="form-control"
+												placeholder="Dịch nghĩa..">
+										</div>
+										<div style="width: 100%; height: 1px;"></div>
+										<textarea style="width: 64.5%; margin: 60px 0 0 20px"
+											id="translate" class="form-control" placeholder="Ví dụ.."></textarea>
+										<div class="col-xs-1 btn btn-default btn-file"
+											style="margin: 5px 30px 0 20px">
+											<i class="fa fa-fw fa-file-image-o"></i>Audio<input
+												type="file" name="file-img">
+										</div>
+										<div>
+											<button type="button" onclick="addVoca()"
+												class="btn btn-info btn-flat btn-add-member"
+												style="margin-top: 5px">Thêm</button>
+										</div>
 									</div>
 								</div>
 								<div style="width: 100%; height: 1px;"></div>
@@ -194,7 +216,7 @@
 				<input type="hidden" name="edit-voca" id="edit-voca" value="o"
 					index="o" />
 				<input type="hidden" name="list-current" id="list-current" />
-				<input type="hidden" name="dele-old" id="dele-old" value="[]"/>
+				<input type="hidden" name="dele-old" id="dele-old" value="[]" />
 			</form:form>
 			<div></div>
 			<!-- /.content -->

@@ -182,25 +182,45 @@ $(".bt-dele-course").click(function(e) {
 		}
 	});
 });
-function fixDoc() {
-	var form = $('#fileUploadForm')[0];
-	var data = new FormData(form);
+function fixDoc(fx) {
+	var row = fx.parentNode.parentNode;
+	var index = row.id;
+	var mt = $(".mt."+index).attr("value");
+	$(".mt."+index).css("display", "none");
+	$(".ip-fix."+index).css("display", "block");
+	$(".ip-fix."+index+" input").val(mt);
+}
+function delMtDoc(fx) {
+	var row = fx.parentNode.parentNode;
+	var index = row.id;
+	$(".mt."+index).css("display", "block");
+	$(".ip-fix."+index).css("display", "none");
+}
+function upMtDoc(fx) {
+	var row = fx.parentNode.parentNode;
+	var index = row.id;
+	var nd = $(".form-control."+index).val();
+	var idv = $(".mt."+index).attr("id");
+	var url = "/admin/upload-doc-descrip/"+idv+"/"+nd;
 	$.ajax({
 		type : "POST",
-		enctype : 'multipart/form-data',
-		url : "/admin/upload-doc",
-		data : data,
+		url : url,
 		dataType : "html",
-		processData : false,
-		contentType : false,
 		cache : false,
 		success : function(data) {
-			$("#submit-file").prop("disabled", true);
 			$("#result").html(data);
-			$('#fileUploadForm')[0].reset();
 		},
 		error : function() {
 			console.log("FAIL : ", "ERROR");
 		}
 	});
+}
+function showMnVc() {
+	$("#bgcolor").mouseleave(function(){
+	    var bodyColor = $(this).attr("style");
+	    $("body").attr("style", bodyColor);
+	});
+	$(".mana-voca").css("display", "block");
+	
+	$(".ip-fix."+index).css("display", "none");
 }

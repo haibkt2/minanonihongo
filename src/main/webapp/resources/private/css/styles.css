@@ -7979,3 +7979,6 @@ thead.fixedHeader {
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
+#ds-nd-fix {
+	display: none;
+}

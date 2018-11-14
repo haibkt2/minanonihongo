@@ -10,7 +10,7 @@ import minanonihongo.model.Course;
 
 
 public interface CourseRepository extends CrudRepository<Course, Integer> {
-	@Query(value = "SELECT * FROM `course` ORDER BY course_id DESC" , nativeQuery = true)
+	@Query(value = "SELECT * FROM course ORDER BY course_id DESC" , nativeQuery = true)
     List<Course> findByCourse();
 	Course findByCourseName(String courseName);
 	Course findByCourseId(String courseId);
