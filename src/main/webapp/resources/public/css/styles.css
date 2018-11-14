@@ -32182,7 +32182,7 @@ rgba
 }
 
 .group-7 .home-lk {
-	width: 30%;
+	width: 24%;
 }
 
 .home-lk:hover {
@@ -32210,6 +32210,9 @@ rgba
 }
 
 .ct-gra {
+	display: none;
+}
+.ct-conv {
 	display: none;
 }
 

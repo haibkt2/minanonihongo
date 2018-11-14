@@ -1,3 +1,13 @@
+function playMp4(a) {
+    var b = $("#mp3Mini_" + a)[0];
+    b.play(), $("#jp-play-" + a).hide(), $("#jp-pause-" + a).css("display", "inline-block"), b.addEventListener("ended", function(b) {
+        pauseMp4(a)
+    })
+}
+function pauseMp4(a) {
+    var b = $("#mp3Mini_" + a)[0];
+    b.pause(), b.currentTime = 0, $("#jp-play-" + a).show(), $("#jp-pause-" + a).hide()
+}
 function inArray(needle, haystack) {
 	var length = haystack.length;
 	for (var i = 0; i < length; i++) {
@@ -19,11 +29,13 @@ function addCourse(btn) {
 		hirakana = document.getElementById("data-voca").rows[i].cells.item(0).innerHTML;
 		kanji = document.getElementById("data-voca").rows[i].cells.item(1).innerHTML;
 		translate = document.getElementById("data-voca").rows[i].cells.item(2).innerHTML;
+		example = document.getElementById("data-voca").rows[i].cells.item(3).innerHTML;
 		obj.push({
 			"id" : id,
 			"hirakana" : hirakana,
 			"kanji" : kanji,
-			"translate" : translate
+			"translate" : translate,
+			"example" : example
 		});
 	}
 	document.getElementById('list-current').value = JSON.stringify(obj);
@@ -39,6 +51,8 @@ function addVoca() {
 	var hirakana = document.getElementById("hirakana").value;
 	var kanji = document.getElementById("kanji").value;
 	var translate = document.getElementById("translate").value;
+	var audio = $("#audio-name").val();
+	var example = document.getElementById("example").value;
 	var row;
 	index = $('#edit-voca').attr("index");
 	if (id == 'o') {
@@ -54,17 +68,22 @@ function addVoca() {
 		d.setAttribute("index", 'o');
 	}
 	row.id = id;
-	var cell1 = row.insertCell(0);
-	var cell2 = row.insertCell(1);
-	var cell3 = row.insertCell(2);
-	var cell4 = row.insertCell(3);
-	cell1.innerHTML = hirakana;
-	cell2.innerHTML = kanji;
-	cell3.innerHTML = translate;
-	cell4.innerHTML = ac;
+	var cell0 = row.insertCell(0);
+	var cell1 = row.insertCell(1);
+	var cell2 = row.insertCell(2);
+	var cell3 = row.insertCell(3);
+	var cell4 = row.insertCell(4);
+	var cell5 = row.insertCell(5);
+	cell0.innerHTML = hirakana;
+	cell1.innerHTML = kanji;
+	cell2.innerHTML = translate;
+	cell3.innerHTML = example;
+	cell4.innerHTML = audio;
+	cell5.innerHTML = ac;
 	document.getElementById("hirakana").value = "";
 	document.getElementById("kanji").value = "";
 	document.getElementById("translate").value = "";
+	document.getElementById("example").value = "";
 }
 
 function deleteRow(btn) {
@@ -110,6 +129,9 @@ $('.movie-play').on('click', function(ev) {
 $("#file-upload").change(function() {
 	$("#file-name").val(this.files[0].name);
 	$("#submit-file").prop("disabled", false);
+});
+$("#audio-upload").change(function() {
+	$("#audio-name").val(this.files[0].name);
 });
 
 $(document).ready(function() {

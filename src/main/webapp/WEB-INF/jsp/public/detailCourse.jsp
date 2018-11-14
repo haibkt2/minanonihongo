@@ -63,6 +63,9 @@
 					</a> <a id="ct-gra" href="javascript:void(0);" class="home-lk go">
 						<img src="${contextPath}/resources/public/img/minna_02.png">
 						<c:if test=""></c:if> <span>Ngữ Pháp</span>
+					</a> <a id="ct-conv" href="javascript:void(0);" class="home-lk go">
+						<img src="${contextPath}/resources/public/img/minna_04.png">
+						<span>Hội Thoại</span>
 					</a> <a id="ct-exam" href="javascript:void(0);" class="home-lk go">
 						<img src="${contextPath}/resources/public/img/minna_03.png">
 						<span>Ôn Tập</span>
@@ -79,8 +82,8 @@
 						class="scrollTable table table-bordered table-hover dataTable no-footer"
 						role="grid" aria-describedby="example2_info">
 						<thead>
-							<tr>
-								<td width="23%"><label>Hirakana<br>Katakana
+							<tr style="background-color: #cbe1f2;">
+								<td width="23%"><label>Hirakana/Katakana
 								</label></td>
 								<td width="2%"><label>JP</label></td>
 								<td width="20%"><label>Kanji</label></td>
@@ -90,12 +93,14 @@
 						</thead>
 						<tbody id="list-voca">
 							<c:if test="${courseIlm != null}">
-								<c:forEach items="${courseIlm.vocaCourseIlms}" var="voca" varStatus="id">
+								<c:forEach items="${courseIlm.vocaCourseIlms}" var="voca"
+									varStatus="id">
 									<tr id="${voca.vocaCourseIlmId}">
 										<td width="23%">${voca.hirakana}</td>
-										<td width="2%"><audio id="mp3Mini_${id.index}" preload="none">
+										<td width="2%" style="text-align: center;"><audio id="mp3Mini_${id.index}"
+												preload="none">
 												<source type="audio/mpeg"
-													src="${contextPath}/reponsitory/N5/voca/watashi.mp3">
+													src="${contextPath}/reponsitory/${courseIlm.getCourse().getCourseName()}/voca/${voca.audio}">
 												<source type="audio/ogg"
 													src="${contextPath}/reponsitory/N5/voca/watashi.ogg">
 											</audio><span id="mp3MiniPlayer_${id.index}" class="jp-audio mp4"><span
@@ -103,8 +108,12 @@
 													class="jp-gui jp-interface"><span
 														class="jp-controls"><a href="javascript:void(0);"
 															class="jp-play" id="jp-play-${id.index}" tabindex="1"
-															onclick="playMp4(${id.index})"><i class="zmdi zmdi-play-circle-outline"></i></a><a href="javascript:void(0);"
-															class="jp-pause" id="jp-pause-${id.index}" tabindex="1" onClick="pauseMp4(${id.index})"><i class="zmdi zmdi-pause-circle-outline"></i></a></span></span></span></span></td>
+															onclick="playMp4(${id.index})"><i
+																class="zmdi zmdi-play-circle-outline"></i></a><a
+															href="javascript:void(0);" class="jp-pause"
+															id="jp-pause-${id.index}" tabindex="1"
+															onClick="pauseMp4(${id.index})"><i
+																class="zmdi zmdi-pause-circle-outline"></i></a></span></span></span></span></td>
 										<td width="20%">${voca.kanji}</td>
 										<td width="45%">${voca.translate}</td>
 									</tr>
@@ -118,6 +127,8 @@
 		</div>
 		<div class="ct-gra">
 			<div class="introduce" id="introduce" style="margin-left: 10px">${courseIlm.getIntroduce()}</div>
+		</div>
+		<div class="ct-conv">
 			<c:if test="${courseIlm.getLocaFileCourse() != null}">
 				<br>
 				<a class="movie-play"> <img id="videoImg"
@@ -315,19 +326,19 @@
 
 					</div>
 					<script>
-						lesson_tasks = ${lesson_tasks};
-						lesson_answers = ${lesson_answers};
-						lesson_lesson = ${lesson_lesson};
-						lesson_results = [];
-						lesson_writeQuestions = [];
-						lesson_results = [];
-						lesson_writeQuestions = [];
-						lesson_results = [];
-						lesson_writeQuestions = [];
-						course = "${courseName}"; //Them khoa hoc cho JLPT
-						posExam = null; //tu dong load cho bai thi sau
-						is_exam = "0"; //check xem co phải là bài thi hay ko
-						is_exam = "0"; //check xem co phải là bài thi hay ko
+					lesson_tasks = ${lesson_tasks};
+					lesson_answers = ${lesson_answers};
+					lesson_lesson = ${lesson_lesson};
+					lesson_results = [];
+					lesson_writeQuestions = [];
+					lesson_results = [];
+					lesson_writeQuestions = [];
+					lesson_results = [];
+					lesson_writeQuestions = [];
+					course = "${courseName}"; //Them khoa hoc cho JLPT
+					posExam = null; //tu dong load cho bai thi sau
+					is_exam = "0"; //check xem co phải là bài thi hay ko
+					is_exam = "0"; //check xem co phải là bài thi hay ko
 					</script>
 				</div>
 			</c:if>
@@ -371,6 +382,7 @@
 				e.preventDefault();
 				var id = $(this).attr("id");
 				$(".ct-gra").css("display", "none");
+				$(".ct-conv").css("display", "none");
 				$(".ct-voca").css("display", "none");
 				$(".ct-exam").css("display", "none");
 				$("." + id).css("display", "block");

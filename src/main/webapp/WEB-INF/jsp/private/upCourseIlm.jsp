@@ -84,33 +84,54 @@
 													class="scrollTable table table-bordered table-hover dataTable no-footer scrollTable"
 													role="grid" aria-describedby="example2_info">
 													<thead class="fixedHeader">
-														<tr>
-															<td width="15%"><label>Hirakana/Katakana</label></td>
-															<td width="13%"><label>Kanji</label></td>
-															<td width="35%"><label>Ý Nghĩa</label></td>
-															<td width="27%"><label>Ví dụ</label></td>
-															<td width="10%"></td>
+														<tr style="background-color: #cbe1f2;">
+															<td width="140px"><label>Hirakana/Katakana</label></td>
+															<td width="84px"><label>Kanji</label></td>
+															<td width="275px"><label>Ý Nghĩa</label></td>
+															<td width="272"><label>Ví dụ</label></td>
+															<td width="50px"><label>Audio</label></td>
+															<td width="98px"></td>
 														</tr>
 													</thead>
 													<tbody id="list-voca" class="scrollContent">
 														<tr style="width: 1px; margin: 0px">
-															<td width="146px"></td>
-															<td width="126px"></td>
-															<td width="339px"></td>
-															<td width="261px"></td>
-															<td width="79px"></td>
+															<td width="142px"></td>
+															<td width="86px"></td>
+															<td width="270px"></td>
+															<td width="275px"></td>
+															<td width="54px"></td>
+															<td width="83px"></td>
 														</tr>
 														<c:if test="${courseIlmForm != null}">
 															<c:forEach items="${courseIlmForm.vocaCourseIlms}"
-																var="voca">
+																var="voca" varStatus="id">
 																<tr id="${voca.vocaCourseIlmId}">
 																	<td>${voca.hirakana}</td>
 																	<td>${voca.kanji}</td>
 																	<td>${voca.translate}</td>
+																	<td>${voca.example}</td>
+																	<td style="text-align: center;"><audio id="mp3Mini_${id.index}" preload="none">
+																			<source type="audio/mpeg"
+																				src="${contextPath}/reponsitory/${courseIlmForm.getCourse().getCourseName()}/voca/${voca.audio}">
+																			<source type="audio/ogg"
+																				src="${contextPath}/reponsitory/N5/voca/watashi.ogg">
+																		</audio><span id="mp3MiniPlayer_${id.index}"
+																		class="jp-audio mp4"><span
+																			class="jp-type-single"><span
+																				class="jp-gui jp-interface"><span
+																					class="jp-controls"><a
+																						href="javascript:void(0);" class="jp-play"
+																						id="jp-play-${id.index}" tabindex="1"
+																						onclick="playMp4(${id.index})"><i
+																							class="fa fa-fw fa-play-circle-o"></i></a><a
+																						href="javascript:void(0);" class="jp-pause"
+																						id="jp-pause-${id.index}" tabindex="1"
+																						onClick="pauseMp4(${id.index})"><i
+																							class="fa fa-fw fa-pause"></i></a></span></span></span></span></td>
 																	<td><a class="del-voca" onclick="deleteRow(this)"
 																		href="javascript:void(0);">&nbsp;<i
-																			class="fa fa-trash-o">&nbsp;</i></a>&nbsp;&nbsp;<a
-																		onclick="fixRow(this)" href="javascript:void(0);">&nbsp;<i
+																			class="fa fa-trash-o">&nbsp;</i></a><a
+																		onclick="fixRow(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i
 																			class="fa fa-pencil"></i></a></td>
 																</tr>
 															</c:forEach>
@@ -122,35 +143,35 @@
 									</div>
 								</div>
 								<div style="width: 100%; font-size: 20px; margin-left: 15px">
-									<a onclick="showMnVc()"
-										href="javascript:void(0);">&nbsp;<i
+									<a onclick="showMnVc()" href="javascript:void(0);">&nbsp;<i
 										class="fa fa-fw fa-plus-square-o"></i></a>
 
 								</div>
-								<div class="mana-voca" style="display:none;">
+								<div class="mana-voca" style="display: none;">
 									<div class="form-group">
-										<div class="col-xs-3">
+										<div class="col-xs-3 ">
 											<label style="margin-left: 10px;">Hirakana/Katakana</label> <input
 												id="hirakana" type="text" class="form-control"
 												placeholder="Hirakana/Katakana.." style="margin-left: 5px">
 										</div>
-										<div class="col-xs-2">
+										<div class="col-xs-3">
 											<label style="margin-left: 5px">Kanji</label> <input
 												type="text" id="kanji" class="form-control"
 												placeholder="Kanji..">
 										</div>
-										<div class="col-xs-3">
+										<div class="col-xs-5">
 											<label style="margin-left: 5px">Dịch nghĩa</label> <input
 												type="text" id="translate" class="form-control"
 												placeholder="Dịch nghĩa..">
 										</div>
 										<div style="width: 100%; height: 1px;"></div>
-										<textarea style="width: 64.5%; margin: 60px 0 0 20px"
-											id="translate" class="form-control" placeholder="Ví dụ.."></textarea>
+										<textarea style="width: 88.5%; margin: 60px 0 0 20px"
+											id="example" class="form-control" placeholder="Ví dụ.."></textarea>
 										<div class="col-xs-1 btn btn-default btn-file"
 											style="margin: 5px 30px 0 20px">
 											<i class="fa fa-fw fa-file-image-o"></i>Audio<input
-												type="file" name="file-img">
+												type="file" name="file-img" id="audio-upload"> <input
+												type="hidden" id="audio-name">
 										</div>
 										<div>
 											<button type="button" onclick="addVoca()"
@@ -180,10 +201,36 @@
 										<div class="form-group" style="width: 100%"></div>
 										<div class="form-group">
 											<h4>
-												<label> Nội Dung Bài Học</label>
+												<label>Ngữ Pháp</label>
 											</h4>
 											<form:textarea class="ckeditor" id="introduce"
 												name="introduce" path="introduce" required="true" rows="12"></form:textarea>
+										</div>
+									</div>
+
+								</div>
+
+							</div>
+							<!-- /.box -->
+						</div>
+						<!-- /.col-->
+					</div>
+					<!-- ./row -->
+				</section>
+				<section class="content">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="box box-info">
+								<!-- /.box-header -->
+								<div class="box-body pad">
+									<div class="box-body">
+										<div class="form-group" style="width: 100%"></div>
+										<div class="form-group">
+											<h4>
+												<label>Video Hội Thoại</label>
+											</h4>
+											<form:textarea class="ckeditor" id="script" name="introduce"
+												path="introduce" required="true" rows="12"></form:textarea>
 										</div>
 										<div class="form-group">
 											<h4>
@@ -236,12 +283,26 @@
 								filebrowserFlashUploadUrl : '../ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Flash'
 							});
 		</script>
+		<script>
+			CKEDITOR
+					.replace(
+							'script',
+							{
+								filebrowserBrowseUrl : '../ckfinder/ckfinder.html',
+								filebrowserImageBrowseUrl : '../ckfinder/ckfinder.html?type=Images',
+								filebrowserFlashBrowseUrl : '../ckfinder/ckfinder.html?type=Flash',
+								filebrowserUploadUrl : '../ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Files',
+								filebrowserImageUploadUrl : '../ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Images',
+								filebrowserFlashUploadUrl : '../ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Flash'
+							});
+		</script>
 		<%-- 		<script src="${contextPath}/resources/private/js/jquery.min.js"></script> --%>
 		<!-- 		<script -->
 		<%-- 			src="${contextPath}/resources/private/js/jquery.dataTables.min.js"></script> --%>
 		<!-- 		<script -->
 		<%-- 			src="${contextPath}/resources/private/js/dataTables.bootstrap.min.js"></script> --%>
 		<script src="${contextPath}/resources/private/js/up.lesson.js"></script>
+<%-- 		<script src="${contextPath}/resources/public/js/detail_lesson.js"></script> --%>
 	</div>
 </body>
 

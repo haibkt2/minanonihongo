@@ -43,6 +43,10 @@ public class CourseIlm implements Serializable {
 	private String introduce;
 	
 	private String locaFileImg;
+	
+	private String audio;
+	
+	private String example;
 
 	private String locaFileCourse;
 
@@ -179,6 +183,22 @@ public class CourseIlm implements Serializable {
 
 	public void setLocaFileImg(String locaFileImg) {
 		this.locaFileImg = locaFileImg;
+	}
+
+	public String getAudio() {
+		return audio;
+	}
+
+	public void setAudio(String audio) {
+		this.audio = audio;
+	}
+
+	public String getExample() {
+		return example;
+	}
+
+	public void setExample(String example) {
+		this.example = example;
 	}
 
 }
