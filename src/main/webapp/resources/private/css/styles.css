@@ -7927,13 +7927,13 @@ tbody.scrollContent {
 	display: block;
 	max-height: 262px;
 	overflow: auto;
-	width: 100%
+/* 	width: 100% */
 }
 
 thead.fixedHeader {
 	display: table;
 	overflow: auto;
-	width: 100%
+/* 	width: 100% */
 }
 
 #data-show tbody tr td .movie-play img {

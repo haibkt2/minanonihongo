@@ -86,21 +86,21 @@
 													<thead class="fixedHeader">
 														<tr style="background-color: #cbe1f2;">
 															<td width="140px"><label>Hirakana/Katakana</label></td>
-															<td width="84px"><label>Kanji</label></td>
-															<td width="275px"><label>Ý Nghĩa</label></td>
-															<td width="272"><label>Ví dụ</label></td>
-															<td width="50px"><label>Audio</label></td>
-															<td width="98px"></td>
+															<td width="80px"><label>Kanji</label></td>
+															<td width="295px"><label>Ý Nghĩa</label></td>
+															<td width="303px"><label>Ví dụ</label></td>
+															<td width="53px"><label>Audio</label></td>
+															<td width="95px"></td>
 														</tr>
 													</thead>
 													<tbody id="list-voca" class="scrollContent">
 														<tr style="width: 1px; margin: 0px">
-															<td width="142px"></td>
-															<td width="86px"></td>
-															<td width="270px"></td>
-															<td width="275px"></td>
-															<td width="54px"></td>
-															<td width="83px"></td>
+															<td width="140px"></td>
+															<td width="80px"></td>
+															<td width="295px"></td>
+															<td width="303px"></td>
+															<td width="53px"></td>
+															<td width="80px"></td>
 														</tr>
 														<c:if test="${courseIlmForm != null}">
 															<c:forEach items="${courseIlmForm.vocaCourseIlms}"
@@ -131,7 +131,7 @@
 																	<td><a class="del-voca" onclick="deleteRow(this)"
 																		href="javascript:void(0);">&nbsp;<i
 																			class="fa fa-trash-o">&nbsp;</i></a><a
-																		onclick="fixRow(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i
+																		onclick="fixRow(this)" href="javascript:void(0);">&nbsp;<i
 																			class="fa fa-pencil"></i></a></td>
 																</tr>
 															</c:forEach>
