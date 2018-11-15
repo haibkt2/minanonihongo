@@ -97,7 +97,7 @@
 									varStatus="id">
 									<tr id="${voca.vocaCourseIlmId}">
 										<td width="23%">${voca.hirakana}</td>
-										<td width="2%" style="text-align: center;"><audio id="mp3Mini_${id.index}"
+										<td width="2%" class="ad-audio"><audio id="mp3Mini_${id.index}"
 												preload="none">
 												<source type="audio/mpeg"
 													src="${contextPath}/reponsitory/${courseIlm.getCourse().getCourseName()}/voca/${voca.audio}">

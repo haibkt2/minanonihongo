@@ -42,6 +42,8 @@ public class CourseIlm implements Serializable {
 
 	private String introduce;
 	
+	private String script;
+	
 	private String locaFileImg;
 	
 	private String audio;
@@ -199,6 +201,14 @@ public class CourseIlm implements Serializable {
 
 	public void setExample(String example) {
 		this.example = example;
+	}
+
+	public String getScript() {
+		return script;
+	}
+
+	public void setScript(String script) {
+		this.script = script;
 	}
 
 }

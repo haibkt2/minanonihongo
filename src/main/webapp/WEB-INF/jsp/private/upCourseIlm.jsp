@@ -11,7 +11,6 @@
 <meta charset="utf-8">
 <title>HaiLDX - Thêm bài học mới.</title>
 <link rel="icon" href="${contextPath}/resources/public/img/fav.png" />
-<title>AdminLTE 2 | Editors</title>
 <script src="../ckeditor/ckeditor.js"></script>
 <script src="../ckfinder/ckfinder.js"></script>
 </head>
@@ -54,9 +53,8 @@
 											<h4>
 												<label> Tên Bài Học</label>
 											</h4>
-											<f:input type="text" class="form-control"
-												name="lessonName" path="lessonName" id="lessonName"
-												placeholder="Tên Bài Học" />
+											<f:input type="text" class="form-control" name="lessonName"
+												path="lessonName" id="lessonName" placeholder="Tên Bài Học" />
 										</div>
 									</div>
 								</div>
@@ -105,30 +103,34 @@
 														<c:if test="${courseIlmForm != null}">
 															<c:forEach items="${courseIlmForm.vocaCourseIlms}"
 																var="voca" varStatus="id">
-																<tr id="${voca.vocaCourseIlmId}">
+																<tr id="${voca.vocaCourseIlmId}"
+																	audio-name="${voca.audio}" change-data="0">
 																	<td>${voca.hirakana}</td>
 																	<td>${voca.kanji}</td>
 																	<td>${voca.translate}</td>
 																	<td>${voca.example}</td>
-																	<td style="text-align: center;"><audio
-																			id="mp3Mini_${id.index}" preload="none">
-																			<source type="audio/mpeg"
-																				src="/reponsitory/${courseIlmForm.getCourse().getCourseName()}/voca/watashi.mp3">
-																			<source type="audio/ogg"
-																				src="${contextPath}/reponsitory/N5/voca/watashi.ogg">
-																		</audio><span id="mp3MiniPlayer_${id.index}"
-																		class="jp-audio mp4"><span
-																			class="jp-type-single"><span
-																				class="jp-gui jp-interface"><span
-																					class="jp-controls"><a
-																						href="javascript:void(0);" class="jp-play"
-																						id="jp-play-${id.index}" tabindex="1"
-																						onclick="playMp4(${id.index})"><i
-																							class="fa fa-fw fa-play-circle-o"></i></a><a
-																						href="javascript:void(0);" class="jp-pause"
-																						id="jp-pause-${id.index}" tabindex="1"
-																						onClick="pauseMp4(${id.index})"><i
-																							class="fa fa-fw fa-pause"></i></a></span></span></span></span></td>
+																	<td class="ad-audio"><c:if
+																			test="${voca.audio ne null}">
+																			<audio id="mp3Mini_${id.index}" preload="none">
+																				<source type="audio/mpeg"
+																					src="/reponsitory/${courseIlmForm.getCourse().getCourseName()}/voca/${voca.audio}">
+																				<source type="audio/ogg"
+																					src="${contextPath}/reponsitory/N5/voca/watashi.ogg">
+																			</audio>
+																			<span id="mp3MiniPlayer_${id.index}"
+																				class="jp-audio mp4"><span
+																				class="jp-type-single"><span
+																					class="jp-gui jp-interface"><span
+																						class="jp-controls"><a
+																							href="javascript:void(0);" class="jp-play"
+																							id="jp-play-${id.index}" tabindex="1"
+																							onclick="playMp4(${id.index})"><i
+																								class="fa fa-fw fa-play-circle-o"></i></a><a
+																							href="javascript:void(0);" class="jp-pause"
+																							id="jp-pause-${id.index}" tabindex="1"
+																							onClick="pauseMp4(${id.index})"><i
+																								class="fa fa-fw fa-pause"></i></a></span></span></span></span>
+																		</c:if></td>
 																	<td><a class="del-voca" onclick="deleteRow(this)"
 																		href="javascript:void(0);">&nbsp;<i
 																			class="fa fa-trash-o">&nbsp;</i></a><a
@@ -168,24 +170,21 @@
 										<div style="width: 100%; height: 1px;"></div>
 										<textarea style="width: 88.5%; margin: 60px 0 0 20px"
 											id="example" class="form-control" placeholder="Ví dụ.."></textarea>
-										<form method="POST" enctype="multipart/form-data"
-											id="uploadAudio">
-											<div class="col-xs-1 btn btn-default btn-file"
-												style="margin: 5px 30px 0 20px">
-												<i class="fa fa-fw fa-file-image-o"></i>Audio<input
-													type="file" name="file-audio" id="audio-upload"> <input
-													type="hidden" id="audio-name">
-											</div>
-											<input type="hidden"
-												value="${courseIlmForm.getCourse().getCourseName()}"
-												id="course-name">
-											<div>
-												<button type="button" onclick="addVoca()"
-													class="btn btn-info btn-flat btn-add-member"
-													style="margin-top: 5px" id="submit-vc">Thêm</button>
-											</div>
-										</form>
 
+										<div class="col-xs-1 btn btn-default btn-file"
+											style="margin: 5px 30px 0 20px">
+											<i class="fa fa-fw fa-file-image-o"></i>Audio<input
+												type="file" name="file-audio" id="audio-upload"> <input
+												type="hidden" id="audio-name">
+										</div>
+										<input type="hidden"
+											value="${courseIlmForm.getCourse().getCourseName()}"
+											id="course-name">
+										<div>
+											<button type="button" onclick="addVoca()"
+												class="btn btn-info btn-flat btn-add-member"
+												style="margin-top: 5px" id="submit-vc">Thêm</button>
+										</div>
 									</div>
 								</div>
 								<div style="width: 100%; height: 1px;"></div>
@@ -217,8 +216,8 @@
 
 											</div>
 											<div class="mana-gr" style="display: none;">
-												<f:textarea class="ckeditor" id="introduce"
-													name="introduce" path="introduce" required="true" rows="12"></f:textarea>
+												<f:textarea class="ckeditor" id="introduce" name="introduce"
+													path="introduce" required="true" rows="12"></f:textarea>
 											</div>
 										</div>
 									</div>
@@ -250,8 +249,8 @@
 
 											</div>
 											<div class="mana-cv" style="display: none;">
-												<f:textarea class="ckeditor" id="script" name="introduce"
-													path="introduce" required="true" rows="12"></f:textarea>
+												<f:textarea class="ckeditor" id="script" name="script"
+													path="script" required="true" rows="12"></f:textarea>
 											</div>
 										</div>
 										<div class="form-group mana-cv" style="display: none;">
@@ -284,7 +283,8 @@
 				</section>
 				<input type="hidden" name="edit-voca" id="edit-voca" value="o"
 					index="o" />
-					<input type="hidden" name="edit-voca-audio" id="edit-voca-audio" value="o" />
+				<input type="hidden" name="edit-voca-audio" id="edit-voca-audio"
+					value="o" />
 				<input type="hidden" name="list-current" id="list-current" />
 				<input type="hidden" name="dele-old" id="dele-old" value="[]" />
 			</f:form>

@@ -18,7 +18,9 @@ function inArray(needle, haystack) {
 }
 function addCourse(btn) {
 	var lg = $(".scrollContent tr").length;
+	var an;
 	var id;
+	var c;
 	var hirakana;
 	var kanji;
 	var translate;
@@ -26,6 +28,8 @@ function addCourse(btn) {
 	var obj = JSON.parse(listVoca);
 	for (var i = 2; i <= lg; i++) {
 		id = $('#list-voca tr:nth-child(' + i + ')').attr("id");
+		an = $('#list-voca tr:nth-child(' + i + ')').attr("audio-name");
+		c = $('#list-voca tr:nth-child(' + i + ')').attr("change-data");
 		hirakana = document.getElementById("data-voca").rows[i].cells.item(0).innerHTML;
 		kanji = document.getElementById("data-voca").rows[i].cells.item(1).innerHTML;
 		translate = document.getElementById("data-voca").rows[i].cells.item(2).innerHTML;
@@ -35,13 +39,15 @@ function addCourse(btn) {
 			"hirakana" : hirakana,
 			"kanji" : kanji,
 			"translate" : translate,
-			"example" : example
+			"example" : example,
+			"audio" : an,
+			"change" : c
 		});
 	}
 	document.getElementById('list-current').value = JSON.stringify(obj);
-	alert(JSON.stringify(obj));
 }
 function addVoca() {
+	addAudio();
 	var lg = $(".scrollContent tr").length;
 	var id = $('#edit-voca').attr("value");
 	var audio = $('#edit-voca-audio').attr("value");
@@ -52,7 +58,6 @@ function addVoca() {
 	var hirakana = document.getElementById("hirakana").value;
 	var kanji = document.getElementById("kanji").value;
 	var translate = document.getElementById("translate").value;
-	var audio;
 	var an = $("#audio-name").val();
 	var example = document.getElementById("example").value;
 	var row;
@@ -61,7 +66,7 @@ function addVoca() {
 	if (id == 'o') {
 		id = 'num-' + lg;
 		var aid = id.split("-")[1]+100;
-		if(an=='') audio = 'empty';
+		if(an=='') audio = '';
 		else {
 		audio = '<audio id="mp3Mini_'+aid+'" preload="none"> <source type="audio/mpeg" src="/reponsitory/'+c+'/rb/'+an+'">'
 		+ ' <source type="audio/ogg" src="/reponsitory/N5/voca/watashi.ogg"> </audio><span id="mp3MiniPlayer_'+aid+'" class="jp-audio mp4"><span'
@@ -72,13 +77,13 @@ function addVoca() {
 		var aid = parseInt(id.substring(4, 15));
 		document.getElementById("edit-voca").value = 'o';
 		document.getElementById("edit-voca-audio").value = 'o';
-		if(an !='') 
+		if(an !='') {
 			  audio = '<audio id="mp3Mini_'+aid+'" preload="none"> <source type="audio/mpeg" src="/reponsitory/'+c+'/rb/'+an+'">'
 		+ ' <source type="audio/ogg" src="/reponsitory/N5/voca/watashi.ogg"> </audio><span id="mp3MiniPlayer_'+aid+'" class="jp-audio mp4"><span'
 		+ ' class="jp-type-single"><span class="jp-gui jp-interface"><span class="jp-controls"><a href="javascript:void(0);" class="jp-play"'
 		+' id="jp-play-'+aid+'" tabindex="1" onclick="playMp4('+aid+')"><i class="fa fa-fw fa-play-circle-o"></i></a><a href="javascript:void(0);" class="jp-pause"'
 		+' id="jp-pause-'+aid+'" tabindex="1" onClick="pauseMp4('+aid+')"><i class="fa fa-fw fa-pause"></i></a></span></span></span></span>';;
-	}
+	}}
 	if (index == 'o') {
 		row = table.insertRow(lg + 1);
 	} else {
@@ -86,13 +91,15 @@ function addVoca() {
 		var d = document.getElementById("edit-voca");
 		d.setAttribute("index", 'o');
 	}
-	
 	row.id = id;
+	row.setAttribute("audio-name", an);
+	row.setAttribute("change-data", '1');
 	var cell0 = row.insertCell(0);
 	var cell1 = row.insertCell(1);
 	var cell2 = row.insertCell(2);
 	var cell3 = row.insertCell(3);
 	var cell4 = row.insertCell(4);
+	cell4.className = 'ad-audio';
 	var cell5 = row.insertCell(5);
 	cell0.innerHTML = hirakana;
 	cell1.innerHTML = kanji;
@@ -104,22 +111,24 @@ function addVoca() {
 	document.getElementById("kanji").value = "";
 	document.getElementById("translate").value = "";
 	document.getElementById("example").value = "";
-	
+	document.getElementById("audio-upload").value = "";
+	document.getElementById("audio-name").value = "";
+//	$('#audio-upload')[0].reset();
 }
-
-$(document).ready(function() {
-	$("#submit-vc").click(function(event) {
-		event.preventDefault();
-		addAudio();
-	});
-});
+//
+//$(document).ready(function() {
+//	$("#submit-vc").click(function(event) {
+//		event.preventDefault();
+//		addAudio();
+//	});
+//});
 
 function addAudio() {
 	var fa = $("#audio-upload").prop("files")[0];
 	var data = new FormData();
 	var c = $("#course-name").val();
 	data.append("file", fa);
-	data.append("c", c)
+	data.append("c", c);
 	$.ajax({
 		type : "POST",
 		enctype : 'multipart/form-data',
@@ -153,19 +162,20 @@ function deleteRow(btn) {
 		});
 		document.getElementById('dele-old').value = JSON.stringify(obj);
 	}
-	alert(JSON.stringify(obj));
 	row.parentNode.removeChild(row);
 }
 
 function fixRow(btn) {
 	var row = btn.parentNode.parentNode;
 	var index = row.rowIndex;
+	var an = $(row).attr("audio-name");
 	document.getElementById("hirakana").value = row.cells.item(0).innerHTML;
 	document.getElementById("kanji").value = row.cells.item(1).innerHTML;
 	document.getElementById("translate").value = row.cells.item(2).innerHTML;
 	document.getElementById("example").value = row.cells.item(3).innerHTML;
 	document.getElementById("edit-voca").value = row.id;
 	document.getElementById("edit-voca-audio").value = row.cells.item(4).innerHTML;
+	document.getElementById("audio-name").value = an;
 	var d = document.getElementById("edit-voca");
 	d.setAttribute("index", index);
 	row.parentNode.removeChild(row);

@@ -48,20 +48,25 @@ public class VocaCourseIlmService {
 			JSONArray lc = (JSONArray) JSONSerializer.toJSON(listCurrent);
 			for (Object js : lc) {
 				JSONObject json = (JSONObject) js;
-				VocaCourseIlm vocaCourseIlm = new VocaCourseIlm();
-				vocaCourseIlm.setHirakana(json.getString("hirakana"));
-				vocaCourseIlm.setTranslate(json.getString("translate"));
-				vocaCourseIlm.setKanji(json.getString("kanji"));
-				vocaCourseIlm.setCourseIlms(courseIlm);
-				if (vocaCourseIlmRepository.findByVocaCourseIlmId(json.getString("id")) == null) {
-					vocaCourseIlm.setVocaCourseIlmId(setVocaId());
-				} else {
-					vocaCourseIlm.setVocaCourseIlmId(json.getString("id"));
+				String change = json.getString("change");
+				if ("1".equals(change)) {
+					VocaCourseIlm vocaCourseIlm = new VocaCourseIlm();
+					vocaCourseIlm.setHirakana(json.getString("hirakana"));
+					vocaCourseIlm.setExample(json.getString("example"));
+					vocaCourseIlm.setAudio(json.getString("audio"));
+					vocaCourseIlm.setTranslate(json.getString("translate"));
+					vocaCourseIlm.setKanji(json.getString("kanji"));
+					vocaCourseIlm.setCourseIlms(courseIlm);
+					if (vocaCourseIlmRepository.findByVocaCourseIlmId(json.getString("id")) == null) {
+						vocaCourseIlm.setVocaCourseIlmId(setVocaId());
+					} else {
+						vocaCourseIlm.setVocaCourseIlmId(json.getString("id"));
+					}
+					vocaCourseIlmRepository.save(vocaCourseIlm);
+					vocaCourseIlms.add(vocaCourseIlm);
 				}
-				vocaCourseIlmRepository.save(vocaCourseIlm);
-				vocaCourseIlms.add(vocaCourseIlm);
+				courseIlmRepository.save(courseIlm);
 			}
-			courseIlmRepository.save(courseIlm);
 			return true;
 		} catch (JSONException e) {
 			return false;

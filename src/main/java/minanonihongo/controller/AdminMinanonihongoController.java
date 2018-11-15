@@ -135,7 +135,7 @@ public class AdminMinanonihongoController {
 		model.addAttribute("course", course);
 		return "/private/upDoc";
 	}
-	@RequestMapping(value = "/admin/upload-audio", method = RequestMethod.POST)
+	@RequestMapping(value = "/admin/upload-audio")
 	public String uploadAudio(Model model, HttpServletRequest request, HttpSession session,
 			@RequestParam("file") MultipartFile file,@RequestParam("c") String courseName) {
 		Course course = courseRepository.findByCourseName(courseName);
