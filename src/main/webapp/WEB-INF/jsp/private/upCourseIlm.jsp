@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="f" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
@@ -23,12 +23,12 @@
 			<section class="content-header">
 				<span><h1 style="text-align: center;">
 						Thêm bài bài học mới : <a href="" style="color: #00c0ef">Khóa
-							học N3</a>
+							học ${courseIlmForm.getCourse().getCourseName()}</a>
 					</h1></span>
 			</section>
-			<form:form action="${contextPath}/admin/fix-course"
+			<f:form action="${contextPath}/admin/fix-course"
 				modelAttribute="courseIlmForm" enctype="multipart/form-data">
-				<form:input path="courseIlmId" type="hidden" />
+				<f:input path="courseIlmId" type="hidden" />
 				<!-- Main content -->
 				<section class="content">
 					<div class="row">
@@ -44,17 +44,17 @@
 												</h4>
 											</div>
 											<div style="width: 220px; margin-left: 120px;">
-												<form:select class="form-control" path="courseIlmType">
-													<form:options items="${courseIlmType}"
+												<f:select class="form-control" path="courseIlmType">
+													<f:options items="${courseIlmType}"
 														itemLabel="courseIlmTypeName" itemValue="courseIlmTypeId" />
-												</form:select>
+												</f:select>
 											</div>
 										</div>
 										<div class="form-group" style="width: 975px;">
 											<h4>
 												<label> Tên Bài Học</label>
 											</h4>
-											<form:input type="text" class="form-control"
+											<f:input type="text" class="form-control"
 												name="lessonName" path="lessonName" id="lessonName"
 												placeholder="Tên Bài Học" />
 										</div>
@@ -110,9 +110,10 @@
 																	<td>${voca.kanji}</td>
 																	<td>${voca.translate}</td>
 																	<td>${voca.example}</td>
-																	<td style="text-align: center;"><audio id="mp3Mini_${id.index}" preload="none">
+																	<td style="text-align: center;"><audio
+																			id="mp3Mini_${id.index}" preload="none">
 																			<source type="audio/mpeg"
-																				src="${contextPath}/reponsitory/${courseIlmForm.getCourse().getCourseName()}/voca/${voca.audio}">
+																				src="/reponsitory/${courseIlmForm.getCourse().getCourseName()}/voca/watashi.mp3">
 																			<source type="audio/ogg"
 																				src="${contextPath}/reponsitory/N5/voca/watashi.ogg">
 																		</audio><span id="mp3MiniPlayer_${id.index}"
@@ -142,7 +143,7 @@
 										</div>
 									</div>
 								</div>
-								<div style="width: 100%; font-size: 20px; margin-left: 15px">
+								<div style="width: 100%; font-size: 20px; margin-left: 33px">
 									<a onclick="showMnVc()" href="javascript:void(0);">&nbsp;<i
 										class="fa fa-fw fa-plus-square-o"></i></a>
 
@@ -167,17 +168,24 @@
 										<div style="width: 100%; height: 1px;"></div>
 										<textarea style="width: 88.5%; margin: 60px 0 0 20px"
 											id="example" class="form-control" placeholder="Ví dụ.."></textarea>
-										<div class="col-xs-1 btn btn-default btn-file"
-											style="margin: 5px 30px 0 20px">
-											<i class="fa fa-fw fa-file-image-o"></i>Audio<input
-												type="file" name="file-img" id="audio-upload"> <input
-												type="hidden" id="audio-name">
-										</div>
-										<div>
-											<button type="button" onclick="addVoca()"
-												class="btn btn-info btn-flat btn-add-member"
-												style="margin-top: 5px">Thêm</button>
-										</div>
+										<form method="POST" enctype="multipart/form-data"
+											id="uploadAudio">
+											<div class="col-xs-1 btn btn-default btn-file"
+												style="margin: 5px 30px 0 20px">
+												<i class="fa fa-fw fa-file-image-o"></i>Audio<input
+													type="file" name="file-audio" id="audio-upload"> <input
+													type="hidden" id="audio-name">
+											</div>
+											<input type="hidden"
+												value="${courseIlmForm.getCourse().getCourseName()}"
+												id="course-name">
+											<div>
+												<button type="button" onclick="addVoca()"
+													class="btn btn-info btn-flat btn-add-member"
+													style="margin-top: 5px" id="submit-vc">Thêm</button>
+											</div>
+										</form>
+
 									</div>
 								</div>
 								<div style="width: 100%; height: 1px;"></div>
@@ -203,8 +211,15 @@
 											<h4>
 												<label>Ngữ Pháp</label>
 											</h4>
-											<form:textarea class="ckeditor" id="introduce"
-												name="introduce" path="introduce" required="true" rows="12"></form:textarea>
+											<div style="width: 100%; font-size: 20px; margin-left: 15px">
+												<a onclick="showMnGr()" href="javascript:void(0);">&nbsp;<i
+													class="fa fa-fw fa-plus-square-o"></i></a>
+
+											</div>
+											<div class="mana-gr" style="display: none;">
+												<f:textarea class="ckeditor" id="introduce"
+													name="introduce" path="introduce" required="true" rows="12"></f:textarea>
+											</div>
 										</div>
 									</div>
 
@@ -229,10 +244,17 @@
 											<h4>
 												<label>Video Hội Thoại</label>
 											</h4>
-											<form:textarea class="ckeditor" id="script" name="introduce"
-												path="introduce" required="true" rows="12"></form:textarea>
+											<div style="width: 100%; font-size: 20px; margin-left: 15px">
+												<a onclick="showMnCv()" href="javascript:void(0);">&nbsp;<i
+													class="fa fa-fw fa-plus-square-o"></i></a>
+
+											</div>
+											<div class="mana-cv" style="display: none;">
+												<f:textarea class="ckeditor" id="script" name="introduce"
+													path="introduce" required="true" rows="12"></f:textarea>
+											</div>
 										</div>
-										<div class="form-group">
+										<div class="form-group mana-cv" style="display: none;">
 											<h4>
 												<label> Video Bài Học</label>
 											</h4>
@@ -262,9 +284,10 @@
 				</section>
 				<input type="hidden" name="edit-voca" id="edit-voca" value="o"
 					index="o" />
+					<input type="hidden" name="edit-voca-audio" id="edit-voca-audio" value="o" />
 				<input type="hidden" name="list-current" id="list-current" />
 				<input type="hidden" name="dele-old" id="dele-old" value="[]" />
-			</form:form>
+			</f:form>
 			<div></div>
 			<!-- /.content -->
 		</div>
@@ -302,7 +325,7 @@
 		<!-- 		<script -->
 		<%-- 			src="${contextPath}/resources/private/js/dataTables.bootstrap.min.js"></script> --%>
 		<script src="${contextPath}/resources/private/js/up.lesson.js"></script>
-<%-- 		<script src="${contextPath}/resources/public/js/detail_lesson.js"></script> --%>
+		<%-- 		<script src="${contextPath}/resources/public/js/detail_lesson.js"></script> --%>
 	</div>
 </body>
 

@@ -4,7 +4,6 @@ package minanonihongo.controller;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.nio.charset.Charset;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -136,7 +135,33 @@ public class AdminMinanonihongoController {
 		model.addAttribute("course", course);
 		return "/private/upDoc";
 	}
-
+	@RequestMapping(value = "/admin/upload-audio", method = RequestMethod.POST)
+	public String uploadAudio(Model model, HttpServletRequest request, HttpSession session,
+			@RequestParam("file") MultipartFile file,@RequestParam("c") String courseName) {
+		Course course = courseRepository.findByCourseName(courseName);
+		if (course == null)
+			return "error";
+		File uploadDir = new File(localFile);
+		if (!uploadDir.exists()) {
+			uploadDir.mkdir();
+		}
+		String fileName = null;
+		if (!file.isEmpty()) {
+			try {
+				fileName = common.toUrlFriendly(file.getOriginalFilename());
+				byte[] bytes = file.getBytes();
+				BufferedOutputStream buffStream = new BufferedOutputStream(
+					new FileOutputStream(new File(localFile + courseName + "/rb/" + fileName)));
+				buffStream.write(bytes);
+				buffStream.close();
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+				return "error";
+			}
+		}
+		model.addAttribute("course", course);
+		return "/private/upDoc";
+	}
 	@RequestMapping(value = "/admin/dele-doc/{courseId}/{id}", method = RequestMethod.POST)
 	public String deleDoc(Model model, HttpServletRequest request, HttpSession session, @PathVariable final String id,
 			@PathVariable final String courseId) {

@@ -44,6 +44,7 @@ function addCourse(btn) {
 function addVoca() {
 	var lg = $(".scrollContent tr").length;
 	var id = $('#edit-voca').attr("value");
+	var audio = $('#edit-voca-audio').attr("value");
 	var ac = "<a onclick = \"deleteRow(this)\" "
 			+ "class=\"del-voca\" href=\"javascript:void(0);\">&nbsp;<i class=\"fa fa-trash-o\">&nbsp;</i></a>&nbsp;&nbsp;"
 			+ "<a onclick = \"fixRow(this)\" href=\"javascript:void(0);\">&nbsp;<i class=\"fa fa-pencil\"></i></a></td></tr>";
@@ -51,14 +52,32 @@ function addVoca() {
 	var hirakana = document.getElementById("hirakana").value;
 	var kanji = document.getElementById("kanji").value;
 	var translate = document.getElementById("translate").value;
-	var audio = $("#audio-name").val();
+	var audio;
+	var an = $("#audio-name").val();
 	var example = document.getElementById("example").value;
 	var row;
 	index = $('#edit-voca').attr("index");
+	var c = $("#course-name").val();
 	if (id == 'o') {
 		id = 'num-' + lg;
+		var aid = id.split("-")[1]+100;
+		if(an=='') audio = 'empty';
+		else {
+		audio = '<audio id="mp3Mini_'+aid+'" preload="none"> <source type="audio/mpeg" src="/reponsitory/'+c+'/rb/'+an+'">'
+		+ ' <source type="audio/ogg" src="/reponsitory/N5/voca/watashi.ogg"> </audio><span id="mp3MiniPlayer_'+aid+'" class="jp-audio mp4"><span'
+		+ ' class="jp-type-single"><span class="jp-gui jp-interface"><span class="jp-controls"><a href="javascript:void(0);" class="jp-play"'
+		+' id="jp-play-'+aid+'" tabindex="1" onclick="playMp4('+aid+')"><i class="fa fa-fw fa-play-circle-o"></i></a><a href="javascript:void(0);" class="jp-pause"'
+		+' id="jp-pause-'+aid+'" tabindex="1" onClick="pauseMp4('+aid+')"><i class="fa fa-fw fa-pause"></i></a></span></span></span></span>';}
 	} else {
+		var aid = parseInt(id.substring(4, 15));
 		document.getElementById("edit-voca").value = 'o';
+		document.getElementById("edit-voca-audio").value = 'o';
+		if(an !='') 
+			  audio = '<audio id="mp3Mini_'+aid+'" preload="none"> <source type="audio/mpeg" src="/reponsitory/'+c+'/rb/'+an+'">'
+		+ ' <source type="audio/ogg" src="/reponsitory/N5/voca/watashi.ogg"> </audio><span id="mp3MiniPlayer_'+aid+'" class="jp-audio mp4"><span'
+		+ ' class="jp-type-single"><span class="jp-gui jp-interface"><span class="jp-controls"><a href="javascript:void(0);" class="jp-play"'
+		+' id="jp-play-'+aid+'" tabindex="1" onclick="playMp4('+aid+')"><i class="fa fa-fw fa-play-circle-o"></i></a><a href="javascript:void(0);" class="jp-pause"'
+		+' id="jp-pause-'+aid+'" tabindex="1" onClick="pauseMp4('+aid+')"><i class="fa fa-fw fa-pause"></i></a></span></span></span></span>';;
 	}
 	if (index == 'o') {
 		row = table.insertRow(lg + 1);
@@ -67,6 +86,7 @@ function addVoca() {
 		var d = document.getElementById("edit-voca");
 		d.setAttribute("index", 'o');
 	}
+	
 	row.id = id;
 	var cell0 = row.insertCell(0);
 	var cell1 = row.insertCell(1);
@@ -84,8 +104,38 @@ function addVoca() {
 	document.getElementById("kanji").value = "";
 	document.getElementById("translate").value = "";
 	document.getElementById("example").value = "";
+	
 }
 
+$(document).ready(function() {
+	$("#submit-vc").click(function(event) {
+		event.preventDefault();
+		addAudio();
+	});
+});
+
+function addAudio() {
+	var fa = $("#audio-upload").prop("files")[0];
+	var data = new FormData();
+	var c = $("#course-name").val();
+	data.append("file", fa);
+	data.append("c", c)
+	$.ajax({
+		type : "POST",
+		enctype : 'multipart/form-data',
+		url : "/admin/upload-audio",
+		data : data,
+		processData : false,
+		contentType : false,
+		cache : false,
+		success : function(data) {
+			console.log("ss : ", "ok");
+		},
+		error : function() {
+			console.log("FAIL : ", "ERROR");
+		}
+	});
+}
 function deleteRow(btn) {
 	var row = btn.parentNode.parentNode;
 	var id = row.id.split('-')[0];
@@ -113,7 +163,9 @@ function fixRow(btn) {
 	document.getElementById("hirakana").value = row.cells.item(0).innerHTML;
 	document.getElementById("kanji").value = row.cells.item(1).innerHTML;
 	document.getElementById("translate").value = row.cells.item(2).innerHTML;
+	document.getElementById("example").value = row.cells.item(3).innerHTML;
 	document.getElementById("edit-voca").value = row.id;
+	document.getElementById("edit-voca-audio").value = row.cells.item(4).innerHTML;
 	var d = document.getElementById("edit-voca");
 	d.setAttribute("index", index);
 	row.parentNode.removeChild(row);
@@ -237,12 +289,27 @@ function upMtDoc(fx) {
 		}
 	});
 }
+function showMnGr() {
+	var dp = $('.mana-gr').css("display");
+	if(dp == 'none') {
+		$('.mana-gr').css("display", 'block');
+	} else {
+		$('.mana-gr').css("display", 'none');
+	}
+}
 function showMnVc() {
-	$("#bgcolor").mouseleave(function(){
-	    var bodyColor = $(this).attr("style");
-	    $("body").attr("style", bodyColor);
-	});
-	$(".mana-voca").css("display", "block");
-	
-	$(".ip-fix."+index).css("display", "none");
+	var dp = $('.mana-voca').css("display");
+	if(dp == 'none') {
+		$('.mana-voca').css("display", 'block');
+	} else {
+		$('.mana-voca').css("display", 'none');
+	}
+}
+function showMnCv() {
+	var dp = $('.mana-cv').css("display");
+	if(dp == 'none') {
+		$('.mana-cv').css("display", 'block');
+	} else {
+		$('.mana-cv').css("display", 'none');
+	}
 }
