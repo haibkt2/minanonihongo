@@ -303,15 +303,23 @@ function showMnGr() {
 	var dp = $('.mana-gr').css("display");
 	if(dp == 'none') {
 		$('.mana-gr').css("display", 'block');
+		$('.hiden-ma-gr').css("display", 'block');
+		$('.show-ma-gr').css("display", 'none');
 	} else {
 		$('.mana-gr').css("display", 'none');
+		$('.hiden-ma-gr').css("display", 'none');
+		$('.show-ma-gr').css("display", 'block');
 	}
 }
 function showMnVc() {
 	var dp = $('.mana-voca').css("display");
 	if(dp == 'none') {
 		$('.mana-voca').css("display", 'block');
+		$('.hiden-ma-vc').css("display", 'block');
+		$('.show-ma-vc').css("display", 'none');
 	} else {
+		$('.hiden-ma-vc').css("display", 'none');
+		$('.show-ma-vc').css("display", 'block');
 		$('.mana-voca').css("display", 'none');
 	}
 }
@@ -319,7 +327,11 @@ function showMnCv() {
 	var dp = $('.mana-cv').css("display");
 	if(dp == 'none') {
 		$('.mana-cv').css("display", 'block');
+		$('.hiden-ma-cv').css("display", 'block');
+		$('.show-ma-cv').css("display", 'none');
 	} else {
 		$('.mana-cv').css("display", 'none');
+		$('.hiden-ma-cv').css("display", 'none');
+		$('.show-ma-cv').css("display", 'block');
 	}
 }

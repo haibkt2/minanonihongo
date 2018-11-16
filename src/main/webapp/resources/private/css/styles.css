@@ -7988,3 +7988,6 @@ thead.fixedHeader {
 .ad-audio {
 	text-align: center;
 }
+.hiden-ma{
+	display: none;
+}

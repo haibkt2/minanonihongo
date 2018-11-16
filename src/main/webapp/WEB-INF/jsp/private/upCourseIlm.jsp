@@ -146,9 +146,14 @@
 									</div>
 								</div>
 								<div style="width: 100%; font-size: 20px; margin-left: 33px">
-									<a onclick="showMnVc()" href="javascript:void(0);">&nbsp;<i
-										class="fa fa-fw fa-plus-square-o"></i></a>
-
+									<div class="show-ma-vc">
+										<a onclick="showMnVc()" href="javascript:void(0);">&nbsp;<i
+											class="fa fa-fw fa-plus-square-o"></i></a>
+									</div>
+									<div class="hiden-ma-vc hiden-ma">
+										<a onclick="showMnVc()" href="javascript:void(0);">&nbsp;<i
+											class="fa fa-fw fa-minus"></i></a>
+									</div>
 								</div>
 								<div class="mana-voca" style="display: none;">
 									<div class="form-group">
@@ -211,9 +216,14 @@
 												<label>Ngữ Pháp</label>
 											</h4>
 											<div style="width: 100%; font-size: 20px; margin-left: 15px">
-												<a onclick="showMnGr()" href="javascript:void(0);">&nbsp;<i
-													class="fa fa-fw fa-plus-square-o"></i></a>
-
+												<div class="show-ma-gr">
+													<a onclick="showMnGr()" href="javascript:void(0);">&nbsp;<i
+														class="fa fa-fw fa-plus-square-o"></i></a>
+												</div>
+												<div class="hiden-ma-gr hiden-ma">
+													<a onclick="showMnGr()" href="javascript:void(0);">&nbsp;<i
+														class="fa fa-fw fa-minus"></i></a>
+												</div>
 											</div>
 											<div class="mana-gr" style="display: none;">
 												<f:textarea class="ckeditor" id="introduce" name="introduce"
@@ -244,8 +254,14 @@
 												<label>Video Hội Thoại</label>
 											</h4>
 											<div style="width: 100%; font-size: 20px; margin-left: 15px">
-												<a onclick="showMnCv()" href="javascript:void(0);">&nbsp;<i
-													class="fa fa-fw fa-plus-square-o"></i></a>
+												<div class="show-ma-cv">
+													<a onclick="showMnCv()" href="javascript:void(0);">&nbsp;<i
+														class="fa fa-fw fa-plus-square-o"></i></a>
+												</div>
+												<div class="hiden-ma-cv hiden-ma">
+													<a onclick="showMnCv()" href="javascript:void(0);">&nbsp;<i
+														class="fa fa-fw fa-minus"></i></a>
+												</div>
 
 											</div>
 											<div class="mana-cv" style="display: none;">

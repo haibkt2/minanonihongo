@@ -1,5 +1,9 @@
 package minanonihongo.service;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -8,18 +12,19 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-
-import minanonihongo.model.Post;
-import minanonihongo.repository.PostRepository;
 @Service
 public class CommonService {
-	
+	@Value("${string.reponsitory.local}")
+	private String localFile;
 	@Autowired
-    private PostRepository postRepository;
-	
+	Common common;
+
 	public Date currentDate() throws Exception {
 		Date date = new Date();
 		return date;
@@ -70,47 +75,49 @@ public class CommonService {
 		return setDay;
 	}
 
-	public String autoOrderId(String orderId) {
-		if(orderId.isEmpty() || orderId == null) orderId = "ORDER0000";
-		String strorderid = orderId.substring(5, 9);
-		int odId = Integer.parseInt(strorderid);
-		++odId;
-		String countUserId = "" + odId;
-		if (countUserId.trim().length() != 4) {
-			int count = 4 - countUserId.trim().length();
-			for (int i = 0; i < count; i++) {
-				countUserId = "0" + countUserId;
-			}
+	public boolean saveFile(MultipartFile file, String local) {
+		String path = localFile + local;
+		File uploadDir = new File(path);
+		if (!uploadDir.exists()) {
+			uploadDir.mkdir();
 		}
-		return "ORDER".concat("" + countUserId);
+		String fileName = null;
+		if (!file.isEmpty()) {
+			fileName = common.toUrlFriendly(file.getOriginalFilename());
+			try {
+				byte[] bytes = file.getBytes();
+				BufferedOutputStream buffStream;
+				buffStream = new BufferedOutputStream(new FileOutputStream(new File(path + fileName)));
+				buffStream.write(bytes);
+				buffStream.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
+			}
+
+		}
+		return true;
 	}
 
-	public String autoRqId(String rId) {
-		if(rId.isEmpty() || rId == null) rId = "REQUE0000";
-		String strorderid = rId.substring(5, 9);
-		int odId = Integer.parseInt(strorderid);
-		++odId;
-		String countUserId = "" + odId;
-		if (countUserId.trim().length() != 4) {
-			int count = 4 - countUserId.trim().length();
-			for (int i = 0; i < count; i++) {
-				countUserId = "0" + countUserId;
-			}
-		}
-		return "REQUE".concat("" + countUserId);
+	public boolean delFile(String local) {
+		String path = localFile + local;
+		File file = new File(path);
+		file.delete();
+		return true;
 	}
-	public String autoPostid() {
-		List<Post> posts = (List<Post>) postRepository.findAll();
-		if(posts == null) return "POST000000";
-		String postId = posts.get(posts.size() - 1).getPostId();
-        int id = Integer.parseInt(postId.substring(4, 9)) + 1;;
-        String countPostId =""+id;
-            if(countPostId.trim().length()!=6) {
-                int count = 6-countPostId.trim().length();
-                for (int i = 0; i < count; i++) {
-                	countPostId = "0"+countPostId;
-                }
-            }
-            return "POST".concat(""+countPostId);
-        }
+
+	public boolean copyAudio(String course, String audio) {
+		String from = localFile + course + "/rb/" + audio;
+		String to = localFile + course + "/voca/" + audio;
+		File source = new File(from);
+		File dest = new File(to);
+		try {
+			FileUtils.copyFile(source, dest);
+			return true;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+	}
 }

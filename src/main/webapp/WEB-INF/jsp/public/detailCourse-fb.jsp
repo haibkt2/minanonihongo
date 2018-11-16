@@ -196,6 +196,10 @@
 								<p>
 									Tổng điểm: <b>{{ userScore }} / {{ lesson.total_marks }}</b>
 								</p>
+								<p>
+									Kết quả: <b v-if="result.passed == 0">Không đạt yêu cầu</b><b
+										v-if="result.passed != 0">Đã qua</b>
+								</p>
 								<button class="btn btn-info review-result"
 									v-on:click="reviewTestResult(0)">Xem bài làm</button>
 							</div>
@@ -257,6 +261,12 @@
 									<table
 										class="table table-bordered table-striped table-hover tc-table">
 										<tbody>
+											<tr>
+												<td class="row_label">Kết quả</td>
+												<td class="row_item"><b
+													v-if="currentResult.passed == 0">Không đạt yêu cầu</b><b
+													v-if="currentResult.passed != 0">Đã qua</b></td>
+											</tr>
 											<tr>
 												<td class="row_label">Điểm đạt được</td>
 												<td class="row_item">{{ userScore }}</td>

@@ -1,9 +1,12 @@
 package minanonihongo.service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import minanonihongo.model.CourseIlm;
@@ -26,6 +29,8 @@ public class VocaCourseIlmService {
 
 	@Autowired
 	CommonService commonService;
+	@Value("${string.reponsitory.local}")
+	private String localFile;
 
 	public boolean setVocaCourseIlm(String listCurrent, String deleOld, CourseIlm courseIlm) throws Exception {
 		CourseIlm cIlm = courseIlmRepository.findByCourseIlmId(courseIlm.getCourseIlmId());
@@ -50,6 +55,8 @@ public class VocaCourseIlmService {
 				JSONObject json = (JSONObject) js;
 				String change = json.getString("change");
 				if ("1".equals(change)) {
+					if (!commonService.copyAudio(cIlm.getCourse().getCourseName(), json.getString("audio")))
+						return false;
 					VocaCourseIlm vocaCourseIlm = new VocaCourseIlm();
 					vocaCourseIlm.setHirakana(json.getString("hirakana"));
 					vocaCourseIlm.setExample(json.getString("example"));
@@ -67,6 +74,8 @@ public class VocaCourseIlmService {
 				}
 				courseIlmRepository.save(courseIlm);
 			}
+			String prb = localFile + cIlm.getCourse().getCourseName() + "/rb";
+			FileUtils.deleteDirectory(new File(prb));
 			return true;
 		} catch (JSONException e) {
 			return false;

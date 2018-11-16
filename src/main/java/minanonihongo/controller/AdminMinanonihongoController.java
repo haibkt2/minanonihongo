@@ -81,7 +81,7 @@ public class AdminMinanonihongoController {
 		common.getMenu(model);
 		Course course = courseRepository.findByCourseName(courseName);
 		String mess = request.getParameter("mess_up");
-		if(mess != null) {
+		if (mess != null) {
 			model.addAttribute("course_up", courseIlmRepository.findByCourseIlmId(mess));
 		}
 		if (course != null) {
@@ -111,65 +111,43 @@ public class AdminMinanonihongoController {
 		Course course = courseRepository.findByCourseName(courseName);
 		if (course == null)
 			return "error";
-		File uploadDir = new File(localFile);
-		if (!uploadDir.exists()) {
-			uploadDir.mkdir();
-		}
-		String fileName = null;
 		if (!file.isEmpty()) {
-			try {
-				fileName = common.toUrlFriendly(file.getOriginalFilename());
-				byte[] bytes = file.getBytes();
-				BufferedOutputStream buffStream = new BufferedOutputStream(
-						new FileOutputStream(new File(localFile + courseName + "/doc/" + fileName)));
-				buffStream.write(bytes);
-				buffStream.close();
-				if (!docServiceImpl.doSaveDoc(fileName, course, descrip, session)) {
-					return "error";
-				}
-			} catch (Exception e) {
-				System.out.println(e.getMessage());
+			String local = courseName + "/doc/";
+			String fileName = common.toUrlFriendly(file.getOriginalFilename());
+			if (!commonService.saveFile(file, local)) {
+				return "error";
+			}
+			if (!docServiceImpl.doSaveDoc(fileName, course, descrip, session)) {
 				return "error";
 			}
 		}
 		model.addAttribute("course", course);
 		return "/private/upDoc";
 	}
+
 	@RequestMapping(value = "/admin/upload-audio")
 	public String uploadAudio(Model model, HttpServletRequest request, HttpSession session,
-			@RequestParam("file") MultipartFile file,@RequestParam("c") String courseName) {
+			@RequestParam("file") MultipartFile file, @RequestParam("c") String courseName) {
 		Course course = courseRepository.findByCourseName(courseName);
 		if (course == null)
 			return "error";
-		File uploadDir = new File(localFile);
-		if (!uploadDir.exists()) {
-			uploadDir.mkdir();
-		}
-		String fileName = null;
 		if (!file.isEmpty()) {
-			try {
-				fileName = common.toUrlFriendly(file.getOriginalFilename());
-				byte[] bytes = file.getBytes();
-				BufferedOutputStream buffStream = new BufferedOutputStream(
-					new FileOutputStream(new File(localFile + courseName + "/rb/" + fileName)));
-				buffStream.write(bytes);
-				buffStream.close();
-			} catch (Exception e) {
-				System.out.println(e.getMessage());
+			String local = courseName + "/rb/";
+			if (!commonService.saveFile(file, local)) {
 				return "error";
 			}
 		}
 		model.addAttribute("course", course);
 		return "/private/upDoc";
 	}
+
 	@RequestMapping(value = "/admin/dele-doc/{courseId}/{id}", method = RequestMethod.POST)
 	public String deleDoc(Model model, HttpServletRequest request, HttpSession session, @PathVariable final String id,
 			@PathVariable final String courseId) {
 		Document document = docRepository.findByDocId(id);
 		Course course = courseRepository.findByCourseId(courseId);
 		if (document != null && course != null) {
-			File file = new File(localFile + course.getCourseName() + "/doc/" + document.getLocaFileDoc());
-			file.delete();
+			commonService.delFile(course.getCourseName() + "/doc/" + document.getLocaFileDoc());
 			docRepository.deleteDocId(id);
 		}
 		model.addAttribute("course", course);
@@ -230,39 +208,25 @@ public class AdminMinanonihongoController {
 		if (video.isEmpty()) {
 			courseIlmForm.setLocaFileCourse(cIlm.getLocaFileCourse());
 		} else {
-			String fileName = null;
-			try {
-				fileName = common.toUrlFriendly(video.getOriginalFilename());
-				byte[] bytes = video.getBytes();
-				BufferedOutputStream buffStream = new BufferedOutputStream(new FileOutputStream(
-						new File(localFile + cIlm.getCourse().getCourseName() + "/video/" + fileName)));
-				buffStream.write(bytes);
-				buffStream.close();
-				courseIlmForm.setLocaFileCourse(fileName);
-			} catch (Exception e) {
-				System.out.println(e.getMessage());
+			String fileName = common.toUrlFriendly(video.getOriginalFilename());
+			String local = cIlm.getCourse().getCourseName() + "/video/";
+			if (!commonService.saveFile(video, local)) {
 				return "error";
 			}
+			courseIlmForm.setLocaFileCourse(fileName);
 		}
 		if (img.isEmpty()) {
 			courseIlmForm.setLocaFileImg(cIlm.getLocaFileImg());
 		} else {
-			String fileName = null;
-			try {
-				fileName = common.toUrlFriendly(img.getOriginalFilename());
-				byte[] bytes = img.getBytes();
-				BufferedOutputStream buffStream = new BufferedOutputStream(new FileOutputStream(
-						new File(localFile + cIlm.getCourse().getCourseName() + "/img/" + fileName)));
-				buffStream.write(bytes);
-				buffStream.close();
-				courseIlmForm.setLocaFileImg(fileName);
-			} catch (Exception e) {
-				System.out.println(e.getMessage());
+			String fileName = common.toUrlFriendly(img.getOriginalFilename());
+			String local = cIlm.getCourse().getCourseName() + "/img/";
+			if (!commonService.saveFile(img, local)) {
 				return "error";
 			}
+			courseIlmForm.setLocaFileImg(fileName);
 		}
 		vocaCourseIlmService.setVocaCourseIlm(listCurrent, deleOld, courseIlmForm);
-		String mess	 = courseIlmForm.getCourseIlmId();
+		String mess = courseIlmForm.getCourseIlmId();
 		return "redirect:/admin/courses/" + courseIlmForm.getCourse().getCourseName() + "?mess_up=" + mess;
 	}
 
@@ -272,7 +236,7 @@ public class AdminMinanonihongoController {
 
 		// set model
 		model.addAttribute("postForm", new Post());
-		model.addAttribute("postId", commonService.autoPostid());
+		// model.addAttribute("postId", commonService.autoPostid());
 		return "h";
 	}
 
