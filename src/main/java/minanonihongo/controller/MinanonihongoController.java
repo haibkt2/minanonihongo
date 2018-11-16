@@ -99,14 +99,17 @@ public class MinanonihongoController {
 	@Value("${string.course.anphabe}")
 	private String anphabe;
 	
-	@Value("${string.jlpt.practice}")
-	private String practice;
-
 	@Value("${string.reponsitory.local}")
 	private String localCourse;
 
 	@Value("${string.role.user}")
 	private String roleUser;
+	
+	@Value("${string.jlpt.jlpt}")
+	private String jlpt;
+	
+	@Value("${string.jlpt.exercise}")
+	private String jexercise;
 
 	@GetMapping("/403")
 	public String accessDenied() {
@@ -294,10 +297,10 @@ public class MinanonihongoController {
 		if (course == null) {
 			return "404";
 		} else {
-			 List<JLPT> jlpt = jlptRepository.findExJLPT(course.getCourseId(), practice);
+			 List<JLPT> je = jlptRepository.findExJLPT(course.getCourseId(), jexercise);
+			 model.addAttribute("je", je);
 		}
-		
-		return "public/menuExam";
+		return "public/listExam";
 	}
 
 	@RequestMapping(value = { "/thi-thu-truc-tuyen" })

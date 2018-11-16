@@ -32324,4 +32324,28 @@ thead.fixedHeader {
 	font-size: 20px;
 	margin-left: 2px;
 }
+
+.divider {
+  margin: 5px 0;
+  overflow: hidden;
+  clear: both;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.divider1 {
+  background-image: url(../img/1.png);
+  height: 8px;
+}
+
+.divider2 {
+  background-image: url(../img/2.png);
+  height: 7px;
+}
+
+.divider3 {
+  background-image: url(../img/3.png);
+  height: 9px;
+}
+
 /*# sourceMappingURL=styles.css.map */
