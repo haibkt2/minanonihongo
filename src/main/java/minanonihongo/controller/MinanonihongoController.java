@@ -33,6 +33,7 @@ import minanonihongo.model.Course;
 import minanonihongo.model.CourseIlm;
 import minanonihongo.model.CourseIlmType;
 import minanonihongo.model.JLPT;
+import minanonihongo.model.JLPTMenu;
 import minanonihongo.model.Post;
 import minanonihongo.model.PostType;
 import minanonihongo.model.Role;
@@ -41,6 +42,7 @@ import minanonihongo.model.VocaCourseIlm;
 import minanonihongo.repository.CourseIlmRepository;
 import minanonihongo.repository.CourseIlmTypeRepository;
 import minanonihongo.repository.CourseRepository;
+import minanonihongo.repository.JLPTMenuRepository;
 import minanonihongo.repository.JLPTRepository;
 import minanonihongo.repository.PostRepository;
 import minanonihongo.repository.PostTypeRepository;
@@ -80,6 +82,9 @@ public class MinanonihongoController {
 
 	@Autowired
 	JLPTRepository jlptRepository;
+	
+	@Autowired
+	JLPTMenuRepository jlptMenuRepository;
 
 	@Autowired
 	CourseIlmService courseIlmService;
@@ -297,7 +302,7 @@ public class MinanonihongoController {
 		if (course == null) {
 			return "404";
 		} else {
-			 List<JLPT> je = jlptRepository.findExJLPT(course.getCourseId(), jexercise);
+			 List<JLPTMenu> je = jlptMenuRepository.findExJLPT(course.getCourseId(), jexercise);
 			 model.addAttribute("je", je);
 		}
 		return "public/listExam";

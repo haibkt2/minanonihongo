@@ -55,7 +55,7 @@ public class VocaCourseIlmService {
 				JSONObject json = (JSONObject) js;
 				String change = json.getString("change");
 				if ("1".equals(change)) {
-					if (!commonService.copyAudio(cIlm.getCourse().getCourseName(), json.getString("audio")))
+					if (!commonService.copyAudio(cIlm.getCourse().getCourseName(),cIlm.getCourseIlmId(), json.getString("audio")))
 						return false;
 					VocaCourseIlm vocaCourseIlm = new VocaCourseIlm();
 					vocaCourseIlm.setHirakana(json.getString("hirakana"));

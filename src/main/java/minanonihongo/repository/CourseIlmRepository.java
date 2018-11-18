@@ -26,4 +26,8 @@ public interface CourseIlmRepository extends CrudRepository<CourseIlm, Integer> 
 	@Transactional
 	@Query(value="Delete from course_ilm where course_ilm_id = ?1",nativeQuery = true)
 	int deleteCourseIlmId(String courseId);
+	
+	@Query(value = "SELECT COUNT(course_ilm_id) as course_ilm_id,course_ilm_flg,course_id,course_ilm_type_id,create_date,introduce,lesson_name,"
+			+ "loca_file_course,update_date,user_id,loca_file_img,script FROM course_ilm WHERE course_id = ?1" , nativeQuery = true)
+	CourseIlm countCourse(String courseId);
 }

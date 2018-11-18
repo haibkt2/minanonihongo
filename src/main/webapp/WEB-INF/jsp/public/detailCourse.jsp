@@ -76,6 +76,7 @@
 		</div>
 
 		<div class="ct-voca">
+		<br>
 			<c:if test="${not empty courseIlm.getVocaCourseIlms()}">
 				<div class="tableContainer" id="detail-voca tableContainer">
 					<table id="data-voca"
@@ -100,7 +101,7 @@
 										<td width="2%" class="ad-audio"><audio id="mp3Mini_${id.index}"
 												preload="none">
 												<source type="audio/mpeg"
-													src="${contextPath}/reponsitory/${courseIlm.getCourse().getCourseName()}/voca/${voca.audio}">
+													src="${contextPath}/reponsitory/${courseIlm.getCourse().getCourseName()}/voca/${voca.getCourseIlm().getCourseIlmId()}/${voca.audio}">
 												<source type="audio/ogg"
 													src="${contextPath}/reponsitory/N5/voca/watashi.ogg">
 											</audio><span id="mp3MiniPlayer_${id.index}" class="jp-audio mp4"><span
@@ -146,6 +147,8 @@
 				</div>
 			</c:if>
 			<br> <br>
+			<div class="introduce" id="introduce" style="margin-left: 10px">${courseIlm.script}
+			</div>
 		</div>
 		<div class="ct-exam">
 			<c:if test="${not empty courseIlm.getExams()}">

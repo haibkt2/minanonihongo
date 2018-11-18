@@ -30,6 +30,10 @@ public class JLPT implements Serializable {
     private User user;
     
     @ManyToOne
+    @JoinColumn(name="JLPT_MENU_ID")
+    private JLPTMenu jlptMn;
+    
+    @ManyToOne
     @JoinColumn(name="JLPT_TYPE_ID")
     private JLPTType jlptType;
     

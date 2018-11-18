@@ -113,7 +113,7 @@
 																			test="${voca.audio ne null}">
 																			<audio id="mp3Mini_${id.index}" preload="none">
 																				<source type="audio/mpeg"
-																					src="/reponsitory/${courseIlmForm.getCourse().getCourseName()}/voca/${voca.audio}">
+																					src="/reponsitory/${courseIlmForm.getCourse().getCourseName()}/voca/${voca.getCourseIlm().getCourseIlmId()}/${voca.audio}">
 																				<source type="audio/ogg"
 																					src="${contextPath}/reponsitory/N5/voca/watashi.ogg">
 																			</audio>

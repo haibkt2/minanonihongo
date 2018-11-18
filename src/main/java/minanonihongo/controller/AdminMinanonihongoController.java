@@ -1,9 +1,7 @@
 
 package minanonihongo.controller;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +29,8 @@ import minanonihongo.repository.CourseIlmRepository;
 import minanonihongo.repository.CourseIlmTypeRepository;
 import minanonihongo.repository.CourseRepository;
 import minanonihongo.repository.DocRepository;
+import minanonihongo.repository.JLPTRepository;
+import minanonihongo.repository.UserRepository;
 import minanonihongo.service.Common;
 import minanonihongo.service.CommonService;
 import minanonihongo.service.CourseIlmService;
@@ -42,9 +42,14 @@ public class AdminMinanonihongoController {
 
 	@Autowired
 	CourseRepository courseRepository;
+	
+	@Autowired
+	UserRepository userRepository;
 
 	@Autowired
 	DocRepository docRepository;
+	@Autowired
+	JLPTRepository jlptRepository;
 
 	@Autowired
 	CourseIlmRepository courseIlmRepository;
@@ -73,6 +78,13 @@ public class AdminMinanonihongoController {
 	@GetMapping("/admin")
 	public String home(Model model) {
 		common.getMenu(model);
+		int jc = (int) jlptRepository.count();
+		int uc = (int) userRepository.count();
+		List<Course> courses = (List<Course>) courseRepository.findAll();
+		for(Course course : courses) {
+			CourseIlm cc = courseIlmRepository.countCourse(course.getCourseId());
+			model.addAttribute(course.getCourseName(),cc);
+		}
 		return "/private/home";
 	}
 

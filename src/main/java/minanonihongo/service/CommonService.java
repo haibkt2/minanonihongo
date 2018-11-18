@@ -106,9 +106,9 @@ public class CommonService {
 		return true;
 	}
 
-	public boolean copyAudio(String course, String audio) {
+	public boolean copyAudio(String course, String cid, String audio) {
 		String from = localFile + course + "/rb/" + audio;
-		String to = localFile + course + "/voca/" + audio;
+		String to = localFile + course + "/voca/" + "/" + cid + "/" + audio;
 		File source = new File(from);
 		File dest = new File(to);
 		try {
