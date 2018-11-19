@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.http.client.ClientProtocolException;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -32,7 +31,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import minanonihongo.model.Course;
 import minanonihongo.model.CourseIlm;
 import minanonihongo.model.CourseIlmType;
-import minanonihongo.model.JLPT;
 import minanonihongo.model.JLPTMenu;
 import minanonihongo.model.JLPTQType;
 import minanonihongo.model.Post;

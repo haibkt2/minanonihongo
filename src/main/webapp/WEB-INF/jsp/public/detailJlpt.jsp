@@ -32,9 +32,10 @@
 					fjs.parentNode.insertBefore(js, fjs);
 				}(document, 'script', 'facebook-jssdk'));
 			</script>
-			<div>
+			<div class="cover-container" id="cover-container">
 				<div class="lesson-content-detail" id="lesson-content-detail">
-					<c:forEach items="${jt}" var="jt">
+					<c:forEach items="${jt}" var="jt" varStatus="jti">
+					<p>mondai ${jti.index}</p>
 						<c:forEach items="${jt.getJlptQuestions()}" var="question"
 							varStatus="st">
 							<div style="margin-top: 25px; display: inline-block;"

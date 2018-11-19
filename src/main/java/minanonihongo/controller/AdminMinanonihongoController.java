@@ -193,7 +193,7 @@ public class AdminMinanonihongoController {
 		// get session userId
 		User user = (User) session.getAttribute("user");
 		courseForm.setUser(user);
-		courseIlmService.doSaveCourse(courseForm);
+//		courseIlmService.doSaveCourse(courseForm);
 		// model.addAttribute("message", messageSave);
 		model.addAttribute("courseForm", new CourseIlm());
 		return "home";
