@@ -34,6 +34,7 @@ import minanonihongo.model.CourseIlm;
 import minanonihongo.model.CourseIlmType;
 import minanonihongo.model.JLPT;
 import minanonihongo.model.JLPTMenu;
+import minanonihongo.model.JLPTQType;
 import minanonihongo.model.Post;
 import minanonihongo.model.PostType;
 import minanonihongo.model.Role;
@@ -43,6 +44,7 @@ import minanonihongo.repository.CourseIlmRepository;
 import minanonihongo.repository.CourseIlmTypeRepository;
 import minanonihongo.repository.CourseRepository;
 import minanonihongo.repository.JLPTMenuRepository;
+import minanonihongo.repository.JLPTQTypeRepository;
 import minanonihongo.repository.JLPTRepository;
 import minanonihongo.repository.PostRepository;
 import minanonihongo.repository.PostTypeRepository;
@@ -85,6 +87,9 @@ public class MinanonihongoController {
 	
 	@Autowired
 	JLPTMenuRepository jlptMenuRepository;
+	
+	@Autowired
+	JLPTQTypeRepository jlptQTypeRepository;
 
 	@Autowired
 	CourseIlmService courseIlmService;
@@ -306,6 +311,23 @@ public class MinanonihongoController {
 			 model.addAttribute("je", je);
 		}
 		return "public/listExam";
+	}
+	@RequestMapping(value = { "/luyen-de/{courseName}/{examName}" })
+	public String examDetail(Model model, HttpServletRequest req, HttpServletResponse response,
+			@PathVariable String courseName, @PathVariable String examName) throws Exception {
+		Course course = courseRepository.findByCourseName(courseName);
+		if (course == null) {
+			return "404";
+		} else {
+			String jlptId = "JLPTE"+examName.split("-")[0];
+			List<JLPTQType> jt = jlptQTypeRepository.findQQuestion(jlptId);
+			 List<Map<String, String>> mapJson = courseIlmService.mapJsonS(jt);
+				model.addAttribute("lesson_answers", mapJson.get(0).get("lesson_answers"));
+				model.addAttribute("lesson_tasks", mapJson.get(0).get("lesson_tasks"));
+				model.addAttribute("lesson_lesson", mapJson.get(0).get("lesson_lesson"));
+			 model.addAttribute("jt", jt);
+		}
+		return "public/detailJlpt";
 	}
 
 	@RequestMapping(value = { "/thi-thu-truc-tuyen" })

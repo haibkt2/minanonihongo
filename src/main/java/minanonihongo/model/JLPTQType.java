@@ -18,28 +18,28 @@ public class JLPTQType implements Serializable {
 
     @Id
     @Column(name="JLPT_Q_TYPE_ID")
-    private String jlptTypeId;
+    private String jlptQTypeId;
 
     @Column(name="JLPT_Q_TYPE_NAME")
-    private String jlptTypeName;
+    private String jlptQTypeName;
 
     @OneToMany(mappedBy="jlptQType")
     private List<JLPTQuestion> jlptQuestions;
 
-	public String getJlptTypeId() {
-		return jlptTypeId;
+	public String getJlptQTypeId() {
+		return jlptQTypeId;
 	}
 
-	public void setJlptTypeId(String jlptTypeId) {
-		this.jlptTypeId = jlptTypeId;
+	public void setJlptTypeId(String jlptQTypeId) {
+		this.jlptQTypeId = jlptQTypeId;
 	}
 
-	public String getJlptTypeName() {
-		return jlptTypeName;
+	public String getJlptQTypeName() {
+		return jlptQTypeName;
 	}
 
-	public void setJlptTypeName(String jlptTypeName) {
-		this.jlptTypeName = jlptTypeName;
+	public void setJlptQTypeName(String jlptQTypeName) {
+		this.jlptQTypeName = jlptQTypeName;
 	}
 
 	public List<JLPTQuestion> getJlptQuestions() {

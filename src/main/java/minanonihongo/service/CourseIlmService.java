@@ -15,6 +15,9 @@ import minanonihongo.model.Document;
 import minanonihongo.model.Exam;
 import minanonihongo.model.ExamAnswer;
 import minanonihongo.model.ExamQuestion;
+import minanonihongo.model.JLPTAnswer;
+import minanonihongo.model.JLPTQType;
+import minanonihongo.model.JLPTQuestion;
 import minanonihongo.model.VocaCourseIlm;
 import minanonihongo.repository.CourseGlobalRepository;
 import minanonihongo.repository.CourseIlmRepository;
@@ -137,6 +140,53 @@ public class CourseIlmService {
 		jsons.add(map);
 		return jsons;
 	}
+	
+	public List<Map<String, String>> mapJsonS(List<JLPTQType> jlptQT) throws Exception {
+		List<Map<String, String>> jsons = new ArrayList<>();
+		JSONArray lesson_tasks = new JSONArray();
+		JSONObject lesson_answers = new JSONObject();
+		JSONArray lesson_lesson = new JSONArray();
+			for (JLPTQType jt : jlptQT) {
+				if (jt.getJlptQuestions() != null) {
+					lesson_lesson.add(getTQuestion(jt.getJlptQTypeId().substring(jt.getJlptQTypeId().length() - 2, jt.getJlptQTypeId().length()),jt.getJlptQuestions().get(0).getJlpt().getCourse().getCourseId().substring(
+							jt.getJlptQuestions().get(0).getJlpt().getCourse().getCourseId().length() - 1,
+							jt.getJlptQuestions().get(0).getJlpt().getCourse().getCourseId().length()),jt.getJlptQuestions().size()));
+					int index = 0;
+					for (JLPTQuestion jlptQuestion : jt.getJlptQuestions()) {
+						index++;
+						lesson_tasks.add(getQuestion(index,
+								jt.getJlptQTypeId().substring(jt.getJlptQTypeId().length() - 2, jt.getJlptQTypeId().length()),
+								jlptQuestion.getJlptQuestionId().substring(
+										jlptQuestion.getJlptQuestionId().length() - 2,
+										jlptQuestion.getJlptQuestionId().length()),
+								"3", jlptQuestion.getQuestion(), 1, jlptQuestion.getExplain()));
+						JSONArray ans = new JSONArray();
+						if (jlptQuestion.getJlptAnswer() != null) {
+							for (JLPTAnswer jlptAnswer : jlptQuestion.getJlptAnswer()) {
+								ans.add(getAnswer(
+										jlptAnswer.getJlptAnswerId().substring(
+												jlptAnswer.getJlptAnswerId().length() - 2,
+												jlptAnswer.getJlptAnswerId().length()),
+										jlptQuestion.getJlptQuestionId().substring(
+												jlptQuestion.getJlptQuestionId().length() - 2,
+												jlptQuestion.getJlptQuestionId().length()),
+										jlptAnswer.getAnswer(), jlptAnswer.getAnswerRghtWrng()));
+							}
+						}
+						lesson_answers.put(jlptQuestion.getJlptQuestionId().substring(
+								jlptQuestion.getJlptQuestionId().length() - 2,
+								jlptQuestion.getJlptQuestionId().length()), ans);
+					}
+				}
+
+		}
+		Map<String, String> map = new HashMap<>();
+		map.put("lesson_answers", lesson_answers.toString());
+		map.put("lesson_tasks", lesson_tasks.toString());
+		map.put("lesson_lesson", lesson_lesson.toString());
+		jsons.add(map);
+		return jsons;
+	}
 
 	public JSONObject getAnswer(String id, String task_id, String value, String grade) throws Exception {
 		JSONObject answer = new JSONObject();
@@ -155,6 +205,14 @@ public class CourseIlmService {
 		question.put("type", type);
 		question.put("value", index + " ." + value);
 		question.put("grade", grade);
+		return question;
+	}
+	
+	public JSONObject getTQuestion(String id, String course_id, int total_marks) throws Exception {
+		JSONObject question = new JSONObject();
+		question.put("id", id);
+		question.put("course_id", course_id);
+		question.put("total_marks", total_marks);
 		return question;
 	}
 
