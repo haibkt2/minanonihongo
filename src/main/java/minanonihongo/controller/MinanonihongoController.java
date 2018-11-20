@@ -50,6 +50,7 @@ import minanonihongo.repository.RoleRepository;
 import minanonihongo.repository.UserRepository;
 import minanonihongo.repository.VocaCourseIlmRepository;
 import minanonihongo.service.CourseIlmService;
+import minanonihongo.service.GoogleUtils;
 import minanonihongo.service.RestFB;
 import minanonihongo.service.UserServiceImpl;
 
@@ -76,16 +77,16 @@ public class MinanonihongoController {
 
 	@Autowired
 	CourseIlmTypeRepository courseIlmTypeRepository;
-	
+
 	@Autowired
 	VocaCourseIlmRepository vocaCourseIlmRepository;
 
 	@Autowired
 	JLPTRepository jlptRepository;
-	
+
 	@Autowired
 	JLPTMenuRepository jlptMenuRepository;
-	
+
 	@Autowired
 	JLPTQTypeRepository jlptQTypeRepository;
 
@@ -94,6 +95,9 @@ public class MinanonihongoController {
 
 	@Autowired
 	private RestFB restFb;
+	
+	@Autowired
+	private GoogleUtils googleUtils;
 
 	@Autowired
 	UserServiceImpl userserviceimpl;
@@ -106,16 +110,16 @@ public class MinanonihongoController {
 
 	@Value("${string.course.anphabe}")
 	private String anphabe;
-	
+
 	@Value("${string.reponsitory.local}")
 	private String localCourse;
 
 	@Value("${string.role.user}")
 	private String roleUser;
-	
+
 	@Value("${string.jlpt.jlpt}")
 	private String jlpt;
-	
+
 	@Value("${string.jlpt.exercise}")
 	private String jexercise;
 
@@ -243,6 +247,23 @@ public class MinanonihongoController {
 		URL u = new URL(request.getHeader("Referer"));
 		return "redirect:" + u.getPath();
 	}
+	
+	@RequestMapping("/login-google")
+	  public String loginGoogle(HttpServletRequest request,HttpSession session) throws ClientProtocolException, IOException {
+	    String code = request.getParameter("code");
+	    
+	    if (code == null || code.isEmpty()) {
+	      return "redirect:/403?google=error";
+	    }
+	    String accessToken = googleUtils.getToken(code);
+	    User ug = googleUtils.getUserInfo(accessToken);
+	    ug.setFlg("google");
+		Role r = roleRepository.findByRoleId(roleUser);
+		ug.setRole(r);
+		userRepository.save(ug);
+		session.setAttribute("user", ug);
+		return "redirect:/";
+	  }
 
 	@RequestMapping(value = "/document/{course}/download", method = RequestMethod.GET)
 	public void download(HttpServletRequest request, HttpServletResponse response, @RequestParam String file,
@@ -305,11 +326,16 @@ public class MinanonihongoController {
 		if (course == null) {
 			return "404";
 		} else {
-			 List<JLPTMenu> je = jlptMenuRepository.findExJLPT(course.getCourseId(), jexercise);
-			 model.addAttribute("je", je);
+			List<Course> courses = courseRepository.findByCourse();
+			courses.remove(0);
+			model.addAttribute("courses", courses);
+			model.addAttribute("course", course);
+			List<JLPTMenu> je = jlptMenuRepository.findExJLPT(course.getCourseId(), jexercise);
+			model.addAttribute("je", je);
 		}
 		return "public/listExam";
 	}
+
 	@RequestMapping(value = { "/luyen-de/{courseName}/{examName}" })
 	public String examDetail(Model model, HttpServletRequest req, HttpServletResponse response,
 			@PathVariable String courseName, @PathVariable String examName) throws Exception {
@@ -317,13 +343,13 @@ public class MinanonihongoController {
 		if (course == null) {
 			return "404";
 		} else {
-			String jlptId = "JLPTE"+examName.split("-")[0];
+			String jlptId = "JLPTE" + examName.split("-")[0];
 			List<JLPTQType> jt = jlptQTypeRepository.findQQuestion(jlptId);
-			 List<Map<String, String>> mapJson = courseIlmService.mapJsonS(jt);
-				model.addAttribute("lesson_answers", mapJson.get(0).get("lesson_answers"));
-				model.addAttribute("lesson_tasks", mapJson.get(0).get("lesson_tasks"));
-				model.addAttribute("lesson_lesson", mapJson.get(0).get("lesson_lesson"));
-			 model.addAttribute("jt", jt);
+			List<Map<String, String>> mapJson = courseIlmService.mapJsonS(jt);
+			model.addAttribute("lesson_answers", mapJson.get(0).get("lesson_answers"));
+			model.addAttribute("lesson_tasks", mapJson.get(0).get("lesson_tasks"));
+			model.addAttribute("lesson_lesson", mapJson.get(0).get("lesson_lesson"));
+			model.addAttribute("jt", jt);
 		}
 		return "public/detailJlpt";
 	}
@@ -342,9 +368,10 @@ public class MinanonihongoController {
 		model.addAttribute("course", findCourse);
 		return keysearch;
 	}
+
 	@RequestMapping("/tra-cuu/{keysearch}")
-	public String searchVoca(Model model, HttpServletRequest req, HttpServletResponse response,
-			HttpSession ss, @PathVariable String keysearch) {
+	public String searchVoca(Model model, HttpServletRequest req, HttpServletResponse response, HttpSession ss,
+			@PathVariable String keysearch) {
 		List<VocaCourseIlm> findVoca = vocaCourseIlmRepository.searchVocaCourseIlm(keysearch);
 		model.addAttribute("voca", findVoca);
 		model.addAttribute("key", keysearch);

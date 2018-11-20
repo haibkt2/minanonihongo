@@ -31,64 +31,27 @@
 						<p></p>
 						<p></p>
 						<table style="width: 100%;">
-					<tbody>
-						<tr>
-							<td><p></p>
-								<p>
-									<a class="right-link long"
-										href="${contextPath}/luyen-de/N5"> <span style="background: #900;"
-										class="right-link-inner"> <span
-											class="right-link-content"> <span class="fa icon-book">
-											</span> <span class="right-txt"> <span class="right-big">N5
-														(言語知識)</span><span class="right-small"> </span>
-											</span>
-										</span>
-									</span>
-									</a>
-								</p>
-								<p></p></td>
-							<td><p></p>
-								<p>
-									<a class="right-link long"
-										href="${contextPath}/luyen-de/N4"> <span
-										class="right-link-inner"> <span
-											class="right-link-content"> <span class="fa icon-book">
-											</span> <span class="right-txt"> <span class="right-big">N4
-														(言語知識)</span><span class="right-small"> </span></span></span></span></a>
-								</p>
-								<p></p></td>
-							<td><p></p>
-								<p>
-									<a class="right-link long"
-										href="${contextPath}/luyen-de/N3"> <span
-										class="right-link-inner"> <span
-											class="right-link-content"> <span class="fa icon-book">
-											</span> <span class="right-txt"> <span class="right-big">N3
-														(言語知識)</span>
-											</span>
-										</span>
-									</span>
-									</a>
-								</p>
-								<p></p></td>
-							<td><p></p>
-								<p>
-									<a class="right-link long"
-										href="${contextPath}/luyen-de/N2"> <span
-										class="right-link-inner"> <span
-											class="right-link-content"> <span class="fa icon-book">
-											</span> <span class="right-txt"> <span class="right-big">N2
-														(言語知識)</span>
-											</span>
-										</span>
-									</span>
-									</a>
-								</p>
-								<p></p></td>
-
-						</tr>
-					</tbody>
-				</table>
+							<tbody>
+								<tr>
+									<c:forEach items="${courses}" var="c">
+										<td><p></p>
+											<p>
+												<a class="right-link long" href="${contextPath}/luyen-de/${c.courseName}">
+													<span <c:if test="${course.courseName eq c.courseName}">style="background: #900;"</c:if> class="right-link-inner">
+														<span class="right-link-content"> <span
+															class="fa icon-book"> </span> <span class="right-txt">
+																<span class="right-big">${c.courseName} (言語知識)</span><span
+																class="right-small"> </span>
+														</span>
+													</span>
+												</span>
+												</a>
+											</p>
+											<p></p></td>
+									</c:forEach>
+								</tr>
+							</tbody>
+						</table>
 						<p></p>
 						<p></p>
 						<table style="width: 100%;" cellpadding="0">
@@ -111,12 +74,12 @@
 						</p>
 						<p></p>
 						<p>
-						<br>
+							<br>
 						</p>
 						<div class="divider divider3"></div>
 						<p></p>
 						<c:forEach items="${je}" var="je">
-						<br>
+							<br>
 							<table style="width: 100%;" border="0">
 								<tbody>
 									<tr>
@@ -140,7 +103,7 @@
 								</span>
 								</a>
 							</c:forEach>
-							<div style="width: 100%;height: 60px"></div>
+							<div style="width: 100%; height: 60px"></div>
 						</c:forEach>
 						<p>&nbsp;</p>
 					</div>

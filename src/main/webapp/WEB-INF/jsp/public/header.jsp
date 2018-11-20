@@ -383,7 +383,8 @@
 													onclick="showAccuracy()">
 													<i class="fa fa-facebook m-r-5"></i> Facebook
 												</button>
-											</a> <a href="" onclick="authBySocicalAccount()">
+											</a> <a href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=https://localhost:8888/login-google&response_type=code
+    &client_id=1016161130456-9kbf8n9d911tgmvq11tmloou7kgbkvip.apps.googleusercontent.com&approval_prompt=force" onclick="authBySocicalAccount()">
 												<button type="button"
 													class="btn btn-googleplus waves-effect waves-light m-t-20"
 													style="margin-right: 5px;" onclick="showAccuracy()">

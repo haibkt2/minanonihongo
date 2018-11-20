@@ -23,8 +23,6 @@ import minanonihongo.repository.UserRepository;;
 @Component
 public class RestFB {
 	
-	@Autowired
-	private UserRepository userRepository;
   @Autowired
   private Environment env;
   public String getToken(final String code) throws ClientProtocolException, IOException {
