@@ -32,19 +32,20 @@
 					fjs.parentNode.insertBefore(js, fjs);
 				}(document, 'script', 'facebook-jssdk'));
 			</script>
-			<div class="cover-container" id="cover-container">
+			<div class="cover-container" id="cover-container" style="margin-left: 50px;">
 				<div class="lesson-content-detail" id="lesson-content-detail">
+					<%int stt = 0; %>
 					<c:forEach items="${jt}" var="jt" varStatus="jti">
-					<p>mondai ${jti.index}</p>
+						<p>mondai ${jti.index}</p>
 						<c:forEach items="${jt.getJlptQuestions()}" var="question"
 							varStatus="st">
 							<div style="margin-top: 25px; display: inline-block;"
-								v-html="tasks[${st.index }].value"></div>
+								v-html="tasks[<%=stt++%>].value"></div>
 							<div
 								style="width: 100%; flex-wrap: wrap; display: flex; -webkit-box-pack: justify;">
 								<c:forEach items="${question.getJlptAnswer()}" var="answer"
 									varStatus="an">
-									<div style="width: 48%; margin-top: 10px;">
+									<div style="width: 23%; margin-top: 10px;">
 										<label
 											for="answer${answer.getJlptAnswerId().substring(answer.getJlptAnswerId().length()-2, answer.getJlptAnswerId().length())}"
 											class="col-md-11 answers-input"
@@ -61,10 +62,10 @@
 								</c:forEach>
 							</div>
 						</c:forEach>
-						
+
 					</c:forEach>
-							<button class="btn btn-primary trac-nghiem"
-								v-on:click="sendTestResult('auth', 0)">Nộp bài</button>
+					<button class="btn btn-primary trac-nghiem"
+						v-on:click="sendTestResult('auth', 0)">Nộp bài</button>
 					<hr style="border: 0; border-bottom: 1px solid #ddd;">
 					<div class="alert mt20" id="result" style="display: none;">
 						<div v-if="results.length > 0">
@@ -210,37 +211,41 @@
 
 					</div>
 					<script>
-					lesson_tasks = ${lesson_tasks};
-					lesson_answers = ${lesson_answers};
-					lesson_lesson = ${lesson_lesson};
-					lesson_results = [];
-					lesson_writeQuestions = [];
-					lesson_results = [];
-					lesson_writeQuestions = [];
-					lesson_results = [];
-					lesson_writeQuestions = [];
-					course = "${courseName}"; //Them khoa hoc cho JLPT
-					posExam = null; //tu dong load cho bai thi sau
-					is_exam = "0"; //check xem co phải là bài thi hay ko
-					is_exam = "0"; //check xem co phải là bài thi hay ko
+						lesson_tasks = ${lesson_tasks};
+						lesson_answers = ${lesson_answers};
+						lesson_lesson = ${lesson_lesson};
+						lesson_results = [];
+						lesson_writeQuestions = [];
+						lesson_results = [];
+						lesson_writeQuestions = [];
+						lesson_results = [];
+						lesson_writeQuestions = [];
+						course = "${courseName}"; //Them khoa hoc cho JLPT
+						posExam = null; //tu dong load cho bai thi sau
+						is_exam = "0"; //check xem co phải là bài thi hay ko
+						is_exam = "0"; //check xem co phải là bài thi hay ko
 					</script>
 				</div>
-			<br> <br>
-		</div>
+				<br> <br>
+			</div>
 			<div class="comment-container">
 				<ul class="nav nav-pills comment-tab">
 					<li class="li-tab user-tab active"><a data-toggle="pill">Ý
 							kiến học viên</a></li>
 				</ul>
-				<div>
-				</div>
+				<div></div>
+			</div>
+		</div>
+		<div class="main-right">
+			<div class="course-info-container course-info-status-pc time-exam" style="background-color: red;height: 200px; width: 100px">
+			
 			</div>
 		</div>
 	</div>
 	<div class="go-top">
 		<i class="fa fa-sort-asc"></i>
 	</div>
-<script src="${contextPath}/resources/public/js/detail_lesson.js"></script>
+	<script src="${contextPath}/resources/public/js/detail_lesson.js"></script>
 </div>
 <jsp:include page="footer.jsp"></jsp:include>
 </body>

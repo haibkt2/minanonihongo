@@ -17,10 +17,10 @@
 	
 </script>
 <body>
-	<div style="background-color: #eee; max-height: 180px;overflow:auto;">
+	<div style="background-color: #eee; max-height: 180px; overflow: auto;">
 		<c:if test="${empty voca}">
-			<i style="margin: 10px 0 10px 10px">Không có kết quả nào
-				cho tìm kiếm : ${key}</i>
+			<i style="margin: 10px 0 10px 10px">Không có kết quả nào cho tìm
+				kiếm : ${key}</i>
 		</c:if>
 
 		<c:if test="${not empty voca}">
@@ -33,23 +33,26 @@
 					</span> <span style="font-size: 16px; color: #ff4a37; font-weight: 600">
 						<c:if test="${vc.kanji ne null}">(${vc.kanji})</c:if>&nbsp;
 					</span> <span>:&nbsp;&nbsp; ${vc.translate} <audio
-							id="mp3Mini_${id.index}" preload="none">
+							id="mp3Mini_${id.index+1000}" preload="none">
 							<source type="audio/mpeg"
-								src="${contextPath}/reponsitory/N5/voca/watashi.mp3">
+								src="${contextPath}/reponsitory/${vc.courseIlm.course.courseName}/voca/${vc.courseIlm.courseIlmId}/${vc.audio}">
 							<source type="audio/ogg"
 								src="${contextPath}/reponsitory/N5/voca/watashi.ogg">
 						</audio> <a href="javascript:void(0);" class="jp-play"
-						style="float: right; margin-right: 8px" id="jp-play-${id.index}"
-						tabindex="1" onclick="playMp4(${id.index})"> <i
+						style="float: right; margin-right: 8px" id="jp-play-${id.index+1000}"
+						tabindex="1" onclick="playMp4(${id.index+1000})"> <i
 							class="zmdi zmdi-volume-up"></i>
-					</a> <br> ssss
+					</a> <a href="javascript:void(0);" class="jp-pause" style="float: right; margin-right: 8px"
+						id="jp-pause-${id.index+1000}" tabindex="1"
+						onClick="pauseMp4(${id.index+1000})"><i
+							class="zmdi zmdi-pause-circle-outline"></i></a><br> ssss
 					</span>
 				</div>
 
 			</c:forEach>
 			<div style="width: 100%; height: 3px"></div>
 		</c:if>
-		
+
 	</div>
 </body>
 </html>

@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Implementation-Title: minanonihongo
 Implementation-Version: 0.0.1-SNAPSHOT
-Built-By: T.Hai
+Built-By: HaiRBk
 Implementation-Vendor-Id: minanonihongo
-Build-Jdk: 1.8.0_151
+Build-Jdk: 1.8.0_65
 Implementation-URL: http://projects.spring.io/spring-boot/minanonihong
  o/
 Created-By: Maven Integration for Eclipse

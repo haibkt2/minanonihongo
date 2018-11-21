@@ -4683,7 +4683,10 @@ function logout() {
         }
         $(function() {
             e($("#header"))
-        }), $(function() {
+        }),$(function() {
+            e($(".time-exam"))
+        }),
+        $(function() {
             $('[data-toggle="tooltip"]').tooltip()
         }), autosize(document.querySelectorAll("textarea")), $(".go-top").click(function() {
             $("html, body").animate({
