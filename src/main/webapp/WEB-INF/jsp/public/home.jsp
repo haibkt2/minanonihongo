@@ -76,9 +76,8 @@
 												class="lazyload course-thumbnail"></a>
 											<div class="course-detail">
 												<a href="${contextPath}/khoa-hoc/${c.courseName}"
-													class="name"><b style="-webkit-box-orient: vertical;">${ci.lessonName}</b></a> <img
-													src=""><span
-													class="arthor"></span>
+													class="name"><b style="-webkit-box-orient: vertical;">${ci.lessonName}</b></a>
+												<img src=""><span class="arthor"></span>
 											</div>
 										</div>
 									</c:if>
@@ -86,10 +85,25 @@
 							</div>
 							<br>
 						</c:forEach>
+						<div id="fb-root"></div>
+						<script>
+							(function(d, s, id) {
+								var js, fjs = d.getElementsByTagName(s)[0];
+								if (d.getElementById(id))
+									return;
+								js = d.createElement(s);
+								js.id = id;
+								js.src = 'https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v3.2&appId=2272220076356331&autoLogAppEvents=1';
+								fjs.parentNode.insertBefore(js, fjs);
+							}(document, 'script', 'facebook-jssdk'));
+						</script>
+						<div class="fb-comments" data-href="https://localhost:8888/" data-width="890" data-numposts="1"></div>
 					</div>
 				</div>
 			</div>
+
 		</div>
+
 	</div>
 	<div class="go-top">
 		<i class="fa fa-sort-asc"></i>

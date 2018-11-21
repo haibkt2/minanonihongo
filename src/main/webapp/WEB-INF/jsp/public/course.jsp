@@ -27,18 +27,6 @@
 				var="courseName"></c:set>
 		</c:if>
 		<div class="main-left">
-			<div id="fb-root"></div>
-			<script>
-				(function(d, s, id) {
-					var js, fjs = d.getElementsByTagName(s)[0];
-					if (d.getElementById(id))
-						return;
-					js = d.createElement(s);
-					js.id = id;
-					js.src = 'https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v3.1';
-					fjs.parentNode.insertBefore(js, fjs);
-				}(document, 'script', 'facebook-jssdk'));
-			</script>
 			<h2 class="course-detail-title">
 				<a href="#">Khóa học <c:out value="${courseName}"></c:out></a>&nbsp;<i
 					class="zmdi zmdi-caret-right"></i>&nbsp;<b id="course-heading">${courseIlm.getLessonName()}</b>
@@ -89,17 +77,21 @@
 					});
 				</script>
 			</div>
-			<div class="comment-container">
-				<ul class="nav nav-pills comment-tab">
-					<li class="li-tab user-tab active"><a data-toggle="pill">Ý
-							kiến học viên</a></li>
-				</ul>
-				<div>
-					<div class="fb-comments"
-						data-href="https://localhost:8888/khoa-hoc/${courseName}#${courseIlm.getLessonName()}"
-						data-width="700px"></div>
-				</div>
-			</div>
+			<div id="fb-root"></div>
+			<script>
+				(function(d, s, id) {
+					var js, fjs = d.getElementsByTagName(s)[0];
+					if (d.getElementById(id))
+						return;
+					js = d.createElement(s);
+					js.id = id;
+					js.src = 'https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v3.2&appId=2272220076356331&autoLogAppEvents=1';
+					fjs.parentNode.insertBefore(js, fjs);
+				}(document, 'script', 'facebook-jssdk'));
+			</script>
+			<div class="fb-comments"
+				data-href="https://localhost:8888/khoa-hoc/${courseName}#"
+				data-width="700" data-numposts="1"></div>
 		</div>
 		<div class="main-right">
 			<div class="course-info-container course-info-status-pc">
@@ -110,8 +102,7 @@
 						id="search-inputa" onkeypress="return searchVoca(event, this)"
 						placeholder="日本、にほん、Nhật Bản" autocomplete="off">
 				</div>
-				<div class="rs-search-voca">
-				</div>
+				<div class="rs-search-voca"></div>
 				<div class="numberOfDay"></div>
 				<div class="course-list-container">
 					<div class="block-title">Tiến trình học</div>
@@ -173,28 +164,35 @@
 						allow="encrypted-media"></iframe>
 				</div>
 			</div>
+
 		</div>
 	</div>
 	<script>
-		$(".lesson-item-click").click(function(e) {
-			e.preventDefault();
-			var id = $(this).attr("data-id");
-			var ls = $(this).attr("ls-attr");
-			var url = $(this).attr("url") + "?id=" + id;
-			$(this).css('background-color', '#ac7339');
-			document.location.hash = $(this).attr("data-name");
-			$.ajax({
-				url : url,
-				dataType : "html",
-				contentType : "application/json;charset=utf-8",
-				success : function(obj) {
-					$('.main-left').html(obj);
-				},
-				error : function(e) {
-					alert("Sorry! ");
-				}
-			});
-		});
+		$(".lesson-item-click").click(
+				function(e) {
+					e.preventDefault();
+					var id = $(this).attr("data-id");
+					var ls = $(this).attr("ls-attr");
+					var url = $(this).attr("url") + "?id=" + id;
+					$(this).css('background-color', '#ac7339');
+					var h = $(this).attr("data-name");
+					$(".fb-comments").attr(
+							"data-href",
+							"https://localhost:8888/khoa-hoc/${courseName}#"
+									+ h);
+					document.location.hash = h;
+					$.ajax({
+						url : url,
+						dataType : "html",
+						contentType : "application/json;charset=utf-8",
+						success : function(obj) {
+							$('.main-left').html(obj);
+						},
+						error : function(e) {
+							alert("Sorry! ");
+						}
+					});
+				});
 	</script>
 
 	<div class="go-top">

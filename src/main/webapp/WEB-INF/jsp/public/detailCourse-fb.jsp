@@ -344,29 +344,6 @@
 			</c:if>
 			<br> <br>
 		</div>
-		<div class="comment-container">
-			<div id="fb-root"></div>
-			<script>
-				(function(d, s, id) {
-					var js, fjs = d.getElementsByTagName(s)[0];
-					if (d.getElementById(id))
-						return;
-					js = d.createElement(s);
-					js.id = id;
-					js.src = 'https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v3.2';
-					fjs.parentNode.insertBefore(js, fjs);
-				}(document, 'script', 'facebook-jssdk'));
-			</script>
-			<ul class="nav nav-pills comment-tab">
-				<li class="li-tab user-tab active"><a data-toggle="pill">Ý
-						kiến học viên</a></li>
-			</ul>
-			<div>
-				<div class="fb-comments"
-					data-href="https://localhost:8888/khoa-hoc/${courseName}#${courseIlm.getLessonName()}"
-					data-width="700px" data-numposts="5"></div>
-			</div>
-		</div>
 		<script type="text/javascript">
 			var vid = document.getElementById("cVideo");
 			// sự kiện click vào chạy video

@@ -8,18 +8,6 @@
 <html>
 <head></head>
 <body>
-	<div id="fb-root"></div>
-	<script>
-		(function(d, s, id) {
-			var js, fjs = d.getElementsByTagName(s)[0];
-			if (d.getElementById(id))
-				return;
-			js = d.createElement(s);
-			js.id = id;
-			js.src = 'https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v3.1';
-			fjs.parentNode.insertBefore(js, fjs);
-		}(document, 'script', 'facebook-jssdk'));
-	</script>
 	<c:if test="${courseIlm.getCourse().getCourseName() eq 'Alphabet'}">
 		<c:set value="Bảng chữ cái" var="courseName"></c:set>
 	</c:if>
@@ -76,7 +64,7 @@
 		</div>
 
 		<div class="ct-voca">
-		<br>
+			<br>
 			<c:if test="${not empty courseIlm.getVocaCourseIlms()}">
 				<div class="tableContainer" id="detail-voca tableContainer">
 					<table id="data-voca"
@@ -84,8 +72,7 @@
 						role="grid" aria-describedby="example2_info">
 						<thead>
 							<tr style="background-color: #cbe1f2;">
-								<td width="23%"><label>Hirakana/Katakana
-								</label></td>
+								<td width="23%"><label>Hirakana/Katakana </label></td>
 								<td width="2%"><label>JP</label></td>
 								<td width="20%"><label>Kanji</label></td>
 								<td width="45%"><label>Ý Nghĩa</label></td>
@@ -98,8 +85,8 @@
 									varStatus="id">
 									<tr id="${voca.vocaCourseIlmId}">
 										<td width="23%">${voca.hirakana}</td>
-										<td width="2%" class="ad-audio"><audio id="mp3Mini_${id.index}"
-												preload="none">
+										<td width="2%" class="ad-audio"><audio
+												id="mp3Mini_${id.index}" preload="none">
 												<source type="audio/mpeg"
 													src="${contextPath}/reponsitory/${courseIlm.getCourse().getCourseName()}/voca/${voca.getCourseIlm().getCourseIlmId()}/${voca.audio}">
 												<source type="audio/ogg"
@@ -318,6 +305,21 @@
 						</div>
 
 					</div>
+					<div id="fb-root"></div>
+					<script>
+				(function(d, s, id) {
+					var js, fjs = d.getElementsByTagName(s)[0];
+					if (d.getElementById(id))
+						return;
+					js = d.createElement(s);
+					js.id = id;
+					js.src = 'https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v3.2&appId=2272220076356331&autoLogAppEvents=1';
+					fjs.parentNode.insertBefore(js, fjs);
+				}(document, 'script', 'facebook-jssdk'));
+			</script>
+					<div class="fb-comments"
+						data-href="https://localhost:8888/khoa-hoc/${courseName}"
+						data-width="700" data-numposts="7"></div>
 					<script>
 					lesson_tasks = ${lesson_tasks};
 					lesson_answers = ${lesson_answers};
@@ -335,30 +337,6 @@
 					</script>
 				</div>
 			</c:if>
-			<br> <br>
-		</div>
-		<div class="comment-container">
-			<div id="fb-root"></div>
-			<script>
-				(function(d, s, id) {
-					var js, fjs = d.getElementsByTagName(s)[0];
-					if (d.getElementById(id))
-						return;
-					js = d.createElement(s);
-					js.id = id;
-					js.src = 'https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v3.2';
-					fjs.parentNode.insertBefore(js, fjs);
-				}(document, 'script', 'facebook-jssdk'));
-			</script>
-			<ul class="nav nav-pills comment-tab">
-				<li class="li-tab user-tab active"><a data-toggle="pill">Ý
-						kiến học viên</a></li>
-			</ul>
-			<div>
-				<div class="fb-comments"
-					data-href="https://localhost:8888/khoa-hoc/${courseName}#${courseIlm.getLessonName()}"
-					data-width="700px" data-numposts="5"></div>
-			</div>
 		</div>
 		<script type="text/javascript">
 			var vid = document.getElementById("cVideo");
