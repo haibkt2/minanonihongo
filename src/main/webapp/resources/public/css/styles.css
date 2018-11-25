@@ -32347,5 +32347,15 @@ thead.fixedHeader {
   background-image: url(../img/3.png);
   height: 9px;
 }
+#testScore{
+ z-index:300;
+ background:rgba(237,243,247,.8);
+ padding:5px;
+ border:1px solid #ddd;
+ right:10px;
+ top:10px;
+ font-weight:700;
+ box-shadow:2px 2px 0 #ddd;
+}
 
 /*# sourceMappingURL=styles.css.map */

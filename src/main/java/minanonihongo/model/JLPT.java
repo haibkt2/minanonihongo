@@ -22,6 +22,8 @@ public class JLPT implements Serializable {
 
     private String jlptName;
     
+    private String timeout;
+    
     @OneToMany(mappedBy="jlpt")
     private List<JLPTQuestion> jlptQuestion;
     
@@ -87,6 +89,22 @@ public class JLPT implements Serializable {
 
 	public void setCourse(Course course) {
 		this.course = course;
+	}
+
+	public String getTimeout() {
+		return timeout;
+	}
+
+	public void setTimeout(String timeout) {
+		this.timeout = timeout;
+	}
+
+	public JLPTMenu getJlptMn() {
+		return jlptMn;
+	}
+
+	public void setJlptMn(JLPTMenu jlptMn) {
+		this.jlptMn = jlptMn;
 	}
     
 }

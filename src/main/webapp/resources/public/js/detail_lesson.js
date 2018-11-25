@@ -39,12 +39,16 @@ var user = new Vue({
             }
             return !0
         },
-        sendTestResult: function(e, t) {
+        sendTestResult: function(e, t, fh) {
             var s = this;
-            if (s.checkEmptyAnswer()) return void $("#empty_answers").modal("toggle");
+            if (s.checkEmptyAnswer() && fh != 'auto') return void $("#empty_answers").modal("toggle");
             for (var n = 0, r = {}, a = 0; a < s.tasks.length; a++) {
                 var i = s.tasks[a].id;
                 if (3 == s.tasks[a].type) {
+                	if(fh == 'auto') {
+                	$('.detail-ques').css('display', 'none');
+                	document.getElementById('testWarning').innerText = "";
+                	}
                     var o = $("input[name='task" + i + "']:checked").next().text(),
                         u = $("input[name='task" + i + "']:checked").prev().text(),
                         c = {};
@@ -60,9 +64,10 @@ var user = new Vue({
             }
             if (3 == t && (s.checkFinish = t), s.disable = 1, s.userScore = n, $("#myMessage").modal(), "no-auth" != e) {
                 r = JSON.stringify(r);
-                var f = n >= s.lesson.pass_marks,
+                var dsa = s.lesson.total_marks;
+                var f = n >= s.lesson.total_marks/2,
                     m = new Date;
-                m = Math.floor(m.getTime() / 1e3), dataResult = {
+                m = Math.floor(m.getTime()), dataResult = {
                     lesson_id: s.lesson.id,
                     grade: n,
                     data: r,
@@ -73,6 +78,7 @@ var user = new Vue({
                     course: s.course
                 };
                 s.results.unshift(dataResult);
+                s.result = s.results[0];
 //                $.ajax({
 //                    url: window.location.origin + "/thi-thu",
 //                    type: "POST",

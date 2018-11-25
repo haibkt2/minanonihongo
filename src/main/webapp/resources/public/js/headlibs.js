@@ -1,38 +1,3 @@
-var startDate = new Date();
-function getServerTime() {
-	var diff = new Date().getTime() - startDate.getTime();
-	var serverTimezone = document.getElementById("serverTimezone").value;
-	var serverTime = document.getElementById("serverTime").value;
-	var userTimezone = document.getElementById("userTimezone").value;
-	var mytime;
-
-	if (userTimezone == "null") {
-		serverTimezone = userTimezone = 1;
-		startDate = mytime = new Date();
-	} else {
-		mytime = new Date(parseInt(serverTime));
-	}
-
-	mytime.setMilliseconds(mytime.getMilliseconds()
-			- ((serverTimezone - userTimezone) * 3600000));
-	mytime.setMilliseconds(mytime.getMilliseconds() + diff);
-
-	var month = [ "01", "02", "03", "04", "05", "06", "07", "08", "09", "10",
-			"11", "12" ];
-	var year = mytime.getFullYear();
-	var day = addZero(mytime.getDate());
-	var hours = addZero(mytime.getHours());
-	var minutes = addZero(mytime.getMinutes());
-	var seconds = addZero(mytime.getSeconds());
-
-	var currentTime = " <span style='font-size: 25px;'> " + year + "/"
-			+ month[mytime.getMonth()] + "/" + day + "</span> <span>  " + hours
-			+ ":" + minutes + ":" + seconds + "</span></h4>";
-
-	document.getElementById("header-time").innerHTML = currentTime;
-
-	var t = setTimeout(getServerTime, 500);
-}
 function playMp4(a) {
     var b = $("#mp3Mini_" + a)[0];
     b.play(), $("#jp-play-" + a).hide(), $("#jp-pause-" + a).css("display", "inline-block"), b.addEventListener("ended", function(b) {
@@ -117,7 +82,10 @@ function closeSearchBox() {
 }
 
 function enterToLogin(e, t) {
-//    if (13 == e.keyCode && null != $("#email").val() && void 0 != $("#email").val() && "" != $("#email").val() && null != $("#password").val() && void 0 != $("#password").val() && "" != $("#password").val()) return $("#login-submit").click(), !1
+// if (13 == e.keyCode && null != $("#email").val() && void 0 !=
+// $("#email").val() && "" != $("#email").val() && null != $("#password").val()
+// && void 0 != $("#password").val() && "" != $("#password").val()) return
+// $("#login-submit").click(), !1
 }
 
 function swichTab(e) {

@@ -95,7 +95,7 @@ public class MinanonihongoController {
 
 	@Autowired
 	private RestFB restFb;
-	
+
 	@Autowired
 	private GoogleUtils googleUtils;
 
@@ -247,23 +247,24 @@ public class MinanonihongoController {
 		URL u = new URL(request.getHeader("Referer"));
 		return "redirect:" + u.getPath();
 	}
-	
+
 	@RequestMapping("/login-google")
-	  public String loginGoogle(HttpServletRequest request,HttpSession session) throws ClientProtocolException, IOException {
-	    String code = request.getParameter("code");
-	    
-	    if (code == null || code.isEmpty()) {
-	      return "redirect:/403?google=error";
-	    }
-	    String accessToken = googleUtils.getToken(code);
-	    User ug = googleUtils.getUserInfo(accessToken);
-	    ug.setFlg("google");
+	public String loginGoogle(HttpServletRequest request, HttpSession session)
+			throws ClientProtocolException, IOException {
+		String code = request.getParameter("code");
+
+		if (code == null || code.isEmpty()) {
+			return "redirect:/403?google=error";
+		}
+		String accessToken = googleUtils.getToken(code);
+		User ug = googleUtils.getUserInfo(accessToken);
+		ug.setFlg("google");
 		Role r = roleRepository.findByRoleId(roleUser);
 		ug.setRole(r);
 		userRepository.save(ug);
 		session.setAttribute("user", ug);
 		return "redirect:/";
-	  }
+	}
 
 	@RequestMapping(value = "/document/{course}/download", method = RequestMethod.GET)
 	public void download(HttpServletRequest request, HttpServletResponse response, @RequestParam String file,
@@ -345,11 +346,14 @@ public class MinanonihongoController {
 		} else {
 			String jlptId = "JLPTE" + examName.split("-")[0];
 			List<JLPTQType> jt = jlptQTypeRepository.findQQuestion(jlptId);
-			List<Map<String, String>> mapJson = courseIlmService.mapJsonS(jt);
-			model.addAttribute("lesson_answers", mapJson.get(0).get("lesson_answers"));
-			model.addAttribute("lesson_tasks", mapJson.get(0).get("lesson_tasks"));
-			model.addAttribute("lesson_lesson", mapJson.get(0).get("lesson_lesson"));
-			model.addAttribute("jt", jt);
+			if (jt.size() > 0) {
+				List<Map<String, String>> mapJson = courseIlmService.mapJsonS(jt);
+				model.addAttribute("lesson_answers", mapJson.get(0).get("lesson_answers"));
+				model.addAttribute("lesson_tasks", mapJson.get(0).get("lesson_tasks"));
+				model.addAttribute("lesson_lesson", mapJson.get(0).get("lesson_lesson"));
+				model.addAttribute("jt", jt);
+				model.addAttribute("timeout", jt.get(0).getJlptQuestions().get(0).getJlpt().getTimeout());
+			}
 		}
 		return "public/detailJlpt";
 	}

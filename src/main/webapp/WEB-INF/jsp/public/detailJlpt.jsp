@@ -32,9 +32,11 @@
 					fjs.parentNode.insertBefore(js, fjs);
 				}(document, 'script', 'facebook-jssdk'));
 			</script>
-			<div class="cover-container" id="cover-container" style="margin-left: 50px;">
-				<div class="lesson-content-detail" id="lesson-content-detail">
-					<%int stt = 0; %>
+			<div class="cover-container" id="cover-container"
+				style="margin-left: 50px;">
+				<div class="lesson-content-detail" id="lesson-content-detail" style="display: none">
+				<div class="detail-ques">
+					<%int stt = 0;%>
 					<c:forEach items="${jt}" var="jt" varStatus="jti">
 						<p>mondai ${jti.index}</p>
 						<c:forEach items="${jt.getJlptQuestions()}" var="question"
@@ -64,13 +66,13 @@
 						</c:forEach>
 
 					</c:forEach>
-					<button class="btn btn-primary trac-nghiem"
-						v-on:click="sendTestResult('auth', 0)">Nộp bài</button>
-					<hr style="border: 0; border-bottom: 1px solid #ddd;">
+					<button class="btn btn-primary trac-nghiem" onclick="stop()"
+						v-on:click="sendTestResult('auth', 0, 'auto')">Nộp bài</button>
+<!-- 					<hr style="border: 0; border-bottom: 1px solid #ddd;"> -->
+					</div>
 					<div class="alert mt20" id="result" style="display: none;">
 						<div v-if="results.length > 0">
-							<h4>Kết quả bài kiểm tra.</h4>
-							<hr>
+<!-- 							<h4>Kết quả bài kiểm tra.</h4> -->
 							<div class="alert"
 								v-bind:class="[result.passed == 0 ? 'bg-warning' : 'bg-success']"
 								style="font-size: 14px">
@@ -82,11 +84,12 @@
 									Tổng điểm: <b>{{ userScore }} / {{ lesson.total_marks }}</b>
 								</p>
 								<p>
-									Kết quả: <b v-if="result.passed == 0">Không đạt yêu cầu</b><b
-										v-if="result.passed != 0">Đã qua</b>
+									Kết quả: <b v-if="result.passed == true">Đã qua</b><b
+										v-if="result.passed == false">Không đạt yêu cầu</b>
 								</p>
 								<button class="btn btn-info review-result"
 									v-on:click="reviewTestResult(0)">Xem bài làm</button>
+									<a href="javascript:location.reload(true)"><button class="btn btn-warning remove-result">Làm lại</button></a>
 							</div>
 						</div>
 					</div>
@@ -211,22 +214,48 @@
 
 					</div>
 					<script>
-						lesson_tasks = ${lesson_tasks};
-						lesson_answers = ${lesson_answers};
-						lesson_lesson = ${lesson_lesson};
-						lesson_results = [];
-						lesson_writeQuestions = [];
-						lesson_results = [];
-						lesson_writeQuestions = [];
-						lesson_results = [];
-						lesson_writeQuestions = [];
-						course = "${courseName}"; //Them khoa hoc cho JLPT
-						posExam = null; //tu dong load cho bai thi sau
-						is_exam = "0"; //check xem co phải là bài thi hay ko
-						is_exam = "0"; //check xem co phải là bài thi hay ko
+					lesson_tasks = ${lesson_tasks};
+					lesson_answers = ${lesson_answers};
+					lesson_lesson = ${lesson_lesson};
+					lesson_results = [];
+					lesson_writeQuestions = [];
+					lesson_results = [];
+					lesson_writeQuestions = [];
+					lesson_results = [];
+					lesson_writeQuestions = [];
+					course = "${courseName}"; //Them khoa hoc cho JLPT
+					posExam = null; //tu dong load cho bai thi sau
+					is_exam = "0"; //check xem co phải là bài thi hay ko
+					is_exam = "0"; //check xem co phải là bài thi hay ko	
 					</script>
 				</div>
+				<c:if test="${not empty jt}">
+					<div class="introduce" id="introduce">
+						Tổng số câu hỏi :
+						<%=stt%>
+						<br> Thời gian làm bài : <span
+							style="color: red; font-size: 20px"> <%
+ 								String timeout = (String) request.getAttribute("timeout");
+ 								int mn = Integer.parseInt(timeout);
+ 								int h = mn/60;
+ 								int m = mn%60;
+ 								if (h != 0) {
+ 									%> <%=h%> 
+ 									giờ : <%
+ 									}
+ 								%><%=m%>
+ 								 phút
+						</span>
+						<button class="btn btn-info start-jl" onclick="start()"
+							style="float: right;">Bắt đầu tính giờ làm bài</button>
+						<!-- 				<a href="javascript:void(0)" onclick="start()" ></a> -->
+					</div>
+					<input type="hidden" id="h_val" value="<%=h%>"/>
+					<input type="hidden" id="m_val" value="<%=m%>"/>
+					<input type="hidden" id="s_val" value="0"/>
+				</c:if>
 				<br> <br>
+
 			</div>
 			<div class="comment-container">
 				<ul class="nav nav-pills comment-tab">
@@ -236,9 +265,98 @@
 				<div></div>
 			</div>
 		</div>
-		<div class="main-right">
-			<div class="course-info-container course-info-status-pc time-exam" style="background-color: red;height: 200px; width: 100px">
-			
+		<div class="main-right" style="height: 25px;">
+			<div class="course-info-container course-info-status-pc time-exam"
+				style="height: 95px; width: 155px;" >
+				<div id="testScore" style="display: none;">
+					<p id="testWarning"></p>
+					<table style="width: 155px">
+						<tbody>
+							<tr>
+								<td style="font-size: 28px;padding-left: 2px;color: red">
+								<span id="h"></span> :
+           					 <span id="m"></span> :
+            				<span id="s"></span>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<script>
+				$(".start-jl").click(
+						function(e) {
+							$('.introduce').css('display', 'none');
+							$('.lesson-content-detail').css('display', 'block');
+							$('#testScore').css('display', 'block');
+							
+						})
+				</script>
+				<script>
+				var h = null; // Giờ
+	            var m = null; // Phút
+	            var s = null; // Giây
+	            
+	            var timeout = null; // Timeout
+				function start() {
+						if (h === null)
+						    {
+						        h = parseInt(document.getElementById('h_val').value);
+						        m = parseInt(document.getElementById('m_val').value);
+						        s = parseInt(document.getElementById('s_val').value);
+						    }
+						/*BƯỚC 1: CHUYỂN ĐỔI DỮ LIỆU*/
+						// Nếu số giây = -1 tức là đã chạy ngược hết số giây, lúc này:
+						//  - giảm số phút xuống 1 đơn vị
+						//  - thiết lập số giây lại 59
+						if (s === -1) {
+							m -= 1;
+							s = 59;
+						}
+
+						// Nếu số phút = -1 tức là đã chạy ngược hết số phút, lúc này:
+						//  - giảm số giờ xuống 1 đơn vị
+						//  - thiết lập số phút lại 59
+						if (m === -1) {
+							h -= 1;
+							m = 59;
+						}
+
+						// Nếu số giờ = -1 tức là đã hết giờ, lúc này:
+						//  - Dừng chương trình
+						if (h == -1) {
+							clearTimeout(timeout);
+							alert('Hết giờ');
+							return false;
+						}
+						if (m < 5) {
+							document.getElementById('testWarning').innerText = "Sắp hết giờ !!";
+						} 
+						 if(h<10) {
+							 document.getElementById('h').innerText = '0'+h.toString();
+						 } else {document.getElementById('h').innerText = h.toString();}
+						 if(m<10) {
+							 document.getElementById('m').innerText = '0'+m.toString();
+						 }else {document.getElementById('m').innerText = m.toString();}
+						 if(s<10) {
+							 document.getElementById('s').innerText = '0'+s.toString();
+						 }else {document.getElementById('s').innerText = s.toString();}
+						
+						/*BƯỚC 1: HIỂN THỊ ĐỒNG HỒ*/
+						
+						
+						
+
+						/*BƯỚC 1: GIẢM PHÚT XUỐNG 1 GIÂY VÀ GỌI LẠI SAU 1 GIÂY */
+						timeout = setTimeout(function() {
+							s--;
+							start();
+						}, 1000);
+					}
+
+					function stop() {
+						clearTimeout(timeout);
+					}
+				</script>
 			</div>
 		</div>
 	</div>
