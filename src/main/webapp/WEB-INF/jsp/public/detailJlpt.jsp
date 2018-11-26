@@ -66,7 +66,7 @@
 						</c:forEach>
 
 					</c:forEach>
-					<button class="btn btn-primary trac-nghiem" onclick="stop()"
+					<button class="btn btn-primary trac-nghiem" onclick="stop()" id="nop-bai"
 						v-on:click="sendTestResult('auth', 0, 'auto')">Nộp bài</button>
 <!-- 					<hr style="border: 0; border-bottom: 1px solid #ddd;"> -->
 					</div>
@@ -236,6 +236,7 @@
 						<br> Thời gian làm bài : <span
 							style="color: red; font-size: 20px"> <%
  								String timeout = (String) request.getAttribute("timeout");
+							if(timeout == null) timeout = "1";
  								int mn = Integer.parseInt(timeout);
  								int h = mn/60;
  								int m = mn%60;
@@ -325,7 +326,11 @@
 						//  - Dừng chương trình
 						if (h == -1) {
 							clearTimeout(timeout);
-							alert('Hết giờ');
+							window.onload = function(){
+							    var button = document.getElementById('nop-bai');
+							    button.form.submit();
+							}
+							document.getElementById('nop-bai').click();
 							return false;
 						}
 						if (m < 5) {

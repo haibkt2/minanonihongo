@@ -41,9 +41,9 @@ public class CourseIlm implements Serializable {
 	private String lessonName;
 
 	private String introduce;
-	
+
 	private String script;
-	
+
 	private String locaFileImg;
 
 	private String locaFileCourse;
@@ -52,11 +52,10 @@ public class CourseIlm implements Serializable {
 
 	@OneToMany(mappedBy = "courseIlm")
 	private List<Exam> exams;
-	
+
 	@OneToMany(mappedBy = "courseIlm")
 	private List<VocaCourseIlm> vocaCourseIlms;
 
-	
 	@Temporal(TemporalType.DATE)
 	@Column(name = "CREATE_DATE")
 	private Date createDate;
@@ -68,7 +67,11 @@ public class CourseIlm implements Serializable {
 	@OneToOne(mappedBy = "courseIlm")
 	private CourseGlobal courseGlobal;
 
-
+	public CourseIlm(String courseIlmId) {
+		this.courseIlmId = courseIlmId;
+	}
+	public CourseIlm() {
+	}
 	public List<VocaCourseIlm> getVocaCourseIlms() {
 		return vocaCourseIlms;
 	}

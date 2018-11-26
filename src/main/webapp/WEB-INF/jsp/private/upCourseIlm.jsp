@@ -251,7 +251,7 @@
 										<div class="form-group" style="width: 100%"></div>
 										<div class="form-group">
 											<h4>
-												<label>Video Hội Thoại</label>
+												<label>Hội Thoại</label>
 											</h4>
 											<div style="width: 100%; font-size: 20px; margin-left: 15px">
 												<div class="show-ma-cv">
@@ -271,7 +271,7 @@
 										</div>
 										<div class="form-group mana-cv" style="display: none;">
 											<h4>
-												<label> Video Bài Học</label>
+												<label> Video Hội Thoại</label>
 											</h4>
 											<div class="btn btn-default btn-file">
 												<i class="fa fa-fw fa-file-image-o"></i> Ảnh Nền Video<input
@@ -279,8 +279,7 @@
 											</div>
 											&nbsp;&nbsp;
 											<div class="btn btn-default btn-file">
-												<i class="fa fa-fw fa-file-video-o"></i> Video Bài Học Đính
-												Kèm(Max.32MB)<input type="file" name="file-video">
+												<i class="fa fa-fw fa-file-video-o"></i> Video Hội Thoại<input type="file" name="file-video">
 											</div>
 										</div>
 										<button class="btn btn-primary" onclick="addCourse();">

@@ -9,7 +9,7 @@
 	<footer class="main-footer">
 		<div class="pull-right hidden-xs">
 		</div>
-		<strong>Đồ Án Tốt Nghiệp &copy; 2018 <a
+		<strong>  &copy; 2018 <a
 			href="https://www.facebook.com/haildx">Nguyễn Thanh Hải</a>.
 		</strong>
 	</footer>

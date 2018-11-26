@@ -335,3 +335,27 @@ function showMnCv() {
 		$('.show-ma-cv').css("display", 'block');
 	}
 }
+function addJlpt() {
+	var data = [{id : 1,
+		question : "sdada",
+		  anser: [
+		    {"id": "1", "name": "Snatch", "type": "crime"},
+		    {"id": "1", "name": "Snatch", "type": "crime"},
+		    {"id": "1", "name": "Snatch", "type": "crime"},
+		    {"id": "1", "name": "Snatch", "type": "crime"},
+		    {"id": "1", "name": "Snatch", "type": "crime"},
+		    {"id": "1", "name": "Snatch", "type": "crime"}
+		]}];
+
+		data.push(
+		    {id: "7", 
+		     question : "",
+		     anser : [{
+		       id :"2",
+		       name: "Douglas Adams", 
+		     type: "comedy"}
+		     ]
+		    }
+		);
+		console.log(data)
+}

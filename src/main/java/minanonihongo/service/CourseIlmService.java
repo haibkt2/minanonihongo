@@ -241,4 +241,21 @@ public class CourseIlmService {
 		courseIlmRepository.delete(courseIlm);
 		return true;
 	}
+
+	public String setCourseIlmId(CourseIlm courseIlm) {
+		String courseIlmId = "COURSE001";
+		if (courseIlm.getCourseIlmId() != null) {
+			String cilmId = courseIlm.getCourseIlmId();
+			int id = Integer.parseInt(cilmId.substring(cilmId.length() - 3, cilmId.length())) + 1;
+			String countUsId = "" + id;
+			if (countUsId.trim().length() != 3) {
+				int count = 3 - countUsId.trim().length();
+				for (int i = 0; i < count; i++) {
+					countUsId = "0" + countUsId;
+				}
+			}
+			courseIlmId = cilmId.substring(0, cilmId.length() - 3).concat("" + countUsId);
+		}
+		return courseIlmId;
+	}
 }

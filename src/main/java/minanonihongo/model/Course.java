@@ -9,32 +9,32 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
-
 @Entity
-@NamedQuery(name="Course.findAll", query="SELECT cr FROM Course cr")
+@NamedQuery(name = "Course.findAll", query = "SELECT cr FROM Course cr")
 public class Course implements Serializable {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @Column(name="COURSE_ID", insertable=false, updatable=false)
-    private String courseId;
+	@Id
+	@Column(name = "COURSE_ID", insertable = false, updatable = false)
+	private String courseId;
 
-    @Column(name="COURSE_NAME")
-    private String courseName;
+	@Column(name = "COURSE_NAME")
+	private String courseName;
 
-    @OneToMany(mappedBy="course")
-    private List<CourseIlm> courseIlms;
-    
-    @OneToMany(mappedBy="course")
-    private List<JLPT> jlpt;
-    
-    @OneToMany(mappedBy="course")
-    private List<Document> documents;
-    
-    public Course() {
-		
+	@OneToMany(mappedBy = "course")
+	private List<CourseIlm> courseIlms;
+
+	@OneToMany(mappedBy = "course")
+	private List<JLPT> jlpt;
+
+	@OneToMany(mappedBy = "course")
+	private List<Document> documents;
+
+	public Course() {
+
 	}
-    
+
+
 	public List<Document> getDocuments() {
 		return documents;
 	}
@@ -48,9 +48,6 @@ public class Course implements Serializable {
 		this.courseName = courseName;
 	}
 
-	public Course(String courseName) {
-		this.courseName = courseName;
-	}
 	public String getCourseId() {
 		return courseId;
 	}
@@ -82,5 +79,5 @@ public class Course implements Serializable {
 	public void setJlpt(List<JLPT> jlpt) {
 		this.jlpt = jlpt;
 	}
-    
+
 }

@@ -135,6 +135,10 @@
 									<br>
 								</div>
 							</div>
+							<div style="width: 10%; float: right; margin-right: 15px;">
+									<a href="${contextPath}/admin/add-course?course=${course.courseName}">	<button class="btn btn-default">Thêm
+											Bài Học</button></a>
+									</div>
 							<div class="box-body">
 								<div style="text-align: center; color: blue; font-size: 18px">
 									<c:if test="${course_up != null }">

@@ -195,8 +195,25 @@ public class AdminMinanonihongoController {
 		courseForm.setUser(user);
 //		courseIlmService.doSaveCourse(courseForm);
 		// model.addAttribute("message", messageSave);
-		model.addAttribute("courseForm", new CourseIlm());
+//		model.addAttribute("courseForm", new CourseIlm());
 		return "home";
+	}
+	
+	@RequestMapping(value = "/admin/add-course", method = RequestMethod.GET)
+	public String addCourse(Model model, HttpServletRequest request, HttpSession session,@RequestParam("course") String c) {
+		common.getMenu(model);
+		Course course = courseRepository.findByCourseName(c);
+		List<CourseIlm> courseIlms = (List<CourseIlm>) courseIlmRepository.findByCourse(course);
+		CourseIlm courseIlm = new CourseIlm();
+		if(courseIlms.size() > 0) {
+			courseIlm.setCourseIlmId(courseIlms.get(courseIlms.size()-1).getCourseIlmId());
+		}
+		String cilmId = courseIlmService.setCourseIlmId(courseIlm);
+		courseIlm.setCourseIlmId(cilmId);
+		List<CourseIlmType> courseIlmType = (List<CourseIlmType>) courseIlmTypeRepository.findAll();
+		model.addAttribute("courseIlmForm", courseIlm);
+		model.addAttribute("courseIlmType", courseIlmType);
+		return "/private/upCourseIlm";
 	}
 
 	@RequestMapping(value = "/admin/fix-course", method = RequestMethod.GET)
