@@ -83,6 +83,8 @@
 														href="${contextPath}/khoa-hoc/N3">N3</a></td>
 													<td><a style="padding: 0"
 														href="${contextPath}/khoa-hoc/N2">N2</a></td>
+													<td><a style="padding: 0"
+														href="${contextPath}/khoa-hoc/N1">N1</a></td>
 												</tr>
 											</table>
 										</td>
@@ -119,7 +121,8 @@
 											<div class="col-right" style="border-top: none;">
 												<div class="clearfix">
 													<div class="col-md-12">
-														<a href="${contextPath}/khoa-hoc/Bang-chu-cai">Bảng Chữ Cái</a>
+														<a href="${contextPath}/khoa-hoc/Bang-chu-cai">Bảng
+															Chữ Cái</a>
 													</div>
 												</div>
 												<div class="col-bottom clearfix">
@@ -134,6 +137,9 @@
 													</div>
 													<div class="col-md-3">
 														<a href="${contextPath}/khoa-hoc/N2">N2</a>
+													</div>
+													<div class="col-md-3">
+														<a href="${contextPath}/khoa-hoc/N1">N1</a>
 													</div>
 												</div>
 											</div>
@@ -158,19 +164,20 @@
 												</div>
 												<div class="col-bottom clearfix">
 													<div class="col-md-12">
-														<a href="${contextPath}/thi-thu-truc-tuyen">Thi Thử Trực Tuyến</a>
+														<a href="${contextPath}/thi-thu-truc-tuyen">Thi Thử
+															Trực Tuyến</a>
 													</div>
 												</div>
 											</div>
 										</li>
 									</ul>
 								</div></li>
-<!-- 							<li class="item-search"> -->
-<!-- 								<div id="search-submit">&nbsp;</div> <input type="text" -->
-<!-- 								name="keya" class="search-input" id="search-inputa" -->
-<!-- 								onkeypress="return search(event, this)" -->
-<!-- 								placeholder="Tìm kiếm..." autocomplete="off"> -->
-<!-- 							</li> -->
+							<!-- 							<li class="item-search"> -->
+							<!-- 								<div id="search-submit">&nbsp;</div> <input type="text" -->
+							<!-- 								name="keya" class="search-input" id="search-inputa" -->
+							<!-- 								onkeypress="return search(event, this)" -->
+							<!-- 								placeholder="Tìm kiếm..." autocomplete="off"> -->
+							<!-- 							</li> -->
 						</ul>
 					</div>
 					<c:if test="${user == null}">
@@ -182,7 +189,8 @@
 							<div class="login-container" id="auth-container"
 								style="display: none;">
 								<div class="login-left-container">
-									<img class="auth-featured-image" src="${contextPath}/resources/public/img/login-banner.jpg" />
+									<img class="auth-featured-image"
+										src="${contextPath}/resources/public/img/login-banner.jpg" />
 								</div>
 								<div class="login-right-container">
 									<ul class="nav nav-pills">
@@ -383,8 +391,10 @@
 													onclick="showAccuracy()">
 													<i class="fa fa-facebook m-r-5"></i> Facebook
 												</button>
-											</a> <a href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=https://localhost:8888/login-google&response_type=code
-    &client_id=1016161130456-9kbf8n9d911tgmvq11tmloou7kgbkvip.apps.googleusercontent.com&approval_prompt=force" onclick="authBySocicalAccount()">
+											</a> <a
+												href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=https://localhost:8888/login-google&response_type=code
+    &client_id=1016161130456-9kbf8n9d911tgmvq11tmloou7kgbkvip.apps.googleusercontent.com&approval_prompt=force"
+												onclick="authBySocicalAccount()">
 												<button type="button"
 													class="btn btn-googleplus waves-effect waves-light m-t-20"
 													style="margin-right: 5px;" onclick="showAccuracy()">
@@ -438,8 +448,6 @@
 										src="${contextPath}/resources/public/img/caret-up.png" />
 									<li><a href="${contextPath}/account"><i
 											class="zmdi zmdi-account-box"></i>Thông tin cá nhân</a></li>
-									<li><a href=""><i
-											class="zmdi zmdi-shield-security"></i> Thay đổi mật khẩu</a></li>
 									<c:if test="${user.role.roleId == 'ROLE00001'}">
 										<li><a href="${contextPath}/admin"><i
 												class="fa fa-fw fa-cogs"></i> Quản lý Website</a></li>

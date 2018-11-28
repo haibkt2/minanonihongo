@@ -48,10 +48,17 @@
 					});
 				</script>
 				<div class="center-container">
-					<h2 class="course-header">
-						<span class="green-text see-more-course">Danh sách bài học
-							thú vị</span>
-					</h2>
+					<div class="student-feedback-title">
+						<h1 class="green-text">Nơi học tập Tiếng Nhật của</h1>
+						<h2>
+							Hơn <span class="counter green-text">0</span> người học. <input
+								type="hidden" value="1221" id="counter">
+						</h2>
+						<br>
+						<h3 class="green-text">Cùng nhau chia sẽ học tập và tìm hiểu
+							về văn hóa Nhật Bản !!</h3>
+					</div>
+					<br>
 					<div class="preview-course-container">
 						<c:forEach items="${course}" var="c">
 							<h3 class="head-title">
@@ -97,7 +104,8 @@
 								fjs.parentNode.insertBefore(js, fjs);
 							}(document, 'script', 'facebook-jssdk'));
 						</script>
-						<div class="fb-comments" data-href="https://localhost:8888/" data-width="890" data-numposts="1"></div>
+						<div class="fb-comments" data-href="https://localhost:8888/"
+							data-width="890" data-numposts="1"></div>
 					</div>
 				</div>
 			</div>
@@ -108,6 +116,18 @@
 	<div class="go-top">
 		<i class="fa fa-sort-asc"></i>
 	</div>
+	<script>
+		var c = 0;
+		var v;
+		window.onload = function myFunction() {
+			v = $('#counter').val();
+			if (parseInt(v) >= parseInt(c)) {
+				$('.counter').text(c);
+				setTimeout(myFunction, 10);
+			}
+			c++;
+		}
+	</script>
 	<jsp:include page="footer.jsp"></jsp:include>
 </body>
 </html>

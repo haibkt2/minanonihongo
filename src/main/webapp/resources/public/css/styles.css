@@ -2350,7 +2350,7 @@ pre code {
 		width: 33.33%;
 	}
 	.col-md-3 {
-		width: 25%;
+		width: 20%;
 	}
 	.col-md-2 {
 		width: 16.66666667%;
@@ -24971,11 +24971,6 @@ body.menu-open {
 	display: none;
 }
 
-.block-student-feedback {
-	min-height: 100px;
-	background-color: #f6f6f6;
-}
-
 .block-student-feedback .center-container .img-student {
 	display: none;
 }
@@ -24988,7 +24983,7 @@ body.menu-open {
 	}
 }
 
-.block-student-feedback .student-feedback-title {
+.student-feedback-title {
 	width: 100%;
 	text-align: center;
 	padding-top: 50px;

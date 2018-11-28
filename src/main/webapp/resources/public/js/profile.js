@@ -168,6 +168,7 @@ var user = new Vue({
                     !1
                 },
                 success: function(a) {
+                	alert(a);
                         switch ($(".error-list").css("color", "#588d3f"),
                         r.errors = [],
                         r.errors.push("Bạn đã đổi thông tin thành công"),
@@ -184,7 +185,6 @@ var user = new Vue({
                         case "email":
                             r.user.email = newValue;
                             break;
-                       
                         }
                         setTimeout(function() {
                             switch (e) {
@@ -212,7 +212,6 @@ var user = new Vue({
         },
         ajaxChangePassWord: function(e) {
             var a = this
-              , r = $("#csrf_token").val()
               , n = $("#old-password").val()
               , s = $("#new-password").val()
               , t = $("#retype-password").val();
@@ -221,10 +220,8 @@ var user = new Vue({
                 a.errors = [],
                 void a.errors.push("Xác nhận mật khẩu không chính xác");
             var o = {
-                _token: r,
                 "old-password": n,
                 "new-password": s,
-                captcha: $("#captcha-input").val()
             };
             a.allowPress = !1,
             $.ajax({
@@ -232,10 +229,6 @@ var user = new Vue({
                 type: "POST",
                 data: o,
                 async: !0,
-                beforeSend: function(e) {
-                    if (r)
-                        return e.setRequestHeader("X-CSRF-TOKEN", r)
-                },
                 error: function() {
                     $(".error-list").css("color", "red"),
                     a.errors = [],
@@ -246,8 +239,7 @@ var user = new Vue({
                     "Invalid password" == e ? ($(".error-list").css("color", "red"),
                     a.errors = [],
                     a.errors.push("Mật khẩu không chính xác"),
-                    a.allowPress = !0,
-                    a.changeCaptcha()) : "success" == e && ($(".error-list").css("color", "#588d3f"),
+                    a.allowPress = !0) : "success" == e && ($(".error-list").css("color", "#588d3f"),
                     a.errors = [],
                     a.errors.push("Bạn đã đổi mật khẩu thành công"),
                     setTimeout(function() {

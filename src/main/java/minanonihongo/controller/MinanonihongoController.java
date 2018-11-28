@@ -1,6 +1,7 @@
 
 package minanonihongo.controller;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import minanonihongo.model.Course;
 import minanonihongo.model.CourseIlm;
@@ -49,9 +51,11 @@ import minanonihongo.repository.PostTypeRepository;
 import minanonihongo.repository.RoleRepository;
 import minanonihongo.repository.UserRepository;
 import minanonihongo.repository.VocaCourseIlmRepository;
+import minanonihongo.service.CommonService;
 import minanonihongo.service.CourseIlmService;
 import minanonihongo.service.GoogleUtils;
 import minanonihongo.service.RestFB;
+import minanonihongo.service.UserDetailsServiceImpl;
 import minanonihongo.service.UserServiceImpl;
 
 @Controller
@@ -94,6 +98,9 @@ public class MinanonihongoController {
 	CourseIlmService courseIlmService;
 
 	@Autowired
+	CommonService commonService;
+
+	@Autowired
 	private RestFB restFb;
 
 	@Autowired
@@ -116,6 +123,9 @@ public class MinanonihongoController {
 
 	@Value("${string.role.user}")
 	private String roleUser;
+
+	@Value("${string.reponsitory.local}")
+	private String localFile;
 
 	@Value("${string.jlpt.jlpt}")
 	private String jlpt;
@@ -381,15 +391,47 @@ public class MinanonihongoController {
 		model.addAttribute("key", keysearch);
 		return "public/dictionary";
 	}
-	
+
 	@RequestMapping("/account")
 	public String account(Model model, HttpServletRequest req, HttpServletResponse response, HttpSession ss) {
 		return "public/account";
 	}
+
 	@RequestMapping("/account/change-info")
 	@ResponseBody
-	public String acChange(Model model, HttpServletRequest req, HttpServletResponse response, HttpSession ss) {
-		System.out.println("sssadsdasd");
-		return "public/account";
+	public String acChangeInfo(Model model, HttpServletRequest req, HttpServletResponse response, HttpSession ss,
+			@RequestParam(name = "field") String field, @RequestParam(name = "value") String value) throws Exception {
+		User u = (User) ss.getAttribute("user");
+		String change = userserviceimpl.changeInfo(u, field, value);
+		return change;
 	}
+
+	@RequestMapping("/account/change-password")
+	@ResponseBody
+	public String acChangePass(Model model, HttpServletRequest req, HttpServletResponse response, HttpSession ss,
+			@RequestParam(name = "old-password") String op, @RequestParam(name = "new-password") String on)
+			throws Exception {
+		User u = (User) ss.getAttribute("user");
+		String change = userserviceimpl.changePass(u, op, on);
+		return change;
+	}
+
+	@RequestMapping("/account/change-avatar")
+	@ResponseBody
+	public String acChangeAvatar(Model model, HttpServletRequest request, HttpSession ss,
+			@RequestParam("inputAvatar") MultipartFile file) {
+		User u = (User) ss.getAttribute("user");
+		if (!file.isEmpty()) {
+			String local = "/Avatar/";
+			String orgName = file.getOriginalFilename();
+			if (commonService.saveFile(file, local)) {
+				File fo = new File(localFile + local + orgName);
+				File fn = new File(localFile + local + u.getUserId()+".jpg");
+				fo.renameTo(fn);
+			}
+			String change = userserviceimpl.changeAvatar(u, file);
+		}
+		return "/private/upDoc";
+	}
+
 }
