@@ -4541,17 +4541,17 @@ function logout() {
             }
 
             function s() {
-                i();
-                var e = Math.round(parseFloat(s.style.height)),
-                    t = window.getComputedStyle(s, null),
-                    o = "content-box" === t.boxSizing ? Math.round(parseFloat(t.height)) : s.offsetHeight;
-                if (o !== e ? "hidden" === t.overflowY && (n("scroll"), i(), o = "content-box" === t.boxSizing ? Math.round(parseFloat(window.getComputedStyle(s, null).height)) : s.offsetHeight) : "hidden" !== t.overflowY && (n("hidden"), i(), o = "content-box" === t.boxSizing ? Math.round(parseFloat(window.getComputedStyle(s, null).height)) : s.offsetHeight), u !== o) {
-                    u = o;
-                    var r = a("autosize:resized");
-                    try {
-                        s.dispatchEvent(r)
-                    } catch (s) {}
-                }
+//                i();
+//                var e = Math.round(parseFloat(s.style.height)),
+//                    t = window.getComputedStyle(s, null),
+//                    o = "content-box" === t.boxSizing ? Math.round(parseFloat(t.height)) : s.offsetHeight;
+//                if (o !== e ? "hidden" === t.overflowY && (n("scroll"), i(), o = "content-box" === t.boxSizing ? Math.round(parseFloat(window.getComputedStyle(s, null).height)) : s.offsetHeight) : "hidden" !== t.overflowY && (n("hidden"), i(), o = "content-box" === t.boxSizing ? Math.round(parseFloat(window.getComputedStyle(s, null).height)) : s.offsetHeight), u !== o) {
+//                    u = o;
+//                    var r = a("autosize:resized");
+//                    try {
+//                        s.dispatchEvent(r)
+//                    } catch (s) {}
+//                }
             }
             if (e && e.nodeName && "TEXTAREA" === e.nodeName && !r.has(e)) {
                 var c = null,
@@ -4639,14 +4639,15 @@ function logout() {
         headers: {
             "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content")
         }
-    }), 0 == window.location.hostname.indexOf("www") && (window.location = window.location.href.replace("www.", "")), $(document).ready(function() {
+    }),
+    0 == window.location.hostname.indexOf("www") && (window.location = window.location.href.replace("www.", "")), $(document).ready(function() {
         function e(e) {
             if ("undefined" != typeof e) {
-                var t = e.offset().top,
-                    n = $(window);
-                n.on("scroll", function() {
-                    n.scrollTop() >= t ? e.addClass("fixed") : e.removeClass("fixed")
-                })
+//                var t = e.offset().top,
+//                    n = $(window);
+//                n.on("scroll", function() {
+//                    n.scrollTop() >= t ? e.addClass("fixed") : e.removeClass("fixed")
+//                })
             }
         }
         $(function() {

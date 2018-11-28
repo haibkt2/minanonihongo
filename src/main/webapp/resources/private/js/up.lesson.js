@@ -16,7 +16,7 @@ function inArray(needle, haystack) {
 	}
 	return false;
 }
-function addCourse(btn) {
+function addCourse() { // btn
 	var lg = $(".scrollContent tr").length;
 	var an;
 	var id;

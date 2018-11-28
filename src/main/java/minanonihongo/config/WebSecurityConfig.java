@@ -54,6 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/register").permitAll()
 			.antMatchers("/detail-lesson/**").permitAll()
 			.antMatchers("/thi-thu-truc-tuyen/**").permitAll()
+			.antMatchers("/account/**").hasAnyRole("ADMIN","USER")
 			.antMatchers("/admin/**").hasAnyRole("ADMIN");
 		http.formLogin().loginPage("/home").usernameParameter("email").passwordParameter("password")
 				.successHandler(successHandler);

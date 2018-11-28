@@ -436,7 +436,7 @@
 								<ul class="dropdown-menu user-menu">
 									<img class="caret-up"
 										src="${contextPath}/resources/public/img/caret-up.png" />
-									<li><a href=""><i
+									<li><a href="${contextPath}/account"><i
 											class="zmdi zmdi-account-box"></i>Thông tin cá nhân</a></li>
 									<li><a href=""><i
 											class="zmdi zmdi-shield-security"></i> Thay đổi mật khẩu</a></li>

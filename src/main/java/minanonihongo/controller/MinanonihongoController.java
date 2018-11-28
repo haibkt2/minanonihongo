@@ -381,4 +381,15 @@ public class MinanonihongoController {
 		model.addAttribute("key", keysearch);
 		return "public/dictionary";
 	}
+	
+	@RequestMapping("/account")
+	public String account(Model model, HttpServletRequest req, HttpServletResponse response, HttpSession ss) {
+		return "public/account";
+	}
+	@RequestMapping("/account/change-info")
+	@ResponseBody
+	public String acChange(Model model, HttpServletRequest req, HttpServletResponse response, HttpSession ss) {
+		System.out.println("sssadsdasd");
+		return "public/account";
+	}
 }

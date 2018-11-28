@@ -32,6 +32,8 @@ public class User implements Serializable {
 	private String flg;
 
 	private Date birthday;
+	
+	private String address;
 
 	private String avatar;
 
@@ -191,6 +193,14 @@ public class User implements Serializable {
 
 	public void setJlpts(List<JLPT> jlpts) {
 		this.jlpts = jlpts;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 }

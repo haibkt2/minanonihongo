@@ -32357,5 +32357,7 @@ thead.fixedHeader {
  font-weight:700;
  box-shadow:2px 2px 0 #ddd;
 }
-
+.user-form-item.fix{
+	display: none
+}
 /*# sourceMappingURL=styles.css.map */
