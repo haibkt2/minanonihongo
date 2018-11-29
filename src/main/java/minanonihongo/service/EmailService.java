@@ -33,8 +33,8 @@ public class EmailService {
 		Map<String, String> mapSendmail = new HashMap<String, String>();
 		mapSendmail.put("mailform", username);
 		mapSendmail.put("toMail", user.getEmail());
-		mapSendmail.put("subject", "Password");
-		mapSendmail.put("body", "User Id : "+user.getUserId()+" Password : " + user.getPassword());
+		mapSendmail.put("subject", "Xác nhận mật khẩu.");
+		mapSendmail.put("body", "Tên người dùng : "+user.getName()+" Password : " + user.getPassword());
 		return mapSendmail;
 	}
 }

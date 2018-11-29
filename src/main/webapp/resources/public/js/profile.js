@@ -219,6 +219,10 @@ var user = new Vue({
                 return $(".error-list").css("color", "red"),
                 a.errors = [],
                 void a.errors.push("Xác nhận mật khẩu không chính xác");
+            if (s.lenght < 6 )
+                return $(".error-list").css("color", "red"),
+                a.errors = [],
+                void a.errors.push("Mật khẩu quá ngắn");
             var o = {
                 "old-password": n,
                 "new-password": s,

@@ -3,15 +3,13 @@ package minanonihongo.service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,8 +29,12 @@ public class UserServiceImpl {
 	@Autowired
 	private RoleRepository roleRepository;
 
-//	@Autowired
-//	UserDetails userDetails;
+	@Autowired
+	@Qualifier("javasampleapproachMailSender")
+	EmailService emailService;
+
+	// @Autowired
+	// UserDetails userDetails;
 
 	@Autowired
 	CommonService coService;
@@ -96,9 +98,7 @@ public class UserServiceImpl {
 	}
 
 	public String changePass(User user, String po, String pn) {
-		String o = user.getPassword();
-		String n = bcrypass.encode(po);
-		if (user.getPassword().equals(bcrypass.encode(po))) {
+		if (bcrypass.matches(po, user.getPassword())) {
 			user.setPassword(bcrypass.encode(pn));
 			userRepository.save(user);
 			return "success";
@@ -106,7 +106,34 @@ public class UserServiceImpl {
 			return "Invalid password";
 		}
 	}
-	public String changeAvatar(User user,MultipartFile file) {
-		return "success";
+
+	public boolean checkTypeImgr(MultipartFile file) {
+		String orgName = file.getOriginalFilename();
+		String type = orgName.split(".")[1].toLowerCase();
+		switch (type) {
+		case "jpg":
+			return true;
+		case "png":
+			return true;
+		case "gif":
+			return true;
+		case "tiff":
+			return true;
+		case "bmp":
+			return true;
+		default:
+			return false;
+		}
+	}
+
+	public String resetPass(User user) {
+		Map<String, String> getSendMail = new HashMap<String, String>();
+		user.setPassword(coService.setPassword(8));
+		getSendMail = emailService.SendMail(user);
+		emailService.sendMail(getSendMail.get("mailform"), getSendMail.get("toMail"), getSendMail.get("subject"),
+				getSendMail.get("body"));
+		user.setPassword(bcrypass.encode(user.getPassword()));
+		userRepository.save(user);
+		return "Thay đổi mật khẩu thành công.!";
 	}
 }

@@ -421,17 +421,45 @@ public class MinanonihongoController {
 	public String acChangeAvatar(Model model, HttpServletRequest request, HttpSession ss,
 			@RequestParam("inputAvatar") MultipartFile file) {
 		User u = (User) ss.getAttribute("user");
+		String change;
 		if (!file.isEmpty()) {
 			String local = "/Avatar/";
 			String orgName = file.getOriginalFilename();
-			if (commonService.saveFile(file, local)) {
-				File fo = new File(localFile + local + orgName);
-				File fn = new File(localFile + local + u.getUserId()+".jpg");
-				fo.renameTo(fn);
-			}
-			String change = userserviceimpl.changeAvatar(u, file);
+			long size = file.getSize();
+			if (size > 1024 * 30)
+				return "imagesize";
+			if (commonService.checkTypeImg(file)) {
+				if (commonService.saveFile(file, local)) {
+					u.setAvatar(u.getUserId() + ".jpg");
+					File fo = new File(localFile + local + orgName);
+					File fn = new File(localFile + local + u.getAvatar());
+					fo.renameTo(fn);
+					userRepository.save(u);
+					return "success";
+				} else
+					return "error";
+			} else
+				return "imageType";
 		}
-		return "/private/upDoc";
+		return "error";
 	}
 
+	@RequestMapping(value = "/password/reset", method = RequestMethod.GET)
+	public String resetPass(Model model, HttpServletRequest request, HttpSession ss) {
+		return "/public/resetPass";
+	}
+
+	@RequestMapping(value = "/password/reset", method = RequestMethod.POST)
+	public String resetSendPass(Model model, HttpServletRequest request, HttpSession ss,
+			@RequestParam(name = "email") String email) {
+		System.out.println(email);
+		User user = userRepository.findByEmail(email);
+		if (user == null) {
+			model.addAttribute("error", "Email chưa được đăng ký");
+			return "/public/resetPass";
+		}
+		String ms = userserviceimpl.resetPass(user);
+		model.addAttribute("success", ms);
+		return "/public/resetPass";
+	}
 }

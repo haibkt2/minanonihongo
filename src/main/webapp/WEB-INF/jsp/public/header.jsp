@@ -369,7 +369,7 @@
 																	Đang xác thực...</span>
 															</button>
 															<p>
-																<a href="" style="color: #333; opacity: 0.7;">Quên
+																<a href="${contextPath}/password/reset" style="color: #333; opacity: 0.7;">Quên
 																	mật khẩu ?</a>
 															</p>
 														</div>

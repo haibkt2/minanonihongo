@@ -120,4 +120,22 @@ public class CommonService {
 			return false;
 		}
 	}
+	public boolean checkTypeImg(MultipartFile file) {
+		String orgName = file.getOriginalFilename();
+		String type = orgName.split("\\.")[1];
+		switch (type) {
+		case "jpg":
+			return true;
+		case "png":
+			return true;
+		case "gif":
+			return true;
+		case "tiff":
+			return true;
+		case "bmp":
+			return true;
+		default:
+			return false;
+		}
+	}
 }
