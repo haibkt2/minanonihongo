@@ -426,10 +426,11 @@ public class MinanonihongoController {
 			String local = "/Avatar/";
 			String orgName = file.getOriginalFilename();
 			long size = file.getSize();
-			if (size > 1024 * 30)
+			if (size > 1024 * 300)
 				return "imagesize";
 			if (commonService.checkTypeImg(file)) {
 				if (commonService.saveFile(file, local)) {
+					commonService.delFile(local + u.getAvatar());
 					u.setAvatar(u.getUserId() + ".jpg");
 					File fo = new File(localFile + local + orgName);
 					File fn = new File(localFile + local + u.getAvatar());

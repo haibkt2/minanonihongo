@@ -25,7 +25,7 @@
 					<span class="clear-preview-upload"><i
 						class="zmdi zmdi-close-circle"></i></span> <img class="user-avatar"
 						id="user-avatar-preview"
-						src="${user.avatar}" />
+						src="${contextPath}/reponsitory/Avatar/<c:if test="${user.avatar == null}">img-df.png</c:if><c:if test="${user.avatar != null}">${user.avatar }</c:if>" />
 				</div>
 				<button type="button" class="btn change-avatar">
 					<i class="zmdi zmdi-camera-add"></i><span

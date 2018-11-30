@@ -122,7 +122,7 @@ public class CommonService {
 	}
 	public boolean checkTypeImg(MultipartFile file) {
 		String orgName = file.getOriginalFilename();
-		String type = orgName.split("\\.")[1];
+		String type = orgName.split("\\.")[1].toLowerCase();
 		switch (type) {
 		case "jpg":
 			return true;

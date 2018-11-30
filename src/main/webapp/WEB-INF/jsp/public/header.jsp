@@ -440,7 +440,7 @@
 									data-toggle="dropdown">
 									<span class="user-name">${user.name}</span> <img
 										class="user-avatar-circle"
-										src="<c:if test="${user.flg ne 'google' }">${contextPath}/reponsitory/Avatar/</c:if><c:if test="${user.avatar == null}">img-df.png</c:if><c:if test="${user.avatar != null}">${user.avatar }</c:if>" />
+										src="${contextPath}/reponsitory/Avatar/<c:if test="${user.avatar == null}">img-df.png</c:if><c:if test="${user.avatar != null}">${user.avatar }</c:if>" />
 									<span class="caret"></span>
 								</div>
 								<ul class="dropdown-menu user-menu">
