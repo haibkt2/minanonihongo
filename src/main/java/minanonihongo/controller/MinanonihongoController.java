@@ -51,11 +51,11 @@ import minanonihongo.repository.PostTypeRepository;
 import minanonihongo.repository.RoleRepository;
 import minanonihongo.repository.UserRepository;
 import minanonihongo.repository.VocaCourseIlmRepository;
+import minanonihongo.service.Common;
 import minanonihongo.service.CommonService;
 import minanonihongo.service.CourseIlmService;
 import minanonihongo.service.GoogleUtils;
 import minanonihongo.service.RestFB;
-import minanonihongo.service.UserDetailsServiceImpl;
 import minanonihongo.service.UserServiceImpl;
 
 @Controller
@@ -105,6 +105,9 @@ public class MinanonihongoController {
 
 	@Autowired
 	private GoogleUtils googleUtils;
+	
+	@Autowired
+	Common common;
 
 	@Autowired
 	UserServiceImpl userserviceimpl;
@@ -424,7 +427,7 @@ public class MinanonihongoController {
 		String change;
 		if (!file.isEmpty()) {
 			String local = "/Avatar/";
-			String orgName = file.getOriginalFilename();
+			String orgName = common.toUrlFriendly(file.getOriginalFilename());
 			long size = file.getSize();
 			if (size > 1024 * 300)
 				return "imagesize";

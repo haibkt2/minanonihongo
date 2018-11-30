@@ -46,9 +46,8 @@
 					<a href="#" class="item-user current"><i
 						class="zmdi zmdi-account-box"></i><span>Thông tin cá nhân</span></a> <a
 						href=""
-						class="item-user courses"><i class="zmdi zmdi-dns"></i><span>Khóa
-							học của tôi</span></a> <a style="cursor: pointer;" onclick="logout()"
-						class="item-user danger logout-tab"><i class="zmdi zmdi-power"></i></i><span>Đăng
+						class="item-user courses"><i class="zmdi zmdi-dns"></i><span>Kết quả thi thử</span></a> <a style="cursor: pointer;" onclick="logout()"
+						class="item-user danger logout-tab"><i class="zmdi zmdi-power"></i><span>Đăng
 							xuất</span></a>
 				</div>
 				<script type="text/javascript">
