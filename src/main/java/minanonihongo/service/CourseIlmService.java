@@ -148,7 +148,7 @@ public class CourseIlmService {
 		JSONObject lesson_lesson = new JSONObject();
 		lesson_lesson.put("id",
 				jlptQT.get(0).getJlptQuestions().get(0).getJlpt().getJlptId().substring(
-						jlptQT.get(0).getJlptQuestions().get(0).getJlpt().getJlptId().length() - 2,
+						jlptQT.get(0).getJlptQuestions().get(0).getJlpt().getJlptId().length() - 8,
 						jlptQT.get(0).getJlptQuestions().get(0).getJlpt().getJlptId().length()));
 		lesson_lesson.put("course_id",
 				jlptQT.get(0).getJlptQuestions().get(0).getJlpt().getJlptType().getJlptTypeId().substring(
@@ -163,7 +163,7 @@ public class CourseIlmService {
 					index++;
 					lesson_tasks.add(getQuestion(index,
 							jt.getJlptQuestions().get(0).getJlpt().getJlptId().substring(
-									jt.getJlptQuestions().get(0).getJlpt().getJlptId().length() - 2,
+									jt.getJlptQuestions().get(0).getJlpt().getJlptId().length() - 8,
 									jt.getJlptQuestions().get(0).getJlpt().getJlptId().length()),
 							jlptQuestion.getJlptQuestionId().substring(jlptQuestion.getJlptQuestionId().length() - 2,
 									jlptQuestion.getJlptQuestionId().length()),

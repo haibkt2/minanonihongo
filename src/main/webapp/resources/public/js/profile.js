@@ -112,7 +112,7 @@ var user = new Vue({
                     a.ajaxSaveChange("name", "account-name");
                     break;
                 case "email":
-                    a.ajaxSaveChange("email", "account-name");
+                    a.ajaxSaveChange("email", "account-email");
                     break;
                 case "birthday":
                     a.ajaxSaveChange("birthday", "");
@@ -146,6 +146,10 @@ var user = new Vue({
                 return $(".error-list").css("color", "red"),
                 r.errors = [],
                 void r.errors.push("Thông tin còn trống");
+            if ("phone" === e && isNaN(newValue))
+                return $(".error-list").css("color", "red"),
+                r.errors = [],
+                void r.errors.push("Số điện thoại không đúng");
             if (checkspecialSymbol(newValue))
                 return $(".error-list").css("color", "red"),
                 r.errors = [],
@@ -156,7 +160,7 @@ var user = new Vue({
             };
             r.allowPress = !1,
             $.ajax({
-                url: window.location.origin + "/account/change-info",
+                url: window.location.origin + "/tai-khoan/change-info",
                 type: "POST",
                 data: c,
                 async: !0,
@@ -229,7 +233,7 @@ var user = new Vue({
             };
             a.allowPress = !1,
             $.ajax({
-                url: window.location.origin + "/account/change-password",
+                url: window.location.origin + "/tai-khoan/change-password",
                 type: "POST",
                 data: o,
                 async: !0,

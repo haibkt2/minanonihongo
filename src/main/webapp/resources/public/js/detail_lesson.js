@@ -62,42 +62,52 @@ var user = new Vue({
                     r[i] = l
                 }
             }
-            if (3 == t && (s.checkFinish = t), s.disable = 1, s.userScore = n, $("#myMessage").modal(), "no-auth" != e) {
+            if (3 == t && (s.checkFinish = t), s.disable = 1, s.userScore = n, $("#myMessage").modal()) {
                 r = JSON.stringify(r);
                 var dsa = s.lesson.total_marks;
                 var f = n >= s.lesson.total_marks/2,
                     m = new Date;
-                m = Math.floor(m.getTime()), dataResult = {
+                dataResult = {
                     lesson_id: s.lesson.id,
                     grade: n,
                     data: r,
                     total_grade: s.lesson.total_marks,
                     passed: f,
                     created: m,
-                    _id: t,
+//                    _id: t,
                     course: s.course
                 };
                 s.results.unshift(dataResult);
                 s.result = s.results[0];
-//                $.ajax({
-//                    url: window.location.origin + "/thi-thu",
-//                    type: "POST",
-//                    data: dataResult,
-//                    async: !0,
-//                    error: function() {},
-//                    success: function(e) {
-//                        if ("fail" == e) s.itemExist = !0;
-//                        else {s.itemExist = !1, s.results.unshift(e);
-//                        }
-////                        else {
-////                            s.itemExist = !1, s.resultExam = e, s.resultExam.forEach(function(e) {
-////                                0 == e.passed && (s.checkPass = 0), s.totalScore += e.grade
-////                            });
-////                            var t = new Date;
-////                            s.dateExam = t.getFullYear() + "å¹´" + (t.getMonth() + 1) + "æœˆ" + t.getDate() + "æ—¥"
-////                        }
-//                    }
-//                })
+                var dt = JSON.stringify(dataResult);
+                if("no-auth" != e){
+                  $.ajax({
+                  url: window.location.origin + "/thi-thu/gui-ket-qua",
+                  type: "POST",
+                  contentType: "application/json; charset=utf-8",
+                  data: dt,
+                  async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+                  cache: false,    //This will force requested pages not to be cached by the browser  
+                   processData:false, 
+                  error: function() {
+                	  console.log("Lưu kết quả lỗi");
+                  },
+                  success: function(e) {
+                      if ("success" == e) console.log("Lưu kết quả thành công");
+                      else {
+                    	  console.log("Lưu kết quả lỗi");
+                      }
+//                      else {
+//                          s.itemExist = !1, s.resultExam = e, s.resultExam.forEach(function(e) {
+//                              0 == e.passed && (s.checkPass = 0), s.totalScore += e.grade
+//                          });
+//                          var t = new Date;
+//                          s.dateExam = t.getFullYear() + "å¹´" + (t.getMonth() + 1) + "æœˆ" + t.getDate() + "æ—¥"
+//                      }
+                  }
+              })
+                }
+
             }
         },
         autoLoad: function() {
@@ -142,7 +152,7 @@ var user = new Vue({
                     result_id: e.results[e.currentIndex].id
                 };
             $.ajax({
-                url: window.location.origin + "/account/delete-test-result",
+                url: window.location.origin + "/tai-khoan/delete-test-result",
                 type: "DELETE",
                 data: t,
                 async: !0,

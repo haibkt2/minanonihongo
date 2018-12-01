@@ -12,37 +12,40 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 @Entity
-@NamedQuery(name="JLPT.findAll", query="SELECT j FROM JLPT j")
+@NamedQuery(name = "JLPT.findAll", query = "SELECT j FROM JLPT j")
 public class JLPT implements Serializable {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @Column(name="JLPT_ID")
-    private String jlptId;
+	@Id
+	@Column(name = "JLPT_ID")
+	private String jlptId;
 
-    private String jlptName;
-    
-    private String timeout;
-    
-    @OneToMany(mappedBy="jlpt")
-    private List<JLPTQuestion> jlptQuestion;
-    
-    @ManyToOne
-    @JoinColumn(name="USER_ID")
-    private User user;
-    
-    @ManyToOne
-    @JoinColumn(name="JLPT_MENU_ID")
-    private JLPTMenu jlptMn;
-    
-    @ManyToOne
-    @JoinColumn(name="JLPT_TYPE_ID")
-    private JLPTType jlptType;
-    
-    @ManyToOne
+	private String jlptName;
+
+	private String timeout;
+
+	@OneToMany(mappedBy = "jlpt")
+	private List<JLPTQuestion> jlptQuestion;
+
+	@ManyToOne
+	@JoinColumn(name = "USER_ID")
+	private User user;
+	
+	@OneToMany(mappedBy = "jlpt")
+	private List<JLPTResult> jlptResult;
+	
+	@ManyToOne
+	@JoinColumn(name = "JLPT_MENU_ID")
+	private JLPTMenu jlptMn;
+
+	@ManyToOne
+	@JoinColumn(name = "JLPT_TYPE_ID")
+	private JLPTType jlptType;
+
+	@ManyToOne
 	@JoinColumn(name = "COURSE_ID")
 	private Course course;
-    
+
 	public String getJlptId() {
 		return jlptId;
 	}
@@ -106,5 +109,5 @@ public class JLPT implements Serializable {
 	public void setJlptMn(JLPTMenu jlptMn) {
 		this.jlptMn = jlptMn;
 	}
-    
+
 }

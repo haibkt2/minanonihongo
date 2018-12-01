@@ -43,19 +43,19 @@
 				</form>
 
 				<div class="account-left-menu">
-					<a href="#" class="item-user current"><i
+					<a href="${contextPath}/tai-khoan/thong-tin-ca-nhan" class="item-user current"><i
 						class="zmdi zmdi-account-box"></i><span>Thông tin cá nhân</span></a> <a
-						href=""
+						href="${contextPath}/tai-khoan/ket-qua-thi-thu"
 						class="item-user courses"><i class="zmdi zmdi-dns"></i><span>Kết quả thi thử</span></a> <a style="cursor: pointer;" onclick="logout()"
 						class="item-user danger logout-tab"><i class="zmdi zmdi-power"></i><span>Đăng
 							xuất</span></a>
 				</div>
-				<script type="text/javascript">
-					var userAvatar = "";
-					userAvatar = "http://dungmori.com/cdn/avatar/default/1524118281_332747130_7aedaa_ad98c6";
-				</script>
-				<script
-					src="http://dungmori.com/assets/js/avatar.js?138b7c875253089bba47c74697cdc104"></script>
+<!-- 				<script type="text/javascript"> -->
+<!-- // 					var userAvatar = ""; -->
+<!-- // 					userAvatar = "http://dungmori.com/cdn/avatar/default/1524118281_332747130_7aedaa_ad98c6"; -->
+<!-- 				</script> -->
+<!-- 				<script -->
+<!-- 					src="http://dungmori.com/assets/js/avatar.js?138b7c875253089bba47c74697cdc104"></script> -->
 			</div>
 
 			<div class="main-user-right" id="user-info">
@@ -184,7 +184,7 @@
 								<ul class="error-list"
 									v-show="errors.length > 0 && currentField == 'phone'">
 									<li v-for="error in errors">{{ error }}</li>
-								</ul> <input class="user-form-input" type="text" id="account-phone"
+								</ul> <input class="user-form-input" type="tel" id="account-phone" maxlength="11"
 								:value="user.phone" /><br /> <span class="change-btn"
 								v-on:click="saveChange('phone')">Lưu lại</span> <span
 								class="cancel-btn" v-on:click="hideEditer('phone')">Hủy
@@ -224,7 +224,7 @@
 
 			<script type="text/javascript">
 				user_name = "${user.name}";
-				user_birthday = "${user.birthday}";
+				user_birthday = "${bir}";
 				user_phone = "${user.phone}";
 				user_email = "${user.email}";
 				user_address = "${user.address}";

@@ -20,7 +20,7 @@ $('.save-avatar').click(function () {
   var a = new FormData($('#avatar-form') [0]);
   console.log(a),
   $.ajax({
-    url: window.location.origin + '/account/change-avatar',
+    url: window.location.origin + '/tai-khoan/change-avatar',
     type: 'post',
     processData: !1,
     contentType: !1,

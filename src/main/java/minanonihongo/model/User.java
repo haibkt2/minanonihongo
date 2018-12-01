@@ -57,6 +57,9 @@ public class User implements Serializable {
 	private List<Exam> Exams;
 	
 	@OneToMany(mappedBy = "user")
+	private List<JLPTResult> jlprRs;
+	
+	@OneToMany(mappedBy = "user")
 	private List<JLPT> jlpts;
 
 	public User() {
@@ -201,6 +204,14 @@ public class User implements Serializable {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public List<JLPTResult> getJlprRs() {
+		return jlprRs;
+	}
+
+	public void setJlprRs(List<JLPTResult> jlprRs) {
+		this.jlprRs = jlprRs;
 	}
 
 }

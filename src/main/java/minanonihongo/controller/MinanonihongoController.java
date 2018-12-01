@@ -24,6 +24,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,6 +36,8 @@ import minanonihongo.model.CourseIlm;
 import minanonihongo.model.CourseIlmType;
 import minanonihongo.model.JLPTMenu;
 import minanonihongo.model.JLPTQType;
+import minanonihongo.model.JLPTResult;
+import minanonihongo.model.JLPTResultJson;
 import minanonihongo.model.Post;
 import minanonihongo.model.PostType;
 import minanonihongo.model.Role;
@@ -55,6 +58,7 @@ import minanonihongo.service.Common;
 import minanonihongo.service.CommonService;
 import minanonihongo.service.CourseIlmService;
 import minanonihongo.service.GoogleUtils;
+import minanonihongo.service.JLPTResultService;
 import minanonihongo.service.RestFB;
 import minanonihongo.service.UserServiceImpl;
 
@@ -98,6 +102,9 @@ public class MinanonihongoController {
 	CourseIlmService courseIlmService;
 
 	@Autowired
+	JLPTResultService jlptResultService;
+
+	@Autowired
 	CommonService commonService;
 
 	@Autowired
@@ -105,7 +112,7 @@ public class MinanonihongoController {
 
 	@Autowired
 	private GoogleUtils googleUtils;
-	
+
 	@Autowired
 	Common common;
 
@@ -178,7 +185,7 @@ public class MinanonihongoController {
 		return "public/home";
 	}
 
-	@RequestMapping(value = { "/account/logout" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "tai-khoan/logout" }, method = RequestMethod.GET)
 	public String logout(Model model, String logout, String view, HttpServletRequest req, HttpServletResponse response,
 			HttpSession ss) throws Exception {
 		ss.invalidate();
@@ -371,10 +378,16 @@ public class MinanonihongoController {
 		return "public/detailJlpt";
 	}
 
+	@RequestMapping(value = { "/tai-khoan/ket-qua-thi-thu" })
+	public String rankJlpt(Model model, HttpServletRequest req, HttpServletResponse response, HttpSession ss)
+			throws Exception {
+		return "public/examRs";
+	}
+
 	@RequestMapping(value = { "/thi-thu-truc-tuyen" })
 	public String examRS(Model model, HttpServletRequest req, HttpServletResponse response, HttpSession ss)
 			throws Exception {
-		return "public/examRs";
+		return "public/rankJlpt";
 	}
 
 	@RequestMapping("/tim-kiem/{keysearch}")
@@ -395,12 +408,16 @@ public class MinanonihongoController {
 		return "public/dictionary";
 	}
 
-	@RequestMapping("/account")
+	@RequestMapping("/tai-khoan/thong-tin-ca-nhan")
 	public String account(Model model, HttpServletRequest req, HttpServletResponse response, HttpSession ss) {
+		User user = (User) ss.getAttribute("user");
+		SimpleDateFormat dfm = new SimpleDateFormat("yyyy-MM-dd");
+		String bir = dfm.format(user.getBirthday());
+		model.addAttribute("bir", bir);
 		return "public/account";
 	}
 
-	@RequestMapping("/account/change-info")
+	@RequestMapping("/tai-khoan/change-info")
 	@ResponseBody
 	public String acChangeInfo(Model model, HttpServletRequest req, HttpServletResponse response, HttpSession ss,
 			@RequestParam(name = "field") String field, @RequestParam(name = "value") String value) throws Exception {
@@ -409,7 +426,7 @@ public class MinanonihongoController {
 		return change;
 	}
 
-	@RequestMapping("/account/change-password")
+	@RequestMapping("/tai-khoan/change-password")
 	@ResponseBody
 	public String acChangePass(Model model, HttpServletRequest req, HttpServletResponse response, HttpSession ss,
 			@RequestParam(name = "old-password") String op, @RequestParam(name = "new-password") String on)
@@ -419,7 +436,7 @@ public class MinanonihongoController {
 		return change;
 	}
 
-	@RequestMapping("/account/change-avatar")
+	@RequestMapping("/tai-khoan/change-avatar")
 	@ResponseBody
 	public String acChangeAvatar(Model model, HttpServletRequest request, HttpSession ss,
 			@RequestParam("inputAvatar") MultipartFile file) {
@@ -465,5 +482,15 @@ public class MinanonihongoController {
 		String ms = userserviceimpl.resetPass(user);
 		model.addAttribute("success", ms);
 		return "/public/resetPass";
+	}
+
+	@RequestMapping(value = "/thi-thu/gui-ket-qua", method = RequestMethod.POST)
+	@ResponseBody
+	public String sendRs(Model model, HttpServletRequest request, HttpSession ss, @RequestBody JLPTResultJson dt) throws Exception {
+		System.out.println("ss");
+		dt.setJlptRsId("JLPTE" + dt.getLesson_id());
+		if (jlptResultService.doSaveJlptRs(ss, dt))
+			return "success";
+		else return "error";
 	}
 }

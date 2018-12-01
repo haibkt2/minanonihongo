@@ -7,4 +7,6 @@ import minanonihongo.model.JLPT;
 
 
 public interface JLPTRepository extends CrudRepository<JLPT, Integer> {
+	
+	JLPT findByJlptId(String jlptId);
 }

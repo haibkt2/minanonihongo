@@ -49,13 +49,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/tim-kiem/**").permitAll()
 			.antMatchers("/tra-cuu/**").permitAll()
 			.antMatchers("/khoa-hoc/**").permitAll()
-			.antMatchers("/account/logout").permitAll()
+			.antMatchers("/tai-khoan/logout").permitAll()
 			.antMatchers("/login").permitAll()
 			.antMatchers("/facebook").permitAll()
 			.antMatchers("/register").permitAll()
 			.antMatchers("/detail-lesson/**").permitAll()
 			.antMatchers("/thi-thu-truc-tuyen/**").permitAll()
-			.antMatchers("/account/**").hasAnyRole("ADMIN","USER")
+			.antMatchers("/tai-khoan/**").hasAnyRole("ADMIN","USER")
+			.antMatchers("/thi-thu/**").hasAnyRole("ADMIN","USER")
 			.antMatchers("/admin/**").hasAnyRole("ADMIN");
 		http.formLogin().loginPage("/home").usernameParameter("email").passwordParameter("password")
 				.successHandler(successHandler);

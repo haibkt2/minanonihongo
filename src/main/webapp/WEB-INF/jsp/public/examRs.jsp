@@ -7,160 +7,280 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%
-	request.setCharacterEncoding("UTF-8");
-%>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <title>HaiLDX - Tiếng Nhật cho mọi người</title>
-</head>
-<jsp:include page="header.jsp"></jsp:include>
-<div class="main">
-	<div class="main-center">
-		<div class="main-ranking-left">
-			<div class="main-exam-left" style="width: 180px">
-				<div class="exam-left-menu">
-					<a href="${contextPath}/thi-thu/bang-xep-hang"
-						class="item-exam ranking exam"> <img
-						src="/assets/img/first-prize.png"
-						style="height: 20px; width: 20px;"> <span>Bảng xếp
-							hạng</span>
-					</a> <a href="${contextPath}/thi-thu" class="item-exam"> <img
-						src="/assets/img/checkbox-pen-outline.png"
-						style="height: 20px; width: 20px;"> <span>Vào phòng
-							thi</span>
-					</a>
+<body>
+	<jsp:include page="header.jsp"></jsp:include>
+	<div class="main">
+		<div class="main-center">
+			<div class="main-user-left">
+				<div class="user-avatar-container">
+					<span class="clear-preview-upload"><i
+						class="zmdi zmdi-close-circle"></i></span> <img class="user-avatar"
+						id="user-avatar-preview"
+						src="${contextPath}/reponsitory/Avatar/<c:if test="${user.avatar == null}">img-df.png</c:if><c:if test="${user.avatar != null}">${user.avatar }</c:if>" />
+				</div>
+				<button type="button" class="btn change-avatar">
+					<i class="zmdi zmdi-camera-add"></i><span
+						class="change-avatar-btn-desktop">&nbspThay ảnh đại diện</span><span
+						class="change-avatar-btn-mobile">&nbspThay ảnh</span>
+				</button>
+				<button type="button" class="btn btn-success save-avatar"
+					style="display: none;">
+					<i class="zmdi zmdi-cloud-upload"></i> Lưu ảnh
+				</button>
+
+				<form id="avatar-form">
+					<input type='file' id="inputAvatar" name="inputAvatar"
+						style="display: none;" onchange="readURL(this);" />
+				</form>
+
+				<div class="account-left-menu">
+					<a href="${contextPath}/tai-khoan/thong-tin-ca-nhan"
+						class="item-user current"><i class="zmdi zmdi-account-box"></i><span>Thông
+							tin cá nhân</span></a> <a href="${contextPath}/tai-khoan/ket-qua-thi-thu"
+						class="item-user courses"><i class="zmdi zmdi-dns"></i><span>Kết
+							quả thi thử</span></a> <a style="cursor: pointer;" onclick="logout()"
+						class="item-user danger logout-tab"><i class="zmdi zmdi-power"></i><span>Đăng
+							xuất</span></a>
 				</div>
 			</div>
-			<div class="main-exam-left" style="width: 180px">
-			<div class="exam-left-menu">
-				<a href="${contextPath}/thi-thu/bang-xep-hang"
-					class="item-exam ranking"> <img
-					src="${contextPath}/resources/public/img/first-prize.png"
-					style="height: 20px; width: 20px;"> <span>Xếp Hạng Online</span>
-				</a> <a href="${contextPath}/thi-thu" class="item-exam exam"> <img
-					src="${contextPath}/resources/public/img/checkbox-pen-outline.png"
-					style="height: 20px; width: 20px;"> <span>Thi Trực Tuyến</span>
-				</a>
-			</div>
-		</div>
-		</div>
-		<div class="main-ranking-right">
-			<div id="main-ranking-right" style="display: block;">
-				<div class="filter-container">
-					<select class="year-exam"><option value="2018">Năm
-							2018</option>
-						<option value="2019">Năm 2019</option>
-						<option value="2020">Năm 2020</option>
-						<option value="2021">Năm 2021</option>
-						<option value="2022">Năm 2022</option>
-						<option value="2023">Năm 2023</option>
-						<option value="2024">Năm 2024</option>
-						<option value="2025">Năm 2025</option>
-						<option value="2026">Năm 2026</option>
-						<option value="2027">Năm 2027</option></select> <select class="month-exam"><option
-							value="1">Tháng 1</option>
-						<option value="2">Tháng 2</option>
-						<option value="3">Tháng 3</option>
-						<option value="4">Tháng 4</option>
-						<option value="5">Tháng 5</option>
-						<option value="6">Tháng 6</option>
-						<option value="7">Tháng 7</option>
-						<option value="8">Tháng 8</option>
-						<option value="9">Tháng 9</option>
-						<option value="10">Tháng 10</option>
-						<option value="11">Tháng 11</option>
-						<option value="12">Tháng 12</option></select> <select class="level-exam"><option
-							value="N5">Bài thi N5</option>
-						<option value="N4">Bài thi N4</option>
-						<option value="N3">Bài thi N3</option>
-						<option value="N2">Bài thi N2</option>
-						<option value="N1">Bài thi N1</option></select>
-					<button class="btn btn-primary search">Tìm kiếm</button>
+
+			<div class="main-user-right">
+				<div class="rs-title">
+					<i class="zmdi zmdi-check-square"></i>&nbsp;&nbsp;Danh sách - Kết
+					quả các bài đã thi.
 				</div>
-				<div class="title-exam-cover">
-					<span class="title-text"> TOP 100 HỌC VIÊN ĐIỂM CAO N5 </span> <span
-						class="hoatiet1"><img
-						src="/assets/img/hoatiet1.png"></span>
-				</div>
-				<div class="findMe"></div>
-				<div class="no-rank">
-					<span><i class="zmdi zmdi-alert-triangle"></i> Bạn không
-						thuộc top 100</span>
-				</div>
-				<div class="fancybox-dialog" style="display: none;">
-					<a
-						data-options="{&quot;src&quot;: &quot;#jlpt-certificate&quot;, &quot;touch&quot;: true}"
-						href="javascript:;" class="fancybox"></a>
-					<div id="jlpt-certificate"></div>
-				</div>
-				<div class="list-students-container">
-					<table id="table-ranking" class="table table-borderless">
-						<thead>
-							<tr>
-								<th class="text-left title-rank">Hạng</th>
-								<th class="text-left title-rank">Học viên</th>
-								<th class="text-center title-rank">Điểm</th>
-								<th class="text-center title-rank">合 格</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr id="item-43599" class="background-1" style="height: 50px;">
-								<td class="text-left indexRank"><img
-									src="${contextPath}/resources/public/img/no1.png"> <!----></td>
-								<td class="text-left avatar"><img
-									src="/img/default-avatar.jpg"
-									alt="Avatar"> <span>Dong Toan</span></td>
-								<td class="text-center score"><span>173</span></td>
-								<td class="text-center passed"><span class="ok"><i
-										class="zmdi zmdi-check-all"></i></span></td>
-							</tr>
-							<tr id="item-5286" class="background-2" style="height: 50px;">
-								<td class="text-left indexRank"><img
-									src="${contextPath}/resources/public/img/no2.png"> <!----></td>
-								<td class="text-left avatar"><img
-									src="${contextPath}/resources/public/img/default-avatar.jpg"
-									alt="Avatar"> <span>haiha</span></td>
-								<td class="text-center score"><span>165</span></td>
-								<td class="text-center passed"><span class="ok"><i
-										class="zmdi zmdi-check-all"></i></span></td>
-							</tr>
-							<tr id="item-26027" class="background-3" style="height: 50px;">
-								<td class="text-left indexRank"><img
-									src="${contextPath}/resources/public/img/no3.png"> <!----></td>
-								<td class="text-left avatar"><img
-									src="/cdn/avatar/small/1541328259_321303315_d41d8c_c49038.jpeg"
-									alt="Avatar"> <span>Xuân Upins</span></td>
-								<td class="text-center score"><span>165</span></td>
-								<td class="text-center passed"><span class="ok"><i
-										class="zmdi zmdi-check-all"></i></span></td>
-							</tr>
-							<tr id="item-16742" class="" style="height: 50px;">
-								<td class="text-left indexRank">
-									<!----> <span>100</span>
-								</td>
-								<td class="text-left avatar"><img
-									src="/cdn/avatar/small/1541074535_206679990_4e3e04_005067.jpeg"
-									alt="Avatar"> <span>Nguyễn Thị Hoài Anh </span></td>
-								<td class="text-center score"><span>96</span></td>
-								<td class="text-center passed"><span class="not-ok"><i
-										class="zmdi zmdi-close"></i></span></td>
-							</tr>
-						</tbody>
-					</table>
-					<!---->
+				<div class="tab-content-container course-test"
+					id="result-test-profile">
+					<div class="panel panel-default" v-for="lesson in listLessons"
+						v-if="listResults[lesson.id].length != 0">
+						<div class="panel-heading" role="tab">
+							<h4 class="panel-title">
+								<a role="button" data-toggle="collapse" data-parent="#accordion"
+									:href="'#collapse-' + lesson.id" aria-expanded="false"
+									:aria-controls="'#collapse-' + lesson.id" class="collapsed">
+									{{ lesson.lesson_name }} - {{ lesson.group_name }} </a>
+							</h4>
+						</div>
+						<div :id="'collapse-' + lesson.id" class="panel-collapse collapse"
+							role="tabpanel" :aria-labelledby="'heading-' + lesson.id"
+							aria-expanded="false">
+							<div class="panel-body">
+								<div class="alert"
+									v-for="(result, index) in listResults[lesson.id]"
+									v-bind:class="[result.passed == 0 ? 'bg-warning' : 'bg-success']">
+									<p>
+										Thời gian thực hiện lúc <b> {{ printTime(result.created)
+											}} </b> ngày <b> {{ printDate(result.created) }} </b>
+									</p>
+									<p>
+										Tổng điểm: <b>{{ result.grade }}</b> / <b>{{
+											result.total_grade }}</b>
+									</p>
+									<p>
+										Kết quả: <b v-if="result.passed == 0">Không đạt yêu cầu</b><b
+											v-if="result.passed != 0">Đã qua</b>
+									</p>
+									<button class="btn btn-info review-test-result"
+										data-toggle="modal" data-target="#reviewTestResult"
+										v-on:click="reviewTestResult(lesson.id, index)">Xem
+										bài làm</button>
+									<button class="btn btn-warning remove-test-result"
+										data-toggle="modal" data-target="#removeTestResult"
+										v-on:click="removeTestResult(lesson.id, index)">Xóa</button>
+								</div>
+							</div>
+						</div>
+
+						<div id="removeTestResult" class="modal fade" role="dialog">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">&times;</button>
+										<h4 class="modal-title">Xóa</h4>
+									</div>
+									<div class="modal-body">
+										<p>Bạn có muốn xóa bài kiểm tra này không?</p>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-warning"
+											v-on:click="confirmRemoveResult()">Xóa</button>
+										<button type="button" class="btn btn-info"
+											data-dismiss="modal">Đóng</button>
+									</div>
+								</div>
+
+							</div>
+						</div>
+
+						<div class="modal fade" id="reviewTestResult" role="dialog"
+							tabindex="-1">
+							<div class="modal-dialog test-modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">&times;</button>
+										<h4 class="modal-title">Chi tiết bài kiểm tra</h4>
+									</div>
+									<div class="modal-body">
+										<table
+											class="table table-bordered table-striped table-hover tc-table">
+											<tbody>
+												<tr>
+													<td class="row_label">Kết quả</td>
+													<td class="row_item"><b
+														v-if="currentResult.passed == 0">Không đạt yêu cầu</b><b
+														v-if="currentResult.passed != 0">Đã qua</b></td>
+												</tr>
+												<tr>
+													<td class="row_label">Điểm đạt được</td>
+													<td class="row_item">{{ currentResult.grade }}</td>
+												</tr>
+												<tr>
+													<td class="row_label">Tổng điểm bài kiểm tra</td>
+													<td class="row_item">{{ currentResult.total_grade }}</td>
+												</tr>
+												<tr>
+													<td class="row_label">Thời gian thi</td>
+													<td class="row_item">{{
+														printTime(currentResult.created) }} - {{
+														printDate(currentResult.created) }}</td>
+												</tr>
+												<tr>
+													<td colspan="2" class="test-detail-result">
+														<div v-for="(task, index) in tasks" class="question-box">
+															<div v-if="task.type == 1" v-html="task.value"></div>
+															<div v-if="task.type == 3 || task.type == 5"
+																class="answer-box">
+																<p style="margin: 10px 0; font-size: 16px;"
+																	v-html="task.value" v-if="task.type == 3"></p>
+																<div v-if="task.type == 5" style="margin: 5px 0;">
+																	<label>{{ JSON.parse(task.value).name }}</label>
+																	<audio controls="">
+																		<source
+																			:src="'http://cdn.dungmori.com:8081/mp3/' + JSON.parse(task.value).link.split(';')[1] + '?wmsAuthSign=' + tokenMp3"
+																			type="audio/mpeg">
+
+																		Your browser does not support the audio element.
+																	</audio>
+																</div>
+																<div class="col-sm-6 result-answer-area"
+																	style="margin-bottom: 10px;"
+																	v-for="(answer, index) in answers[task.id]">
+																	<div class="question-answer">
+																		<div class="labels"
+																			v-bind:class="[answer.grade == 0 ? '' : 'label-true', (answer.grade == 0 && answer.checked) ? 'label-false' : '']">
+																			<input type="radio" v-if="answer.checked == true"
+																				checked onclick="this.checked = true"> <input
+																				type="radio" v-if="answer.checked != true"
+																				onclick="this.checked = false">&nbsp;&nbsp;{{
+																			answer.value }}<span v-if="answer.grade != 0">&nbsp(Đúng)</span>
+																		</div>
+																	</div>
+																</div>
+
+																<div v-if="task.type == 3" class="col-md-11"
+																	style="display: inline-block; width: 100%; height: 10px;"></div>
+																<hr v-if="task.type == 3"
+																	style="width: 100%; margin-top: 20px; margin-bottom: 30px; bottom: 0; border-color: #ddd;">
+															</div>
+															<div v-if="task.type != 6"
+																style="padding: 0; font-size: 13px;">
+																<table class="table table-hover">
+																	<thead>
+																		<tr>
+																			<th style="width: 1%">Stt</th>
+																			<th style="width: 30%">Câu hỏi</th>
+																			<th style="width: 25%">Câu trả lời</th>
+																			<th style="width: 25%">Đáp án</th>
+																			<th class="text-center">Điểm</th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<tr v-for="(item, index) in JSON.parse(task.value)"
+																			v-bind:class="[(resultData[task.id] == undefined || resultData[task.id][item.id] != item.answer) ? 'danger' : 'success']">
+																			<td>{{ index + 1 }}</td>
+																			<td v-html="item.question"></td>
+																			<td v-if="resultData[task.id] != undefined">{{
+																				resultData[task.id][item.id] }}</td>
+																			<td v-else></td>
+																			<td>{{ item.answer }}</td>
+																			<td class="text-center">5</td>
+																		</tr>
+																	</tbody>
+																</table>
+															</div>
+														</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<div class="modal-footer">
+										<button type="button" data-dismiss="modal"
+											class="btn btn-primary">Đóng</button>
+									</div>
+								</div>
+
+							</div>
+						</div>
+
+					</div>
+
+					<div class="paginate-container"></div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
-<div class="go-top">
-	<i class="fa fa-sort-asc"></i>
-</div>
 
-<jsp:include page="footer.jsp"></jsp:include>
+
+	<script>
+		result_ListResults = {
+			"4" : [ {
+				"id" : 521940,
+				"lesson_id" : 4,
+				"grade" : 10,
+				"total_grade" : 100,
+				"passed" : 1,
+				"test_name" : "Test",
+				"created" : "2018-11-30 22:34:11",
+				"total_marks" : 100,
+				"get_lesson_name" : {
+					"id" : 4,
+					"course_id" : "5",
+					"name" : "Test",
+					"total_marks_calculation" : 0,
+					"total_marks" : 100,
+					"pass_marks" : 80,
+					"course_name" : "N5",
+					"course_url" : "khoa-n5",
+					"get_course" : {
+						"id" : 5,
+						"name" : "N5"
+					}
+				}
+			} ]
+		};
+		result_ListLessons = [ {
+			"id" : 4,
+			"lesson_name" : "Test",
+			"group_name" : "Bài 1: Chào hỏi giới thiệu bản thân",
+			"test_name" : null,
+			"total_marks" : null,
+			"get_lesson_name" : null
+		} ]
+	</script>
+
+	<script src="${contextPath}/resources/public/js/result.js"></script>
+	<script src="${contextPath}/resources/public/js/avatar.js"></script>
+	<script src="${contextPath}/resources/public/js/profile.js"></script>
+	<jsp:include page="footer.jsp"></jsp:include>
+	<div class="go-top">
+		<i class="fa fa-sort-asc"></i>
+	</div>
 </body>
 </html>

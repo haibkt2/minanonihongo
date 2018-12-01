@@ -446,7 +446,7 @@
 								<ul class="dropdown-menu user-menu">
 									<img class="caret-up"
 										src="${contextPath}/resources/public/img/caret-up.png" />
-									<li><a href="${contextPath}/account"><i
+									<li><a href="${contextPath}/tai-khoan/thong-tin-ca-nhan"><i
 											class="zmdi zmdi-account-box"></i>Thông tin cá nhân</a></li>
 									<c:if test="${user.role.roleId == 'ROLE00001'}">
 										<li><a href="${contextPath}/admin"><i

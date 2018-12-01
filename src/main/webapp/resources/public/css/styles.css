@@ -24398,7 +24398,11 @@ body.menu-open {
 }
 
 .main .main-user-right .course-test {
-	margin-top: 50px;
+	margin-top: 15px;
+}
+.main .main-user-right .rs-title {
+	color: #003366;
+	font-size: 20px
 }
 
 .main .main-user-right .course-test .scroll-items {

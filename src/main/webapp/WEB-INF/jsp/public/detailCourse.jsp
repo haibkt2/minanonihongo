@@ -168,7 +168,7 @@
 						</c:forEach>
 						<c:if test="${exam.getExamQuestion().size() > 0}">
 							<button class="btn btn-primary trac-nghiem"
-								v-on:click="sendTestResult('auth', 0,'')">Nộp bài</button>
+								v-on:click="sendTestResult('no-auth', 0,'')">Nộp bài</button>
 						</c:if>
 					</c:forEach>
 					<hr style="border: 0; border-bottom: 1px solid #ddd;">

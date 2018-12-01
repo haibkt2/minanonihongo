@@ -125,7 +125,7 @@ function authBySocicalAccount() {
 }
 
 function logout() {
-        console.log("Đăng xuất"), $.get(window.location.origin + "/account/logout", function(e, t) {
+        console.log("Đăng xuất"), $.get(window.location.origin + "/tai-khoan/logout", function(e, t) {
             "success" == e ;
              location.reload();
             

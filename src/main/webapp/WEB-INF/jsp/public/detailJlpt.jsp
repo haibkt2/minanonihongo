@@ -34,45 +34,49 @@
 			</script>
 			<div class="cover-container" id="cover-container"
 				style="margin-left: 50px;">
-				<div class="lesson-content-detail" id="lesson-content-detail" style="display: none">
-				<div class="detail-ques">
-					<%int stt = 0;%>
-					<c:forEach items="${jt}" var="jt" varStatus="jti">
-						<p>mondai ${jti.index}</p>
-						<c:forEach items="${jt.getJlptQuestions()}" var="question"
-							varStatus="st">
-							<div style="margin-top: 25px; display: inline-block;"
-								v-html="tasks[<%=stt++%>].value"></div>
-							<div
-								style="width: 100%; flex-wrap: wrap; display: flex; -webkit-box-pack: justify;">
-								<c:forEach items="${question.getJlptAnswer()}" var="answer"
-									varStatus="an">
-									<div style="width: 23%; margin-top: 10px;">
-										<label
-											for="answer${answer.getJlptAnswerId().substring(answer.getJlptAnswerId().length()-2, answer.getJlptAnswerId().length())}"
-											class="col-md-11 answers-input"
-											style="font-weight: normal; font-size: 13px; color: gray">
-											<span style="display: none;">${answer.getJlptAnswerId().substring(answer.getJlptAnswerId().length()-2, answer.getJlptAnswerId().length())}</span>
-											<input type="radio"
-											class="custom-control-input col-md-1 answers-input"
-											id="answer${answer.getJlptAnswerId().substring(answer.getJlptAnswerId().length()-2, answer.getJlptAnswerId().length())}"
-											name="task${question.getJlptQuestionId().substring(question.getJlptQuestionId().length()-2, question.getJlptQuestionId().length())}"
-											v-on:change="storeValueToLocal(${question.getJlptQuestionId().substring(question.getJlptQuestionId().length()-2, question.getJlptQuestionId().length())},${answer.getJlptAnswerId().substring(answer.getJlptAnswerId().length()-2, answer.getJlptAnswerId().length())})">
-											<span style="display: none;">${answer.getAnswerRghtWrng()}</span>&nbsp;&nbsp;${answer.getAnswer()}
-										</label>
-									</div>
-								</c:forEach>
-							</div>
-						</c:forEach>
+				<div class="lesson-content-detail" id="lesson-content-detail"
+					style="display: none">
+					<div class="detail-ques">
+						<%
+							int stt = 0;
+						%>
+						<c:forEach items="${jt}" var="jt" varStatus="jti">
+							<p>mondai ${jti.index}</p>
+							<c:forEach items="${jt.getJlptQuestions()}" var="question"
+								varStatus="st">
+								<div style="margin-top: 25px; display: inline-block;"
+									v-html="tasks[<%=stt++%>].value"></div>
+								<div
+									style="width: 100%; flex-wrap: wrap; display: flex; -webkit-box-pack: justify;">
+									<c:forEach items="${question.getJlptAnswer()}" var="answer"
+										varStatus="an">
+										<div style="width: 23%; margin-top: 10px;">
+											<label
+												for="answer${answer.getJlptAnswerId().substring(answer.getJlptAnswerId().length()-2, answer.getJlptAnswerId().length())}"
+												class="col-md-11 answers-input"
+												style="font-weight: normal; font-size: 13px; color: gray">
+												<span style="display: none;">${answer.getJlptAnswerId().substring(answer.getJlptAnswerId().length()-2, answer.getJlptAnswerId().length())}</span>
+												<input type="radio"
+												class="custom-control-input col-md-1 answers-input"
+												id="answer${answer.getJlptAnswerId().substring(answer.getJlptAnswerId().length()-2, answer.getJlptAnswerId().length())}"
+												name="task${question.getJlptQuestionId().substring(question.getJlptQuestionId().length()-2, question.getJlptQuestionId().length())}"
+												v-on:change="storeValueToLocal(${question.getJlptQuestionId().substring(question.getJlptQuestionId().length()-2, question.getJlptQuestionId().length())},${answer.getJlptAnswerId().substring(answer.getJlptAnswerId().length()-2, answer.getJlptAnswerId().length())})">
+												<span style="display: none;">${answer.getAnswerRghtWrng()}</span>&nbsp;&nbsp;${answer.getAnswer()}
+											</label>
+										</div>
+									</c:forEach>
+								</div>
+							</c:forEach>
 
-					</c:forEach>
-					<button class="btn btn-primary trac-nghiem" onclick="stop()" id="nop-bai"
-						v-on:click="sendTestResult('auth', 0, 'auto')">Nộp bài</button>
-<!-- 					<hr style="border: 0; border-bottom: 1px solid #ddd;"> -->
+						</c:forEach>
+						<button class="btn btn-primary trac-nghiem" onclick="stop()"
+							id="nop-bai" v-on:click="sendTestResult('<c:if test="${user == null}">no-auth</c:if><c:if test="${user != null}">${user.name}</c:if>', 0, 'auto')">Nộp
+							bài</button>
+						<!-- 					<hr style="border: 0; border-bottom: 1px solid #ddd;"> -->
 					</div>
 					<div class="alert mt20" id="result" style="display: none;">
 						<div v-if="results.length > 0">
-<!-- 							<h4>Kết quả bài kiểm tra.</h4> -->
+							<!-- 							<h4>Kết quả bài kiểm tra.</h4> -->
 							<div class="alert"
 								v-bind:class="[result.passed == 0 ? 'bg-warning' : 'bg-success']"
 								style="font-size: 14px">
@@ -89,7 +93,8 @@
 								</p>
 								<button class="btn btn-info review-result"
 									v-on:click="reviewTestResult(0)">Xem bài làm</button>
-									<a href="javascript:location.reload(true)"><button class="btn btn-warning remove-result">Làm lại</button></a>
+								<a href="javascript:location.reload(true)"><button
+										class="btn btn-warning remove-result">Làm lại</button></a>
 							</div>
 						</div>
 					</div>
@@ -226,7 +231,7 @@
 					course = "${courseName}"; //Them khoa hoc cho JLPT
 					posExam = null; //tu dong load cho bai thi sau
 					is_exam = "0"; //check xem co phải là bài thi hay ko
-					is_exam = "0"; //check xem co phải là bài thi hay ko	
+					is_exam = "0"; //check xem co phải là bài thi hay ko
 					</script>
 				</div>
 				<c:if test="${not empty jt}">
@@ -235,25 +240,27 @@
 						<%=stt%>
 						<br> Thời gian làm bài : <span
 							style="color: red; font-size: 20px"> <%
- 								String timeout = (String) request.getAttribute("timeout");
-							if(timeout == null) timeout = "1";
- 								int mn = Integer.parseInt(timeout);
- 								int h = mn/60;
- 								int m = mn%60;
- 								if (h != 0) {
- 									%> <%=h%> 
- 									giờ : <%
- 									}
- 								%><%=m%>
- 								 phút
-						</span>
+ 							String timeout = (String) request.getAttribute("timeout");
+ 						if (timeout == null)
+ 							timeout = "1";
+ 							int mn = Integer.parseInt(timeout);
+ 							int h = mn / 60;
+ 							int m = mn % 60;
+ 							if (h != 0) {
+ 							%> <%=h%> giờ : <%
+ 								}
+ 							%><%=m%> phút
+						</span> <br>
+						<c:if test="${user == null}">
+								<i>( **Bạn chưa đăng nhập, kết quả sẽ không được
+									lưu lại)</i></c:if>
 						<button class="btn btn-info start-jl" onclick="start()"
 							style="float: right;">Bắt đầu tính giờ làm bài</button>
 						<!-- 				<a href="javascript:void(0)" onclick="start()" ></a> -->
 					</div>
-					<input type="hidden" id="h_val" value="<%=h%>"/>
-					<input type="hidden" id="m_val" value="<%=m%>"/>
-					<input type="hidden" id="s_val" value="0"/>
+					<input type="hidden" id="h_val" value="<%=h%>" />
+					<input type="hidden" id="m_val" value="<%=m%>" />
+					<input type="hidden" id="s_val" value="0" />
 				</c:if>
 				<br> <br>
 
@@ -268,43 +275,45 @@
 		</div>
 		<div class="main-right" style="height: 25px;">
 			<div class="course-info-container course-info-status-pc time-exam"
-				style="height: 95px; width: 155px;" >
+				style="height: 95px; width: 155px;">
 				<div id="testScore" style="display: none;">
 					<p id="testWarning"></p>
 					<table style="width: 155px">
 						<tbody>
 							<tr>
-								<td style="font-size: 28px;padding-left: 2px;color: red">
-								<span id="h"></span> :
-           					 <span id="m"></span> :
-            				<span id="s"></span>
+								<td style="font-size: 28px; padding-left: 2px; color: red">
+									<span id="h"></span> : <span id="m"></span> : <span id="s"></span>
 								</td>
 							</tr>
+							<c:if test="${user == null}">
+								<tr>
+									<td style="font-size: 11px"><i>Kết quả của bạn sẽ
+											không được lưu</i></td>
+								</tr>
+							</c:if>
 						</tbody>
 					</table>
 				</div>
 				<script>
-				$(".start-jl").click(
-						function(e) {
-							$('.introduce').css('display', 'none');
-							$('.lesson-content-detail').css('display', 'block');
-							$('#testScore').css('display', 'block');
-							
-						})
+					$(".start-jl").click(function(e) {
+						$('.introduce').css('display', 'none');
+						$('.lesson-content-detail').css('display', 'block');
+						$('#testScore').css('display', 'block');
+
+					})
 				</script>
 				<script>
-				var h = null; // Giờ
-	            var m = null; // Phút
-	            var s = null; // Giây
-	            
-	            var timeout = null; // Timeout
-				function start() {
-						if (h === null)
-						    {
-						        h = parseInt(document.getElementById('h_val').value);
-						        m = parseInt(document.getElementById('m_val').value);
-						        s = parseInt(document.getElementById('s_val').value);
-						    }
+					var h = null; // Giờ
+					var m = null; // Phút
+					var s = null; // Giây
+
+					var timeout = null; // Timeout
+					function start() {
+						if (h === null) {
+							h = parseInt(document.getElementById('h_val').value);
+							m = parseInt(document.getElementById('m_val').value);
+							s = parseInt(document.getElementById('s_val').value);
+						}
 						/*BƯỚC 1: CHUYỂN ĐỔI DỮ LIỆU*/
 						// Nếu số giây = -1 tức là đã chạy ngược hết số giây, lúc này:
 						//  - giảm số phút xuống 1 đơn vị
@@ -326,30 +335,39 @@
 						//  - Dừng chương trình
 						if (h == -1) {
 							clearTimeout(timeout);
-							window.onload = function(){
-							    var button = document.getElementById('nop-bai');
-							    button.form.submit();
+							window.onload = function() {
+								var button = document.getElementById('nop-bai');
+								button.form.submit();
 							}
 							document.getElementById('nop-bai').click();
 							return false;
 						}
 						if (m < 5) {
 							document.getElementById('testWarning').innerText = "Sắp hết giờ !!";
-						} 
-						 if(h<10) {
-							 document.getElementById('h').innerText = '0'+h.toString();
-						 } else {document.getElementById('h').innerText = h.toString();}
-						 if(m<10) {
-							 document.getElementById('m').innerText = '0'+m.toString();
-						 }else {document.getElementById('m').innerText = m.toString();}
-						 if(s<10) {
-							 document.getElementById('s').innerText = '0'+s.toString();
-						 }else {document.getElementById('s').innerText = s.toString();}
-						
+						}
+						if (h < 10) {
+							document.getElementById('h').innerText = '0'
+									+ h.toString();
+						} else {
+							document.getElementById('h').innerText = h
+									.toString();
+						}
+						if (m < 10) {
+							document.getElementById('m').innerText = '0'
+									+ m.toString();
+						} else {
+							document.getElementById('m').innerText = m
+									.toString();
+						}
+						if (s < 10) {
+							document.getElementById('s').innerText = '0'
+									+ s.toString();
+						} else {
+							document.getElementById('s').innerText = s
+									.toString();
+						}
+
 						/*BƯỚC 1: HIỂN THỊ ĐỒNG HỒ*/
-						
-						
-						
 
 						/*BƯỚC 1: GIẢM PHÚT XUỐNG 1 GIÂY VÀ GỌI LẠI SAU 1 GIÂY */
 						timeout = setTimeout(function() {
