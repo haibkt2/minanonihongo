@@ -22,9 +22,11 @@ public class JLPTResult implements Serializable {
     private String jlptRsId;
 
 	private String grade;
+	private String course;
 	private String data;
 	private boolean passed;
 	private Date created;
+	private String totalGrade;
 	
     @ManyToOne
     @JoinColumn(name="USER_ID")
@@ -36,6 +38,14 @@ public class JLPTResult implements Serializable {
 
 	public String getJlptRsId() {
 		return jlptRsId;
+	}
+
+	public String getCourse() {
+		return course;
+	}
+
+	public void setCourse(String course) {
+		this.course = course;
 	}
 
 	public void setJlptRsId(String jlptRsId) {
@@ -88,6 +98,14 @@ public class JLPTResult implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public String getTotalGrade() {
+		return totalGrade;
+	}
+
+	public void setTotalGrade(String totalGrade) {
+		this.totalGrade = totalGrade;
 	}
     
 }

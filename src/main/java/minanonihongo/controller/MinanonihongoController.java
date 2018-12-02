@@ -36,7 +36,6 @@ import minanonihongo.model.CourseIlm;
 import minanonihongo.model.CourseIlmType;
 import minanonihongo.model.JLPTMenu;
 import minanonihongo.model.JLPTQType;
-import minanonihongo.model.JLPTResult;
 import minanonihongo.model.JLPTResultJson;
 import minanonihongo.model.Post;
 import minanonihongo.model.PostType;
@@ -59,8 +58,12 @@ import minanonihongo.service.CommonService;
 import minanonihongo.service.CourseIlmService;
 import minanonihongo.service.GoogleUtils;
 import minanonihongo.service.JLPTResultService;
+import minanonihongo.service.JLPTService;
 import minanonihongo.service.RestFB;
 import minanonihongo.service.UserServiceImpl;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import net.sf.json.JSONSerializer;
 
 @Controller
 public class MinanonihongoController {
@@ -118,6 +121,9 @@ public class MinanonihongoController {
 
 	@Autowired
 	UserServiceImpl userserviceimpl;
+	
+	@Autowired
+	JLPTService jlptService;
 
 	@Value("${string.postType.name}")
 	private String postType;
@@ -367,7 +373,7 @@ public class MinanonihongoController {
 			String jlptId = "JLPTE" + examName.split("-")[0];
 			List<JLPTQType> jt = jlptQTypeRepository.findQQuestion(jlptId);
 			if (jt.size() > 0) {
-				List<Map<String, String>> mapJson = courseIlmService.mapJsonS(jt, jlptId);
+				List<Map<String, String>> mapJson = jlptService.mapJsonJlpt(jt, jlptId);
 				model.addAttribute("lesson_answers", mapJson.get(0).get("lesson_answers"));
 				model.addAttribute("lesson_tasks", mapJson.get(0).get("lesson_tasks"));
 				model.addAttribute("lesson_lesson", mapJson.get(0).get("lesson_lesson"));
@@ -414,7 +420,9 @@ public class MinanonihongoController {
 	@RequestMapping(value = { "/tai-khoan/ket-qua-thi-thu" })
 	public String rankJlpt(Model model, HttpServletRequest req, HttpServletResponse response, HttpSession ss)
 			throws Exception {
-		jlptResultService.mapJsonS();
+		List<Map<String, String>> mapJson = jlptResultService.mapJsonRS();
+		model.addAttribute("list_results", mapJson.get(0).get("list_results"));
+		model.addAttribute("list_lessons", mapJson.get(0).get("list_lessons"));
 		return "public/examRs";
 	}
 	@RequestMapping("/tai-khoan/change-info")
@@ -441,7 +449,6 @@ public class MinanonihongoController {
 	public String acChangeAvatar(Model model, HttpServletRequest request, HttpSession ss,
 			@RequestParam("inputAvatar") MultipartFile file) {
 		User u = (User) ss.getAttribute("user");
-		String change;
 		if (!file.isEmpty()) {
 			String local = "/Avatar/";
 			String orgName = common.toUrlFriendly(file.getOriginalFilename());
@@ -497,7 +504,18 @@ public class MinanonihongoController {
 	@RequestMapping(value = "/tai-khoan/get-test-result-info", method = RequestMethod.POST)
 	@ResponseBody
 	public String viewRs(Model model, HttpServletRequest request, HttpSession ss,@RequestParam(value ="rs_id") String  id) throws Exception {
-		jlptResultService.mapJsonS();
-		return "error";
+//		jlptResultService.mapJsonS();
+		String jlptId = "JLPTE"+jlptService.setNumJLPTId(id);
+		List<JLPTQType> jt = jlptQTypeRepository.findQQuestion(jlptId);
+		JSONObject rs = new JSONObject();
+		if (jt.size() > 0) {
+			List<Map<String, String>> mapJson = jlptService.mapJsonJlpt(jt, jlptId);
+			JSONArray tasks =(JSONArray) JSONSerializer.toJSON(mapJson.get(0).get("lesson_tasks"));
+			JSONObject answers = (JSONObject) JSONSerializer.toJSON(mapJson.get(0).get("lesson_answers"));
+			rs.put("tasks", tasks);
+			rs.put("answers", answers);
+		}
+		String s = rs.toString();
+		return rs.toString();
 	}
 }

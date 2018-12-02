@@ -153,21 +153,10 @@
 												<tr>
 													<td colspan="2" class="test-detail-result">
 														<div v-for="(task, index) in tasks" class="question-box">
-															<div v-if="task.type == 1" v-html="task.value"></div>
-															<div v-if="task.type == 3 || task.type == 5"
+															<div v-if="task.type == 3"
 																class="answer-box">
 																<p style="margin: 10px 0; font-size: 16px;"
 																	v-html="task.value" v-if="task.type == 3"></p>
-																<div v-if="task.type == 5" style="margin: 5px 0;">
-																	<label>{{ JSON.parse(task.value).name }}</label>
-																	<audio controls="">
-																		<source
-																			:src="'http://cdn.dungmori.com:8081/mp3/' + JSON.parse(task.value).link.split(';')[1] + '?wmsAuthSign=' + tokenMp3"
-																			type="audio/mpeg">
-
-																		Your browser does not support the audio element.
-																	</audio>
-																</div>
 																<div class="col-sm-6 result-answer-area"
 																	style="margin-bottom: 10px;"
 																	v-for="(answer, index) in answers[task.id]">
@@ -175,10 +164,10 @@
 																		<div class="labels"
 																			v-bind:class="[answer.grade == 0 ? '' : 'label-true', (answer.grade == 0 && answer.checked) ? 'label-false' : '']">
 																			<input type="radio" v-if="answer.checked == true"
-																				checked onclick="this.checked = true"> <input
-																				type="radio" v-if="answer.checked != true"
-																				onclick="this.checked = false">&nbsp;&nbsp;{{
-																			answer.value }}<span v-if="answer.grade != 0">&nbsp(Đúng)</span>
+																			checked onclick="this.checked != true"> <input
+																			type="radio" v-if="answer.checked != true"
+																			onclick="this.checked != false">&nbsp;&nbsp;{{answer.value
+																		}}<span v-if="answer.grade != 0">&nbsp;(Đúng)</span>
 																		</div>
 																	</div>
 																</div>
@@ -187,32 +176,6 @@
 																	style="display: inline-block; width: 100%; height: 10px;"></div>
 																<hr v-if="task.type == 3"
 																	style="width: 100%; margin-top: 20px; margin-bottom: 30px; bottom: 0; border-color: #ddd;">
-															</div>
-															<div v-if="task.type != 6"
-																style="padding: 0; font-size: 13px;">
-																<table class="table table-hover">
-																	<thead>
-																		<tr>
-																			<th style="width: 1%">Stt</th>
-																			<th style="width: 30%">Câu hỏi</th>
-																			<th style="width: 25%">Câu trả lời</th>
-																			<th style="width: 25%">Đáp án</th>
-																			<th class="text-center">Điểm</th>
-																		</tr>
-																	</thead>
-																	<tbody>
-																		<tr v-for="(item, index) in JSON.parse(task.value)"
-																			v-bind:class="[(resultData[task.id] == undefined || resultData[task.id][item.id] != item.answer) ? 'danger' : 'success']">
-																			<td>{{ index + 1 }}</td>
-																			<td v-html="item.question"></td>
-																			<td v-if="resultData[task.id] != undefined">{{
-																				resultData[task.id][item.id] }}</td>
-																			<td v-else></td>
-																			<td>{{ item.answer }}</td>
-																			<td class="text-center">5</td>
-																		</tr>
-																	</tbody>
-																</table>
 															</div>
 														</div>
 													</td>
@@ -239,52 +202,12 @@
 
 
 	<script>
-		result_ListResults = {
-			"0" : [ { // int, 
-				"lesson_id" : 41,
-				"grade" : 10,
-				"total_grade" : 100,
-				"passed" : 1,
-				"created" : "2018-11-30 22:34:11",
-				"total_marks" : 100,
-				"get_lesson_name" : {
-					"id" : 21
-				}
-			} ],
-			"1" : [ {
-				"lesson_id" : 42,
-				"grade" : 11,
-				"total_grade" : 100,
-				"passed" : 1,
-				"created" : "2018-11-30 22:34:11",
-				"total_marks" : 100,
-				"get_lesson_name" : {
-					"id" : 37
-				}
-			} ]
-		};
-// 		result_ListLessons = [ {
-// 			"id" : 15,
-// 			"lesson_name" : "Đề 01 : Đề thi Từ vững N5",
-// 			"group_name" : "Luyện đề N5"
-// 		}, {
-// 			"id" : 32,
-// 			"lesson_name" : "Đề 02 : Đề thi Từ vững N5",
-// 			"group_name" : "Luyện đề N52"
-// 		} ]
-
-		result_ListLessons = [ {
-			"id" : 0,
-			"lesson_name" : "Đề 01 : Đề thi Từ vững N5",
-			"group_name" : "Luyện Thi Từ Vững - N5"
-		}, {
-			"id" : 1,
-			"lesson_name" : "Đề 01 : Đề thi Đọc Hiểu N5",
-			"group_name" : "Luyện Thi Đọc Hiểu - N5"
-		} ]
+		result_ListResults = ${list_results};
+		result_ListLessons = ${list_lessons};
 	</script>
 
 	<script src="${contextPath}/resources/public/js/result.js"></script>
+	
 	<script src="${contextPath}/resources/public/js/avatar.js"></script>
 	<script src="${contextPath}/resources/public/js/profile.js"></script>
 	<jsp:include page="footer.jsp"></jsp:include>

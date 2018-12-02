@@ -1,6 +1,7 @@
 
 package minanonihongo.service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,9 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import minanonihongo.model.JLPT;
-import minanonihongo.model.JLPTAnswer;
-import minanonihongo.model.JLPTQType;
-import minanonihongo.model.JLPTQuestion;
 import minanonihongo.model.JLPTResult;
 import minanonihongo.model.JLPTResultJson;
 import minanonihongo.model.User;
@@ -56,6 +54,8 @@ public class JLPTResultService {
 		jlptResult.setJlpt(jlpt);
 		jlptResult.setPassed(dt.getPassed());
 		jlptResult.setUser(user);
+		jlptResult.setTotalGrade(dt.getTotal_grade());
+		jlptResult.setCourse(dt.getCourse());
 		jlptRsRepository.save(jlptResult);
 		return true;
 	}
@@ -66,18 +66,22 @@ public class JLPTResultService {
 		if (jlptrs.size() > 0) {
 			int id = Integer.parseInt(jlptrs.get(jlptrs.size() - 1).getJlptRsId().substring(8, 12)) + 1;
 			String countUsId = "" + id;
-			if (countUsId.trim().length() != 11) {
-				int count = 4 - countUsId.trim().length();
-				for (int i = 0; i < count; i++) {
-					countUsId = "0" + countUsId;
-				}
-			}
-			jlptRsId = "RS_JLPT_".concat("" + countUsId);
+			jlptRsId = "RS_JLPT_".concat("" + setNumRsId(countUsId));
 		}
 		return jlptRsId;
 	}
 
-	public List<Map<String, String>> mapJsonS() throws Exception {
+	public String setNumRsId(String id) {
+		if (id.trim().length() < 4) {
+			int count = 4 - id.trim().length();
+			for (int i = 0; i < count; i++) {
+				id = "0" + id;
+			}
+		}
+		return id;
+	}
+
+	public List<Map<String, String>> mapJsonRS() throws Exception {
 		User user = (User) ss.getAttribute("user");
 		List<JLPTResult> jlptResults = jlptRsRepository.findByUser(user);
 		List<Map<String, String>> jsons = new ArrayList<>();
@@ -88,58 +92,31 @@ public class JLPTResultService {
 			String jlptId = jlpt.getJlptId().substring(5, 13);
 			String title = jlpt.getJlptMn().getJlptMenuName() + " - " + jlpt.getCourse().getCourseName();
 			list_lessons.add(getListLessons(Integer.parseInt(jlptId), jlpt.getJlptName(), title));
+			JSONArray ans = new JSONArray();
+			String lsId = jlptResult.getJlptRsId().split("_")[2];
+			SimpleDateFormat dfm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String create = dfm.format(jlptResult.getCreated());
+			ans.add(getListResults(lsId, jlptResult.getGrade(), jlptResult.isPassed(), create,
+					jlptResult.getTotalGrade(), jlptResult.getData()));
+			list_results.put(Integer.parseInt(jlptId), ans);
 		}
-		//
-		// int total_marks = 0;
-		// for (JLPTQType jt : jlptQT) {
-		// if (jt.getJlptQuestions() != null) {
-		// total_marks += jt.getJlptQuestions().size();
-		// int index = 0;
-		// for (JLPTQuestion jlptQuestion : jt.getJlptQuestions()) {
-		// index++;
-		// list_lessons.add(getQuestion(index,
-		// jt.getJlptQuestions().get(0).getJlpt().getJlptId().substring(
-		// jt.getJlptQuestions().get(0).getJlpt().getJlptId().length() - 8,
-		// jt.getJlptQuestions().get(0).getJlpt().getJlptId().length()),
-		// jlptQuestion.getJlptQuestionId().substring(jlptQuestion.getJlptQuestionId().length()
-		// - 2,
-		// jlptQuestion.getJlptQuestionId().length()),
-		// "3", jlptQuestion.getQuestion(), 1, jlptQuestion.getExplain()));
-		// JSONArray ans = new JSONArray();
-		// if (jlptQuestion.getJlptAnswer() != null) {
-		// for (JLPTAnswer jlptAnswer : jlptQuestion.getJlptAnswer()) {
-		// ans.add(getAnswer(
-		// jlptAnswer.getJlptAnswerId().substring(jlptAnswer.getJlptAnswerId().length()
-		// - 2,
-		// jlptAnswer.getJlptAnswerId().length()),
-		// jlptQuestion.getJlptQuestionId().substring(
-		// jlptQuestion.getJlptQuestionId().length() - 2,
-		// jlptQuestion.getJlptQuestionId().length()),
-		// jlptAnswer.getAnswer(), jlptAnswer.getAnswerRghtWrng()));
-		// }
-		// }
-		// list_results.put(
-		// jlptQuestion.getJlptQuestionId().substring(jlptQuestion.getJlptQuestionId().length()
-		// - 2,
-		// jlptQuestion.getJlptQuestionId().length()),
-		// ans);
-		// }
-		// }
-		//
-		// }
+
 		Map<String, String> map = new HashMap<>();
-		map.put("list_esults", list_results.toString());
+		map.put("list_results", list_results.toString());
 		map.put("list_lessons", list_lessons.toString());
 		jsons.add(map);
 		return jsons;
 	}
 
-	public JSONObject getAnswer(String id, String task_id, String value, String grade) throws Exception {
+	public JSONObject getListResults(String lesson_id, String grade, boolean passed, String created, String total_grade,
+			String data) throws Exception {
 		JSONObject answer = new JSONObject();
-		answer.put("id", id);
-		answer.put("task_id", task_id);
-		answer.put("value", value);
+		answer.put("lesson_id", lesson_id);
 		answer.put("grade", grade);
+		answer.put("passed", passed);
+		answer.put("created", created);
+		answer.put("total_grade", total_grade);
+		answer.put("data", data);
 		return answer;
 	}
 
