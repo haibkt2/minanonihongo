@@ -49,6 +49,9 @@ public class CourseIlmService {
 	@Autowired
 	CourseGlobalRepository courseGlobalRepository;
 
+	@Autowired
+	private Common common;
+
 	public Map<String, List<CourseIlm>> setMapCourse(String courseId, List<CourseIlmType> courseIlmTypeList) {
 		Map<String, List<CourseIlm>> map = new HashMap<>();
 		if (courseIlmTypeList != null) {
@@ -106,7 +109,7 @@ public class CourseIlmService {
 					int index = 0;
 					for (ExamQuestion examQuestion : ex.getExamQuestion()) {
 						index++;
-						lesson_tasks.add(getQuestion(index,
+						lesson_tasks.add(common.getQuestion(index,
 								ex.getExamId().substring(ex.getExamId().length() - 2, ex.getExamId().length()),
 								examQuestion.getExamQuestionId().substring(
 										examQuestion.getExamQuestionId().length() - 2,
@@ -115,7 +118,7 @@ public class CourseIlmService {
 						JSONArray ans = new JSONArray();
 						if (examQuestion.getExamAnswer() != null) {
 							for (ExamAnswer examAnswer : examQuestion.getExamAnswer()) {
-								ans.add(getAnswer(
+								ans.add(common.getAnswer(
 										examAnswer.getExamAnswerId().substring(
 												examAnswer.getExamAnswerId().length() - 2,
 												examAnswer.getExamAnswerId().length()),
@@ -141,15 +144,13 @@ public class CourseIlmService {
 		return jsons;
 	}
 
-	public List<Map<String, String>> mapJsonS(List<JLPTQType> jlptQT) throws Exception {
+	public List<Map<String, String>> mapJsonS(List<JLPTQType> jlptQT, String jlptId) throws Exception {
 		List<Map<String, String>> jsons = new ArrayList<>();
+		String lsId = jlptId.substring(5, 13);
 		JSONArray lesson_tasks = new JSONArray();
 		JSONObject lesson_answers = new JSONObject();
 		JSONObject lesson_lesson = new JSONObject();
-		lesson_lesson.put("id",
-				jlptQT.get(0).getJlptQuestions().get(0).getJlpt().getJlptId().substring(
-						jlptQT.get(0).getJlptQuestions().get(0).getJlpt().getJlptId().length() - 8,
-						jlptQT.get(0).getJlptQuestions().get(0).getJlpt().getJlptId().length()));
+		lesson_lesson.put("id", lsId);
 		lesson_lesson.put("course_id",
 				jlptQT.get(0).getJlptQuestions().get(0).getJlpt().getJlptType().getJlptTypeId().substring(
 						jlptQT.get(0).getJlptQuestions().get(0).getJlpt().getJlptType().getJlptTypeId().length() - 2,
@@ -160,33 +161,33 @@ public class CourseIlmService {
 				total_marks += jt.getJlptQuestions().size();
 				int index = 0;
 				for (JLPTQuestion jlptQuestion : jt.getJlptQuestions()) {
-					index++;
-					lesson_tasks.add(getQuestion(index,
-							jt.getJlptQuestions().get(0).getJlpt().getJlptId().substring(
-									jt.getJlptQuestions().get(0).getJlpt().getJlptId().length() - 8,
-									jt.getJlptQuestions().get(0).getJlpt().getJlptId().length()),
-							jlptQuestion.getJlptQuestionId().substring(jlptQuestion.getJlptQuestionId().length() - 2,
-									jlptQuestion.getJlptQuestionId().length()),
-							"3", jlptQuestion.getQuestion(), 1, jlptQuestion.getExplain()));
-					JSONArray ans = new JSONArray();
-					if (jlptQuestion.getJlptAnswer() != null) {
-						for (JLPTAnswer jlptAnswer : jlptQuestion.getJlptAnswer()) {
-							ans.add(getAnswer(
-									jlptAnswer.getJlptAnswerId().substring(jlptAnswer.getJlptAnswerId().length() - 2,
-											jlptAnswer.getJlptAnswerId().length()),
-									jlptQuestion.getJlptQuestionId().substring(
-											jlptQuestion.getJlptQuestionId().length() - 2,
-											jlptQuestion.getJlptQuestionId().length()),
-									jlptAnswer.getAnswer(), jlptAnswer.getAnswerRghtWrng()));
+					if (jlptId.equals(jlptQuestion.getJlpt().getJlptId())) {
+						index++;
+						lesson_tasks.add(common.getQuestion(index, lsId,
+								jlptQuestion.getJlptQuestionId().substring(
+										jlptQuestion.getJlptQuestionId().length() - 2,
+										jlptQuestion.getJlptQuestionId().length()),
+								"3", jlptQuestion.getQuestion(), 1, jlptQuestion.getExplain()));
+						JSONArray ans = new JSONArray();
+						if (jlptQuestion.getJlptAnswer() != null) {
+							for (JLPTAnswer jlptAnswer : jlptQuestion.getJlptAnswer()) {
+								ans.add(common.getAnswer(
+										jlptAnswer.getJlptAnswerId().substring(
+												jlptAnswer.getJlptAnswerId().length() - 2,
+												jlptAnswer.getJlptAnswerId().length()),
+										jlptQuestion.getJlptQuestionId().substring(
+												jlptQuestion.getJlptQuestionId().length() - 2,
+												jlptQuestion.getJlptQuestionId().length()),
+										jlptAnswer.getAnswer(), jlptAnswer.getAnswerRghtWrng()));
+							}
 						}
-					}
-					lesson_answers.put(
-							jlptQuestion.getJlptQuestionId().substring(jlptQuestion.getJlptQuestionId().length() - 2,
-									jlptQuestion.getJlptQuestionId().length()),
-							ans);
+						lesson_answers.put(jlptQuestion.getJlptQuestionId().substring(
+								jlptQuestion.getJlptQuestionId().length() - 2,
+								jlptQuestion.getJlptQuestionId().length()), ans);
+					} else
+						total_marks--;
 				}
 			}
-
 		}
 		lesson_lesson.put("total_marks", total_marks);
 		Map<String, String> map = new HashMap<>();
@@ -195,27 +196,6 @@ public class CourseIlmService {
 		map.put("lesson_lesson", lesson_lesson.toString());
 		jsons.add(map);
 		return jsons;
-	}
-
-	public JSONObject getAnswer(String id, String task_id, String value, String grade) throws Exception {
-		JSONObject answer = new JSONObject();
-		answer.put("id", id);
-		answer.put("task_id", task_id);
-		answer.put("value", value);
-		answer.put("grade", grade);
-		return answer;
-	}
-
-	public JSONObject getQuestion(int index, String lesson_id, String id, String type, String value, int grade,
-			String ex) throws Exception {
-		JSONObject question = new JSONObject();
-		question.put("lesson_id", lesson_id);
-		question.put("id", id);
-		question.put("ex", ex);
-		question.put("type", type);
-		question.put("value", index + " ." + value);
-		question.put("grade", grade);
-		return question;
 	}
 
 	public boolean deleCourse(CourseIlm courseIlm) {

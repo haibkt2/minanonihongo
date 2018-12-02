@@ -44,6 +44,7 @@
 							<p>mondai ${jti.index}</p>
 							<c:forEach items="${jt.getJlptQuestions()}" var="question"
 								varStatus="st">
+								<c:if test="${question.getJlpt().getJlptId() eq jlptId}">
 								<div style="margin-top: 25px; display: inline-block;"
 									v-html="tasks[<%=stt++%>].value"></div>
 								<div
@@ -64,8 +65,10 @@
 												<span style="display: none;">${answer.getAnswerRghtWrng()}</span>&nbsp;&nbsp;${answer.getAnswer()}
 											</label>
 										</div>
+										
 									</c:forEach>
 								</div>
+								</c:if>
 							</c:forEach>
 
 						</c:forEach>

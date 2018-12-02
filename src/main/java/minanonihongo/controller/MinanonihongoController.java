@@ -367,21 +367,16 @@ public class MinanonihongoController {
 			String jlptId = "JLPTE" + examName.split("-")[0];
 			List<JLPTQType> jt = jlptQTypeRepository.findQQuestion(jlptId);
 			if (jt.size() > 0) {
-				List<Map<String, String>> mapJson = courseIlmService.mapJsonS(jt);
+				List<Map<String, String>> mapJson = courseIlmService.mapJsonS(jt, jlptId);
 				model.addAttribute("lesson_answers", mapJson.get(0).get("lesson_answers"));
 				model.addAttribute("lesson_tasks", mapJson.get(0).get("lesson_tasks"));
 				model.addAttribute("lesson_lesson", mapJson.get(0).get("lesson_lesson"));
 				model.addAttribute("jt", jt);
+				model.addAttribute("jlptId", jlptId);
 				model.addAttribute("timeout", jt.get(0).getJlptQuestions().get(0).getJlpt().getTimeout());
 			}
 		}
 		return "public/detailJlpt";
-	}
-
-	@RequestMapping(value = { "/tai-khoan/ket-qua-thi-thu" })
-	public String rankJlpt(Model model, HttpServletRequest req, HttpServletResponse response, HttpSession ss)
-			throws Exception {
-		return "public/examRs";
 	}
 
 	@RequestMapping(value = { "/thi-thu-truc-tuyen" })
@@ -416,7 +411,12 @@ public class MinanonihongoController {
 		model.addAttribute("bir", bir);
 		return "public/account";
 	}
-
+	@RequestMapping(value = { "/tai-khoan/ket-qua-thi-thu" })
+	public String rankJlpt(Model model, HttpServletRequest req, HttpServletResponse response, HttpSession ss)
+			throws Exception {
+		jlptResultService.mapJsonS();
+		return "public/examRs";
+	}
 	@RequestMapping("/tai-khoan/change-info")
 	@ResponseBody
 	public String acChangeInfo(Model model, HttpServletRequest req, HttpServletResponse response, HttpSession ss,
@@ -489,8 +489,15 @@ public class MinanonihongoController {
 	public String sendRs(Model model, HttpServletRequest request, HttpSession ss, @RequestBody JLPTResultJson dt) throws Exception {
 		System.out.println("ss");
 		dt.setJlptRsId("JLPTE" + dt.getLesson_id());
-		if (jlptResultService.doSaveJlptRs(ss, dt))
+		if (jlptResultService.doSaveJlptRs(dt))
 			return "success";
 		else return "error";
+	}
+	
+	@RequestMapping(value = "/tai-khoan/get-test-result-info", method = RequestMethod.POST)
+	@ResponseBody
+	public String viewRs(Model model, HttpServletRequest request, HttpSession ss,@RequestParam(value ="rs_id") String  id) throws Exception {
+		jlptResultService.mapJsonS();
+		return "error";
 	}
 }

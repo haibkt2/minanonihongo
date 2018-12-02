@@ -15,6 +15,7 @@ import minanonihongo.model.PostType;
 import minanonihongo.repository.CourseFunTypeRepository;
 import minanonihongo.repository.CourseRepository;
 import minanonihongo.repository.PostTypeRepository;
+import net.sf.json.JSONObject;
 
 @Service
 public class Common {
@@ -85,4 +86,27 @@ public class Common {
 		model.addAttribute("courseFuns", courseFunTypes);
 		model.addAttribute("posts", postTypes);
 	}
+	
+
+	public JSONObject getAnswer(String id, String task_id, String value, String grade) throws Exception {
+		JSONObject answer = new JSONObject();
+		answer.put("id", id);
+		answer.put("task_id", task_id);
+		answer.put("value", value);
+		answer.put("grade", grade);
+		return answer;
+	}
+
+	public JSONObject getQuestion(int index, String lesson_id, String id, String type, String value, int grade,
+			String ex) throws Exception {
+		JSONObject question = new JSONObject();
+		question.put("lesson_id", lesson_id);
+		question.put("id", id);
+		question.put("ex", ex);
+		question.put("type", type);
+		question.put("value", index + " ." + value);
+		question.put("grade", grade);
+		return question;
+	}
+
 }

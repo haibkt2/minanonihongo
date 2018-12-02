@@ -64,7 +64,7 @@
 								<a role="button" data-toggle="collapse" data-parent="#accordion"
 									:href="'#collapse-' + lesson.id" aria-expanded="false"
 									:aria-controls="'#collapse-' + lesson.id" class="collapsed">
-									{{ lesson.lesson_name }} - {{ lesson.group_name }} </a>
+									{{ lesson.group_name }} - {{ lesson.lesson_name }}</a>
 							</h4>
 						</div>
 						<div :id="'collapse-' + lesson.id" class="panel-collapse collapse"
@@ -240,38 +240,47 @@
 
 	<script>
 		result_ListResults = {
-			"4" : [ {
-				"id" : 521940,
-				"lesson_id" : 4,
+			"0" : [ { // int, 
+				"lesson_id" : 41,
 				"grade" : 10,
 				"total_grade" : 100,
 				"passed" : 1,
-				"test_name" : "Test",
 				"created" : "2018-11-30 22:34:11",
 				"total_marks" : 100,
 				"get_lesson_name" : {
-					"id" : 4,
-					"course_id" : "5",
-					"name" : "Test",
-					"total_marks_calculation" : 0,
-					"total_marks" : 100,
-					"pass_marks" : 80,
-					"course_name" : "N5",
-					"course_url" : "khoa-n5",
-					"get_course" : {
-						"id" : 5,
-						"name" : "N5"
-					}
+					"id" : 21
+				}
+			} ],
+			"1" : [ {
+				"lesson_id" : 42,
+				"grade" : 11,
+				"total_grade" : 100,
+				"passed" : 1,
+				"created" : "2018-11-30 22:34:11",
+				"total_marks" : 100,
+				"get_lesson_name" : {
+					"id" : 37
 				}
 			} ]
 		};
+// 		result_ListLessons = [ {
+// 			"id" : 15,
+// 			"lesson_name" : "Đề 01 : Đề thi Từ vững N5",
+// 			"group_name" : "Luyện đề N5"
+// 		}, {
+// 			"id" : 32,
+// 			"lesson_name" : "Đề 02 : Đề thi Từ vững N5",
+// 			"group_name" : "Luyện đề N52"
+// 		} ]
+
 		result_ListLessons = [ {
-			"id" : 4,
-			"lesson_name" : "Test",
-			"group_name" : "Bài 1: Chào hỏi giới thiệu bản thân",
-			"test_name" : null,
-			"total_marks" : null,
-			"get_lesson_name" : null
+			"id" : 0,
+			"lesson_name" : "Đề 01 : Đề thi Từ vững N5",
+			"group_name" : "Luyện Thi Từ Vững - N5"
+		}, {
+			"id" : 1,
+			"lesson_name" : "Đề 01 : Đề thi Đọc Hiểu N5",
+			"group_name" : "Luyện Thi Đọc Hiểu - N5"
 		} ]
 	</script>
 

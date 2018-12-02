@@ -32,7 +32,7 @@ var user = new Vue({
       var s = this;
       s.currentResult = s.listResults[e][t];
       var r = {
-        lesson_id: e
+        rs_id: e
       };
       $.ajax({
         url: window.location.origin + '/tai-khoan/get-test-result-info',
