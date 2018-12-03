@@ -36,6 +36,7 @@ import minanonihongo.model.CourseIlm;
 import minanonihongo.model.CourseIlmType;
 import minanonihongo.model.JLPTMenu;
 import minanonihongo.model.JLPTQType;
+import minanonihongo.model.JLPTResult;
 import minanonihongo.model.JLPTResultJson;
 import minanonihongo.model.Post;
 import minanonihongo.model.PostType;
@@ -48,6 +49,7 @@ import minanonihongo.repository.CourseRepository;
 import minanonihongo.repository.JLPTMenuRepository;
 import minanonihongo.repository.JLPTQTypeRepository;
 import minanonihongo.repository.JLPTRepository;
+import minanonihongo.repository.JLPTRsRepository;
 import minanonihongo.repository.PostRepository;
 import minanonihongo.repository.PostTypeRepository;
 import minanonihongo.repository.RoleRepository;
@@ -96,6 +98,9 @@ public class MinanonihongoController {
 	JLPTRepository jlptRepository;
 
 	@Autowired
+	JLPTRsRepository jlptRsRepository;
+
+	@Autowired
 	JLPTMenuRepository jlptMenuRepository;
 
 	@Autowired
@@ -121,7 +126,7 @@ public class MinanonihongoController {
 
 	@Autowired
 	UserServiceImpl userserviceimpl;
-	
+
 	@Autowired
 	JLPTService jlptService;
 
@@ -413,18 +418,22 @@ public class MinanonihongoController {
 	public String account(Model model, HttpServletRequest req, HttpServletResponse response, HttpSession ss) {
 		User user = (User) ss.getAttribute("user");
 		SimpleDateFormat dfm = new SimpleDateFormat("yyyy-MM-dd");
-		String bir = dfm.format(user.getBirthday());
-		model.addAttribute("bir", bir);
+		if (user.getBirthday() != null) {
+			String bir = dfm.format(user.getBirthday());
+			model.addAttribute("bir", bir);
+		}
 		return "public/account";
 	}
+
 	@RequestMapping(value = { "/tai-khoan/ket-qua-thi-thu" })
-	public String rankJlpt(Model model, HttpServletRequest req, HttpServletResponse response, HttpSession ss)
+	public String accountRs(Model model, HttpServletRequest req, HttpServletResponse response, HttpSession ss)
 			throws Exception {
 		List<Map<String, String>> mapJson = jlptResultService.mapJsonRS();
 		model.addAttribute("list_results", mapJson.get(0).get("list_results"));
 		model.addAttribute("list_lessons", mapJson.get(0).get("list_lessons"));
 		return "public/examRs";
 	}
+
 	@RequestMapping("/tai-khoan/change-info")
 	@ResponseBody
 	public String acChangeInfo(Model model, HttpServletRequest req, HttpServletResponse response, HttpSession ss,
@@ -493,29 +502,43 @@ public class MinanonihongoController {
 
 	@RequestMapping(value = "/thi-thu/gui-ket-qua", method = RequestMethod.POST)
 	@ResponseBody
-	public String sendRs(Model model, HttpServletRequest request, HttpSession ss, @RequestBody JLPTResultJson dt) throws Exception {
+	public String sendRs(Model model, HttpServletRequest request, HttpSession ss, @RequestBody JLPTResultJson dt)
+			throws Exception {
 		System.out.println("ss");
 		dt.setJlptRsId("JLPTE" + dt.getLesson_id());
 		if (jlptResultService.doSaveJlptRs(dt))
 			return "success";
-		else return "error";
+		else
+			return "error";
 	}
-	
+
 	@RequestMapping(value = "/tai-khoan/get-test-result-info", method = RequestMethod.POST)
 	@ResponseBody
-	public String viewRs(Model model, HttpServletRequest request, HttpSession ss,@RequestParam(value ="rs_id") String  id) throws Exception {
-//		jlptResultService.mapJsonS();
-		String jlptId = "JLPTE"+jlptService.setNumJLPTId(id);
+	public String viewRs(Model model, HttpServletRequest request, HttpSession ss,
+			@RequestParam(value = "rs_id") String id) throws Exception {
+		// jlptResultService.mapJsonS();
+		String jlptId = "JLPTE" + jlptService.setNumJLPTId(id);
 		List<JLPTQType> jt = jlptQTypeRepository.findQQuestion(jlptId);
 		JSONObject rs = new JSONObject();
 		if (jt.size() > 0) {
 			List<Map<String, String>> mapJson = jlptService.mapJsonJlpt(jt, jlptId);
-			JSONArray tasks =(JSONArray) JSONSerializer.toJSON(mapJson.get(0).get("lesson_tasks"));
+			JSONArray tasks = (JSONArray) JSONSerializer.toJSON(mapJson.get(0).get("lesson_tasks"));
 			JSONObject answers = (JSONObject) JSONSerializer.toJSON(mapJson.get(0).get("lesson_answers"));
 			rs.put("tasks", tasks);
 			rs.put("answers", answers);
 		}
 		String s = rs.toString();
 		return rs.toString();
+	}
+
+	@RequestMapping(value = { "/tai-khoan/delete-test-result" })
+	@ResponseBody
+	public String delRs(Model model, HttpServletRequest req, HttpServletResponse response, HttpSession ss,
+			@RequestParam(value = "rs_id") String id) throws Exception {
+		String jlptId = "RS_JLPT_" + jlptService.setNumJLPTId(id);
+		JLPTResult jlptResult = jlptRsRepository.findByJlptRsId(jlptId);
+		if (jlptResult != null)
+			jlptRsRepository.delete(jlptResult);
+		return "success";
 	}
 }

@@ -145,6 +145,7 @@ var user = new Vue({
                         for (var a = 0; a < t.answers[n].length; a++) t.answers[n][a].checked = !1
                 }
             }
+            var dt = JSON.stringify(t.answers);
         },
         confirmRemove: function() {
             var e = this,

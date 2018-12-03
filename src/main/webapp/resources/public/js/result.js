@@ -42,33 +42,22 @@ var user = new Vue({
         e =	JSON.parse(rs);
           s.tasks = e.tasks,
           s.answers = e.answers,
-          s.resultData = JSON.stringify(s.currentResult.data);
-//          s.resultData = s.currentResult.data;
-//          s.results.unshift(dataResult);
-//          for (var t = 0; t < s.tasks.length; t++) {
-//            var r = s.tasks[t].id;
-//            if (3 == parseInt(s.tasks[t].type)) {
-//              var n = s.resultData[r];
-//              if (void 0 != n && void 0 != n.value && '' != n.value) {
-//                answerValue = n.value;
-//                for (var u = 0; u < s.answers[r].length; u++) s.answers[r][u].checked = !1,
-//                s.answers[r][u].id == answerValue && (s.answers[r][u].checked = !0)
-//              } else for (var u = 0; u < s.answers[r].length; u++) s.answers[r][u].checked = !0
-//            }
-//          }
-          
-          var object = JSON.parse(s.resultData);
-          for (var t = 0; s < s.tasks.length; t++) {
-              var n = s.tasks[t].id;
+          s.resultData = s.currentResult.data;
+          for (var t = 0; t < s.tasks.length; t++) {
+              var r = s.tasks[t].id;
               if (3 == parseInt(s.tasks[t].type)) {
-                  var r = object[n];
-                  if (void 0 != r && void 0 != r.value && "" != r.value) {
-                      answerValue = r.value;
-                      for (var a = 0; a < s.answers[n].length; a++) s.answers[n][a].checked = !1, s.answers[n][a].id == answerValue && (s.answers[n][a].checked = !0)
+                  var n = s.resultData[r];
+                  if (void 0 != n && void 0 != n.value && "" != n.value) {
+                      answerValue = n.value;
+                      for (var u = 0; u < s.answers[r].length; u++)
+                          s.answers[r][u].checked = !1,
+                          s.answers[r][u].id == answerValue && (s.answers[r][u].checked = !0)
                   } else
-                      for (var a = 0; a < s.answers[n].length; a++) s.answers[n][a].checked = !1
+                      for (var u = 0; u < s.answers[r].length; u++)
+                          s.answers[r][u].checked = !1
               }
           }
+          var dt = JSON.stringify(s.answers);
         }
       })
     },
@@ -80,16 +69,17 @@ var user = new Vue({
     confirmRemoveResult: function () {
       var e = this,
       t = {
-        result_id: e.listResults[e.currentLessonId][e.currentIndex].id
+        rs_id: e.listResults[e.currentLessonId][e.currentIndex].lesson_id
       };
       $.ajax({
         url: window.location.origin + '/tai-khoan/delete-test-result',
-        type: 'DELETE',
+        type: 'POST',
         data: t,
         async: !0,
         error: function () {
         },
         success: function (e) {
+        	console.log(e);
         }
       }),
       e.listResults[e.currentLessonId].splice(e.currentIndex, 1),

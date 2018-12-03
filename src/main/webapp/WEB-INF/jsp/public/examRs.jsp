@@ -41,9 +41,9 @@
 
 				<div class="account-left-menu">
 					<a href="${contextPath}/tai-khoan/thong-tin-ca-nhan"
-						class="item-user current"><i class="zmdi zmdi-account-box"></i><span>Thông
+						class="item-user"><i class="zmdi zmdi-account-box"></i><span>Thông
 							tin cá nhân</span></a> <a href="${contextPath}/tai-khoan/ket-qua-thi-thu"
-						class="item-user courses"><i class="zmdi zmdi-dns"></i><span>Kết
+						class="item-user current"><i class="zmdi zmdi-dns"></i><span>Kết
 							quả thi thử</span></a> <a style="cursor: pointer;" onclick="logout()"
 						class="item-user danger logout-tab"><i class="zmdi zmdi-power"></i><span>Đăng
 							xuất</span></a>
@@ -161,14 +161,9 @@
 																	style="margin-bottom: 10px;"
 																	v-for="(answer, index) in answers[task.id]">
 																	<div class="question-answer">
-																		<div class="labels"
-																			v-bind:class="[answer.grade == 0 ? '' : 'label-true', (answer.grade == 0 && answer.checked) ? 'label-false' : '']">
-																			<input type="radio" v-if="answer.checked == true"
-																			checked onclick="this.checked != true"> <input
-																			type="radio" v-if="answer.checked != true"
-																			onclick="this.checked != false">&nbsp;&nbsp;{{answer.value
-																		}}<span v-if="answer.grade != 0">&nbsp;(Đúng)</span>
-																		</div>
+																		<div class="labels" v-bind:class="[answer.grade == 0 ? '' : 'label-true', (answer.grade == 0 && answer.checked) ? 'label-false' : '']">
+                                <input type="radio" v-if="answer.checked == true" checked onclick="this.checked = true">
+                                <input type="radio" v-if="answer.checked != true" onclick="this.checked = false">&nbsp;&nbsp;{{ answer.value }}<span v-if="answer.grade != 0">&nbsp(Đúng)</span></div>
 																	</div>
 																</div>
 
@@ -202,8 +197,8 @@
 
 
 	<script>
-		result_ListResults = ${list_results};
-		result_ListLessons = ${list_lessons};
+	result_ListResults = ${list_results};
+	result_ListLessons = ${list_lessons};
 	</script>
 
 	<script src="${contextPath}/resources/public/js/result.js"></script>

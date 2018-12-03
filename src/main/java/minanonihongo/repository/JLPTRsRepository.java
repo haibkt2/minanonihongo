@@ -15,4 +15,5 @@ public interface JLPTRsRepository extends CrudRepository<JLPTResult, Integer> {
 	JLPTResult findJLPTResult(String userId, String jlptId);
 
 	List<JLPTResult> findByUser(User user);
+	JLPTResult findByJlptRsId(String jlprRs);
 }
