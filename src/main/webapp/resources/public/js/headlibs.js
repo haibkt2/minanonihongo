@@ -4635,7 +4635,8 @@ function logout() {
         }, s.update = function(e) {
             return e && Array.prototype.forEach.call(e.length ? e : [e], i), e
         }), t.exports = s
-    }), $.ajaxSetup({
+    }),
+    $.ajaxSetup({
         headers: {
             "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content")
         }
@@ -4643,19 +4644,19 @@ function logout() {
     0 == window.location.hostname.indexOf("www") && (window.location = window.location.href.replace("www.", "")), $(document).ready(function() {
         function e(e) {
             if ("undefined" != typeof e) {
-//                var t = e.offset().top,
-//                    n = $(window);
-//                n.on("scroll", function() {
-//                    n.scrollTop() >= t ? e.addClass("fixed") : e.removeClass("fixed")
-//                })
+                var t = e.offset().top,
+                    n = $(window);
+                n.on("scroll", function() {
+                    n.scrollTop() >= t ? e.addClass("fixed") : e.removeClass("fixed")
+                })
             }
         }
         $(function() {
             e($("#header"))
         }),$(function() {
-            e($(".time-exam"))
-        }),
-        $(function() {
+        	var c = $(".time-exam")[0];
+        	if(c!=null){e($(".time-exam"))}
+        }), $(function() {
             $('[data-toggle="tooltip"]').tooltip()
         }), autosize(document.querySelectorAll("textarea")), $(".go-top").click(function() {
             $("html, body").animate({

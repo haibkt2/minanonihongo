@@ -52,7 +52,7 @@
 
 			<div class="main-user-right">
 				<div class="rs-title">
-					<i class="zmdi zmdi-check-square"></i>&nbsp;&nbsp;Danh sách - Kết
+					&nbsp;&nbsp;Danh sách - Kết
 					quả các bài đã thi.
 				</div>
 				<div class="tab-content-container course-test"
@@ -153,20 +153,25 @@
 												<tr>
 													<td colspan="2" class="test-detail-result">
 														<div v-for="(task, index) in tasks" class="question-box">
-															<div v-if="task.type == 3"
-																class="answer-box">
+															<div v-if="task.type == 3" class="answer-box">
 																<p style="margin: 10px 0; font-size: 16px;"
 																	v-html="task.value" v-if="task.type == 3"></p>
 																<div class="col-sm-6 result-answer-area"
 																	style="margin-bottom: 10px;"
 																	v-for="(answer, index) in answers[task.id]">
 																	<div class="question-answer">
-																		<div class="labels" v-bind:class="[answer.grade == 0 ? '' : 'label-true', (answer.grade == 0 && answer.checked) ? 'label-false' : '']">
-                                <input type="radio" v-if="answer.checked == true" checked onclick="this.checked = true">
-                                <input type="radio" v-if="answer.checked != true" onclick="this.checked = false">&nbsp;&nbsp;{{ answer.value }}<span v-if="answer.grade != 0">&nbsp(Đúng)</span></div>
+																		<div class="labels"
+																			v-bind:class="[answer.grade == 0 ? '' : 'label-true', (answer.grade == 0 && answer.checked) ? 'label-false' : '']">
+																			<input type="radio" v-if="answer.checked == true"
+																				checked onclick="this.checked = true"> <input
+																				type="radio" v-if="answer.checked != true"
+																				onclick="this.checked = false">&nbsp;&nbsp;{{
+																			answer.value }}<span v-if="answer.grade != 0">&nbsp(Đúng)</span>
+																		</div>
 																	</div>
 																</div>
-
+																<p style="margin: 10px 0; font-size: 16px;"
+																	v-html="task.ex" v-if="task.type == 3"></p>
 																<div v-if="task.type == 3" class="col-md-11"
 																	style="display: inline-block; width: 100%; height: 10px;"></div>
 																<hr v-if="task.type == 3"
@@ -198,11 +203,11 @@
 
 	<script>
 	result_ListResults = ${list_results};
-	result_ListLessons = ${list_lessons};
+	result_ListLessons = ${list_lessons};	
 	</script>
 
 	<script src="${contextPath}/resources/public/js/result.js"></script>
-	
+
 	<script src="${contextPath}/resources/public/js/avatar.js"></script>
 	<script src="${contextPath}/resources/public/js/profile.js"></script>
 	<jsp:include page="footer.jsp"></jsp:include>

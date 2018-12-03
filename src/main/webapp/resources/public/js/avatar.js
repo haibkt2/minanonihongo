@@ -26,8 +26,18 @@ $('.save-avatar').click(function () {
     contentType: !1,
     data: a,
     success: function (a) {
-      console.log(a),
-      'success' == a ? location.reload()  : 'imagesize' == a ? (alert('Lỗi dung lượng ảnh vượt quá giới hạn cho phép 3 MB'), location.reload())  : 'imageType' == a ? (alert('Định dạng ảnh không hợp lệ'), location.reload())  : (alert('Lỗi khi up ảnh'), location.reload())
+      console.log(a);
+      if('success' == a) location.reload();
+      else if ('imagesize' == a) {
+    	  alert('Lỗi dung lượng ảnh vượt quá giới hạn cho phép 3 MB');
+    	  location.reload();
+      }else if ('imageType' == a) {
+    	  alert('Định dạng ảnh không hợp lệ');
+    	  location.reload();
+      } else {
+    	  alert('Lỗi khi up ảnh');
+    	  location.reload();
+      }
     }
   })
 }),

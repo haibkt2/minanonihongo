@@ -27062,6 +27062,12 @@ body.menu-open {
 	border-color: #003366;
 	text-align: center;
 }
+.list-category .item-heading:hover {
+	background: #003366 !important;
+	color: #fff;
+/* 	border-color: #003366; */
+/* 	text-align: center; */
+}
 
 .related-title {
 	width: 100%;
@@ -32110,16 +32116,16 @@ rgba
 }
 
 .right-link.long .fa, .right-link.long .right-txt {
-	margin-left: 10px;
+	margin-left: 1px;
 }
 
 .right-txt .right-big {
 	display: block;
-	font-size: 1.3em;
+	font-size: 1.2em;
 }
 
 .right-link.long .fa {
-	font-size: 2em;
+	font-size: 1.3em;
 }
 
 .right-link.short .fa {

@@ -15,6 +15,7 @@
 <html lang="vi">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="csrf-token" content="wDoktwmV7eWQjjfPh9s3I0fwVmNyTvLfKJ7qCBhd">
 <title>HaiLDX - Tiếng Nhật cho mọi người</title>
 <jsp:include page="header.jsp"></jsp:include>
 <div class="main">

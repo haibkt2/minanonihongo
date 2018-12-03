@@ -16,7 +16,7 @@ public interface PostRepository extends CrudRepository<Post, Integer> {
 	
 	Post findByPostId(String postId);
 	
-	@Query(value = "SELECT * FROM post limit 4" , nativeQuery = true)
+	@Query(value = "SELECT * FROM post ORDER BY view_post DESC LIMIT 3" , nativeQuery = true)
     List<Post> findPostMn();
 	
 	@Query(value = "SELECT * FROM post where post_type_id = ?1" , nativeQuery = true)

@@ -130,9 +130,6 @@ public class MinanonihongoController {
 	@Autowired
 	JLPTService jlptService;
 
-	@Value("${string.postType.name}")
-	private String postType;
-
 	@Value("${string.post.name}")
 	private String post;
 
@@ -317,9 +314,22 @@ public class MinanonihongoController {
 		}
 	}
 
-	@RequestMapping(value = { "/van-hoa-nhat-ban/{postname}", "/van-hoa-nhat-ban",
+	@RequestMapping(value = { "/van-hoa-nhat-ban" }, method = RequestMethod.GET)
+	public String post(Model model, HttpServletRequest req, HttpServletResponse response, HttpSession ss) {
+		List<PostType> postTypes = (List<PostType>) postTypeRepository.findAll();
+		if (postTypes != null) {
+			List<Post> posts = postTypes.get(0).getPosts();
+			model.addAttribute("posts", posts);
+		}
+		List<Post> postmn = postRepository.findPostMn();
+		model.addAttribute("postmn", postmn);
+		model.addAttribute("postt", postTypes);
+		return "public/post";
+	}
+
+	@RequestMapping(value = { "/van-hoa-nhat-ban/{postname}", 
 			"/van-hoa-nhat-ban/chuyen-muc/{type}" }, method = RequestMethod.GET)
-	public String post(Model model, @PathVariable final Optional<String> postname,
+	public String postType(Model model, @PathVariable final Optional<String> postname,
 			@PathVariable final Optional<String> type, HttpServletRequest req, HttpServletResponse response,
 			HttpSession ss) {
 		boolean pn = postname.isPresent();
@@ -330,7 +340,7 @@ public class MinanonihongoController {
 			Post post = postRepository.findByPostId(postId);
 			model.addAttribute("post", post);
 		} else if (t) {
-			String postTypeId = postType + type.get().substring(0, 5);
+			String postTypeId = type.get().substring(0, 1);
 			List<Post> posts = postRepository.findPostCm(postTypeId);
 			model.addAttribute("posts", posts);
 		} else {
@@ -472,6 +482,7 @@ public class MinanonihongoController {
 					File fn = new File(localFile + local + u.getAvatar());
 					fo.renameTo(fn);
 					userRepository.save(u);
+					ss.setAttribute("user", u);
 					return "success";
 				} else
 					return "error";
@@ -535,7 +546,7 @@ public class MinanonihongoController {
 	@ResponseBody
 	public String delRs(Model model, HttpServletRequest req, HttpServletResponse response, HttpSession ss,
 			@RequestParam(value = "rs_id") String id) throws Exception {
-		String jlptId = "RS_JLPT_" + jlptService.setNumJLPTId(id);
+		String jlptId = "RS_JLPT_" + jlptResultService.setNumRsId(id);
 		JLPTResult jlptResult = jlptRsRepository.findByJlptRsId(jlptId);
 		if (jlptResult != null)
 			jlptRsRepository.delete(jlptResult);
