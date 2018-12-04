@@ -16,7 +16,7 @@ var json = <%=(String) request.getParameter("json")%>;
 <body>
 	<h2>User Page</h2>
 	<h3>
-		Welcome : error
+		 error
 		
 	</h3>
 	<br />

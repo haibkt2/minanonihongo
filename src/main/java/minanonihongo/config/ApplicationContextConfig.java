@@ -30,7 +30,7 @@ public class ApplicationContextConfig {
     public MessageSource getMessageResource()  {
         ReloadableResourceBundleMessageSource messageResource= new ReloadableResourceBundleMessageSource();
         // Read language/messages_xxx.properties file.
-        messageResource.setBasenames(new String[]{"classpath:language/messages","classpath:messages/validation"});
+        messageResource.setBasenames(new String[]{"classpath:application.properties"});
         messageResource.setDefaultEncoding("UTF-8");
         return messageResource;
     }
@@ -38,7 +38,7 @@ public class ApplicationContextConfig {
     @Bean(name = "localeResolver")
     public LocaleResolver getLocaleResolver()  {
         SessionLocaleResolver resolver= new SessionLocaleResolver();
-        resolver.setDefaultLocale(new Locale("en"));
+        resolver.setDefaultLocale(new Locale("en_us"));
         return resolver;
     }
     

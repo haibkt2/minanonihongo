@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import minanonihongo.model.Course;
@@ -162,6 +163,7 @@ public class AdminMinanonihongoController {
 	}
 
 	@RequestMapping(value = "/admin/dele-course/{courseId}/{id}", method = RequestMethod.POST)
+	@ResponseBody
 	public String deleCourse(Model model, HttpServletRequest request, HttpSession session,
 			@PathVariable final String id, @PathVariable final String courseId) {
 		CourseIlm courseIlm = courseIlmRepository.findByCourseIlmId(id);
@@ -178,7 +180,7 @@ public class AdminMinanonihongoController {
 				fvd.delete();
 			}
 		}
-		return "/private/upCourse";
+		return "ss";
 	}
 
 	@RequestMapping(value = "/admin/add-post", method = RequestMethod.POST)
@@ -206,6 +208,7 @@ public class AdminMinanonihongoController {
 		}
 		String cilmId = courseIlmService.setCourseIlmId(courseIlm);
 		courseIlm.setCourseIlmId(cilmId);
+		courseIlm.setCourse(course);
 		List<CourseIlmType> courseIlmType = (List<CourseIlmType>) courseIlmTypeRepository.findAll();
 		model.addAttribute("courseIlmForm", courseIlm);
 		model.addAttribute("courseIlmType", courseIlmType);
@@ -223,18 +226,25 @@ public class AdminMinanonihongoController {
 		return "/private/upCourseIlm";
 	}
 
-	@RequestMapping(value = "/admin/fix-course", method = RequestMethod.POST)
+	@RequestMapping(value = "/admin/update-course", method = RequestMethod.POST)
 	public String fixUpCourse(Model model, HttpServletRequest request, HttpSession session,
 			@RequestParam("file-img") MultipartFile img, @RequestParam("file-video") MultipartFile video,
 			@ModelAttribute("courseIlmForm") CourseIlm courseIlmForm, @RequestParam("list-current") String listCurrent,
 			@RequestParam("dele-old") String deleOld) throws Exception {
 		CourseIlm cIlm = courseIlmRepository.findByCourseIlmId(courseIlmForm.getCourseIlmId());
+		if (cIlm == null) {
+			cIlm = new CourseIlm();
+			String cId = courseIlmForm.getCourseIlmId();
+			courseIlmForm.setCourse(courseRepository.findByCourseName(cId.substring(0,2)));
+		} else {
+			courseIlmForm.setCourse(cIlm.getCourse());
+		}
 		courseIlmForm.setUser((User) session.getAttribute("user"));
 		if (video.isEmpty()) {
 			courseIlmForm.setLocaFileCourse(cIlm.getLocaFileCourse());
 		} else {
 			String fileName = common.toUrlFriendly(video.getOriginalFilename());
-			String local = cIlm.getCourse().getCourseName() + "/video/";
+			String local = courseIlmForm.getCourse().getCourseName() + "/video/";
 			if (!commonService.saveFile(video, local)) {
 				return "error";
 			}
@@ -244,12 +254,18 @@ public class AdminMinanonihongoController {
 			courseIlmForm.setLocaFileImg(cIlm.getLocaFileImg());
 		} else {
 			String fileName = common.toUrlFriendly(img.getOriginalFilename());
-			String local = cIlm.getCourse().getCourseName() + "/img/";
+			String local = courseIlmForm.getCourse().getCourseName() + "/img/";
 			if (!commonService.saveFile(img, local)) {
 				return "error";
 			}
 			courseIlmForm.setLocaFileImg(fileName);
 		}
+		courseIlmForm.setCourseGlobal(cIlm.getCourseGlobal());
+		courseIlmForm.setExams(cIlm.getExams());
+		courseIlmForm.setCreateDate(cIlm.getCreateDate());
+		courseIlmForm.setCourseIlmFlg("1");
+		courseIlmForm.setUpdateDate(commonService.currentDate());
+		courseIlmRepository.save(courseIlmForm);
 		vocaCourseIlmService.setVocaCourseIlm(listCurrent, deleOld, courseIlmForm);
 		String mess = courseIlmForm.getCourseIlmId();
 		return "redirect:/admin/courses/" + courseIlmForm.getCourse().getCourseName() + "?mess_up=" + mess;

@@ -30,6 +30,7 @@
 						hỏng <br /> hoặc hết hạn hoặc có thể bạn không có quyền xem trang
 						này.
 					</h5>
+					<a href="/home">Trở về Trang chủ</a>
 				</div>
 
 			</div>

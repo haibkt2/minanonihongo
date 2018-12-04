@@ -41,7 +41,9 @@
 							int stt = 0;
 						%>
 						<c:forEach items="${jt}" var="jt" varStatus="jti">
-							<p>mondai ${jti.index}</p>
+						<br>
+<%-- 							<spring:message code="spring.datasource.url"/>						 --%>
+							<p><span style="color: #0000ff;"><strong><span style="font-size: 16px;">もんだい ${jti.index+1}＿＿＿のことばはひらがなどうかきますか。１．２．３．４からいちばんいいものをひとつえらんでください。</span></strong></span></p>
 							<c:forEach items="${jt.getJlptQuestions()}" var="question"
 								varStatus="st">
 								<c:if test="${question.getJlpt().getJlptId() eq jlptId}">

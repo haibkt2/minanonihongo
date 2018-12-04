@@ -25,7 +25,7 @@
 				<div class="haijp-banner">
 					<div>
 						<a href="" target="_blank"> <img
-							src="${contextPath}/resources/public/img/baderimg2.png"
+							src="${contextPath}/resources/public/img/baderimg1.png"
 							style="display: inline;">
 						</a>
 					</div>
@@ -75,7 +75,6 @@
 													class="name"><b style="-webkit-box-orient: vertical;">
 														<c:if test="${c.courseId == 'COURSELVN6'}"> Bảng chữ cái </c:if>
 														<c:if test="${c.courseId != 'COURSELVN6' }">Khóa ${c.courseName}</c:if>
-														- ${ci.lessonName}
 												</b></a> <img src=""><span class="arthor"></span>
 											</div>
 										</div>

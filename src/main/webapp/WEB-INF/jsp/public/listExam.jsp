@@ -84,7 +84,7 @@
 								<tbody>
 									<tr>
 										<td
-											style="background-color: #fcbe91; font-size: 18px; color: #ff0000; width: 50%; height: 30px;"><strong>
+											style="font-size: 18px; color: #ff0000; width: 50%; height: 30px;"><strong style="margin-left: 7px">
 												${je.jlptMenuName}</strong><strong> </strong></td>
 									</tr>
 								</tbody>

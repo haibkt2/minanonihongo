@@ -8,21 +8,15 @@
 <html>
 <head>
 <meta charset="utf-8">
+<link rel="stylesheet"
+	href="${contextPath}/resources/private/css/_all-skins.min.css">
+	<link rel="stylesheet"
+	href="${contextPath}/resources/private/css/font-awesome.min.css">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 </head>
 <body>
 	<aside class="main-sidebar">
 		<section class="sidebar" style="height: auto;">
-			<div class="user-panel">
-				<div class="pull-left image">
-					<img src="../../dist/img/user2-160x160.jpg" class="img-circle"
-						alt="User Image">
-				</div>
-				<div class="pull-left info">
-					<p>${user.name}</p>
-					<a href="#"><i class="fa fa-circle text-success"></i>Online</a>
-				</div>
-			</div>
 			<ul class="sidebar-menu" data-widget="tree">
 				<li class="header"></li>
 				<li><a href="#"> <i class="fa fa-fw fa-institution"></i> <span>Chuyên Mục Bài Học</span> <span class="pull-right-container"> </span>

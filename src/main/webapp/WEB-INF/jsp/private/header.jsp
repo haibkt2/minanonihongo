@@ -15,13 +15,9 @@
 <link rel="stylesheet"
 	href="${contextPath}/resources/private/css/styles.css">
 <link rel="stylesheet"
-	href="${contextPath}/resources/private/css/font-awesome.min.css">
-<link rel="stylesheet"
 	href="${contextPath}/resources/private/css/ionicons.min.css">
 <link rel="stylesheet"
 	href="${contextPath}/resources/private/css/AdminLTE.min.css">
-<link rel="stylesheet"
-	href="${contextPath}/resources/private/css/_all-skins.min.css">
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
@@ -38,29 +34,11 @@
 			</a>
 			<div class="navbar-custom-menu">
 				<ul class="nav navbar-nav">
-					<li class="dropdown user user-menu"><a href="#"
-						class="dropdown-toggle" data-toggle="dropdown"> 
-						<img class="user-image"
-										src="${contextPath}/reponsitory/Avatar/<c:if test="${user.avatar == null}">img-df.png</c:if><c:if test="${user.avatar != null}">${user.avatar }</c:if>" />
+					<li class="user user-menu"><a href="${contextPath}/tai-khoan/thong-tin-ca-nhan" > 
+<!-- 						<img class="user-image" -->
+<%-- 										src="${contextPath}/reponsitory/Avatar/<c:if test="${user.avatar == null}">img-df.png</c:if><c:if test="${user.avatar != null}">${user.avatar }</c:if>" /> --%>
 							<span class="hidden-xs">${user.name}</span>
-					</a>
-						<ul class="dropdown-menu">
-							<!-- User image -->
-							<li class="user-header"><img class="user-image"
-										src="${contextPath}/reponsitory/Avatar/<c:if test="${user.avatar == null}">img-df.png</c:if><c:if test="${user.avatar != null}">${user.avatar }</c:if>" />
-
-							<li class="user-footer">
-								<div class="pull-left">
-									<a href="#" class="btn btn-default btn-flat">Profile</a>
-								</div>
-								<div class="pull-right">
-									<a href="#" class="btn btn-default btn-flat">Sign out</a>
-								</div>
-							</li>
-						</ul></li>
-					<!-- Control Sidebar Toggle Button -->
-					<li><a href="#" data-toggle="control-sidebar"><i
-							class="fa fa-gears"></i></a></li>
+					</a></li>
 				</ul>
 			</div>
 		</nav>

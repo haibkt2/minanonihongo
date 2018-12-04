@@ -109,17 +109,20 @@ public class CommonService {
 	public boolean copyAudio(String course, String cid, String audio) {
 		String from = localFile + course + "/rb/" + audio;
 		String to = localFile + course + "/voca/" + "/" + cid + "/" + audio;
-		File source = new File(from);
-		File dest = new File(to);
-		try {
-			FileUtils.copyFile(source, dest);
-			return true;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
-		}
+		if (!audio.isEmpty()) {
+			File source = new File(from);
+			File dest = new File(to);
+			try {
+				FileUtils.copyFile(source, dest);
+				return true;
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return false;
+			}
+		} else return true;
 	}
+
 	public boolean checkTypeImg(MultipartFile file) {
 		String orgName = file.getOriginalFilename();
 		String type = orgName.split("\\.")[1].toLowerCase();

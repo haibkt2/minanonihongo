@@ -162,7 +162,7 @@
 									</thead>
 									<tbody>
 										<c:forEach items="${courseIlms}" var="cl" varStatus="id">
-											<tr>
+											<tr class="${cl.courseIlmId}">
 												<td>${id.index+1}</td>
 												<td>${cl.courseIlmType.courseIlmTypeName}</td>
 												<td>${cl.lessonName}</td>

@@ -43,7 +43,7 @@
 					<c:if test="${id.index%3 eq 2}">
 					<c:set value="-yellow" var="bg"></c:set>
 					</c:if>
-						<div class="col-lg-3 col-xs-6">
+						<div class="col-lg-4 col-xs-6">
 							<div class="small-box bg${bg}">
 								<div class="inner">
 									<h3>${course.courseIlms.size()} - Bài học </h3>
@@ -91,7 +91,7 @@
 <!-- 							</div> -->
 <!-- 						</div> -->
 				
-				<div class="col-md-3 col-sm-6 col-xs-12">
+				<div class="col-md-4 col-sm-6 col-xs-12">
 					<div class="info-box">
 						<span class="info-box-icon bg${bg}"><i
 							class="fa fa-files-o"></i></span>
@@ -110,7 +110,7 @@
  				<%if(j%3==0){%></div><%}%>
 				</c:forEach>
 				<div class="row">
-					<div class="col-md-3 col-sm-6 col-xs-12">
+					<div class="col-md-4 col-sm-6 col-xs-12">
           				<div class="info-box bg-red">
            					 <span class="info-box-icon"><i class="fa fa-comments-o"></i></span>
             				<div class="info-box-content">

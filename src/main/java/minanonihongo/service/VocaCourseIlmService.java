@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import minanonihongo.model.Course;
 import minanonihongo.model.CourseIlm;
 import minanonihongo.model.VocaCourseIlm;
 import minanonihongo.repository.CourseIlmRepository;
+import minanonihongo.repository.CourseRepository;
 import minanonihongo.repository.VocaCourseIlmRepository;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONException;
@@ -28,21 +30,13 @@ public class VocaCourseIlmService {
 	CourseIlmRepository courseIlmRepository;
 
 	@Autowired
+	CourseRepository courseRepository;
+	@Autowired
 	CommonService commonService;
 	@Value("${string.reponsitory.local}")
 	private String localFile;
 
 	public boolean setVocaCourseIlm(String listCurrent, String deleOld, CourseIlm courseIlm) throws Exception {
-		CourseIlm cIlm = courseIlmRepository.findByCourseIlmId(courseIlm.getCourseIlmId());
-		List<VocaCourseIlm> vocaCourseIlms = new ArrayList<VocaCourseIlm>();
-		courseIlm.setVocaCourseIlms(vocaCourseIlms);
-		courseIlm.setCourse(cIlm.getCourse());
-		courseIlm.setCourseGlobal(cIlm.getCourseGlobal());
-		courseIlm.setCourseIlmType(cIlm.getCourseIlmType());
-		courseIlm.setExams(cIlm.getExams());
-		courseIlm.setCreateDate(cIlm.getCreateDate());
-		courseIlm.setCourseIlmFlg("1");
-		courseIlm.setUpdateDate(commonService.currentDate());
 		try {
 			JSONArray ld = (JSONArray) JSONSerializer.toJSON(deleOld);
 			for (Object jd : ld) {
@@ -55,7 +49,8 @@ public class VocaCourseIlmService {
 				JSONObject json = (JSONObject) js;
 				String change = json.getString("change");
 				if ("1".equals(change)) {
-					if (!commonService.copyAudio(cIlm.getCourse().getCourseName(),cIlm.getCourseIlmId(), json.getString("audio")))
+					if (!commonService.copyAudio(courseIlm.getCourse().getCourseName(), courseIlm.getCourseIlmId(),
+							json.getString("audio")))
 						return false;
 					VocaCourseIlm vocaCourseIlm = new VocaCourseIlm();
 					vocaCourseIlm.setHirakana(json.getString("hirakana"));
@@ -70,11 +65,11 @@ public class VocaCourseIlmService {
 						vocaCourseIlm.setVocaCourseIlmId(json.getString("id"));
 					}
 					vocaCourseIlmRepository.save(vocaCourseIlm);
-					vocaCourseIlms.add(vocaCourseIlm);
 				}
-				courseIlmRepository.save(courseIlm);
+
 			}
-			String prb = localFile + cIlm.getCourse().getCourseName() + "/rb";
+			
+			String prb = localFile + courseIlm.getCourse().getCourseName() + "/rb";
 			FileUtils.deleteDirectory(new File(prb));
 			return true;
 		} catch (JSONException e) {

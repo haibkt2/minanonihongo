@@ -296,14 +296,8 @@
 										</div>
 										<c:if test="${login eq 'error'}">
 											<script type="text/javascript">
-												$(document)
-														.ready(
-																function() {
-																	$(
-																			'.btn-register')
-																			.trigger(
-																					'click');
-																});
+												$(document).ready( function() {
+																	$('.btn-register').trigger('click');});
 											</script>
 										</c:if>
 										<c:if test="${rg eq 'error'}">

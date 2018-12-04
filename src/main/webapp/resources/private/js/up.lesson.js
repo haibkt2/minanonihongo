@@ -127,7 +127,8 @@ function addVoca() {
 
 function addAudio() {
 	var fa = $("#audio-upload").prop("files")[0];
-	if("audio/mp3"==fa.type){
+	if(fa != null) {
+	if("audio/mp3"==fa.type || "audio/mpeg" == fa.type){
 	var data = new FormData();
 	var c = $("#course-name").val();
 	data.append("file", fa);
@@ -150,7 +151,7 @@ function addAudio() {
 }else {
 	$("#audio-upload").val('');
 	return false;}
-	}
+	}}
 function deleteRow(btn) {
 	var row = btn.parentNode.parentNode;
 	var id = row.id.split('-')[0];
@@ -265,7 +266,7 @@ $(".bt-dele-course").click(function(e) {
 		data: id,
 		dataType : "text",
 		success : function(data) {
-			$(".box-body").html(data);
+			$("."+id).css("display","none");
 		},
 		error : function(e) {
 			alert("Sorry! ");
