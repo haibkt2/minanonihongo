@@ -60,22 +60,11 @@
 					</div>
 					<br>
 					<div class="preview-course-container">
-						<c:forEach items="${course}" var="c">
-							<h3 class="head-title">
-								<c:if test="${c.courseId == 'COURSELVN6'}">
-									<span class="head-title-left">Bảng chữ cái Tiếng Nhật</span>
-									<a href="${contextPath}/khoa-hoc/Bang-chu-cai"> <span
-										class="see-more">Xem thêm&nbsp;<span>››</span></span></a>
-								</c:if>
-
-								<c:if test="${c.courseId != 'COURSELVN6' }">Khóa ${c.courseName}
-							<a href="${contextPath}/khoa-hoc/${c.courseName}"> <span
-										class="see-more">Xem thêm&nbsp;<span>››</span></span></a>
-								</c:if>
-							</h3>
-							<div class="courses-linear">
+						<h3 class="head-title">Danh sách bài học</h3>
+						<div class="courses-linear">
+							<c:forEach items="${course}" var="c">
 								<c:forEach items="${c.courseIlms}" var="ci" varStatus="id">
-									<c:if test="${id.index < 3 }">
+									<c:if test="${id.index eq 0 }">
 										<div class="grid-item-course">
 											<a href="${contextPath}/khoa-hoc/${c.courseName}"><img
 												src="${contextPath}/reponsitory/${c.courseName}/img/${ci.getLocaFileImg()}"
@@ -83,15 +72,19 @@
 												class="lazyload course-thumbnail"></a>
 											<div class="course-detail">
 												<a href="${contextPath}/khoa-hoc/${c.courseName}"
-													class="name"><b style="-webkit-box-orient: vertical;">${ci.lessonName}</b></a>
-												<img src=""><span class="arthor"></span>
+													class="name"><b style="-webkit-box-orient: vertical;">
+														<c:if test="${c.courseId == 'COURSELVN6'}"> Bảng chữ cái </c:if>
+														<c:if test="${c.courseId != 'COURSELVN6' }">Khóa ${c.courseName}</c:if>
+														- ${ci.lessonName}
+												</b></a> <img src=""><span class="arthor"></span>
 											</div>
 										</div>
 									</c:if>
 								</c:forEach>
-							</div>
+							</c:forEach>
 							<br>
-						</c:forEach>
+						</div>
+						<br>
 						<div id="fb-root"></div>
 						<script>
 							(function(d, s, id) {

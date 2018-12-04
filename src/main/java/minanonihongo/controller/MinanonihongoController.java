@@ -315,11 +315,16 @@ public class MinanonihongoController {
 	}
 
 	@RequestMapping(value = { "/van-hoa-nhat-ban" }, method = RequestMethod.GET)
-	public String post(Model model, HttpServletRequest req, HttpServletResponse response, HttpSession ss) {
+	public String postHome(Model model, HttpServletRequest req, HttpServletResponse response, HttpSession ss) {
 		List<PostType> postTypes = (List<PostType>) postTypeRepository.findAll();
 		if (postTypes != null) {
-			List<Post> posts = postTypes.get(0).getPosts();
-			model.addAttribute("posts", posts);
+			for (int i = 0; i < postTypes.size(); i++) {
+				List<Post> posts = postTypes.get(i).getPosts();
+				if (posts != null && posts.size() > 0) {
+					model.addAttribute("posts", posts);
+					break;
+				}
+			}
 		}
 		List<Post> postmn = postRepository.findPostMn();
 		model.addAttribute("postmn", postmn);
@@ -327,27 +332,18 @@ public class MinanonihongoController {
 		return "public/post";
 	}
 
-	@RequestMapping(value = { "/van-hoa-nhat-ban/{postname}", 
-			"/van-hoa-nhat-ban/chuyen-muc/{type}" }, method = RequestMethod.GET)
-	public String postType(Model model, @PathVariable final Optional<String> postname,
+	@RequestMapping(value = {"/van-hoa-nhat-ban/chuyen-muc/{type}" }, method = RequestMethod.GET)
+	public String postType(Model model,
 			@PathVariable final Optional<String> type, HttpServletRequest req, HttpServletResponse response,
 			HttpSession ss) {
-		boolean pn = postname.isPresent();
 		boolean t = type.isPresent();
 		List<PostType> postTypes = (List<PostType>) postTypeRepository.findAll();
-		if (pn) {
-			String postId = post + postname.get().substring(0, 6);
-			Post post = postRepository.findByPostId(postId);
-			model.addAttribute("post", post);
-		} else if (t) {
+		if (t) {
 			String postTypeId = type.get().substring(0, 1);
 			List<Post> posts = postRepository.findPostCm(postTypeId);
 			model.addAttribute("posts", posts);
 		} else {
-			if (postTypes != null) {
-				List<Post> posts = postTypes.get(0).getPosts();
-				model.addAttribute("posts", posts);
-			}
+			return "redirect:/van-hoa-nhat-ban";
 		}
 		List<Post> postmn = postRepository.findPostMn();
 		model.addAttribute("postmn", postmn);

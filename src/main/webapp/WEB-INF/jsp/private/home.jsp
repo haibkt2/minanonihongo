@@ -19,162 +19,127 @@
 		<jsp:include page="header.jsp"></jsp:include>
 		<jsp:include page="menu.jsp"></jsp:include>
 		<div class="content-wrapper">
-			<section class="content-header"
-				style="margin-bottom: 15px; text-align: center;">
-				<h1>
-					<label>Thống Kê</label>
-				</h1>
-			</section>
+			<!-- 			<section class="content-header" -->
+			<!-- 				style="margin-bottom: 15px; text-align: center;"> -->
+			<!-- 				<h1> -->
+			<!-- 					<label>Thống Kê</label> -->
+			<!-- 				</h1> -->
+			<!-- 			</section> -->
 			<br>
 			<section class="content">
+				<h3>
+					<label>Khóa học</label>
+				</h3>
+				<%int i = 0;%>
+				<c:forEach items="${courses}" var="course" varStatus="id">
+				<%if(i%3==0){%>
+					<div class="row"><%}i++;%>
+					<c:if test="${id.index%3 eq 0}">
+					<c:set value="-aqua" var="bg"></c:set>
+					</c:if>
+					<c:if test="${id.index%3 eq 1}">
+					<c:set value="-green" var="bg"></c:set>
+					</c:if>
+					<c:if test="${id.index%3 eq 2}">
+					<c:set value="-yellow" var="bg"></c:set>
+					</c:if>
+						<div class="col-lg-3 col-xs-6">
+							<div class="small-box bg${bg}">
+								<div class="inner">
+									<h3>${course.courseIlms.size()} - Bài học </h3>
+									<p>Khóa - ${course.courseName}</p>
+								</div>
+								<div class="icon">
+									<i class="fa fa-fw fa-book"></i>
+								</div>
+								<a href="${contextPath}/admin/courses/${course.courseName}" class="small-box-footer">${course.courseName}&nbsp;<i
+									class="fa fa-arrow-circle-right"></i>
+								</a>
+							</div>
+						</div>
+					<%if(i%3==0){%>
+					</div><%}%>
+				</c:forEach>
+				<h3>
+					<label>Đề thi</label>
+				</h3>
+				<%int j = 0;%>
+				<c:forEach items="${courses}" var="course" varStatus="id">
+				<%if(j%3==0){%>
+					<div class="row"><%}j++;%>
+					<c:if test="${id.index%3 eq 0}">
+					<c:set value="-aqua" var="bg"></c:set>
+					</c:if>
+					<c:if test="${id.index%3 eq 1}">
+					<c:set value="-green" var="bg"></c:set>
+					</c:if>
+					<c:if test="${id.index%3 eq 2}">
+					<c:set value="-yellow" var="bg"></c:set>
+					</c:if>
+<!-- 						<div class="col-lg-3 col-xs-6"> -->
+<%-- 							<div class="small-box bg${bg}"> --%>
+<!-- 								<div class="inner"> -->
+<%-- 									<h3>${course.jlpt.size()} - Đề thi ${course.courseName}</h3> --%>
+<%-- 									<p>Đề thi - ${course.courseName}</p> --%>
+<!-- 								</div> -->
+<!-- 								<div class="icon"> -->
+<!-- 									<i class="fa fa-fw fa-book"></i> -->
+<!-- 								</div> -->
+<%-- 								<a href="${contextPath}/admin/courses/${course.courseName}" class="small-box-footer">Đề thi - ${course.courseName}&nbsp;<i --%>
+<!-- 									class="fa fa-arrow-circle-right"></i> -->
+<!-- 								</a> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+				
+				<div class="col-md-3 col-sm-6 col-xs-12">
+					<div class="info-box">
+						<span class="info-box-icon bg${bg}"><i
+							class="fa fa-files-o"></i></span>
+						<div class="info-box-content">
+							<span class="info-box-number">${course.jlpt.size()}</span>
+							<span class="info-box-text">Đề thi ${course.courseName}</span>
+						</div>
+						<div style="float: right;margin-right: 8px">
+						<a href="${contextPath}/admin/courses/${course.courseName}" class="small-box-footer">Đề thi - ${course.courseName}&nbsp;
+						<i class="fa fa-arrow-circle-right"></i>
+						</a></div>
+						<!-- /.info-box-content -->
+					</div>
+					<!-- /.info-box -->
+				</div>
+ 				<%if(j%3==0){%></div><%}%>
+				</c:forEach>
 				<div class="row">
-					<div class="col-lg-3 col-xs-6">
-						<div class="small-box bg-aqua">
-							<div class="inner">
-								<h3>11 Đề</h3>
-								<p>Đề Thi JLPT</p>
-							</div>
-							<div class="icon">
-								<i class="fa fa-shopping-cart"></i>
-							</div>
-							<a href="#" class="small-box-footer">Đề Thi<i
-								class="fa fa-arrow-circle-right"></i>
-							</a>
-						</div>
-					</div>
-					<div class="col-lg-3 col-xs-6">
-						<div class="small-box bg-green">
-							<div class="inner">
-								<h3>150 Bài</h3>
-								<p>Bảng Chữ Cái</p>
-
-							</div>
-							<div class="icon">
-								<i class="ion ion-stats-bars"></i>
-							</div>
-							<a href="#" class="small-box-footer"> Bảng Chữ Cái <i
-								class="fa fa-arrow-circle-right"></i>
-							</a>
-						</div>
-					</div>
+					<div class="col-md-3 col-sm-6 col-xs-12">
+          				<div class="info-box bg-red">
+           					 <span class="info-box-icon"><i class="fa fa-comments-o"></i></span>
+            				<div class="info-box-content">
+             					<span class="info-box-text">Comments</span>
+              					<span class="info-box-number">41,410</span>
+             					<div class="progress">
+               						<div class="progress-bar" style="width: 70%">
+               						</div>
+              					</div>
+                 		<span class="progress-description">  
+                 			70% Increase in 30 Days
+                 		</span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
 				</div>
 
-				<div class="row">
-					<div class="col-lg-3 col-xs-6">
-						<div class="small-box bg-aqua">
-							<div class="inner">
-								<h3>150 Bài</h3>
-								<p>Trình Độ : N5</p>
-							</div>
-							<div class="icon">
-								<i class="fa fa-shopping-cart"></i>
-							</div>
-							<a href="#" class="small-box-footer"> N5 <i
-								class="fa fa-arrow-circle-right"></i>
-							</a>
-						</div>
-					</div>
-					<div class="col-lg-3 col-xs-6">
-						<div class="small-box bg-green">
-							<div class="inner">
-								<h3>11 Bài</h3>
-								<p>Trình Độ : N4</p>
-							</div>
-							<div class="icon">
-								<i class="ion ion-stats-bars"></i>
-							</div>
-							<a href="#" class="small-box-footer"> N4 <i
-								class="fa fa-arrow-circle-right"></i>
-							</a>
-						</div>
-					</div>
-					<div class="col-lg-3 col-xs-6">
-						<div class="small-box bg-yellow">
-							<div class="inner">
-								<h3>44 Bài</h3>
-								<p>Trình Độ : N3</p>
-							</div>
-							<div class="icon">
-								<i class="ion ion-person-add"></i>
-							</div>
-							<a href="#" class="small-box-footer"> N3 <i
-								class="fa fa-arrow-circle-right"></i>
-							</a>
-						</div>
-					</div>
-					<!-- ./col -->
-					<div class="col-lg-3 col-xs-6">
-						<!-- small box -->
-						<div class="small-box bg-red">
-							<div class="inner">
-								<h3>65 Bài</h3>
-
-								<p>Trình Độ : N2</p>
-							</div>
-							<div class="icon">
-								<i class="ion ion-pie-graph"></i>
-							</div>
-							<a href="#" class="small-box-footer"> N2 <i
-								class="fa fa-arrow-circle-right"></i>
-							</a>
-						</div>
-					</div>
-					<!-- ./col -->
-				</div>
-				<div class="row">
-					<div class="col-lg-3 col-xs-6">
-						<div class="small-box bg-aqua">
-							<div class="inner">
-								<h3>150 Bài</h3>
-								<p>Văn Hóa - Con Người Nhật Bản</p>
-							</div>
-							<div class="icon">
-								<i class="fa fa-shopping-cart"></i>
-							</div>
-							<a href="#" class="small-box-footer"> Văn Hóa Nhật Bản <i
-								class="fa fa-arrow-circle-right"></i>
-							</a>
-						</div>
-					</div>
-					<div class="col-lg-3 col-xs-6">
-						<div class="small-box bg-green">
-							<div class="inner">
-								<h3>11 Bài</h3>
-								<p>Truyện Tranh Thú Vị</p>
-							</div>
-							<div class="icon">
-								<i class="ion ion-stats-bars"></i>
-							</div>
-							<a href="#" class="small-box-footer"> Truyện Tranh Nhật Bản <i
-								class="fa fa-arrow-circle-right"></i>
-							</a>
-						</div>
-					</div>
-					<div class="col-lg-3 col-xs-6">
-						<div class="small-box bg-yellow">
-							<div class="inner">
-								<h3>44 Người</h3>
-								<p>Người đăng ký</p>
-							</div>
-							<div class="icon">
-								<i class="ion ion-person-add"></i>
-							</div>
-							<a href="#" class="small-box-footer">Người Dùng <i
-								class="fa fa-arrow-circle-right"></i>
-							</a>
-						</div>
-					</div>
-				</div>
 			</section>
 		</div>
 		<jsp:include page="footer.jsp"></jsp:include>
 	</div>
-	<script src="${contextPath}/resources/private/js/jquery.min.js"></script>
-	<script
-		src="${contextPath}/resources/private/js/jquery.dataTables.min.js"></script>
-	<script
-		src="${contextPath}/resources/private/js/dataTables.bootstrap.min.js"></script>
-	<script src="${contextPath}/resources/private/js/add.lesson.js"></script>
+	<%-- 	<script src="${contextPath}/resources/private/js/jquery.min.js"></script> --%>
+	<!-- 	<script -->
+	<%-- 		src="${contextPath}/resources/private/js/jquery.dataTables.min.js"></script> --%>
+	<!-- 	<script -->
+	<%-- 		src="${contextPath}/resources/private/js/dataTables.bootstrap.min.js"></script> --%>
+	<%-- 	<script src="${contextPath}/resources/private/js/add.lesson.js"></script> --%>
 </body>
 
 </html>

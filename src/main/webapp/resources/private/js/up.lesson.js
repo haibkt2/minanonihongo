@@ -47,7 +47,9 @@ function addCourse() { // btn
 	document.getElementById('list-current').value = JSON.stringify(obj);
 }
 function addVoca() {
-	addAudio();
+	if(false==addAudio()){
+		alert("Định dạng lỗi");
+	} else {
 	var lg = $(".scrollContent tr").length;
 	var id = $('#edit-voca').attr("value");
 	var audio = $('#edit-voca-audio').attr("value");
@@ -114,7 +116,7 @@ function addVoca() {
 	document.getElementById("audio-upload").value = "";
 	document.getElementById("audio-name").value = "";
 //	$('#audio-upload')[0].reset();
-}
+}}
 //
 //$(document).ready(function() {
 //	$("#submit-vc").click(function(event) {
@@ -125,6 +127,7 @@ function addVoca() {
 
 function addAudio() {
 	var fa = $("#audio-upload").prop("files")[0];
+	if("audio/mp3"==fa.type){
 	var data = new FormData();
 	var c = $("#course-name").val();
 	data.append("file", fa);
@@ -144,7 +147,10 @@ function addAudio() {
 			console.log("FAIL : ", "ERROR");
 		}
 	});
-}
+}else {
+	$("#audio-upload").val('');
+	return false;}
+	}
 function deleteRow(btn) {
 	var row = btn.parentNode.parentNode;
 	var id = row.id.split('-')[0];

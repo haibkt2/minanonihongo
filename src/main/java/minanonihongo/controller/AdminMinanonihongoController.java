@@ -42,7 +42,7 @@ public class AdminMinanonihongoController {
 
 	@Autowired
 	CourseRepository courseRepository;
-	
+
 	@Autowired
 	UserRepository userRepository;
 
@@ -78,13 +78,8 @@ public class AdminMinanonihongoController {
 	@GetMapping("/admin")
 	public String home(Model model) {
 		common.getMenu(model);
-		int jc = (int) jlptRepository.count();
-		int uc = (int) userRepository.count();
 		List<Course> courses = (List<Course>) courseRepository.findAll();
-		for(Course course : courses) {
-			CourseIlm cc = courseIlmRepository.countCourse(course.getCourseId());
-			model.addAttribute(course.getCourseName(),cc);
-		}
+		model.addAttribute("courses", courses);
 		return "/private/home";
 	}
 
@@ -193,20 +188,21 @@ public class AdminMinanonihongoController {
 		// get session userId
 		User user = (User) session.getAttribute("user");
 		courseForm.setUser(user);
-//		courseIlmService.doSaveCourse(courseForm);
+		// courseIlmService.doSaveCourse(courseForm);
 		// model.addAttribute("message", messageSave);
-//		model.addAttribute("courseForm", new CourseIlm());
+		// model.addAttribute("courseForm", new CourseIlm());
 		return "home";
 	}
-	
+
 	@RequestMapping(value = "/admin/add-course", method = RequestMethod.GET)
-	public String addCourse(Model model, HttpServletRequest request, HttpSession session,@RequestParam("course") String c) {
+	public String addCourse(Model model, HttpServletRequest request, HttpSession session,
+			@RequestParam("course") String c) {
 		common.getMenu(model);
 		Course course = courseRepository.findByCourseName(c);
 		List<CourseIlm> courseIlms = (List<CourseIlm>) courseIlmRepository.findByCourse(course);
 		CourseIlm courseIlm = new CourseIlm();
-		if(courseIlms.size() > 0) {
-			courseIlm.setCourseIlmId(courseIlms.get(courseIlms.size()-1).getCourseIlmId());
+		if (courseIlms.size() > 0) {
+			courseIlm.setCourseIlmId(courseIlms.get(courseIlms.size() - 1).getCourseIlmId());
 		}
 		String cilmId = courseIlmService.setCourseIlmId(courseIlm);
 		courseIlm.setCourseIlmId(cilmId);

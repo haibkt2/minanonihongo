@@ -22,7 +22,7 @@
 			<c:if test="${not empty postt}">
 				<div class="heading-box">
 					<h2 class="blog-heading">
-						<span style="color: #588d3f;">${posts.get(0).getPostType().getPostTypeName()}</span>
+						<span style="color: #588d3f;"><c:if test="${not empty posts}">${posts.get(0).getPostType().getPostTypeName()}</c:if></span>
 					</h2>
 				</div>
 				<% int i = 0;int j = 0;%>
@@ -63,8 +63,9 @@
 					</c:if>
 					<%if(j>i) {%></div><%}%>
 		<c:set value="${postId.index/3 + 1}" var="np"></c:set>
+		<c:if test="${postId.index eq 0}"></div></c:if>
 		</c:forEach>
-		</div>
+
 		</c:if>
 		<c:if test="${not empty post}">
 			<div class="blog-detail-container">
