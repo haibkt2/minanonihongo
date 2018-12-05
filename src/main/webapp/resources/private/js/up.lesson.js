@@ -16,6 +16,44 @@ function inArray(needle, haystack) {
 	}
 	return false;
 }
+function updateExam(e,c) {
+    if ('no' == e) {
+        return window.location.href = window.location.origin + "/admin/courses/"+c;
+    }
+    if ('ok' == e) {
+        $('.mess-exam').css('display','none');
+        $('.mn-exam').css('display','block');
+    }
+}
+$(".add-ans").click(function(e) {
+	var an = $('.ct-answser').val();
+	var c = $(".right-wrong").is(":checked");
+	var ac = '<a class="del-voca" onclick="deleteRow(this)" href="javascript:void(0);">&nbsp;<i class="fa fa-trash-o">&nbsp;</i></a><a onclick="fixRow(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-pencil"></i></a';
+	var gr;
+	if(c){
+		gr = '<input type="radio" name="optionsRadios" id="optionsRadios3" value="option" disabled checked>';
+	} else gr = '<input type="radio" name="optionsRadios" id="optionsRadios3" value="option" disabled>';
+	var lg = $(".list-ans tr").length;
+	var table = document.getElementById("data-ans");
+	var row;
+	row = table.insertRow(lg + 1);
+	row.id = "id";
+	var cell0 = row.insertCell(0);
+	var cell1 = row.insertCell(1);
+	var cell2 = row.insertCell(2);
+	cell0.innerHTML = gr;
+	cell1.innerHTML = an;
+	cell2.innerHTML = ac;
+	$(".right-wrong").prop("checked", false); 
+	$('.ct-answser').val('');
+	
+})
+function addExam() {
+	
+}
+
+
+
 function addCourse() { // btn
 	var lg = $(".scrollContent tr").length;
 	var an;

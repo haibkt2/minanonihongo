@@ -140,13 +140,6 @@
 											Bài Học</button></a>
 									</div>
 							<div class="box-body">
-								<div style="text-align: center; color: blue; font-size: 18px">
-									<c:if test="${course_up != null }">
-										<i class="fa fa-fw fa-chevron-down"></i>
-										<c:out
-											value="Cập Nhật Bài Viết : ${course_up.lessonName } Thành Công"></c:out>
-									</c:if>
-								</div>
 								<br>
 								<table id="data-show" class="table table-bordered table-hover">
 									<thead>

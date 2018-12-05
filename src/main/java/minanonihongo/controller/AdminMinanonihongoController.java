@@ -88,10 +88,10 @@ public class AdminMinanonihongoController {
 	public String courses(Model model, @PathVariable String courseName, HttpServletRequest request) {
 		common.getMenu(model);
 		Course course = courseRepository.findByCourseName(courseName);
-		String mess = request.getParameter("mess_up");
-		if (mess != null) {
-			model.addAttribute("course_up", courseIlmRepository.findByCourseIlmId(mess));
-		}
+//		String mess = request.getParameter("mess_up");
+//		if (mess != null) {
+//			model.addAttribute("course_up", courseIlmRepository.findByCourseIlmId(mess));
+//		}
 		if (course != null) {
 			List<CourseIlm> courseIlms = courseIlmRepository.findByCourse(course);
 			model.addAttribute("course", course);
@@ -267,8 +267,9 @@ public class AdminMinanonihongoController {
 		courseIlmForm.setUpdateDate(commonService.currentDate());
 		courseIlmRepository.save(courseIlmForm);
 		vocaCourseIlmService.setVocaCourseIlm(listCurrent, deleOld, courseIlmForm);
-		String mess = courseIlmForm.getCourseIlmId();
-		return "redirect:/admin/courses/" + courseIlmForm.getCourse().getCourseName() + "?mess_up=" + mess;
+		common.getMenu(model);
+		model.addAttribute("courseIlmForm", courseIlmForm);
+		return "/private/upExam";
 	}
 
 	// show view form insert formation

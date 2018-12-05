@@ -7991,3 +7991,52 @@ thead.fixedHeader {
 .hiden-ma{
 	display: none;
 }
+.mn-exam{
+	display: none;
+}
+.detail-exam-ct{
+	margin: 10px 0 0 120px;
+}
+.detail-exam-ct-qt{
+	margin-top: 25px; 
+	display: inline-block;
+	cursor: pointer;
+}
+.detail-exam-ct-as{
+	width: 100%;
+	 flex-wrap: wrap; 
+	 display: flex; 
+	 -webkit-box-pack: justify;
+	 margin-left: 10px; 
+}
+
+.detail-exam-ct-as div{
+	width: 48%; 
+	margin-top: 10px;
+/* 	cursor: pointer; */
+}
+.detail-exam-ct-as div label{
+	font-weight: normal; 
+	font-size: 13px;
+	 color: gray;
+	 cursor: pointer;
+}
+.detail-exam-ct-as div label input{
+	 cursor: pointer;
+}
+.add-exam-qt{
+	margin-left: 10px;
+}
+.add-exam-an-dt{
+	width: 80%;
+	font-size: 17px;
+}
+.add-exam-an-dt table{
+	margin: 25px 0 0 20px;
+}
+.add-exam-an-dt table tbody tr td:first-child {
+	text-align: center;
+}
+#data-exam{
+	width: 70%
+}

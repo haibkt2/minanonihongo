@@ -251,61 +251,6 @@
 										<div class="form-group" style="width: 100%"></div>
 										<div class="form-group">
 											<h4>
-												<label>Câu hỏi Ôn Tập</label>
-											</h4>
-											<div style="width: 100%; font-size: 20px; margin-left: 15px">
-												<div class="show-ma-gr">
-													<a onclick="showMnGr()" href="javascript:void(0);">&nbsp;<i
-														class="fa fa-fw fa-plus-square-o"></i></a>
-												</div>
-												<div class="hiden-ma-gr hiden-ma">
-													<a onclick="showMnGr()" href="javascript:void(0);">&nbsp;<i
-														class="fa fa-fw fa-minus"></i></a>
-												</div>
-											</div>
-											<div class="mana-gr" style="display: none;">
-												<div class="form-group">
-													<label style="margin: 0 0 0 20px">Câu hỏi</label>
-													<textarea style="width: 88.5%; margin: 0 0 0 30px"
-														id="example" class="form-control" placeholder="Ví dụ.."></textarea>
-													<div class="col-xs-3 ">
-														<label style="margin-left: 10px;">Câu trả lời</label> <input
-															id="hirakana" type="text" class="form-control"
-															placeholder="Hirakana/Katakana.."
-															style="margin-left: 5px">
-													</div>
-													<div class="col-xs-3 ">
-														<label style="margin-left: 10px;">OK</label>
-													</div>
-												</div>
-												<div class="form-group">
-													<button type="button" onclick="addVoca()"
-														class="btn btn-primary" style="margin-top: 5px"
-														id="submit-vc">Thêm</button>
-												</div>
-											</div>
-										</div>
-									</div>
-
-								</div>
-
-							</div>
-							<!-- /.box -->
-						</div>
-						<!-- /.col-->
-					</div>
-					<!-- ./row -->
-				</section>
-				<section class="content">
-					<div class="row">
-						<div class="col-md-12">
-							<div class="box box-info">
-								<!-- /.box-header -->
-								<div class="box-body pad">
-									<div class="box-body">
-										<div class="form-group" style="width: 100%"></div>
-										<div class="form-group">
-											<h4>
 												<label>Hội Thoại</label>
 											</h4>
 											<div style="width: 100%; font-size: 20px; margin-left: 15px">
