@@ -7995,7 +7995,10 @@ thead.fixedHeader {
 	display: none;
 }
 .detail-exam-ct{
-	margin: 10px 0 0 120px;
+	margin: 10px 0 0 20px;
+}
+.add-question-ans{
+/* 	margin: 10px 0 0 40px; */
 }
 .detail-exam-ct-qt{
 	margin-top: 25px; 
@@ -8007,7 +8010,6 @@ thead.fixedHeader {
 	 flex-wrap: wrap; 
 	 display: flex; 
 	 -webkit-box-pack: justify;
-	 margin-left: 10px; 
 }
 
 .detail-exam-ct-as div{
@@ -8028,15 +8030,23 @@ thead.fixedHeader {
 	margin-left: 10px;
 }
 .add-exam-an-dt{
-	width: 80%;
+	width: 90%;
 	font-size: 17px;
 }
 .add-exam-an-dt table{
 	margin: 25px 0 0 20px;
 }
-.add-exam-an-dt table tbody tr td:first-child {
-	text-align: center;
-}
+
 #data-exam{
-	width: 70%
+/* 	width: 90% */
+}
+.add-anwser-f{
+/* 	with */
+margin-left: 5px;
+}
+.detail-exam-ct {
+	display: block;
+	max-height: 262px;
+	overflow: auto;
+/* 	width: 100% */
 }

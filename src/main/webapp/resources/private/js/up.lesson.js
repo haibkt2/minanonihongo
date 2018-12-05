@@ -25,35 +25,59 @@ function updateExam(e,c) {
         $('.mn-exam').css('display','block');
     }
 }
-$(".add-ans").click(function(e) {
+function addAnswer(){
 	var an = $('.ct-answser').val();
 	var c = $(".right-wrong").is(":checked");
 	var ac = '<a class="del-voca" onclick="deleteRow(this)" href="javascript:void(0);">&nbsp;<i class="fa fa-trash-o">&nbsp;</i></a><a onclick="fixRow(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-pencil"></i></a';
 	var gr;
 	if(c){
-		gr = '<input type="radio" name="optionsRadios" id="optionsRadios3" value="option" disabled checked>';
-	} else gr = '<input type="radio" name="optionsRadios" id="optionsRadios3" value="option" disabled>';
-	var lg = $(".list-ans tr").length;
+		gr = '<input type="radio" name="optionsRadios" id="optionsRadios3" value="option" disabled checked>&nbsp;&nbsp;&nbsp;';
+	} else gr = '<input type="radio" name="optionsRadios" id="optionsRadios3" value="option" disabled>&nbsp;&nbsp;&nbsp;';
+	var lg = $(".list-ans-add tr").length;
 	var table = document.getElementById("data-ans");
 	var row;
-	row = table.insertRow(lg + 1);
+	row = table.insertRow(lg+1);
 	row.id = "id";
 	var cell0 = row.insertCell(0);
 	var cell1 = row.insertCell(1);
-	var cell2 = row.insertCell(2);
-	cell0.innerHTML = gr;
-	cell1.innerHTML = an;
-	cell2.innerHTML = ac;
+	cell0.innerHTML = gr+an;
+	cell1.innerHTML = ac;
 	$(".right-wrong").prop("checked", false); 
 	$('.ct-answser').val('');
 	
-})
-function addExam() {
-	
 }
-
-
-
+function addExam() {
+	var lg = $(".list-ans-add tr").length,c = false;
+	for( var i = 2; i <= lg; i++){
+		if($('.list-ans-add tr:nth-child(' + i +') input').is(":checked")) {
+			c = true;
+			break;
+		}
+	}
+	if(!c) alert("Chưa có câu trả lời đúng !!") 
+	else {
+		$('.list-ans-add tr:nth-child(1)').remove();
+		$('#data-ans').removeAttr("id");
+		$('.data-ans').attr('id','data-exam');
+		$('.list-ans-add').removeAttr("class");
+		$('.list-ans-add').attr('class','list-ans');
+		var aex = $('.detail-exam-ct').html(), aeo = $('.add-exam-an-dt').html();
+		$('.detail-exam-ct').html(aex+aeo);
+		$('.add-exam-an-dt #data-exam').removeAttr("id");
+		$('.add-exam-an-dt table').attr('id','data-ans');
+		$('.add-exam-an-dt table tbody').removeAttr("class");
+		$('.add-exam-an-dt table tbody').attr('class','list-ans-add');	
+		var table = document.getElementById("data-ans"),
+		row = table.insertRow(1),
+		cell0 = row.insertCell(0),
+		cell1 = row.insertCell(1);
+		cell0.innerHTML = '';
+		cell1.innerHTML = '';
+		for( var n = 2; n <= lg+1; lg--){
+			$('.list-ans-add tr:nth-child(' + n +')').remove();
+		}
+	}
+}
 function addCourse() { // btn
 	var lg = $(".scrollContent tr").length;
 	var an;

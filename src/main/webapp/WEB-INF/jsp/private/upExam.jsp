@@ -75,6 +75,11 @@
 															<thead>
 																<tr style="background-color: #cbe1f2;">
 																	<td><label>${qt.question}</label></td>
+																	<td width="80px"><a class="del-voca"
+																		onclick="deleteRow(this)" href="javascript:void(0);">&nbsp;<i
+																			class="fa fa-trash-o">&nbsp;</i></a><a
+																		onclick="fixRow(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i
+																			class="fa fa-pencil"></i></a></td>
 																</tr>
 															</thead>
 															<tbody class="list-ans">
@@ -84,6 +89,11 @@
 																			name="${qt.examQuestionId}"
 																			<c:if test="${ as.answerRghtWrng eq 1}">checked</c:if>
 																			id="optionsRadios3" value="option3" disabled checked>&nbsp;&nbsp;&nbsp;${as.answer}</td>
+																		<td><a class="del-voca" onclick="deleteRow(this)"
+																			href="javascript:void(0);">&nbsp;<i
+																				class="fa fa-trash-o">&nbsp;</i></a><a
+																			onclick="fixRow(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i
+																				class="fa fa-pencil"></i></a></td>
 																	</tr>
 																</c:forEach>
 															</tbody>
@@ -92,7 +102,7 @@
 												</c:forEach>
 											</div>
 										</div>
-										<div class="box-body">
+										<div class="box-body add-question-ans">
 											<div class="form-group add-exam-qt">
 												<div class="col-xs-11 ">
 													<label>Câu hỏi</label>
@@ -103,51 +113,45 @@
 												<br>
 											</div>
 											<div style="height: 340px; width: 100%"></div>
-											<div class="form-group">
+											<div class="form-group col-lg-11">
 												<div class="add-exam-an-dt">
 													<table id="data-ans"
-														class="scrollTable table table-bordered table-hover dataTable no-footer"
+														class="scrollTable table table-bordered table-hover dataTable no-footer data-ans"
 														role="grid" aria-describedby="example2_info">
 														<thead>
 															<tr style="background-color: #cbe1f2;">
-																<td width="30px"><label></label></td>
-																<td><label>Câu trả lời</label></td>
-																<td width="70px"></td>
+																<td><label class="nd-qt">Câu trả lời</label></td>
+																<td width="80px"><a class="del-voca"
+																	onclick="deleteRow(this)" href="javascript:void(0);">&nbsp;<i
+																		class="fa fa-trash-o">&nbsp;</i></a><a
+																	onclick="fixRow(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i
+																		class="fa fa-pencil"></i></a></td>
 															</tr>
 														</thead>
-														<tbody class="list-ans">
+														<tbody class="list-ans-add">
 															<tr>
-																<td><input type="radio" name="optionsRadios"
-																	id="optionsRadios3" value="option3" disabled checked></td>
-																<td>đâsd</td>
-																<td><a class="del-voca" onclick="deleteRow(this)"
-																	href="javascript:void(0);">&nbsp;<i
-																		class="fa fa-trash-o">&nbsp;</i></a><a
-																	onclick="fixRow(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i
-																		class="fa fa-pencil"></i></a></td>
-															</tr>
-															<tr>
-																<td><input type="radio" name="optionsRadios" id=""
-																	value="option3" disabled></td>
-																<td>đâsd</td>
-																<td><a class="del-voca" onclick="deleteRow(this)"
-																	href="javascript:void(0);">&nbsp;<i
-																		class="fa fa-trash-o">&nbsp;</i></a><a
-																	onclick="fixRow(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i
-																		class="fa fa-pencil"></i></a></td>
+																<td></td>
+																<td></td>
 															</tr>
 														</tbody>
 													</table>
+													<script>
+														window.onload = function myFunction() {
+															var qt = CKEDITOR.instances['question-add'] .getData();
+															$('.nd-qt').html(qt);
+															setTimeout(myFunction,10);
+														}
+													</script>
 												</div>
 												<br>
-												<div class="col-lg-6">
-													<div class="input-group">
+												<div class="col-lg-11">
+													<div class="input-group add-anwser-f">
 														<span class="input-group-addon"> <input
 															class="right-wrong" type="checkbox">
 														</span> <input type="text" class="form-control ct-answser"
 															placeholder="Nhập câu trả lời ..."> <span
 															class="input-group-btn">
-															<button type="button"
+															<button type="button" onclick="addAnswer()"
 																class="btn btn-info btn-flat add-ans">
 																<i class="fa fa-fw fa-upload"></i>
 															</button>
