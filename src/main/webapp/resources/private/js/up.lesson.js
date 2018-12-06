@@ -26,17 +26,18 @@ function updateExam(e,c) {
     }
 }
 function addAnswer(){
+	var ltb = $(".detail-exam-ct table").length;
 	var an = $('.ct-answser').val();
 	var c = $(".right-wrong").is(":checked");
-	var ac = '<a class="del-voca" onclick="deleteRow(this)" href="javascript:void(0);">&nbsp;<i class="fa fa-trash-o">&nbsp;</i></a><a onclick="fixRow(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-pencil"></i></a';
+	var ac = '<a class="del-voca" onclick="delQt('+'qt-id-'+ltb+')" href="javascript:void(0);">&nbsp;<i class="fa fa-trash-o">&nbsp;</i></a><a onclick="fixQt('+'qt-id-'+ltb+')" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-pencil"></i></a';
 	var gr;
 	if(c){
-		gr = '<input type="radio" name="optionsRadios" id="optionsRadios3" value="option" disabled checked>&nbsp;&nbsp;&nbsp;';
-	} else gr = '<input type="radio" name="optionsRadios" id="optionsRadios3" value="option" disabled>&nbsp;&nbsp;&nbsp;';
+		gr = '<input type="radio" name="ans-'+ltb+'" id="optionsRadios" value="option" disabled checked>&nbsp;&nbsp;&nbsp;';
+	} else gr = '<input type="radio" name="ans-'+ltb+'" id="optionsRadios3" value="option" disabled>&nbsp;&nbsp;&nbsp;';
 	var lg = $(".list-ans-add tr").length;
-	var table = document.getElementById("data-ans");
+	var table = document.getElementById("data-ans").getElementsByTagName('tbody')[0];;
 	var row;
-	row = table.insertRow(lg+1);
+	row = table.insertRow(lg);
 	row.id = "id";
 	var cell0 = row.insertCell(0);
 	var cell1 = row.insertCell(1);
@@ -47,7 +48,7 @@ function addAnswer(){
 	
 }
 function addExam() {
-	var lg = $(".list-ans-add tr").length,c = false;
+	var lg = $(".list-ans-add tr").length,c = false,ltb = $(".detail-exam-ct table").length;
 	for( var i = 2; i <= lg; i++){
 		if($('.list-ans-add tr:nth-child(' + i +') input').is(":checked")) {
 			c = true;
@@ -58,15 +59,22 @@ function addExam() {
 	else {
 		$('.list-ans-add tr:nth-child(1)').remove();
 		$('#data-ans').removeAttr("id");
-		$('.data-ans').attr('id','data-exam');
+		$('.add-exam-an-dt table').attr('id','data-exam ' + 'qt-id-'+ltb);
 		$('.list-ans-add').removeAttr("class");
-		$('.list-ans-add').attr('class','list-ans');
-		var aex = $('.detail-exam-ct').html(), aeo = $('.add-exam-an-dt').html();
-		$('.detail-exam-ct').html(aex+aeo);
-		$('.add-exam-an-dt #data-exam').removeAttr("id");
+		$('.add-exam-an-dt table tbody').attr('class','list-ans');
+		$('.list-explain-add').removeAttr("class");
+		$('.add-exam-an-dt table tfoot').attr('class','list-explain');
+		$('.nd-qt').removeAttr("class");
+		$('.nd-explain').removeAttr("class");
+		$('.add-exam-an-dt table thead').attr('id','qt-id-'+ltb);
+		var o = $('.detail-exam-ct').html(), n = $('.add-exam-an-dt').html();
+		$('.detail-exam-ct').html(o+n);
+		$('.add-exam-an-dt #data-exam').attr('id','data-exam');
 		$('.add-exam-an-dt table').attr('id','data-ans');
 		$('.add-exam-an-dt table tbody').removeAttr("class");
 		$('.add-exam-an-dt table tbody').attr('class','list-ans-add');	
+		$('#data-ans thead tr td label').attr('class','nd-qt');	
+		$('#data-ans tfoot tr td:first-child').attr('class','nd-explain');
 		var table = document.getElementById("data-ans"),
 		row = table.insertRow(1),
 		cell0 = row.insertCell(0),
@@ -76,8 +84,67 @@ function addExam() {
 		for( var n = 2; n <= lg+1; lg--){
 			$('.list-ans-add tr:nth-child(' + n +')').remove();
 		}
+		CKEDITOR.instances['question-add'] .setData('');
+		CKEDITOR.instances['explain-add'] .setData('');
+		$('.nd-explain').val('');
+		$('.add-exam-an-dt table thead').removeAttr('id');
 	}
 }
+function delQt(id) {
+	a = '#'+id +' tbody';
+	$('#'+id +' tbody').empty();	
+	$('.detail-exam-ct table:nth-child(3)').empty()
+}
+
+function addJlpt() {
+	var data = [{id : 1,
+		question : "sdada",
+		  anser: [
+		    {"id": "1", "name": "Snatch", "type": "crime"},
+		    {"id": "1", "name": "Snatch", "type": "crime"},
+		    {"id": "1", "name": "Snatch", "type": "crime"},
+		    {"id": "1", "name": "Snatch", "type": "crime"},
+		    {"id": "1", "name": "Snatch", "type": "crime"},
+		    {"id": "1", "name": "Snatch", "type": "crime"}
+		]}];
+
+		data.push(
+		    {id: "7", 
+		     question : "",
+		     anser : [{
+		       id :"2",
+		       name: "Douglas Adams", 
+		     type: "comedy"}
+		     ]
+		    }
+		);
+		console.log(data)
+}
+function saveExam() { // btn
+	var lg = $(".detail-exam-ct table").length;
+	alert(lg);
+	var iq,ia,q,a,e,c,lex = '[]',obj = JSON.parse(lex);
+	for (var i = 2; i <= lg; i++) {
+		id = $('#list-voca tr:nth-child(' + i + ')').attr("id");
+		an = $('#list-voca tr:nth-child(' + i + ')').attr("audio-name");
+		c = $('#list-voca tr:nth-child(' + i + ')').attr("change-data");
+		hirakana = document.getElementById("data-voca").rows[i].cells.item(0).innerHTML;
+		kanji = document.getElementById("data-voca").rows[i].cells.item(1).innerHTML;
+		translate = document.getElementById("data-voca").rows[i].cells.item(2).innerHTML;
+		example = document.getElementById("data-voca").rows[i].cells.item(3).innerHTML;
+		obj.push({
+			"id" : id,
+			"hirakana" : hirakana,
+			"kanji" : kanji,
+			"translate" : translate,
+			"example" : example,
+			"audio" : an,
+			"change" : c
+		});
+	}
+	document.getElementById('list-current').value = JSON.stringify(obj);
+}
+
 function addCourse() { // btn
 	var lg = $(".scrollContent tr").length;
 	var an;
@@ -115,9 +182,7 @@ function addVoca() {
 	var lg = $(".scrollContent tr").length;
 	var id = $('#edit-voca').attr("value");
 	var audio = $('#edit-voca-audio').attr("value");
-	var ac = "<a onclick = \"deleteRow(this)\" "
-			+ "class=\"del-voca\" href=\"javascript:void(0);\">&nbsp;<i class=\"fa fa-trash-o\">&nbsp;</i></a>&nbsp;&nbsp;"
-			+ "<a onclick = \"fixRow(this)\" href=\"javascript:void(0);\">&nbsp;<i class=\"fa fa-pencil\"></i></a></td></tr>";
+	var ac = '<a onclick = "deleteRow(this)" class="del-voca" href="javascript:void(0);">&nbsp;<i class="fa fa-trash-o">&nbsp;</i></a>&nbsp;&nbsp;<a onclick = "fixRow(this)" href="javascript:void(0);">&nbsp;<i class="fa fa-pencil"></i></a></td></tr>';
 	var table = document.getElementById("data-voca");
 	var hirakana = document.getElementById("hirakana").value;
 	var kanji = document.getElementById("kanji").value;

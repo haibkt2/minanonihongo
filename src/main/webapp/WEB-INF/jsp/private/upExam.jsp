@@ -55,8 +55,7 @@
 				</section>
 			</div>
 			<div class="mn-exam">
-				<f:form action="${contextPath}/admin/update-course"
-					modelAttribute="courseIlmForm" enctype="multipart/form-data">
+				<f:form action="${contextPath}/home" modelAttribute="courseIlmForm">
 					<f:input path="courseIlmId" type="hidden" />
 					<!-- Main content -->
 					<section class="content">
@@ -65,20 +64,26 @@
 								<div class="box box-info">
 									<!-- /.box-header -->
 									<div class="box-body pad">
+										<div>
+											<input type="hidden">
+											<button type="submit" class="btn btn-info btn-flat"
+												onclick="saveExam()" style="margin: 5px 0 0 40px">Hoàn
+												tất</button>
+										</div>
 										<div class="box-body">
 											<div class="detail-exam-ct">
 												<c:forEach items="${courseIlmForm.exams}" var="exam">
 													<c:forEach items="${exam.examQuestion}" var="qt">
-														<table id="data-exam"
+														<table id="data-exam ${qt.examQuestionId}" change-data="n"
 															class="scrollTable table table-bordered table-hover dataTable no-footer"
 															role="grid" aria-describedby="example2_info">
-															<thead>
+															<thead id="${qt.examQuestionId}">
 																<tr style="background-color: #cbe1f2;">
 																	<td><label>${qt.question}</label></td>
 																	<td width="80px"><a class="del-voca"
-																		onclick="deleteRow(this)" href="javascript:void(0);">&nbsp;<i
+																		onclick="delQt('${qt.examQuestionId}')" href="javascript:void(0);">&nbsp;<i
 																			class="fa fa-trash-o">&nbsp;</i></a><a
-																		onclick="fixRow(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i
+																		onclick="fixQt('${qt.examQuestionId}')" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i
 																			class="fa fa-pencil"></i></a></td>
 																</tr>
 															</thead>
@@ -89,43 +94,47 @@
 																			name="${qt.examQuestionId}"
 																			<c:if test="${ as.answerRghtWrng eq 1}">checked</c:if>
 																			id="optionsRadios3" value="option3" disabled checked>&nbsp;&nbsp;&nbsp;${as.answer}</td>
-																		<td><a class="del-voca" onclick="deleteRow(this)"
-																			href="javascript:void(0);">&nbsp;<i
-																				class="fa fa-trash-o">&nbsp;</i></a><a
-																			onclick="fixRow(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i
-																				class="fa fa-pencil"></i></a></td>
+																		<td><div>
+																				<a class="del-voca" onclick="delAns(this)"
+																					href="javascript:void(0);">&nbsp;<i
+																					class="fa fa-trash-o">&nbsp;</i></a><a
+																					onclick="fixAns(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i
+																					class="fa fa-pencil"></i></a>
+																			</div></td>
 																	</tr>
 																</c:forEach>
 															</tbody>
+															<tfoot class="list-explain">
+																<tr>
+																	<th>${qt.explain}</th>
+																	<td><a class="del-voca" onclick="deleteRow(this)"
+																		href="javascript:void(0);">&nbsp;<i
+																			class="fa fa-trash-o">&nbsp;</i></a><a
+																		onclick="fixRow(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i
+																			class="fa fa-pencil"></i></a></td>
+																</tr>
+															</tfoot>
 														</table>
 													</c:forEach>
 												</c:forEach>
 											</div>
 										</div>
 										<div class="box-body add-question-ans">
-											<div class="form-group add-exam-qt">
-												<div class="col-xs-11 ">
-													<label>Câu hỏi</label>
-													<textarea id="question-add"
-														class="form-control question-add"
-														placeholder="Nhập câu hỏi .."></textarea>
-												</div>
-												<br>
-											</div>
-											<div style="height: 340px; width: 100%"></div>
 											<div class="form-group col-lg-11">
 												<div class="add-exam-an-dt">
-													<table id="data-ans"
-														class="scrollTable table table-bordered table-hover dataTable no-footer data-ans"
+													<table id="data-ans" change-data="c"
+														class="scrollTable table table-bordered table-hover dataTable no-footer"
 														role="grid" aria-describedby="example2_info">
 														<thead>
 															<tr style="background-color: #cbe1f2;">
-																<td><label class="nd-qt">Câu trả lời</label></td>
-																<td width="80px"><a class="del-voca"
-																	onclick="deleteRow(this)" href="javascript:void(0);">&nbsp;<i
-																		class="fa fa-trash-o">&nbsp;</i></a><a
-																	onclick="fixRow(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i
-																		class="fa fa-pencil"></i></a></td>
+																<td><label class="nd-qt"></label></td>
+																<td width="80px"><div class="action">
+																		<a class="del-voca" onclick="delQt(this)(this)"
+																			href="javascript:void(0);">&nbsp;<i
+																			class="fa fa-trash-o">&nbsp;</i></a><a
+																			onclick="fixQt(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i
+																			class="fa fa-pencil"></i></a>
+																	</div></td>
 															</tr>
 														</thead>
 														<tbody class="list-ans-add">
@@ -134,15 +143,33 @@
 																<td></td>
 															</tr>
 														</tbody>
+														<tfoot class="list-explain-add">
+															<tr>
+																<td class="nd-explain"></td>
+																<td><div><a class="del-voca" onclick="deleteRow(this)"
+																	href="javascript:void(0);">&nbsp;<i
+																		class="fa fa-trash-o">&nbsp;</i></a><a
+																	onclick="fixRow(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i
+																		class="fa fa-pencil"></i></a></div></td>
+															</tr>
+														</tfoot>
 													</table>
-													<script>
-														window.onload = function myFunction() {
-															var qt = CKEDITOR.instances['question-add'] .getData();
-															$('.nd-qt').html(qt);
-															setTimeout(myFunction,10);
-														}
-													</script>
 												</div>
+												<script>
+													window.onload = function myFunction() {
+														var qt = CKEDITOR.instances['question-add'].getData();
+														var ep = CKEDITOR.instances['explain-add'].getData();
+														$('.nd-qt').html(qt);
+														$('.nd-explain').html(ep);
+														if(qt == '')
+															$('#data-ans thead tr td:nth-child(2) div').css("display","none");
+														else $('#data-ans thead tr td:nth-child(2) div').css("display","block");
+														if(ep == '')
+															$('#data-ans tfoot tr td:nth-child(2) div').css("display","none");
+														else $('#data-ans tfoot tr td:nth-child(2) div').css("display","block");
+														setTimeout( myFunction,10);
+													}
+													</script>
 												<br>
 												<div class="col-lg-11">
 													<div class="input-group add-anwser-f">
@@ -159,7 +186,24 @@
 													</div>
 													<!-- /input-group -->
 												</div>
-
+											</div>
+											<div class="form-group add-exam-qt">
+												<div class="col-xs-11 ">
+													<label>Câu hỏi</label>
+													<textarea id="question-add"
+														class="form-control question-add"
+														placeholder="Nhập câu hỏi .."></textarea>
+												</div>
+												<br>
+											</div>
+											<div class="form-group add-exam-qt">
+												<div class="col-xs-11 ">
+													<label>Câu hỏi</label>
+													<textarea id="explain-add"
+														class="form-control explain-add"
+														placeholder="Nhập câu hỏi .."></textarea>
+												</div>
+												<br>
 											</div>
 										</div>
 										<div>
@@ -192,11 +236,16 @@
 		<jsp:include page="footer.jsp"></jsp:include>
 		<!-- /.content-wrapper -->
 		<script>
-			CKEDITOR
-					.replace(
-							'question-add',
-							{
-								filebrowserBrowseUrl : '../ckfinder/ckfinder.html',
+			CKEDITOR.replace('question-add',
+					{filebrowserBrowseUrl : '../ckfinder/ckfinder.html',
+								filebrowserImageBrowseUrl : '../ckfinder/ckfinder.html?type=Images',
+								filebrowserFlashBrowseUrl : '../ckfinder/ckfinder.html?type=Flash',
+								filebrowserUploadUrl : '../ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Files',
+								filebrowserImageUploadUrl : '../ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Images',
+								filebrowserFlashUploadUrl : '../ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Flash'
+							});
+			CKEDITOR.replace('explain-add',
+					{filebrowserBrowseUrl : '../ckfinder/ckfinder.html',
 								filebrowserImageBrowseUrl : '../ckfinder/ckfinder.html?type=Images',
 								filebrowserFlashBrowseUrl : '../ckfinder/ckfinder.html?type=Flash',
 								filebrowserUploadUrl : '../ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Files',
