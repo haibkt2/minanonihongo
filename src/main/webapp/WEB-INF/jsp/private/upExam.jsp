@@ -74,14 +74,13 @@
 											<div class="detail-exam-ct">
 												<c:forEach items="${courseIlmForm.exams}" var="exam">
 													<c:forEach items="${exam.examQuestion}" var="qt">
-														<table id="data-exam ${qt.examQuestionId}" change-data="n"
-															class="scrollTable table table-bordered table-hover dataTable no-footer"
+														<table id="data-exam" change-data="n"
+															class="scrollTable table table-bordered table-hover dataTable no-footer ${qt.examQuestionId}"
 															role="grid" aria-describedby="example2_info">
 															<thead id="${qt.examQuestionId}">
 																<tr style="background-color: #cbe1f2;">
 																	<td><label>${qt.question}</label></td>
-																	<td width="80px"><a class="del-voca"
-																		onclick="delQt('${qt.examQuestionId}')" href="javascript:void(0);">&nbsp;<i
+																	<td width="80px" class="act-exam"><a onclick="delQt('${qt.examQuestionId}')" href="javascript:void(0);">&nbsp;<i
 																			class="fa fa-trash-o">&nbsp;</i></a><a
 																		onclick="fixQt('${qt.examQuestionId}')" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i
 																			class="fa fa-pencil"></i></a></td>
@@ -94,13 +93,13 @@
 																			name="${qt.examQuestionId}"
 																			<c:if test="${ as.answerRghtWrng eq 1}">checked</c:if>
 																			id="optionsRadios3" value="option3" disabled checked>&nbsp;&nbsp;&nbsp;${as.answer}</td>
-																		<td><div>
+																		<td>
 																				<a class="del-voca" onclick="delAns(this)"
 																					href="javascript:void(0);">&nbsp;<i
 																					class="fa fa-trash-o">&nbsp;</i></a><a
 																					onclick="fixAns(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i
 																					class="fa fa-pencil"></i></a>
-																			</div></td>
+																			</td>
 																	</tr>
 																</c:forEach>
 															</tbody>
@@ -128,13 +127,13 @@
 														<thead>
 															<tr style="background-color: #cbe1f2;">
 																<td><label class="nd-qt"></label></td>
-																<td width="80px"><div class="action">
-																		<a class="del-voca" onclick="delQt(this)(this)"
+																<td width="80px" class="act-exam">
+																		<a class="del-voca"
 																			href="javascript:void(0);">&nbsp;<i
 																			class="fa fa-trash-o">&nbsp;</i></a><a
-																			onclick="fixQt(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i
+																			 href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i
 																			class="fa fa-pencil"></i></a>
-																	</div></td>
+																	</td>
 															</tr>
 														</thead>
 														<tbody class="list-ans-add">
@@ -146,11 +145,11 @@
 														<tfoot class="list-explain-add">
 															<tr>
 																<td class="nd-explain"></td>
-																<td><div><a class="del-voca" onclick="deleteRow(this)"
+																<td><a onclick="deleteRow(this)"
 																	href="javascript:void(0);">&nbsp;<i
 																		class="fa fa-trash-o">&nbsp;</i></a><a
 																	onclick="fixRow(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i
-																		class="fa fa-pencil"></i></a></div></td>
+																		class="fa fa-pencil"></i></a></td>
 															</tr>
 														</tfoot>
 													</table>
@@ -159,14 +158,15 @@
 													window.onload = function myFunction() {
 														var qt = CKEDITOR.instances['question-add'].getData();
 														var ep = CKEDITOR.instances['explain-add'].getData();
+														if(qt == '')
+															$('.add-exam-an-dt table thead tr td:nth-child(2) a').css("display","none");
+														else $('.add-exam-an-dt table thead tr td:nth-child(2) a').css("display","block");
+														if(ep == '')
+															$('.add-exam-an-dt table tfoot tr td:nth-child(2) a').css("display","none");
+														else $('.add-exam-an-dt table tfoot tr td:nth-child(2) a').css("display","block");
+														
 														$('.nd-qt').html(qt);
 														$('.nd-explain').html(ep);
-														if(qt == '')
-															$('#data-ans thead tr td:nth-child(2) div').css("display","none");
-														else $('#data-ans thead tr td:nth-child(2) div').css("display","block");
-														if(ep == '')
-															$('#data-ans tfoot tr td:nth-child(2) div').css("display","none");
-														else $('#data-ans tfoot tr td:nth-child(2) div').css("display","block");
 														setTimeout( myFunction,10);
 													}
 													</script>

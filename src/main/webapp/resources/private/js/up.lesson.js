@@ -29,7 +29,7 @@ function addAnswer(){
 	var ltb = $(".detail-exam-ct table").length;
 	var an = $('.ct-answser').val();
 	var c = $(".right-wrong").is(":checked");
-	var ac = '<a class="del-voca" onclick="delQt('+'qt-id-'+ltb+')" href="javascript:void(0);">&nbsp;<i class="fa fa-trash-o">&nbsp;</i></a><a onclick="fixQt('+'qt-id-'+ltb+')" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-pencil"></i></a';
+	var ac = '<a class="del-voca" onclick="delQt("'+'qt-id-'+ltb+'")" href="javascript:void(0);">&nbsp;<i class="fa fa-trash-o">&nbsp;</i></a><a onclick="fixQt("'+'qt-id-'+ltb+'")" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-pencil"></i></a';
 	var gr;
 	if(c){
 		gr = '<input type="radio" name="ans-'+ltb+'" id="optionsRadios" value="option" disabled checked>&nbsp;&nbsp;&nbsp;';
@@ -58,8 +58,9 @@ function addExam() {
 	if(!c) alert("Chưa có câu trả lời đúng !!") 
 	else {
 		$('.list-ans-add tr:nth-child(1)').remove();
+		$('.add-exam-an-dt table').addClass('qt-id-'+ltb);
 		$('#data-ans').removeAttr("id");
-		$('.add-exam-an-dt table').attr('id','data-exam ' + 'qt-id-'+ltb);
+		$('.add-exam-an-dt table').attr('id','data-exam');
 		$('.list-ans-add').removeAttr("class");
 		$('.add-exam-an-dt table tbody').attr('class','list-ans');
 		$('.list-explain-add').removeAttr("class");
@@ -67,6 +68,14 @@ function addExam() {
 		$('.nd-qt').removeAttr("class");
 		$('.nd-explain').removeAttr("class");
 		$('.add-exam-an-dt table thead').attr('id','qt-id-'+ltb);
+		
+		$('.add-exam-an-dt table thead tr td:nth-child(2) a:nth-child(1)').attr('onclick','delQt(\'qt-id-'+ltb+'\')');
+		$('.add-exam-an-dt table thead tr td:nth-child(2) a:nth-child(2)').attr('onclick','fixQt(\'qt-id-'+ltb+'\'');
+		
+//		.add-exam-an-dt table thead tr td:nth-child(2) a:nth-child(1)
+		
+		
+		
 		var o = $('.detail-exam-ct').html(), n = $('.add-exam-an-dt').html();
 		$('.detail-exam-ct').html(o+n);
 		$('.add-exam-an-dt #data-exam').attr('id','data-exam');
@@ -91,9 +100,13 @@ function addExam() {
 	}
 }
 function delQt(id) {
-	a = '#'+id +' tbody';
-	$('#'+id +' tbody').empty();	
-	$('.detail-exam-ct table:nth-child(3)').empty()
+	$('.'+id).empty();	
+}
+
+function delAns(btn) {
+	var row = btn.parentNode.parentNode;
+	row.parentNode.removeChild(row);
+	alert("ok");
 }
 
 function addJlpt() {
