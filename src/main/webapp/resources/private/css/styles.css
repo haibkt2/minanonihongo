@@ -8046,7 +8046,22 @@ margin-left: 5px;
 }
 .detail-exam-ct {
 	display: block;
-	max-height: 262px;
+	max-height: 400px;
 	overflow: auto;
 /* 	width: 100% */
+}
+.go-top {
+	position: fixed;
+	cursor: pointer;
+	z-index: 999;
+	bottom: 25px;
+	right: 20px;
+	width: 40px;
+	height: 40px;
+	text-align: center;
+	padding: 12px;
+	border-radius: 50%;
+	color: #FFF;
+	background: #ccc;
+	opacity: 0.8;
 }

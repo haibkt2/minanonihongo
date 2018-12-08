@@ -113,14 +113,17 @@ public class CommonService {
 			File source = new File(from);
 			File dest = new File(to);
 			try {
-				FileUtils.copyFile(source, dest);
-				return true;
+				if (source.exists()) {
+					FileUtils.copyFile(source, dest);
+					return true;
+				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				return false;
 			}
-		} else return true;
+		} 
+			return true;
 	}
 
 	public boolean checkTypeImg(MultipartFile file) {

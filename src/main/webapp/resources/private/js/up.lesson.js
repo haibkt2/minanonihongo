@@ -29,16 +29,16 @@ function addAnswer(){
 	var ltb = $(".detail-exam-ct table").length;
 	var an = $('.ct-answser').val();
 	var c = $(".right-wrong").is(":checked");
-	var ac = '<a class="del-voca" onclick="delQt("'+'qt-id-'+ltb+'")" href="javascript:void(0);">&nbsp;<i class="fa fa-trash-o">&nbsp;</i></a><a onclick="fixQt("'+'qt-id-'+ltb+'")" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-pencil"></i></a';
+	var ac = '<a class="del-voca" onclick="delAns(this)" href="javascript:void(0);">&nbsp;<i class="fa fa-trash-o">&nbsp;</i></a><a onclick="fixAns(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-pencil"></i></a';
 	var gr;
 	if(c){
-		gr = '<input type="radio" name="ans-'+ltb+'" id="optionsRadios" value="option" disabled checked>&nbsp;&nbsp;&nbsp;';
-	} else gr = '<input type="radio" name="ans-'+ltb+'" id="optionsRadios3" value="option" disabled>&nbsp;&nbsp;&nbsp;';
+		gr = '<input type="radio" name="ans-'+ltb+'" disabled checked>&nbsp;&nbsp;&nbsp;';
+	} else gr = '<input type="radio" name="ans-'+ltb+'" disabled>&nbsp;&nbsp;&nbsp;';
 	var lg = $(".list-ans-add tr").length;
 	var table = document.getElementById("data-ans").getElementsByTagName('tbody')[0];;
 	var row;
 	row = table.insertRow(lg);
-	row.id = "id";
+	row.id = "idans";
 	var cell0 = row.insertCell(0);
 	var cell1 = row.insertCell(1);
 	cell0.innerHTML = gr+an;
@@ -48,55 +48,83 @@ function addAnswer(){
 	
 }
 function addExam() {
-	var lg = $(".list-ans-add tr").length,c = false,ltb = $(".detail-exam-ct table").length;
-	for( var i = 2; i <= lg; i++){
-		if($('.list-ans-add tr:nth-child(' + i +') input').is(":checked")) {
-			c = true;
-			break;
+	var lg = $(".list-ans-add tr").length,
+	qt = CKEDITOR.instances['question-add'].getData(),
+	c = false,
+	ltb = $(".detail-exam-ct table").length,
+	ac = $('#ac-add-exam').val();
+	if('add' == ac){
+		for( var i = 2; i <= lg; i++){
+			if($('.list-ans-add tr:nth-child(' + i +') input').is(":checked")) {
+				c = true;
+				break;
+			}
 		}
-	}
-	if(!c) alert("Chưa có câu trả lời đúng !!") 
-	else {
-		$('.list-ans-add tr:nth-child(1)').remove();
-		$('.add-exam-an-dt table').addClass('qt-id-'+ltb);
-		$('#data-ans').removeAttr("id");
-		$('.add-exam-an-dt table').attr('id','data-exam');
-		$('.list-ans-add').removeAttr("class");
-		$('.add-exam-an-dt table tbody').attr('class','list-ans');
-		$('.list-explain-add').removeAttr("class");
-		$('.add-exam-an-dt table tfoot').attr('class','list-explain');
-		$('.nd-qt').removeAttr("class");
-		$('.nd-explain').removeAttr("class");
-		$('.add-exam-an-dt table thead').attr('id','qt-id-'+ltb);
-		
-		$('.add-exam-an-dt table thead tr td:nth-child(2) a:nth-child(1)').attr('onclick','delQt(\'qt-id-'+ltb+'\')');
-		$('.add-exam-an-dt table thead tr td:nth-child(2) a:nth-child(2)').attr('onclick','fixQt(\'qt-id-'+ltb+'\'');
-		
-//		.add-exam-an-dt table thead tr td:nth-child(2) a:nth-child(1)
-		
-		
-		
-		var o = $('.detail-exam-ct').html(), n = $('.add-exam-an-dt').html();
-		$('.detail-exam-ct').html(o+n);
-		$('.add-exam-an-dt #data-exam').attr('id','data-exam');
-		$('.add-exam-an-dt table').attr('id','data-ans');
-		$('.add-exam-an-dt table tbody').removeAttr("class");
-		$('.add-exam-an-dt table tbody').attr('class','list-ans-add');	
-		$('#data-ans thead tr td label').attr('class','nd-qt');	
-		$('#data-ans tfoot tr td:first-child').attr('class','nd-explain');
-		var table = document.getElementById("data-ans"),
-		row = table.insertRow(1),
-		cell0 = row.insertCell(0),
-		cell1 = row.insertCell(1);
-		cell0.innerHTML = '';
-		cell1.innerHTML = '';
-		for( var n = 2; n <= lg+1; lg--){
-			$('.list-ans-add tr:nth-child(' + n +')').remove();
+		if(!c) alert("Chưa có câu trả lời đúng !!") 
+		else {
+			if(''==qt.trim()){
+				alert("Chưa nhập câu hỏi !!")
+			}else {
+			$('.list-ans-add tr:nth-child(1)').remove();
+			$('.add-exam-an-dt table').addClass('qtid'+ltb);
+			$('#data-ans').removeAttr("id");
+			$('.add-exam-an-dt table').attr('id','data-exam');
+			$('.list-ans-add').removeAttr("class");
+			$('.add-exam-an-dt table tbody').attr('class','list-ans');
+			$('.add-exam-an-dt table tfoot').attr('id','tfoot-qtid'+ltb);
+			$('.nd-qt').removeAttr("class");
+			$('.nd-explain').removeAttr("class");
+			$('.add-exam-an-dt table thead').attr('id','qtid'+ltb);
+			
+			$('.add-exam-an-dt table thead tr td:nth-child(2) a:nth-child(1)').attr('onclick','delQt(\'qtid'+ltb+'\')');
+			$('.add-exam-an-dt table thead tr td:nth-child(2) a:nth-child(2)').attr('onclick','fixQt(this)');
+			
+//			.add-exam-an-dt table thead tr td:nth-child(2) a:nth-child(1)
+			
+			$('.add-exam-an-dt table tfoot tr td:nth-child(2) a').removeAttr("style");
+			
+			var o = $('.detail-exam-ct').html(), n = $('.add-exam-an-dt').html();
+			
+			$('.detail-exam-ct').html(o+n);
+			
+			$('.add-exam-an-dt #data-exam').attr('id','data-exam');
+			$('.add-exam-an-dt table').attr('id','data-ans');
+			$('.add-exam-an-dt table tbody').removeAttr("class");
+			$('.add-exam-an-dt table tbody').attr('class','list-ans-add');	
+			$('#data-ans thead tr td label').attr('class','nd-qt');	
+			$('#data-ans tfoot tr td:first-child').attr('class','nd-explain');
+			cl = $("#data-ans").attr("class").replace("qtid"+ltb, "");
+			$("#data-ans").attr("class", cl);
+			$('.add-exam-an-dt table tfoot').removeAttr('id');
+			var table = document.getElementById("data-ans"),
+			row = table.insertRow(1),
+			cell0 = row.insertCell(0),
+			cell1 = row.insertCell(1);
+			cell0.innerHTML = '';
+			cell1.innerHTML = '';
+			for( var n = 2; n <= lg+1; lg--){
+				$('.list-ans-add tr:nth-child(' + n +')').remove();
+			}
+			$('.nd-explain').val('');
+			$('.add-exam-an-dt table thead').removeAttr('id');
+			CKEDITOR.instances['question-add'] .setData('');
+			CKEDITOR.instances['explain-add'] .setData('');
 		}
+		}
+	} else {
+		var fl = $('#ac-add-exam').attr('name'),
+		nd,
+		l = fl.split('-')[0];
+		if('tfoot' == l) {nd = CKEDITOR.instances['explain-add'] .getData();
+		$('.'+fl.split('-')[1]).attr('change-data','c');
+		}
+		else {nd = CKEDITOR.instances['question-add'] .getData();
+		$('.'+fl).attr('change-data','c');
+		}
+		$('#'+fl+' tr td:nth-child(1)').html(nd);
 		CKEDITOR.instances['question-add'] .setData('');
 		CKEDITOR.instances['explain-add'] .setData('');
-		$('.nd-explain').val('');
-		$('.add-exam-an-dt table thead').removeAttr('id');
+		$('#ac-add-exam').val('add')
 	}
 }
 function delQt(id) {
@@ -106,9 +134,54 @@ function delQt(id) {
 function delAns(btn) {
 	var row = btn.parentNode.parentNode;
 	row.parentNode.removeChild(row);
-	alert("ok");
 }
-
+function fixQt(btn) {
+	CKEDITOR.instances['explain-add'] .setData('');
+	showMnGr();
+	var row = btn.parentNode.parentNode,
+	cc = row.cells.item(0).innerHTML,
+	id = row.offsetParent.tHead.id;
+	CKEDITOR.instances['question-add'].setData(cc);
+	$('#ac-add-exam').val('fix'),$('#ac-add-exam').attr('name',id);
+	$([document.documentElement, document.body]).animate({
+        scrollTop: $(".mana-gr").offset().top
+    }, 1000);
+}
+function fixAns(btn) {
+	var row = btn.parentNode.parentNode,
+	c='',
+	cd = btn.parentNode.parentNode.children[0].childNodes[0].checked,
+	n = btn.parentNode.parentNode.children[0].childNodes[0].name,
+	t = btn.parentNode.parentNode.children[0].childNodes[1].textContent;
+	if(cd == true ) c='checked';
+	dc ='<div class="input-group"><span class="input-group-addon"> <input class="right-wrong" type="checkbox" '+c+' name="'+n+'">'
+			+ '</span> <input type="text" class="form-control" value="'+t+'">' 
+			+ '<span class="input-group-btn"><button type="button" onclick="upAnswer(this)"class="btn btn-info btn-flat add-ans"><i class="fa fa-fw fa-upload"></i></button></span></div>'
+	row.cells.item(0).innerHTML =dc;
+}
+function upAnswer(e) {
+	var row = e.parentNode.parentNode,
+	cd = e.parentNode.parentNode.children[0].children[0].checked,
+	c='',
+	v = e.parentNode.parentNode.children[1].value,
+	n = e.parentNode.parentNode.children[0].children[0].name;
+	if(cd == true) c='checked';
+	i = '<input type="radio" name="'+n+'" disabled '+c+'>'+v;
+	row.parentNode.innerHTML =i;
+	$('.'+n).attr('change-data','c');
+}
+function fixEx(btn) {
+	CKEDITOR.instances['question-add'] .setData('');
+	showMnCv();
+	var row = btn.parentNode.parentNode,
+	cc = row.cells.item(0).innerHTML,
+	id = row.offsetParent.tFoot.id;
+	CKEDITOR.instances['explain-add'].setData(cc);
+	$('#ac-add-exam').val('fix'),$('#ac-add-exam').attr('name',id);
+	$([document.documentElement, document.body]).animate({
+        scrollTop: $(".mana-cv").offset().top
+    }, 1000);
+}
 function addJlpt() {
 	var data = [{id : 1,
 		question : "sdada",
@@ -135,30 +208,44 @@ function addJlpt() {
 }
 function saveExam() { // btn
 	var lg = $(".detail-exam-ct table").length;
-	alert(lg);
-	var iq,ia,q,a,e,c,lex = '[]',obj = JSON.parse(lex);
-	for (var i = 2; i <= lg; i++) {
-		id = $('#list-voca tr:nth-child(' + i + ')').attr("id");
-		an = $('#list-voca tr:nth-child(' + i + ')').attr("audio-name");
-		c = $('#list-voca tr:nth-child(' + i + ')').attr("change-data");
-		hirakana = document.getElementById("data-voca").rows[i].cells.item(0).innerHTML;
-		kanji = document.getElementById("data-voca").rows[i].cells.item(1).innerHTML;
-		translate = document.getElementById("data-voca").rows[i].cells.item(2).innerHTML;
-		example = document.getElementById("data-voca").rows[i].cells.item(3).innerHTML;
-		obj.push({
-			"id" : id,
-			"hirakana" : hirakana,
-			"kanji" : kanji,
-			"translate" : translate,
-			"example" : example,
-			"audio" : an,
-			"change" : c
-		});
+	var iq,ia,q,a,e,g,c,
+	lex = '[]',
+	oe = JSON.parse(lex);
+	for (var i = 1; i <= lg; i++) {
+		iq = $('.detail-exam-ct table:nth-child('+ i +') thead').attr("id");
+		q = $('#'+iq+' tr td:nth-child(1)').html(),
+		e = $('#tfoot-'+iq+' tr td:nth-child(1)').html(),
+		lan = '[]',
+		oa = JSON.parse(lan),
+		la = $('.'+iq + ' tbody tr').length;
+		for(var j = 1; j <= la; j++){
+			ia = $('.' + iq + ' tbody tr:nth-child('+j+')').attr('id'),
+			c = $('.' + iq + ' tbody tr:nth-child('+j+')' + ' td:nth-child(1) input').is(":checked");;
+			if(c == false) g = '0';
+			else g = '1';
+			a = $('.' + iq + ' tbody tr:nth-child('+j+')' + ' td:nth-child(1)').text();
+			oa.push({
+				"ia" : ia,
+				"g" : g,
+				"a" : a
+			})
+		}
+		oe.push(
+			    {"iq": iq, 
+			     "qt" : q,
+			     "ex" : e,
+			     "ans" : oa}
+			);
 	}
-	document.getElementById('list-current').value = JSON.stringify(obj);
+	alert(JSON.stringify(oe));
 }
 
 function addCourse() { // btn
+	doing = $('#edit-voca').attr('doing');
+	if('fix' == doing) {
+		alert("Chưa update giá trị đang chỉnh sửa!!");
+		return false;
+	} else {
 	var lg = $(".scrollContent tr").length;
 	var an;
 	var id;
@@ -187,6 +274,8 @@ function addCourse() { // btn
 		});
 	}
 	document.getElementById('list-current').value = JSON.stringify(obj);
+	return true;
+}
 }
 function addVoca() {
 	if(false==addAudio()){
@@ -255,6 +344,7 @@ function addVoca() {
 	document.getElementById("example").value = "";
 	document.getElementById("audio-upload").value = "";
 	document.getElementById("audio-name").value = "";
+	$('#edit-voca').attr('doing','add');
 //	$('#audio-upload')[0].reset();
 }}
 //
@@ -313,19 +403,30 @@ function deleteRow(btn) {
 }
 
 function fixRow(btn) {
-	var row = btn.parentNode.parentNode;
-	var index = row.rowIndex;
-	var an = $(row).attr("audio-name");
-	document.getElementById("hirakana").value = row.cells.item(0).innerHTML;
-	document.getElementById("kanji").value = row.cells.item(1).innerHTML;
-	document.getElementById("translate").value = row.cells.item(2).innerHTML;
-	document.getElementById("example").value = row.cells.item(3).innerHTML;
-	document.getElementById("edit-voca").value = row.id;
-	document.getElementById("edit-voca-audio").value = row.cells.item(4).innerHTML;
-	document.getElementById("audio-name").value = an;
-	var d = document.getElementById("edit-voca");
-	d.setAttribute("index", index);
-	row.parentNode.removeChild(row);
+	
+	var row = btn.parentNode.parentNode,
+	index = row.rowIndex,
+	an = $(row).attr("audio-name"),
+		doing = $('#edit-voca').attr('doing');
+		if('fix' == doing) {
+			alert("Chưa update giá trị đang chỉnh sửa!!")
+		} else {
+		showMnVc();
+		$([document.documentElement, document.body]).animate({
+	        scrollTop: $(".mana-voca").offset().top
+	    }, 1000);
+		document.getElementById("hirakana").value = row.cells.item(0).innerHTML;
+		document.getElementById("kanji").value = row.cells.item(1).innerHTML;
+		document.getElementById("translate").value = row.cells.item(2).innerHTML;
+		document.getElementById("example").value = row.cells.item(3).innerHTML;
+		document.getElementById("edit-voca").value = row.id;
+		document.getElementById("edit-voca-audio").value = row.cells.item(4).innerHTML;
+		document.getElementById("audio-name").value = an;
+		var d = document.getElementById("edit-voca");
+		$('#edit-voca').attr('doing','fix');
+		d.setAttribute("index", index);
+		row.parentNode.removeChild(row);
+	}
 }
 $('.movie-play').on('click', function(ev) {
 	var id = $(this).attr("id");

@@ -26,7 +26,7 @@
 					</h1></span>
 			</section>
 			<f:form action="${contextPath}/admin/update-course"
-				modelAttribute="courseIlmForm" enctype="multipart/form-data">
+				modelAttribute="courseIlmForm" enctype="multipart/form-data" >
 				<f:input path="courseIlmId" type="hidden" />
 				<!-- Main content -->
 				<section class="content">
@@ -283,7 +283,7 @@
 													type="file" name="file-video">
 											</div>
 										</div>
-										<button class="btn btn-primary" onclick="addCourse();">
+										<button class="btn btn-primary" onclick="return addCourse();">
 											<i class="fa fa-fw fa-check"></i>Cập Nhật
 										</button>
 									</div>
