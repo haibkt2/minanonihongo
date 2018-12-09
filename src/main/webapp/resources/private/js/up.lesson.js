@@ -29,7 +29,7 @@ function addAnswer(){
 	var ltb = $(".detail-exam-ct table").length;
 	var an = $('.ct-answser').val();
 	var c = $(".right-wrong").is(":checked");
-	var ac = '<a class="del-voca" onclick="delAns(this)" href="javascript:void(0);">&nbsp;<i class="fa fa-trash-o">&nbsp;</i></a><a onclick="fixAns(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-pencil"></i></a';
+	var ac = '<a class="del-voca" onclick="delAns(this)" href="javascript:void(0);">&nbsp;<i class="fa fa-trash-o">&nbsp;</i></a><a onclick="fixAns(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-pencil"></i></a>';
 	var gr;
 	if(c){
 		gr = '<input type="radio" name="ans-'+ltb+'" disabled checked>&nbsp;&nbsp;&nbsp;';
@@ -128,6 +128,13 @@ function addExam() {
 	}
 }
 function delQt(id) {
+	var de = $('#ac-del-exam').val(),
+	id = $('.'+id+' thead').attr('id');	
+	de = JSON.parse(de);
+	de.push({
+		"id" : id
+	}),
+	$('#ac-del-exam').val(JSON.stringify(de));
 	$('.'+id).empty();	
 }
 
@@ -150,14 +157,39 @@ function fixQt(btn) {
 function fixAns(btn) {
 	var row = btn.parentNode.parentNode,
 	c='',
-	cd = btn.parentNode.parentNode.children[0].childNodes[0].checked,
+	ad = btn.parentNode.parentNode.children[0].childNodes[0];
+	if(typeof(ad) == 'undefined') cd = false,
+	n = btn.parentNode.parentNode.id,
+	t = '',
+	a = 'insAns';
+	else cd = btn.parentNode.parentNode.children[0].childNodes[0].checked,
 	n = btn.parentNode.parentNode.children[0].childNodes[0].name,
+	a = 'upAnswer',
 	t = btn.parentNode.parentNode.children[0].childNodes[1].textContent;
 	if(cd == true ) c='checked';
 	dc ='<div class="input-group"><span class="input-group-addon"> <input class="right-wrong" type="checkbox" '+c+' name="'+n+'">'
 			+ '</span> <input type="text" class="form-control" value="'+t+'">' 
-			+ '<span class="input-group-btn"><button type="button" onclick="upAnswer(this)"class="btn btn-info btn-flat add-ans"><i class="fa fa-fw fa-upload"></i></button></span></div>'
+			+ '<span class="input-group-btn"><button type="button" onclick="'+a+'(this)"class="btn btn-info btn-flat add-ans"><i class="fa fa-fw fa-upload"></i></button></span></div>'
 	row.cells.item(0).innerHTML =dc;
+}
+function insAns(e) {
+	var r = e.parentNode.parentNode,
+	ans = r.children[1].value,
+	lg = r.parentNode.parentNode.childElementCount,
+	cl = r.parentNode.parentNode.parentNode.parentNode.tHead.id,
+	cd = $('.'+cl+' tbody tr td:nth-child('+lg+')').is(':checked'),
+	tb = document.getElementsByClassName(cl)[0],
+	row = tb.insertRow(lg + 1);
+	row.id = 'idans',
+	c = '';
+	if(cd == true) c='checked';
+	i = '<input type="radio" name="'+cl+'" disabled '+c+'>&nbsp;&nbsp;&nbsp;&nbsp;'+ans;
+	$('.'+cl).attr('change-data','c'),
+	ac = '<a class="del-voca" onclick="delAns(this)" href="javascript:void(0);">&nbsp;<i class="fa fa-trash-o">&nbsp;</i></a><a onclick="fixAns(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-pencil"></i></a>';
+	cell0 = row.insertCell(0),
+	cell1 = row.insertCell(1);
+	cell0.innerHTML = i;
+	cell1.innerHTML = ac;
 }
 function upAnswer(e) {
 	var row = e.parentNode.parentNode,
@@ -182,37 +214,40 @@ function fixEx(btn) {
         scrollTop: $(".mana-cv").offset().top
     }, 1000);
 }
-function addJlpt() {
-	var data = [{id : 1,
-		question : "sdada",
-		  anser: [
-		    {"id": "1", "name": "Snatch", "type": "crime"},
-		    {"id": "1", "name": "Snatch", "type": "crime"},
-		    {"id": "1", "name": "Snatch", "type": "crime"},
-		    {"id": "1", "name": "Snatch", "type": "crime"},
-		    {"id": "1", "name": "Snatch", "type": "crime"},
-		    {"id": "1", "name": "Snatch", "type": "crime"}
-		]}];
-
-		data.push(
-		    {id: "7", 
-		     question : "",
-		     anser : [{
-		       id :"2",
-		       name: "Douglas Adams", 
-		     type: "comedy"}
-		     ]
-		    }
-		);
-		console.log(data)
-}
+//function addJlpt() {
+//	var data = [{id : 1,
+//		question : "sdada",
+//		  anser: [
+//		    {"id": "1", "name": "Snatch", "type": "crime"},
+//		    {"id": "1", "name": "Snatch", "type": "crime"},
+//		    {"id": "1", "name": "Snatch", "type": "crime"},
+//		    {"id": "1", "name": "Snatch", "type": "crime"},
+//		    {"id": "1", "name": "Snatch", "type": "crime"},
+//		    {"id": "1", "name": "Snatch", "type": "crime"}
+//		]}];
+//
+//		data.push(
+//		    {id: "7", 
+//		     question : "",
+//		     anser : [{
+//		       id :"2",
+//		       name: "Douglas Adams", 
+//		     type: "comedy"}
+//		     ]
+//		    }
+//		);
+//		console.log(data)
+//}
 function saveExam() { // btn
 	var lg = $(".detail-exam-ct table").length;
-	var iq,ia,q,a,e,g,c,
+	var iq,ia,q,a,e,g,c,u,ta,
 	lex = '[]',
 	oe = JSON.parse(lex);
 	for (var i = 1; i <= lg; i++) {
-		iq = $('.detail-exam-ct table:nth-child('+ i +') thead').attr("id");
+		ta = $('.detail-exam-ct table:nth-child('+ i +')').is(':empty');
+		if(ta == true) continue;
+		iq = $('.detail-exam-ct table:nth-child('+ i +') thead').attr("id"),
+		u = $('.detail-exam-ct table:nth-child('+ i +')').attr("change-data"),
 		q = $('#'+iq+' tr td:nth-child(1)').html(),
 		e = $('#tfoot-'+iq+' tr td:nth-child(1)').html(),
 		lan = '[]',
@@ -232,12 +267,13 @@ function saveExam() { // btn
 		}
 		oe.push(
 			    {"iq": iq, 
-			     "qt" : q,
-			     "ex" : e,
+			     "qt" : q.toString(),
+			     "ex" : e.toString(),
+			     "c" : u,
 			     "ans" : oa}
 			);
 	}
-	alert(JSON.stringify(oe));
+	$('#l-exam').val(JSON.stringify(oe));
 }
 
 function addCourse() { // btn

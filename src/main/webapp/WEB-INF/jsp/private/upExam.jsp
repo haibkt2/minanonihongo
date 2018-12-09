@@ -55,7 +55,7 @@
 				</section>
 			</div>
 			<div class="mn-exam">
-				<f:form action="#" modelAttribute="courseIlmForm">
+				<f:form action="${contextPath}/admin/update-course/update-exam" modelAttribute="courseIlmForm">
 					<f:input path="courseIlmId" type="hidden" />
 					<!-- Main content -->
 					<section class="content">
@@ -65,7 +65,6 @@
 									<!-- /.box-header -->
 									<div class="box-body pad">
 										<div>
-											<input type="hidden">
 											<button type="submit" class="btn btn-info btn-flat"
 												onclick="saveExam()" style="margin: 5px 0 0 40px">Hoàn
 												tất</button>
@@ -74,7 +73,7 @@
 											<div class="detail-exam-ct">
 												<c:forEach items="${courseIlmForm.exams}" var="exam">
 													<c:forEach items="${exam.examQuestion}" var="qt">
-														<table id="data-exam" change-data="n"
+														<table id="data-exam" change-data="n" dt-db="ys"
 															class="scrollTable table table-bordered table-hover dataTable no-footer ${qt.examQuestionId}"
 															role="grid" aria-describedby="example2_info">
 															<thead id="${qt.examQuestionId}">
@@ -89,7 +88,7 @@
 																</tr>
 															</thead>
 															<tbody class="list-ans">
-																<c:forEach items="${qt.examAnswer}" var="as">
+																<c:forEach items="${qt.examAnswer}" var="as" varStatus="in">
 																	<tr id="${as.examAnswerId}">
 																		<td><input type="radio"
 																			name="${qt.examQuestionId}"
@@ -100,12 +99,19 @@
 																			onclick="fixAns(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i
 																				class="fa fa-pencil"></i></a></td>
 																	</tr>
+																	<c:if test="${(in.index + 1) eq qt.examAnswer.size() }">
+																	<tr>
+																	<td></td>
+																	<td><a onclick="fixAns(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+																	<i class="fa fa-pencil"></i></a></td>
+																</tr>
+																	</c:if>
 																</c:forEach>
 															</tbody>
 															<tfoot class="list-explain"
 																id="tfoot-${qt.examQuestionId}">
 																<tr>
-																	<td>${qt.explain}</td>
+																	<td>${qt.ex}</td>
 																	<td><a class="del-voca" onclick="delAns(this)"
 																		href="javascript:void(0);">&nbsp;<i
 																			class="fa fa-trash-o">&nbsp;</i></a><a
@@ -118,6 +124,7 @@
 												</c:forEach>
 											</div>
 											<input type="hidden" value="add" id="ac-add-exam">
+											<input type="hidden" value="[]" id="ac-del-exam" name="delQt">
 										</div>
 										<div class="box-body add-question-ans">
 											<div class="form-group col-lg-11">
@@ -267,14 +274,7 @@
 						</div>
 
 					</section>
-
-
-					<input type="hidden" name="edit-voca" id="edit-voca" value="o"
-						index="o" />
-					<input type="hidden" name="edit-voca-audio" id="edit-voca-audio"
-						value="o" />
-					<input type="hidden" name="list-current" id="list-current" />
-					<input type="hidden" name="dele-old" id="dele-old" value="[]" />
+				<input type="hidden" name="exam" id="l-exam">
 				</f:form>
 			</div>
 			<div></div>

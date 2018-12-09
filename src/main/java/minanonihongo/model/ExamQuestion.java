@@ -26,7 +26,7 @@ public class ExamQuestion implements Serializable {
 	@JoinColumn(name = "EXAM_ID")
 	private Exam exam;
 
-	private String explain;
+	private String ex;
 
 	private String question;
 	
@@ -65,12 +65,12 @@ public class ExamQuestion implements Serializable {
 		this.exam = exam;
 	}
 
-	public String getExplain() {
-		return explain;
+	public String getEx() {
+		return ex;
 	}
 
-	public void setExplain(String explain) {
-		this.explain = explain;
+	public void setEx(String ex) {
+		this.ex = ex;
 	}
 
 }

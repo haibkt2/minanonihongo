@@ -114,7 +114,7 @@ public class CourseIlmService {
 								examQuestion.getExamQuestionId().substring(
 										examQuestion.getExamQuestionId().length() - 2,
 										examQuestion.getExamQuestionId().length()),
-								"3", examQuestion.getQuestion(), 1, examQuestion.getExplain()));
+								"3", examQuestion.getQuestion(), 1, examQuestion.getEx()));
 						JSONArray ans = new JSONArray();
 						if (examQuestion.getExamAnswer() != null) {
 							for (ExamAnswer examAnswer : examQuestion.getExamAnswer()) {

@@ -36,6 +36,7 @@ import minanonihongo.service.Common;
 import minanonihongo.service.CommonService;
 import minanonihongo.service.CourseIlmService;
 import minanonihongo.service.DocServiceImpl;
+import minanonihongo.service.ExamCourseIlmService;
 import minanonihongo.service.VocaCourseIlmService;
 
 @Controller
@@ -66,6 +67,9 @@ public class AdminMinanonihongoController {
 
 	@Autowired
 	CommonService commonService;
+	
+	@Autowired
+	ExamCourseIlmService examCourseIlmService;
 
 	@Autowired
 	VocaCourseIlmService vocaCourseIlmService;
@@ -101,7 +105,15 @@ public class AdminMinanonihongoController {
 		}
 		return "/private/courses";
 	}
-
+	@RequestMapping(value = {"/admin/update-course/update-exam"}, method = RequestMethod.POST)
+	public String updateExam(Model model, HttpServletRequest request, HttpSession session,
+			@ModelAttribute("courseIlmForm") CourseIlm courseIlmForm, 
+			@RequestParam("exam") String exam,@RequestParam("delQt") String del) throws Exception {
+		System.out.println("Ssssssssssssssssssssssssss");
+		CourseIlm courseIlm = courseIlmRepository.findByCourseIlmId(courseIlmForm.getCourseIlmId());
+		examCourseIlmService.setExamCourseIlm(exam,del,courseIlm);
+		return "redirect:/home";
+	}
 	// show view form insert formation
 	@RequestMapping(value = "/admin/course/them-bai-hoc-moi/{course}", method = RequestMethod.GET)
 	public String course(Model model, HttpServletRequest request, HttpSession session) {
