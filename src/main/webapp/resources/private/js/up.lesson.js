@@ -175,11 +175,11 @@ function fixAns(btn) {
 function insAns(e) {
 	var r = e.parentNode.parentNode,
 	ans = r.children[1].value,
-	lg = r.parentNode.parentNode.childElementCount,
+	lg = r.parentNode.parentNode.parentNode.childElementCount,
 	cl = r.parentNode.parentNode.parentNode.parentNode.tHead.id,
-	cd = $('.'+cl+' tbody tr td:nth-child('+lg+')').is(':checked'),
+	cd = $('.'+cl+' tbody tr:nth-child('+lg+') td:nth-child(1) input:nth-child(1)').is(':checked'),
 	tb = document.getElementsByClassName(cl)[0],
-	row = tb.insertRow(lg + 1);
+	row = tb.insertRow(lg);
 	row.id = 'idans',
 	c = '';
 	if(cd == true) c='checked';
@@ -190,6 +190,7 @@ function insAns(e) {
 	cell1 = row.insertCell(1);
 	cell0.innerHTML = i;
 	cell1.innerHTML = ac;
+	r.children[1].value = '';
 }
 function upAnswer(e) {
 	var row = e.parentNode.parentNode,

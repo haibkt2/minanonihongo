@@ -101,10 +101,10 @@
 																	</tr>
 																	<c:if test="${(in.index + 1) eq qt.examAnswer.size() }">
 																	<tr>
-																	<td></td>
-																	<td><a onclick="fixAns(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-																	<i class="fa fa-pencil"></i></a></td>
-																</tr>
+																		<td></td>
+																		<td><a onclick="fixAns(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+																			<i class="fa fa-pencil"></i></a></td>
+																	</tr>
 																	</c:if>
 																</c:forEach>
 															</tbody>
