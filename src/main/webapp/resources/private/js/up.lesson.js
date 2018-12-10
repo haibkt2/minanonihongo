@@ -32,10 +32,10 @@ function addAnswer(){
 	var ac = '<a class="del-voca" onclick="delAns(this)" href="javascript:void(0);">&nbsp;<i class="fa fa-trash-o">&nbsp;</i></a><a onclick="fixAns(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-pencil"></i></a>';
 	var gr;
 	if(c){
-		gr = '<input type="radio" name="ans-'+ltb+'" disabled checked>&nbsp;&nbsp;&nbsp;';
-	} else gr = '<input type="radio" name="ans-'+ltb+'" disabled>&nbsp;&nbsp;&nbsp;';
+		gr = '<input type="radio" name="qtid'+ltb+'" disabled checked>&nbsp;&nbsp;&nbsp;';
+	} else gr = '<input type="radio" name="qtid'+ltb+'" disabled>&nbsp;&nbsp;&nbsp;';
 	var lg = $(".list-ans-add tr").length;
-	var table = document.getElementById("data-ans").getElementsByTagName('tbody')[0];;
+	var table = document.getElementById("data-ans").getElementsByTagName('tbody')[0];
 	var row;
 	row = table.insertRow(lg);
 	row.id = "idans";
@@ -65,6 +65,19 @@ function addExam() {
 			if(''==qt.trim()){
 				alert("Chưa nhập câu hỏi !!")
 			}else {
+			var isA = '<a onclick="fixAns(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-pencil"></i></a>',
+			table = document.getElementById("data-ans").getElementsByTagName('tbody')[0],
+			row = table.insertRow(lg),
+			cell0 = row.insertCell(0),
+			cell1 = row.insertCell(1);
+			cell0.innerHTML = '';
+			cell1.innerHTML = isA;
+			
+			
+				
+				
+				
+				
 			$('.list-ans-add tr:nth-child(1)').remove();
 			$('.add-exam-an-dt table').addClass('qtid'+ltb);
 			$('#data-ans').removeAttr("id");
@@ -187,10 +200,12 @@ function insAns(e) {
 	$('.'+cl).attr('change-data','c'),
 	ac = '<a class="del-voca" onclick="delAns(this)" href="javascript:void(0);">&nbsp;<i class="fa fa-trash-o">&nbsp;</i></a><a onclick="fixAns(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-pencil"></i></a>';
 	cell0 = row.insertCell(0),
-	cell1 = row.insertCell(1);
-	cell0.innerHTML = i;
-	cell1.innerHTML = ac;
-	r.children[1].value = '';
+	cell1 = row.insertCell(1),
+	cell0.innerHTML = i,
+	cell1.innerHTML = ac,
+	r.children[1].value = '',
+	f = lg + 1,
+	$('.'+cl+' tbody tr:nth-child('+f+') td:nth-child(1)').html('')
 }
 function upAnswer(e) {
 	var row = e.parentNode.parentNode,
@@ -254,7 +269,7 @@ function saveExam() { // btn
 		lan = '[]',
 		oa = JSON.parse(lan),
 		la = $('.'+iq + ' tbody tr').length;
-		for(var j = 1; j <= la; j++){
+		for(var j = 1; j < la; j++){
 			ia = $('.' + iq + ' tbody tr:nth-child('+j+')').attr('id'),
 			c = $('.' + iq + ' tbody tr:nth-child('+j+')' + ' td:nth-child(1) input').is(":checked");;
 			if(c == false) g = '0';
