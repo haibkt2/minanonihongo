@@ -35,12 +35,12 @@
 						<form class="form-horizontal" method="POST"
 							action="${contextPath}/password/reset">
 							<div class="form-group">
-								<label for="email" class="col-md-4 control-label">Địa
+								<label class="col-md-4 control-label">Địa
 									chỉ e-Mail</label>
 
 								<div class="col-md-8">
 									<input id="email" type="email" class="form-control"
-										name="email" value="" required> <span
+										name="email" required> <span
 										class="help-block"> <strong style="color: red">validation.email</strong>
 									</span>
 								</div>

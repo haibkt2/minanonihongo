@@ -87,6 +87,15 @@ public class AdminMinanonihongoController {
 		model.addAttribute("courses", courses);
 		return "/private/home";
 	}
+	
+
+	@GetMapping("/admin")
+	public String exam(Model model) {
+		common.getMenu(model);
+		List<Course> courses = (List<Course>) courseRepository.findAll();
+		model.addAttribute("courses", courses);
+		return "/private/home";
+	}
 
 	@GetMapping("/admin/courses/{courseName}")
 	public String courses(Model model, @PathVariable String courseName, HttpServletRequest request) {

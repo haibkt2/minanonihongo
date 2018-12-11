@@ -65,6 +65,7 @@ public class UserServiceImpl {
 	}
 
 	public String changeInfo(User user, String field, String value) {
+		String rg = user.getFlg();
 		try {
 			switch (field) {
 			case "name":
@@ -74,6 +75,10 @@ public class UserServiceImpl {
 				user.setPhone(value);
 				break;
 			case "email":
+				User u = userRepository.findByEmail(value,rg);
+				if (u != null)
+					if (!u.getUserId().equals(user.getUserId()) && value.equals(u.getEmail()))
+						return "er";
 				user.setEmail(value);
 				break;
 			case "birthday":

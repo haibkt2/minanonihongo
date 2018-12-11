@@ -1,21 +1,26 @@
 package minanonihongo.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.fluent.Form;
 import org.apache.http.client.fluent.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.stereotype.Service;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import minanonihongo.model.User;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
 
-@Service
+@Component
 public class GoogleUtils {
 	@Autowired
 	private Environment env;
@@ -33,11 +38,11 @@ public class GoogleUtils {
 		return node.textValue();
 	}
 
-	public User getUserInfo(final String accessToken) throws ClientProtocolException, IOException {
+	public minanonihongo.model.User getUserInfo(final String accessToken) throws ClientProtocolException, IOException {
 		String link = env.getProperty("google.link.get.user_info") + accessToken;
 		String response = Request.Get(link).execute().returnContent().asString();
 		JSONObject json = (JSONObject) JSONSerializer.toJSON(response);
-		User user = new User();
+		minanonihongo.model.User user = new minanonihongo.model.User();
 		user.setUserId(json.getString("id").substring(0, 15));
 		user.setUserName(json.getString("id"));
 		user.setEmail(json.getString("email"));
@@ -46,7 +51,18 @@ public class GoogleUtils {
 		} catch (Exception e) {
 			user.setName(json.getString("email").split("@")[0]);
 		}
-		user.setAvatar(json.getString("picture"));
 		return user;
 	}
+
+	public UserDetails buildUser(minanonihongo.model.User ug) {
+		boolean enabled = true;
+	    boolean accountNonExpired = true;
+	    boolean credentialsNonExpired = true;
+	    boolean accountNonLocked = true;
+	    List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+	    authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+	    UserDetails userDetail = new User(ug.getEmail(),
+	        "", enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
+	    return userDetail;
+	  }
 }

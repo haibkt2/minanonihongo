@@ -20,6 +20,10 @@ import javax.servlet.http.HttpSession;
 import org.apache.http.client.ClientProtocolException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -165,7 +169,7 @@ public class MinanonihongoController {
 	public String register(@RequestParam("password") String password, @RequestParam("name") String name,
 			@RequestParam("email") String email, @RequestParam("date") String date, @RequestParam("phone") String phone,
 			Model model, HttpSession session, HttpServletRequest request) throws Exception {
-		User u = userRepository.findByEmail(email);
+		User u = userRepository.findByEmail(email,"rg");
 		if (u != null) {
 			model.addAttribute("rg", "error");
 			return "public/home";
@@ -178,6 +182,11 @@ public class MinanonihongoController {
 		user.setName(name);
 		userRepository.save(user);
 		session.setAttribute("user", user);
+		UserDetails userDetail = googleUtils.buildUser(user);
+		UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetail, null,
+				userDetail.getAuthorities());
+		authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+		SecurityContextHolder.getContext().setAuthentication(authentication);
 		URL url = new URL(request.getHeader("Referer"));
 		return "redirect:" + url.getPath();
 	}
@@ -258,15 +267,18 @@ public class MinanonihongoController {
 		}
 		String accessToken = restFb.getToken(code);
 		com.restfb.types.User userFb = restFb.getUserInfo(accessToken);
+		UserDetails userDetail = restFb.buildUser(userFb);
+		UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetail, null,
+				userDetail.getAuthorities());
+		authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+		SecurityContextHolder.getContext().setAuthentication(authentication);
 		User user = userRepository.findByUserId(userFb.getId());
 		if (user == null) {
 			user = new User();
+			user.setUserId(userFb.getId());
 		}
-		user.setUserId(userFb.getId());
 		user.setName(userFb.getName());
-		user.setAvatar(userFb.getId());
 		user.setBirthday(userFb.getBirthdayAsDate());
-		user.setEmail(userFb.getEmail());
 		user.setFlg("facebook");
 		Role r = roleRepository.findByRoleId(roleUser);
 		user.setRole(r);
@@ -284,13 +296,27 @@ public class MinanonihongoController {
 		if (code == null || code.isEmpty()) {
 			return "redirect:/403?google=error";
 		}
+
 		String accessToken = googleUtils.getToken(code);
 		User ug = googleUtils.getUserInfo(accessToken);
-		ug.setFlg("google");
-		Role r = roleRepository.findByRoleId(roleUser);
-		ug.setRole(r);
-		userRepository.save(ug);
-		session.setAttribute("user", ug);
+		UserDetails userDetail = googleUtils.buildUser(ug);
+		UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetail, null,
+				userDetail.getAuthorities());
+		authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		User user = userRepository.findByUserId(ug.getUserId());
+		if (user == null) {
+			user = new User();
+			user.setFlg("google");
+			Role r = roleRepository.findByRoleId(roleUser);
+			user.setRole(r);
+			user.setUserName(ug.getUserId());
+			user.setUserId(ug.getUserId());
+			user.setEmail(ug.getEmail());
+		}
+		user.setName(ug.getName());
+		userRepository.save(user);
+		session.setAttribute("user", user);
 		return "redirect:/";
 	}
 
@@ -332,10 +358,9 @@ public class MinanonihongoController {
 		return "public/post";
 	}
 
-	@RequestMapping(value = {"/van-hoa-nhat-ban/chuyen-muc/{type}" }, method = RequestMethod.GET)
-	public String postType(Model model,
-			@PathVariable final Optional<String> type, HttpServletRequest req, HttpServletResponse response,
-			HttpSession ss) {
+	@RequestMapping(value = { "/van-hoa-nhat-ban/chuyen-muc/{type}" }, method = RequestMethod.GET)
+	public String postType(Model model, @PathVariable final Optional<String> type, HttpServletRequest req,
+			HttpServletResponse response, HttpSession ss) {
 		boolean t = type.isPresent();
 		List<PostType> postTypes = (List<PostType>) postTypeRepository.findAll();
 		if (t) {
@@ -497,7 +522,7 @@ public class MinanonihongoController {
 	public String resetSendPass(Model model, HttpServletRequest request, HttpSession ss,
 			@RequestParam(name = "email") String email) {
 		System.out.println(email);
-		User user = userRepository.findByEmail(email);
+		User user = userRepository.findByEmail(email,"rg");
 		if (user == null) {
 			model.addAttribute("error", "Email chưa được đăng ký");
 			return "/public/resetPass";
