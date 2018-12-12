@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import minanonihongo.model.Post;
+import minanonihongo.model.PostType;
 
 public interface PostRepository extends CrudRepository<Post, Integer> {
 
@@ -21,4 +22,6 @@ public interface PostRepository extends CrudRepository<Post, Integer> {
 	
 	@Query(value = "SELECT * FROM post where post_type_id = ?1" , nativeQuery = true)
     List<Post> findPostCm(String postTypeId);
+	
+	List<Post> findByPostType(PostType postType);
 }

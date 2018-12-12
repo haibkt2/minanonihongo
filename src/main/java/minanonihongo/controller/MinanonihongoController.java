@@ -65,6 +65,7 @@ import minanonihongo.service.CourseIlmService;
 import minanonihongo.service.GoogleUtils;
 import minanonihongo.service.JLPTResultService;
 import minanonihongo.service.JLPTService;
+import minanonihongo.service.PostServiceImpl;
 import minanonihongo.service.RestFB;
 import minanonihongo.service.UserServiceImpl;
 import net.sf.json.JSONArray;
@@ -118,6 +119,9 @@ public class MinanonihongoController {
 
 	@Autowired
 	CommonService commonService;
+	
+	@Autowired
+	PostServiceImpl postServiceImpl;
 
 	@Autowired
 	private RestFB restFb;
@@ -342,6 +346,7 @@ public class MinanonihongoController {
 
 	@RequestMapping(value = { "/van-hoa-nhat-ban" }, method = RequestMethod.GET)
 	public String postHome(Model model, HttpServletRequest req, HttpServletResponse response, HttpSession ss) {
+		postServiceImpl.getMenu(model);
 		List<PostType> postTypes = (List<PostType>) postTypeRepository.findAll();
 		if (postTypes != null) {
 			for (int i = 0; i < postTypes.size(); i++) {
@@ -352,10 +357,18 @@ public class MinanonihongoController {
 				}
 			}
 		}
-		List<Post> postmn = postRepository.findPostMn();
-		model.addAttribute("postmn", postmn);
-		model.addAttribute("postt", postTypes);
 		return "public/post";
+	}
+	
+	@RequestMapping(value = { "/van-hoa-nhat-ban/{postName}" })
+	public String postDetail(Model model, HttpServletRequest req, HttpServletResponse response, HttpSession ss, @PathVariable final String postName) {
+		postServiceImpl.getMenu(model);
+		String postId = postName.split("-")[0];
+		Post post = postRepository.findByPostId("POST"+postId);
+		post.setViewPost(post.getViewPost()+1);
+		postRepository.save(post);
+		model.addAttribute("post", post);
+		return "public/detailPost";
 	}
 
 	@RequestMapping(value = { "/van-hoa-nhat-ban/chuyen-muc/{type}" }, method = RequestMethod.GET)

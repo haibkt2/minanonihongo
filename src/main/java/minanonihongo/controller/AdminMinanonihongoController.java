@@ -25,12 +25,15 @@ import minanonihongo.model.CourseIlm;
 import minanonihongo.model.CourseIlmType;
 import minanonihongo.model.Document;
 import minanonihongo.model.Post;
+import minanonihongo.model.PostType;
 import minanonihongo.model.User;
 import minanonihongo.repository.CourseIlmRepository;
 import minanonihongo.repository.CourseIlmTypeRepository;
 import minanonihongo.repository.CourseRepository;
 import minanonihongo.repository.DocRepository;
 import minanonihongo.repository.JLPTRepository;
+import minanonihongo.repository.PostRepository;
+import minanonihongo.repository.PostTypeRepository;
 import minanonihongo.repository.UserRepository;
 import minanonihongo.service.Common;
 import minanonihongo.service.CommonService;
@@ -67,12 +70,18 @@ public class AdminMinanonihongoController {
 
 	@Autowired
 	CommonService commonService;
-	
+
 	@Autowired
 	ExamCourseIlmService examCourseIlmService;
 
 	@Autowired
 	VocaCourseIlmService vocaCourseIlmService;
+
+	@Autowired
+	PostRepository postRepository;
+
+	@Autowired
+	PostTypeRepository postTypeRepository;
 
 	@Autowired
 	Common common;
@@ -87,24 +96,25 @@ public class AdminMinanonihongoController {
 		model.addAttribute("courses", courses);
 		return "/private/home";
 	}
-	
 
-	@GetMapping("/admin")
-	public String exam(Model model) {
+	@GetMapping("/admin/posts/{postTypeId}")
+	public String exam(Model model, @PathVariable String postTypeId) {
 		common.getMenu(model);
-		List<Course> courses = (List<Course>) courseRepository.findAll();
-		model.addAttribute("courses", courses);
-		return "/private/home";
+		PostType postType = postTypeRepository.findByPostTypeId(postTypeId.split("-")[0]);
+		List<Post> posts = postRepository.findByPostType(postType);
+		model.addAttribute("post", posts);
+		model.addAttribute("postT", postType);
+		return "/private/posts";
 	}
 
 	@GetMapping("/admin/courses/{courseName}")
 	public String courses(Model model, @PathVariable String courseName, HttpServletRequest request) {
 		common.getMenu(model);
 		Course course = courseRepository.findByCourseName(courseName);
-//		String mess = request.getParameter("mess_up");
-//		if (mess != null) {
-//			model.addAttribute("course_up", courseIlmRepository.findByCourseIlmId(mess));
-//		}
+		// String mess = request.getParameter("mess_up");
+		// if (mess != null) {
+		// model.addAttribute("course_up", courseIlmRepository.findByCourseIlmId(mess));
+		// }
 		if (course != null) {
 			List<CourseIlm> courseIlms = courseIlmRepository.findByCourse(course);
 			model.addAttribute("course", course);
@@ -114,15 +124,17 @@ public class AdminMinanonihongoController {
 		}
 		return "/private/courses";
 	}
-	@RequestMapping(value = {"/admin/update-course/update-exam"}, method = RequestMethod.POST)
+
+	@RequestMapping(value = { "/admin/update-course/update-exam" }, method = RequestMethod.POST)
 	public String updateExam(Model model, HttpServletRequest request, HttpSession session,
-			@ModelAttribute("courseIlmForm") CourseIlm courseIlmForm, 
-			@RequestParam("exam") String exam,@RequestParam("delQt") String del) throws Exception {
+			@ModelAttribute("courseIlmForm") CourseIlm courseIlmForm, @RequestParam("exam") String exam,
+			@RequestParam("delQt") String del) throws Exception {
 		System.out.println("Ssssssssssssssssssssssssss");
 		CourseIlm courseIlm = courseIlmRepository.findByCourseIlmId(courseIlmForm.getCourseIlmId());
-		examCourseIlmService.setExamCourseIlm(exam,del,courseIlm);
+		examCourseIlmService.setExamCourseIlm(exam, del, courseIlm);
 		return "redirect:/home";
 	}
+
 	// show view form insert formation
 	@RequestMapping(value = "/admin/course/them-bai-hoc-moi/{course}", method = RequestMethod.GET)
 	public String course(Model model, HttpServletRequest request, HttpSession session) {
@@ -256,7 +268,7 @@ public class AdminMinanonihongoController {
 		if (cIlm == null) {
 			cIlm = new CourseIlm();
 			String cId = courseIlmForm.getCourseIlmId();
-			courseIlmForm.setCourse(courseRepository.findByCourseName(cId.substring(0,2)));
+			courseIlmForm.setCourse(courseRepository.findByCourseName(cId.substring(0, 2)));
 		} else {
 			courseIlmForm.setCourse(cIlm.getCourse());
 		}
@@ -293,109 +305,38 @@ public class AdminMinanonihongoController {
 		return "/private/upExam";
 	}
 
-	// show view form insert formation
 	@RequestMapping(value = "/admin/add-post", method = RequestMethod.GET)
-	public String registration(Model model, HttpServletRequest request, HttpSession session) {
-
-		// set model
+	public String addPost(Model model, HttpServletRequest request, HttpSession session,
+			@RequestParam("postType") String pT) {
+		common.getMenu(model);
+		PostType postType = postTypeRepository.findByPostTypeId(pT);
+		if (postType == null)
+			return "error";
 		model.addAttribute("postForm", new Post());
-		// model.addAttribute("postId", commonService.autoPostid());
-		return "h";
+		model.addAttribute("pT", postType);
+		return "private/upPost";
 	}
 
-	// // Insert staff information
-	// @RequestMapping(value = "/admin/add-post", method = RequestMethod.POST)
-	// public String insertOrupdateUser(@ModelAttribute("postForm") Post postForm,
-	// Model model, HttpSession session) throws Exception {
-	// // get session userId
-	// User user = (User) session.getAttribute("user");
-	//
-	// postForm.setUser(user);
-	// postServiceImpl.doSave(postForm);
-	// model.addAttribute("message", messageSave);
-	// model.addAttribute("userId", userserviceimpl.autoCodePostId());
-	// model.addAttribute("userForm", new User());
-	// return "AddUser";
-	// }
-	//
-	// // Update Staff information
-	// @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
-	// public String updateUser(@ModelAttribute("userForm") User userForm,
-	// BindingResult bindingResult, Model model,
-	// HttpSession session, final RedirectAttributes redirectAttributes) throws
-	// ParseException {
-	// updateuserValidator.validate(userForm, bindingResult);
-	//
-	// // contructor user
-	// List<Role> lstrole = (List<Role>) roleRepository.findAll();
-	// List<Timezone> lstTimezone = (List<Timezone>) timezoneRepository.findAll();
-	// String sessionUserid = (String) session.getAttribute("userid");
-	// User u = new User();
-	// u = userRepository.findByUserId(userForm.getUserId());
-	//
-	// // check error input
-	// if (bindingResult.hasErrors()) {
-	// redirectAttributes.addFlashAttribute("bindingResult", bindingResult);
-	// redirectAttributes.addFlashAttribute("userForm", userForm);
-	// return "redirect:/updateUser" + "?userid=" + userForm.getUserId();
-	// }
-	//
-	// model.addAttribute("lstRole", lstrole);
-	// model.addAttribute("lstTimezone", lstTimezone);
-	// userForm.setCreateId(u.getCreateId());
-	// userForm.setUpdateId(sessionUserid);
-	// userserviceimpl.insertOrupdate(userForm);
-	// session.setAttribute("userTimezone", userForm.getTimezone().getValue());
-	// session.setAttribute("userTimezoneName", userForm.getTimezone().getName());
-	// return "redirect:/updateUser" + "?userid=" + userForm.getUserId() +
-	// "&updateUser=" + messageInfo;
-	// }
-	//
-	// // Show view form update information
-	// @RequestMapping(value = "/updateUser", method = RequestMethod.GET)
-	// public String updateInfo(Model model, HttpServletRequest request,
-	// @ModelAttribute("userForm") final User userForm, Locale locale) {
-	//
-	// // get parameter date
-	// String userId = request.getParameter("userid");
-	// String resetPass = request.getParameter("resetPass");
-	// String updateuser = request.getParameter("updateUser");
-	//
-	// User user = new User();
-	// user = userserviceimpl.searchUserId(userId);
-	// List<Role> lstrole = (List<Role>) roleRepository.findAll();
-	// List<Timezone> lstTimezone = (List<Timezone>) timezoneRepository.findAll();
-	// Map<String, String> mapStatus = new HashMap<String, String>();
-	// String localeString = locale.toString();
-	// // Set date of week English
-	// if (localeString.equalsIgnoreCase("en")) {
-	// mapStatus = commonservice.mapStatus("en");
-	// } else if (localeString.equalsIgnoreCase("ja_JP")) {
-	// mapStatus = commonservice.mapStatus("ja_JP");
-	// }
-	// // set model
-	// model.addAttribute("listStaus", mapStatus);
-	// model.addAttribute("lstRole", lstrole);
-	// model.addAttribute("lstTimezone", lstTimezone);
-	// model.addAttribute("userForm", user);
-	//
-	// if (resetPass != null) {
-	// // set message value "Reseted Password Success!"
-	//
-	// model.addAttribute("message", messagePass);
-	// }
-	// if (updateuser != null) {
-	// // set message value "Update Information Success!"
-	// model.addAttribute("message", messageInfo);
-	// }
-	//
-	// if (model.asMap().containsKey("bindingResult")) {
-	// model.addAttribute("org.springframework.validation.BindingResult.userForm",
-	// model.asMap().get("bindingResult"));
-	// }
-	//
-	// return "UpdateUser";
-	// }
+	@RequestMapping(value = "/admin/fix-post", method = RequestMethod.GET)
+	public String fixPost(Model model, HttpServletRequest request, HttpSession session,
+			@RequestParam("id") String id) {
+		common.getMenu(model);
+		Post post = postRepository.findByPostId(id);
+		if (post == null)
+			return "error";
+		model.addAttribute("postForm", post);
+		return "private/upPost";
+	}
+	@RequestMapping(value = "/admin/up-post", method = RequestMethod.POST)
+	public String savePost(Model model, HttpServletRequest request, HttpSession session,@ModelAttribute("postForm") Post postForm) {
+		common.getMenu(model);
+//		Post post = postRepository.findByPostId(id);
+//		if (post == null)
+//			return "error";
+//		model.addAttribute("postForm", post);
+		return "private/upPost";
+	}
+
 	@RequestMapping(value = "/admin/upload-doc-descrip/{id}/{descrip}", method = RequestMethod.POST)
 	public String uploadMtDoc(Model model, HttpServletRequest request, @PathVariable final String id,
 			@PathVariable final String descrip) {

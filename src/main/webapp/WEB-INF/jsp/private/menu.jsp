@@ -19,7 +19,7 @@
 		<section class="sidebar" style="height: auto;">
 			<ul class="sidebar-menu" data-widget="tree">
 				<li class="header"></li>
-				<li><a href="#"> <i class="fa fa-fw fa-institution"></i> <span>Chuyên Mục Bài Học</span> <span class="pull-right-container"> </span>
+				<li><a> <i class="fa fa-fw fa-institution"></i> <span>Chuyên Mục Bài Học</span> <span class="pull-right-container"> </span>
 				</a>
 					<ul>
 						<c:if test="${courses != null}">
@@ -32,7 +32,7 @@
 							</c:forEach>
 						</c:if>
 					</ul></li>
-				<li><a href="#"> <i class="fa fa-fw fa-sun-o"></i> <span>Vui
+				<li><a> <i class="fa fa-fw fa-sun-o"></i> <span>Vui
 							Tiếng Nhật</span> <span class="pull-right-container"> </span>
 				</a>
 					<ul>
@@ -43,22 +43,22 @@
 							</c:forEach>
 						</c:if>
 					</ul></li>
-				<li><a href="#"> <i class="fa fa-fw fa-google-wallet"></i>
+				<li><a> <i class="fa fa-fw fa-google-wallet"></i>
 						<span>Bài Viết</span> <span class="pull-right-container">
 					</span>
 				</a>
 					<ul>
 						<c:if test="${posts != null}">
 							<c:forEach items="${posts}" var="post">
-								<li><a href=""><i class="fa fa-fw fa-check-square-o"></i>
+								<li><a href="${contextPath}/admin/posts/${post.postTypeId}-${post.postTypeName}"><i class="fa fa-fw fa-check-square-o"></i>
 										${post.postTypeName} </a></li>
 							</c:forEach>
 						</c:if>
 					</ul></li>
-				<li><a href="#"> <i class="fa fa-fw fa-bullhorn"></i> <span>Thông
+				<li><a href="${contextPath}/admin/notification"> <i class="fa fa-fw fa-bullhorn"></i> <span>Thông
 							Báo</span> <span class="pull-right-container"> </span>
 				</a></li>
-				<li><a href="#"> <i class="fa fa-fw fa-users"></i> <span>Quản
+				<li><a href="${contextPath}/admin/mn-user"> <i class="fa fa-fw fa-users"></i> <span>Quản
 							Lý Người Dùng</span> <span class="pull-right-container"> </span>
 				</a></li>
 				<li><a href="${contextPath}/"> <i
