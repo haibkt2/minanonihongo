@@ -21,12 +21,13 @@
 		<div class="content-wrapper">
 			<section class="content-header">
 				<span><h1 style="text-align: center;">
-						Thêm bài viết : <a href="" style="color: #00c0ef">${pT.postTypeName}</a>
+						Thêm bài viết : <a href="" style="color: #00c0ef">${postForm.postType.postTypeName}</a>
 					</h1></span>
 			</section>
-			<f:form action="${contextPath}/admin/add-post"
+			<f:form action="${contextPath}/admin/update-post"
 				modelAttribute="postForm" enctype="multipart/form-data" >
 				<f:input path="postId" type="hidden" />
+				<input value="${postForm.postType.postTypeId}" name="post-t-id" type="hidden" />
 				<!-- Main content -->
 				<section class="content">
 					<div class="row">
@@ -75,7 +76,7 @@
 													type="file" name="file-img">
 											</div>
 										</div>
-										<button class="btn btn-primary" onclick="return addCourse();">
+										<button class="btn btn-primary" type="submit">
 											<i class="fa fa-fw fa-check"></i>Cập Nhật
 										</button>
 									</div>
@@ -110,13 +111,6 @@
 							});
 		</script>
 		
-		<%-- 		<script src="${contextPath}/resources/private/js/jquery.min.js"></script> --%>
-		<!-- 		<script -->
-		<%-- 			src="${contextPath}/resources/private/js/jquery.dataTables.min.js"></script> --%>
-		<!-- 		<script -->
-		<%-- 			src="${contextPath}/resources/private/js/dataTables.bootstrap.min.js"></script> --%>
-		<script src="${contextPath}/resources/private/js/up.lesson.js"></script>
-		<%-- 		<script src="${contextPath}/resources/public/js/detail_lesson.js"></script> --%>
 	</div>
 </body>
 

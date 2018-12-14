@@ -3,8 +3,10 @@ package minanonihongo.controller;
 
 import java.io.File;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,7 @@ import minanonihongo.model.Course;
 import minanonihongo.model.CourseIlm;
 import minanonihongo.model.CourseIlmType;
 import minanonihongo.model.Document;
+import minanonihongo.model.JLPTMenu;
 import minanonihongo.model.Post;
 import minanonihongo.model.PostType;
 import minanonihongo.model.User;
@@ -31,6 +34,7 @@ import minanonihongo.repository.CourseIlmRepository;
 import minanonihongo.repository.CourseIlmTypeRepository;
 import minanonihongo.repository.CourseRepository;
 import minanonihongo.repository.DocRepository;
+import minanonihongo.repository.JLPTMenuRepository;
 import minanonihongo.repository.JLPTRepository;
 import minanonihongo.repository.PostRepository;
 import minanonihongo.repository.PostTypeRepository;
@@ -40,6 +44,7 @@ import minanonihongo.service.CommonService;
 import minanonihongo.service.CourseIlmService;
 import minanonihongo.service.DocServiceImpl;
 import minanonihongo.service.ExamCourseIlmService;
+import minanonihongo.service.PostServiceImpl;
 import minanonihongo.service.VocaCourseIlmService;
 
 @Controller
@@ -61,6 +66,9 @@ public class AdminMinanonihongoController {
 
 	@Autowired
 	CourseIlmTypeRepository courseIlmTypeRepository;
+	
+	@Autowired
+	JLPTMenuRepository jlptMenuRepository;
 
 	@Autowired
 	CourseIlmService courseIlmService;
@@ -70,6 +78,9 @@ public class AdminMinanonihongoController {
 
 	@Autowired
 	CommonService commonService;
+
+	@Autowired
+	PostServiceImpl postServiceImpl;
 
 	@Autowired
 	ExamCourseIlmService examCourseIlmService;
@@ -86,6 +97,9 @@ public class AdminMinanonihongoController {
 	@Autowired
 	Common common;
 
+	@Value("${string.jlpt.exercise}")
+	private String jexercise;
+	
 	@Value("${string.reponsitory.local}")
 	private String localFile;
 
@@ -216,19 +230,6 @@ public class AdminMinanonihongoController {
 		return "ss";
 	}
 
-	@RequestMapping(value = "/admin/add-post", method = RequestMethod.POST)
-	public String doSave(@ModelAttribute("courseForm") CourseIlm courseForm, Model model, HttpSession session,
-			@RequestParam("edit-voca") String editVoca, @RequestParam("list-current") String listCurrent,
-			@RequestParam("dele-old") String deleOld) throws Exception {
-		// get session userId
-		User user = (User) session.getAttribute("user");
-		courseForm.setUser(user);
-		// courseIlmService.doSaveCourse(courseForm);
-		// model.addAttribute("message", messageSave);
-		// model.addAttribute("courseForm", new CourseIlm());
-		return "home";
-	}
-
 	@RequestMapping(value = "/admin/add-course", method = RequestMethod.GET)
 	public String addCourse(Model model, HttpServletRequest request, HttpSession session,
 			@RequestParam("course") String c) {
@@ -312,14 +313,15 @@ public class AdminMinanonihongoController {
 		PostType postType = postTypeRepository.findByPostTypeId(pT);
 		if (postType == null)
 			return "error";
-		model.addAttribute("postForm", new Post());
-		model.addAttribute("pT", postType);
+		Post postForm = new Post();
+		postForm.setPostId(postServiceImpl.setPostId());
+		postForm.setPostType(postType);
+		model.addAttribute("postForm", postForm);
 		return "private/upPost";
 	}
 
 	@RequestMapping(value = "/admin/fix-post", method = RequestMethod.GET)
-	public String fixPost(Model model, HttpServletRequest request, HttpSession session,
-			@RequestParam("id") String id) {
+	public String fixPost(Model model, HttpServletRequest request, HttpSession session, @RequestParam("id") String id) {
 		common.getMenu(model);
 		Post post = postRepository.findByPostId(id);
 		if (post == null)
@@ -327,13 +329,35 @@ public class AdminMinanonihongoController {
 		model.addAttribute("postForm", post);
 		return "private/upPost";
 	}
-	@RequestMapping(value = "/admin/up-post", method = RequestMethod.POST)
-	public String savePost(Model model, HttpServletRequest request, HttpSession session,@ModelAttribute("postForm") Post postForm) {
-		common.getMenu(model);
-//		Post post = postRepository.findByPostId(id);
-//		if (post == null)
-//			return "error";
-//		model.addAttribute("postForm", post);
+
+	@RequestMapping(value = "/admin/update-post", method = RequestMethod.POST)
+	public String doSave(@ModelAttribute("postForm") Post postForm, Model model, HttpSession session,
+			@RequestParam("file-img") MultipartFile img, @RequestParam("post-t-id") String ptId) throws Exception {
+		// get session userId
+		Post post = postRepository.findByPostId(postForm.getPostId());
+		PostType postType = postTypeRepository.findByPostTypeId(ptId);
+		postForm.setPostType(postType);
+		if (post == null) {
+			post = new Post();
+			postForm.setCreateDate(commonService.currentDate());
+			post.setPostImg(null);
+		} else
+			postForm.setCreateDate(post.getCreateDate());
+		User user = (User) session.getAttribute("user");
+		postForm.setUser(user);
+		postForm.setUpdateDate(commonService.currentDate());
+		postForm.setPostFlg("1");
+		if (img.isEmpty()) {
+			postForm.setPostImg(post.getPostImg());
+		} else {
+			String fileName = common.toUrlFriendly(img.getOriginalFilename());
+			String local = "/Post/" + common.toUrlFriendly(postForm.getPostType().getPostTypeName()) + "/";
+			if (!commonService.saveFile(img, local)) {
+				return "error";
+			}
+			postForm.setPostImg(fileName);
+		}
+		postRepository.save(postForm);
 		return "private/upPost";
 	}
 
@@ -350,5 +374,25 @@ public class AdminMinanonihongoController {
 			model.addAttribute("course", course);
 		}
 		return "/private/upDoc";
+	}
+	@RequestMapping(value = {"/admin/exercise/{courseName}", "/admin/exercise"})
+	public String examList(Model model, HttpServletRequest req, HttpServletResponse response,
+			@PathVariable Optional<String> courseName) throws Exception {
+		common.getMenu(model);
+		boolean t = courseName.isPresent();
+		String cN ="N5";
+		if(t) cN = courseName.get();
+		Course course = courseRepository.findByCourseName(cN);
+		if (course == null) {
+			return "404";
+		} else {
+			List<Course> courses = courseRepository.findByCourse();
+			courses.remove(0);
+			model.addAttribute("courses", courses);
+			model.addAttribute("course", course);
+			List<JLPTMenu> je = jlptMenuRepository.findExJLPT(course.getCourseId(), jexercise);
+			model.addAttribute("je", je);
+		}
+		return "private/exam";
 	}
 }

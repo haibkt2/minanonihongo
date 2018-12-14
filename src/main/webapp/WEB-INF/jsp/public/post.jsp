@@ -22,7 +22,7 @@
 			<c:if test="${not empty postt}">
 				<div class="heading-box">
 					<h2 class="blog-heading">
-						<span style="color: #588d3f;"><c:if test="${not empty posts}">${posts.get(0).getPostType().getPostTypeName()}</c:if></span>
+						<span style="color: #588d3f;">${posts.get(0).getPostType().getPostTypeName()}</span>
 					</h2>
 				</div>
 				<% int i = 0;int j = 0;%>
@@ -33,8 +33,8 @@
 								<a
 									href="${contextPath}/van-hoa-nhat-ban/${post.getPostId().substring(4)}-${sv.toUrlFriendly(post.getPostTitle())}">
 									<img class="lazyload"
-									src="${contextPath}/reponsitory/post/${post.getPostImg()}"
-									data-src="${contextPath}/reponsitory/post/${post.getPostImg()}">
+									src="${contextPath}/reponsitory/Post/${sv.toUrlFriendly(post.postType.postTypeName)}/${post.getPostImg()}"
+									data-src="${contextPath}/reponsitory/Post/${post.getPostImg()}">
 								</a> <a
 									href="${contextPath}/van-hoa-nhat-ban/${post.getPostId().substring(4)}-${sv.toUrlFriendly(post.getPostTitle())}"
 									title="${post.getPostTitle()}">
@@ -52,8 +52,8 @@
 							<a
 								href="${contextPath}/van-hoa-nhat-ban/${post.getPostId().substring(4)}-${sv.toUrlFriendly(post.getPostTitle())}">
 								<img class="lazyload"
-								src="${contextPath}/reponsitory/post/${post.getPostImg()}"
-								data-src="${contextPath}/reponsitory/post/${post.getPostImg()}">
+								src="${contextPath}/reponsitory/Post/${sv.toUrlFriendly(post.postType.postTypeName)}/${post.getPostImg()}"
+								data-src="${contextPath}/reponsitory/Post/${sv.toUrlFriendly(post.postType.postTypeName)}/${post.getPostImg()}">
 							</a> <a
 								href="${contextPath}/van-hoa-nhat-ban/${post.getPostId().substring(4)}-${sv.toUrlFriendly(post.getPostTitle())}"
 								title="${post.getPostTitle()}">
@@ -63,9 +63,8 @@
 					</c:if>
 					<%if(j>i) {%></div><%}%>
 		<c:set value="${postId.index/3 + 1}" var="np"></c:set>
-		<c:if test="${postId.index eq 0}"></div></c:if>
 		</c:forEach>
-
+		</div>
 		</c:if>
 		<c:if test="${not empty post}">
 			<div class="blog-detail-container">
@@ -87,7 +86,33 @@
 		<ul class="pagination" id="pagination">
 		</ul>
 	</div>
-	<jsp:include page="postRight.jsp"></jsp:include>
+	<div class="main-right" style="padding-bottom: 30px;">
+		<div class="list-group list-category">
+			<span class="list-group-item item-heading">Chuyên mục</span>
+			<c:forEach items="${postt}" var="postt">
+				<a
+					href="${contextPath}/van-hoa-nhat-ban/chuyen-muc/${postt.getPostTypeId()}-${sv.toUrlFriendly(postt.getPostTypeName())}"
+					class="list-group-item ${postt.getPostTypeName()}">${postt.getPostTypeName()}</a>
+			</c:forEach>
+		</div>
+		<h3 class="related-title">Bài viết đọc nhiều</h3>
+
+		<c:forEach items="${postmn}" var="post">
+			<div class="related-news-item">
+				<a
+					href="${contextPath}/van-hoa-nhat-ban/${post.getPostId().substring(4)}-${sv.toUrlFriendly(post.getPostTitle())}">
+					<img class="lazyload"
+					src="${contextPath}/reponsitory/Post/${sv.toUrlFriendly(post.postType.postTypeName)}/${post.getPostImg()}"
+					data-src="${contextPath}/reponsitory/Post/${sv.toUrlFriendly(post.postType.postTypeName)}/${post.getPostImg()}">
+				</a><a href="${contextPath}/van-hoa-nhat-ban/${post.getPostId().substring(4)}-${sv.toUrlFriendly(post.getPostTitle())}"
+								title="${post.getPostTitle()}">
+								<div class="title">${post.getPostTitle()}</div>
+					</a> <span class="info"><i class="fa fa-user"> &nbsp;${post.getUser().getName()}</i> &nbsp; &nbsp; <i
+								class="fa fa-calendar-check-o"></i>&nbsp;${post.getUpdateDate()}
+								&nbsp; &nbsp; Lượt xem : ${post.getViewPost()} </span> <span
+								class="brief">${post.getPostTitle()} </span>
+			</div>
+		</c:forEach>
 	</div>
 </div>
 </div>

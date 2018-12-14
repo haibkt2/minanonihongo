@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 
 import minanonihongo.model.Post;
 import minanonihongo.model.PostType;
+import minanonihongo.model.VocaCourseIlm;
 import minanonihongo.repository.PostRepository;
 import minanonihongo.repository.PostTypeRepository;
 
@@ -22,18 +23,22 @@ public class PostServiceImpl {
 	
 	@Autowired
 	private PostTypeRepository postTypeRepository;
-	@Autowired
-	private CommonService commonService;
 
-	public String doSave(Post post) throws Exception {
-		Post p = postRepository.findByPostId(post.getPostId());
-		if(p == null) {
-			post.setCreateDate(commonService.currentDate());
-			post.setUpdateDate(commonService.currentDate());
-//			post.setPostFlg("1");
-//			post.setViewPost(0);
+	public String setPostId() {
+		List<Post> post = (List<Post>) postRepository.findAll();
+		String vocaId = "POST000001";
+		if (post.size() > 0) {
+			int id = Integer.parseInt(post.get(post.size() - 1).getPostId().substring(4, 10)) + 1;
+			String countUsId = "" + id;
+			if (countUsId.trim().length() != 6) {
+				int count = 6 - countUsId.trim().length();
+				for (int i = 0; i < count; i++) {
+					countUsId = "0" + countUsId;
+				}
+			}
+			vocaId = "POST".concat("" + countUsId);
 		}
-			return "";
+		return vocaId;
 	}
 	
 	public void getMenu(Model model) {
