@@ -82,7 +82,7 @@ public class JLPTService {
 								jlptQuestion.getJlptQuestionId().substring(
 										jlptQuestion.getJlptQuestionId().length() - 2,
 										jlptQuestion.getJlptQuestionId().length()),
-								"3", jlptQuestion.getQuestion(), 1, jlptQuestion.getExplain()));
+								"3", jlptQuestion.getQuestion(), 1, jlptQuestion.getEx()));
 						JSONArray ans = new JSONArray();
 						if (jlptQuestion.getJlptAnswer() != null) {
 							for (JLPTAnswer jlptAnswer : jlptQuestion.getJlptAnswer()) {

@@ -32,7 +32,7 @@
 								<section class="content-header"
 									style="margin-bottom: 15px;">
 									<div style="width: 10%; float: right; margin-right: 15px;">
-									<a href="${contextPath}/admin/add-post?postType=${postT.postTypeId}">	<button class="btn btn-default">Thêm
+									<a href="${contextPath}/admin/add-post?postType=${postT.postTypeId}"><button class="btn btn-default">Thêm
 											Bài Viết</button></a>
 									</div>
 									
@@ -48,7 +48,7 @@
 									<c:forEach items="${courses}" var="c">
 										<td><p></p>
 											<p>
-												<a class="right-link long" href="${contextPath}/admin/exercise/${c.courseName}">
+												<a class="right-link long" href="${contextPath}/admin/exam/${c.courseName}">
 													<span <c:if test="${course.courseName eq c.courseName}">style="background: #900;"</c:if> class="right-link-inner">
 														<span class="right-link-content"> <span
 															class="fa icon-book"> </span> <span class="right-txt">
@@ -103,7 +103,7 @@
 							</table>
 							<c:forEach items="${je.jlpts}" var="js" varStatus="id">
 								<a class="right-link long"
-									href="${contextPath}/admin/exercise/${js.course.courseName}/${js.jlptId.substring(5)}-${sv.toUrlFriendly(js.jlptName)}">
+									href="${contextPath}/admin/exam/${js.course.courseName}/${js.jlptId.substring(5)}-${sv.toUrlFriendly(js.jlptName)}">
 									<span class="right-link-inner"> <span
 										class="right-link-content"> <span
 											class="fa icon-folder-open"> </span> <span class="right-txt">

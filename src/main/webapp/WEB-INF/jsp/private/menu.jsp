@@ -37,7 +37,7 @@
 				</a>
 					<ul>
 						<li><a
-							href="${contextPath}/admin/exercise"><i
+							href="${contextPath}/admin/exam"><i
 								class="fa fa-fw fa-check-square-o"></i>
 								Đề thi Ôn tập</a></li>
 								<li><a

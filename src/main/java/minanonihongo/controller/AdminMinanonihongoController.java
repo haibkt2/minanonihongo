@@ -3,6 +3,7 @@ package minanonihongo.controller;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +28,7 @@ import minanonihongo.model.CourseIlm;
 import minanonihongo.model.CourseIlmType;
 import minanonihongo.model.Document;
 import minanonihongo.model.JLPTMenu;
+import minanonihongo.model.JLPTQType;
 import minanonihongo.model.Post;
 import minanonihongo.model.PostType;
 import minanonihongo.model.User;
@@ -35,6 +37,7 @@ import minanonihongo.repository.CourseIlmTypeRepository;
 import minanonihongo.repository.CourseRepository;
 import minanonihongo.repository.DocRepository;
 import minanonihongo.repository.JLPTMenuRepository;
+import minanonihongo.repository.JLPTQTypeRepository;
 import minanonihongo.repository.JLPTRepository;
 import minanonihongo.repository.PostRepository;
 import minanonihongo.repository.PostTypeRepository;
@@ -44,6 +47,7 @@ import minanonihongo.service.CommonService;
 import minanonihongo.service.CourseIlmService;
 import minanonihongo.service.DocServiceImpl;
 import minanonihongo.service.ExamCourseIlmService;
+import minanonihongo.service.JLPTService;
 import minanonihongo.service.PostServiceImpl;
 import minanonihongo.service.VocaCourseIlmService;
 
@@ -66,9 +70,12 @@ public class AdminMinanonihongoController {
 
 	@Autowired
 	CourseIlmTypeRepository courseIlmTypeRepository;
-	
+
 	@Autowired
 	JLPTMenuRepository jlptMenuRepository;
+
+	@Autowired
+	JLPTQTypeRepository jlptQTypeRepository;
 
 	@Autowired
 	CourseIlmService courseIlmService;
@@ -89,6 +96,9 @@ public class AdminMinanonihongoController {
 	VocaCourseIlmService vocaCourseIlmService;
 
 	@Autowired
+	JLPTService jlptService;
+
+	@Autowired
 	PostRepository postRepository;
 
 	@Autowired
@@ -99,7 +109,7 @@ public class AdminMinanonihongoController {
 
 	@Value("${string.jlpt.exercise}")
 	private String jexercise;
-	
+
 	@Value("${string.reponsitory.local}")
 	private String localFile;
 
@@ -375,13 +385,15 @@ public class AdminMinanonihongoController {
 		}
 		return "/private/upDoc";
 	}
-	@RequestMapping(value = {"/admin/exercise/{courseName}", "/admin/exercise"})
+
+	@RequestMapping(value = { "/admin/exam/{courseName}", "/admin/exam" })
 	public String examList(Model model, HttpServletRequest req, HttpServletResponse response,
 			@PathVariable Optional<String> courseName) throws Exception {
 		common.getMenu(model);
 		boolean t = courseName.isPresent();
-		String cN ="N5";
-		if(t) cN = courseName.get();
+		String cN = "N5";
+		if (t)
+			cN = courseName.get();
 		Course course = courseRepository.findByCourseName(cN);
 		if (course == null) {
 			return "404";
@@ -393,6 +405,21 @@ public class AdminMinanonihongoController {
 			List<JLPTMenu> je = jlptMenuRepository.findExJLPT(course.getCourseId(), jexercise);
 			model.addAttribute("je", je);
 		}
-		return "private/exam";
+		return "/private/exam";
+	}
+
+	@RequestMapping(value = { "/admin/exam/{courseName}/{examName}" })
+	public String examDetail(Model model, HttpServletRequest req, HttpServletResponse response,
+			@PathVariable String courseName, @PathVariable String examName) throws Exception {
+		common.getMenu(model);
+		Course course = courseRepository.findByCourseName(courseName);
+		if (course == null) {
+			return "404";
+		} else {
+			String jlptId = "JLPTE" + examName.split("-")[0];
+			List<JLPTQType> jt = jlptQTypeRepository.findQQuestion(jlptId);
+			model.addAttribute("jt", jt);
+		}
+		return "/private/upJLPT";
 	}
 }

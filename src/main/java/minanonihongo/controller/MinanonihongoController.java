@@ -119,7 +119,7 @@ public class MinanonihongoController {
 
 	@Autowired
 	CommonService commonService;
-	
+
 	@Autowired
 	PostServiceImpl postServiceImpl;
 
@@ -173,7 +173,7 @@ public class MinanonihongoController {
 	public String register(@RequestParam("password") String password, @RequestParam("name") String name,
 			@RequestParam("email") String email, @RequestParam("date") String date, @RequestParam("phone") String phone,
 			Model model, HttpSession session, HttpServletRequest request) throws Exception {
-		User u = userRepository.findByEmail(email,"rg");
+		User u = userRepository.findByEmail(email, "rg");
 		if (u != null) {
 			model.addAttribute("rg", "error");
 			return "public/home";
@@ -359,13 +359,14 @@ public class MinanonihongoController {
 		}
 		return "public/post";
 	}
-	
+
 	@RequestMapping(value = { "/van-hoa-nhat-ban/{postName}" })
-	public String postDetail(Model model, HttpServletRequest req, HttpServletResponse response, HttpSession ss, @PathVariable final String postName) {
+	public String postDetail(Model model, HttpServletRequest req, HttpServletResponse response, HttpSession ss,
+			@PathVariable final String postName) {
 		postServiceImpl.getMenu(model);
 		String postId = postName.split("-")[0];
-		Post post = postRepository.findByPostId("POST"+postId);
-		post.setViewPost(post.getViewPost()+1);
+		Post post = postRepository.findByPostId("POST" + postId);
+		post.setViewPost(post.getViewPost() + 1);
 		postRepository.save(post);
 		model.addAttribute("post", post);
 		return "public/detailPost";
@@ -389,16 +390,20 @@ public class MinanonihongoController {
 		return "public/post";
 	}
 
-	@RequestMapping(value = { "/luyen-de" })
-	public String examMenu(Model model, HttpServletRequest req, HttpServletResponse response, HttpSession ss)
-			throws Exception {
-		return "public/menuExam";
-	}
+	// @RequestMapping(value = { "/luyen-de" })
+	// public String examMenu(Model model, HttpServletRequest req,
+	// HttpServletResponse response, HttpSession ss)
+	// throws Exception {
+	// return "public/menuExam";
+	// }
 
-	@RequestMapping(value = { "/luyen-de/{courseName}" })
+	@RequestMapping(value = { "/luyen-de/{courseName}", "/luyen-de" })
 	public String examList(Model model, HttpServletRequest req, HttpServletResponse response,
-			@PathVariable String courseName) throws Exception {
-		Course course = courseRepository.findByCourseName(courseName);
+			@PathVariable Optional<String> courseName) throws Exception {
+		String cn = "N5";
+		if (courseName.isPresent())
+			cn = courseName.get();
+		Course course = courseRepository.findByCourseName(cn);
 		if (course == null) {
 			return "404";
 		} else {
@@ -535,7 +540,7 @@ public class MinanonihongoController {
 	public String resetSendPass(Model model, HttpServletRequest request, HttpSession ss,
 			@RequestParam(name = "email") String email) {
 		System.out.println(email);
-		User user = userRepository.findByEmail(email,"rg");
+		User user = userRepository.findByEmail(email, "rg");
 		if (user == null) {
 			model.addAttribute("error", "Email chưa được đăng ký");
 			return "/public/resetPass";

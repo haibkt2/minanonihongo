@@ -150,28 +150,9 @@
 								class="mn-item hoc-vui">Vui Tiếng Nhật</a></li>
 							<li><a href="${contextPath}/van-hoa-nhat-ban" target=""
 								class="mn-item bai-viet">Bài Viết Về Nhật Bản</a></li>
-							<li class="parent"><a href="javascript:void(0);"
+							<li class="parent"><a href="${contextPath}/luyen-de"
 								class="mn-item thi-thu"> <i class=""></i> Luyện Thi
-							</a>
-								<div class="submenu" style="width: 50px">
-									<ul class="content">
-										<li>
-											<div class="col-right" style="border-top: none;">
-												<div class="clearfix">
-													<div class="col-md-12">
-														<a href="${contextPath}/luyen-de">Luyện Đề</a>
-													</div>
-												</div>
-												<div class="col-bottom clearfix">
-													<div class="col-md-12">
-														<a href="${contextPath}/thi-thu-truc-tuyen">Thi Thử
-															Trực Tuyến</a>
-													</div>
-												</div>
-											</div>
-										</li>
-									</ul>
-								</div></li>
+							</a></li>
 							<!-- 							<li class="item-search"> -->
 							<!-- 								<div id="search-submit">&nbsp;</div> <input type="text" -->
 							<!-- 								name="keya" class="search-input" id="search-inputa" -->

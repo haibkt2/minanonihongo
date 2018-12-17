@@ -26,7 +26,7 @@ public class JLPTQuestion implements Serializable {
 	@JoinColumn(name = "JLPT_ID")
 	private JLPT jlpt;
 
-	private String explain;
+	private String ex;
 
 	private String question;
 
@@ -53,12 +53,12 @@ public class JLPTQuestion implements Serializable {
 		this.jlpt = jlpt;
 	}
 
-	public String getExplain() {
-		return explain;
+	public String getEx() {
+		return ex;
 	}
 
-	public void setExplain(String explain) {
-		this.explain = explain;
+	public void setEx(String ex) {
+		this.ex = ex;
 	}
 
 	public String getQuestion() {

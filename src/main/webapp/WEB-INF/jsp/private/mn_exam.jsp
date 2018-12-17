@@ -50,7 +50,7 @@
 							<p></p></td>
 						<td><p></p>
 							<p>
-								<a class="right-link long" href="${contextPath}/admin/exercise/N4">
+								<a class="right-link long" href="${contextPath}/admin/exam/N4">
 									<span class="right-link-inner"> <span
 										class="right-link-content"> <span class="fa icon-book">
 										</span> <span class="right-txt"> <span class="right-big">N4
