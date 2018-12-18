@@ -153,7 +153,6 @@ public class AdminMinanonihongoController {
 	public String updateExam(Model model, HttpServletRequest request, HttpSession session,
 			@ModelAttribute("courseIlmForm") CourseIlm courseIlmForm, @RequestParam("exam") String exam,
 			@RequestParam("delQt") String del) throws Exception {
-		System.out.println("Ssssssssssssssssssssssssss");
 		CourseIlm courseIlm = courseIlmRepository.findByCourseIlmId(courseIlmForm.getCourseIlmId());
 		examCourseIlmService.setExamCourseIlm(exam, del, courseIlm);
 		return "redirect:/home";
@@ -419,7 +418,17 @@ public class AdminMinanonihongoController {
 			String jlptId = "JLPTE" + examName.split("-")[0];
 			List<JLPTQType> jt = jlptQTypeRepository.findQQuestion(jlptId);
 			model.addAttribute("jt", jt);
+			model.addAttribute("courseName", courseName);
+			model.addAttribute("examName", examName);
 		}
 		return "/private/upJLPT";
+	}
+	@RequestMapping(value = { "/admin/exam/{courseName}/update/{examName}" })
+	public String saveJLPT(Model model, HttpServletRequest request, HttpSession session, @RequestParam("exam") String exam,
+			@RequestParam("delQt") String del) throws Exception {
+//		CourseIlm courseIlm = courseIlmRepository.findByCourseIlmId(courseIlmForm.getCourseIlmId());
+//		examCourseIlmService.setExamCourseIlm(exam, del, courseIlm);
+		System.out.println("");
+		return "redirect:/home";
 	}
 }

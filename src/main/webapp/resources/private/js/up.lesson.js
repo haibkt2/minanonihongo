@@ -140,6 +140,107 @@ function addExam() {
 		$('#ac-add-exam').val('add')
 	}
 }
+
+function addJLPT() {
+	var lg = $(".list-ans-add tr").length,
+	qt = CKEDITOR.instances['question-add'].getData(),
+	c = false,
+	ltb = $(".detail-exam-ct table").length,
+	ac = $('#ac-add-exam').val();
+	if('add' == ac){
+		for( var i = 2; i <= lg; i++){
+			if($('.list-ans-add tr:nth-child(' + i +') input').is(":checked")) {
+				c = true;
+				break;
+			}
+		}
+		if(!c) alert("Chưa có câu trả lời đúng !!") 
+		else {
+			if(''==qt.trim()){
+				alert("Chưa nhập câu hỏi !!")
+			}else {
+			var isA = '<a onclick="fixAns(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-pencil"></i></a>',
+			table = document.getElementById("data-ans").getElementsByTagName('tbody')[0],
+			row = table.insertRow(lg),
+			cell0 = row.insertCell(0),
+			cell1 = row.insertCell(1);
+			cell0.innerHTML = '';
+			cell1.innerHTML = isA;
+				
+				
+				
+			$('.list-ans-add tr:nth-child(1)').remove();
+			$('.add-exam-an-dt table').addClass('qtid'+ltb);
+			$('#data-ans').removeAttr("id");
+			$('.add-exam-an-dt table').attr('id','data-exam');
+			$('.list-ans-add').removeAttr("class");
+			$('.add-exam-an-dt table tbody').attr('class','list-ans');
+			$('.add-exam-an-dt table tfoot').attr('id','tfoot-qtid'+ltb);
+			$('.nd-qt').removeAttr("class");
+			$('.nd-explain').removeAttr("class");
+			$('.add-exam-an-dt table thead').attr('id','qtid'+ltb);
+			
+			$('.add-exam-an-dt table thead tr td:nth-child(2) a:nth-child(1)').attr('onclick','delQt(\'qtid'+ltb+'\')');
+			$('.add-exam-an-dt table thead tr td:nth-child(2) a:nth-child(2)').attr('onclick','fixQt(this)');
+			
+//			.add-exam-an-dt table thead tr td:nth-child(2) a:nth-child(1)
+			
+			$('.add-exam-an-dt table tfoot tr td:nth-child(2) a').removeAttr("style");
+			
+			var qty = $(".select-qtp option:selected").val(), n = $('.add-exam-an-dt').html();
+			
+			$('.'+qty).append(n);
+			
+			$('.add-exam-an-dt #data-exam').attr('id','data-exam');
+			$('.add-exam-an-dt table').attr('id','data-ans');
+			$('.add-exam-an-dt table tbody').removeAttr("class");
+			$('.add-exam-an-dt table tbody').attr('class','list-ans-add');	
+			$('#data-ans thead tr td label').attr('class','nd-qt');	
+			$('#data-ans tfoot tr td:first-child').attr('class','nd-explain');
+			cl = $("#data-ans").attr("class").replace("qtid"+ltb, "");
+			$("#data-ans").attr("class", cl);
+			$('.add-exam-an-dt table tfoot').removeAttr('id');
+			var table = document.getElementById("data-ans"),
+			row = table.insertRow(1),
+			cell0 = row.insertCell(0),
+			cell1 = row.insertCell(1);
+			cell0.innerHTML = '';
+			cell1.innerHTML = '';
+			for( var n = 2; n <= lg+1; lg--){
+				$('.list-ans-add tr:nth-child(' + n +')').remove();
+			}
+			$('.nd-explain').val('');
+			$('.add-exam-an-dt table thead').removeAttr('id');
+			CKEDITOR.instances['question-add'] .setData('');
+			CKEDITOR.instances['explain-add'] .setData('');
+		}
+		}
+	} else {
+		var fl = $('#ac-add-exam').attr('name'),
+		nd,
+		l = fl.split('-')[0];
+		if('tfoot' == l) {nd = CKEDITOR.instances['explain-add'] .getData();
+		$('.'+fl.split('-')[1]).attr('change-data','c');
+		}
+		else {nd = CKEDITOR.instances['question-add'] .getData();
+		$('.'+fl).attr('change-data','c');
+		}
+		$('#'+fl+' tr td:nth-child(1)').html(nd);
+		CKEDITOR.instances['question-add'] .setData('');
+		CKEDITOR.instances['explain-add'] .setData('');
+		$('#ac-add-exam').val('add')
+	}
+}
+
+function addQTy() {
+	nd = $('.ct-q-ty-add').val(),
+	lg = $(".detail-exam-ct div").length, op = '<option value="add-'+lg+'" selected="selected">'+nd+'</option>',
+	tb = '<div class="add-'+lg+'"><label>'+nd+'</label></div>'
+	$(tb).insertBefore('.ahihihi');
+	$('#select-qtp').append(op);
+	$('.ct-q-ty-add').val('');
+}
+
 function delQt(id) {
 	var de = $('#ac-del-exam').val(),
 	id = $('.'+id+' thead').attr('id');	
@@ -291,7 +392,56 @@ function saveExam() { // btn
 	}
 	$('#l-exam').val(JSON.stringify(oe));
 }
-
+function saveJLPT() { // btn
+	var lg = $(".detail-exam-ct table").length,qtl = $(".detail-exam-ct div").length;
+	var iq,ia,q,a,e,g,c,u,ta,qti,qt
+	var qt = '[]',
+	oq = JSON.parse(qt);
+	for (var k = 1; k <= qtl; k++) {
+		qa = $('.detail-exam-ct div:nth-child('+ k +') table').length;
+		if(qa == 0) continue;
+		var lex = '[]',
+		oe = JSON.parse(lex);
+	for (var i = 1; i <= lg; i++) {
+		ta = $('.detail-exam-ct table:nth-child('+ i +')').is(':empty');
+		if(ta == true) continue;
+		iq = $('.detail-exam-ct table:nth-child('+ i +') thead').attr("id"),
+		u = $('.detail-exam-ct table:nth-child('+ i +')').attr("change-data"),
+		q = $('#'+iq+' tr td:nth-child(1)').html(),
+		e = $('#tfoot-'+iq+' tr td:nth-child(1)').html(),
+		lan = '[]',
+		oa = JSON.parse(lan),
+		la = $('.'+iq + ' tbody tr').length;
+		for(var j = 1; j < la; j++){
+			ia = $('.' + iq + ' tbody tr:nth-child('+j+')').attr('id'),
+			c = $('.' + iq + ' tbody tr:nth-child('+j+')' + ' td:nth-child(1) input').is(":checked");;
+			if(c == false) g = '0';
+			else g = '1';
+			a = $('.' + iq + ' tbody tr:nth-child('+j+')' + ' td:nth-child(1)').text();
+			oa.push({
+				"ia" : ia,
+				"g" : g,
+				"a" : a
+			})
+		}
+		oe.push(
+			    {"iq": iq, 
+			     "qt" : q.toString(),
+			     "ex" : e.toString(),
+			     "c" : u,
+			     "ans" : oa}
+			);
+	}
+	qti = $('.detail-exam-ct div:nth-child('+ k +')').attr('class'),
+	qt = $('#select-qtp #'+qti).text();
+	oq.push(
+		    {"qti": qti, 
+		     "qt" : qt,
+		     "qs" : oe}
+		);
+}
+	$('#l-jlpt').val(JSON.stringify(oq));
+}
 function addCourse() { // btn
 	doing = $('#edit-voca').attr('doing');
 	if('fix' == doing) {
