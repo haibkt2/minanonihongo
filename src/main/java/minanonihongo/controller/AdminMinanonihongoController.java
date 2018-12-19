@@ -27,6 +27,7 @@ import minanonihongo.model.Course;
 import minanonihongo.model.CourseIlm;
 import minanonihongo.model.CourseIlmType;
 import minanonihongo.model.Document;
+import minanonihongo.model.JLPT;
 import minanonihongo.model.JLPTMenu;
 import minanonihongo.model.JLPTQType;
 import minanonihongo.model.Post;
@@ -417,18 +418,17 @@ public class AdminMinanonihongoController {
 		} else {
 			String jlptId = "JLPTE" + examName.split("-")[0];
 			List<JLPTQType> jt = jlptQTypeRepository.findQQuestion(jlptId);
+			JLPT jlptForm = jlptRepository.findByJlptId(jlptId);
 			model.addAttribute("jt", jt);
-			model.addAttribute("courseName", courseName);
-			model.addAttribute("examName", examName);
+			model.addAttribute("jlptForm", jlptForm);
 		}
 		return "/private/upJLPT";
 	}
 	@RequestMapping(value = { "/admin/exam/{courseName}/update/{examName}" })
-	public String saveJLPT(Model model, HttpServletRequest request, HttpSession session, @RequestParam("exam") String exam,
-			@RequestParam("delQt") String del) throws Exception {
-//		CourseIlm courseIlm = courseIlmRepository.findByCourseIlmId(courseIlmForm.getCourseIlmId());
-//		examCourseIlmService.setExamCourseIlm(exam, del, courseIlm);
-		System.out.println("");
+	public String saveJLPT(Model model, HttpServletRequest request, HttpSession session, @RequestParam("exam") String exam,@RequestParam("timeout") String timeout,
+			@RequestParam("delQt") String del,@ModelAttribute("jlptForm") JLPT jlptForm) throws Exception {
+		jlptForm.setTimeout(timeout);
+		jlptService.setJLPT(exam, del, jlptForm);
 		return "redirect:/home";
 	}
 }

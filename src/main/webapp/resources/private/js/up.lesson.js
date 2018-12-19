@@ -393,7 +393,7 @@ function saveExam() { // btn
 	$('#l-exam').val(JSON.stringify(oe));
 }
 function saveJLPT() { // btn
-	var lg = $(".detail-exam-ct table").length,qtl = $(".detail-exam-ct div").length;
+	var qtl = $(".detail-exam-ct div").length;
 	var iq,ia,q,a,e,g,c,u,ta,qti,qt
 	var qt = '[]',
 	oq = JSON.parse(qt);
@@ -401,12 +401,13 @@ function saveJLPT() { // btn
 		qa = $('.detail-exam-ct div:nth-child('+ k +') table').length;
 		if(qa == 0) continue;
 		var lex = '[]',
-		oe = JSON.parse(lex);
-	for (var i = 1; i <= lg; i++) {
-		ta = $('.detail-exam-ct table:nth-child('+ i +')').is(':empty');
-		if(ta == true) continue;
-		iq = $('.detail-exam-ct table:nth-child('+ i +') thead').attr("id"),
-		u = $('.detail-exam-ct table:nth-child('+ i +')').attr("change-data"),
+		oe = JSON.parse(lex),
+		lg = $('.detail-exam-ct div:nth-child('+ k +') table thead').length;
+	for (var i = 0; i < lg; i++) {
+//		ta = $('.detail-exam-ct table:nth-child('+ i +')').is(':empty');
+//		if(ta == true) continue;
+		iq = $('.detail-exam-ct div:nth-child('+ k +') table thead').slice(i,i+1).attr("id"),
+		u = $('.detail-exam-ct div:nth-child('+ k +') table').slice(i,i+1).attr("change-data"),
 		q = $('#'+iq+' tr td:nth-child(1)').html(),
 		e = $('#tfoot-'+iq+' tr td:nth-child(1)').html(),
 		lan = '[]',
