@@ -234,7 +234,7 @@ function addJLPT() {
 
 function addQTy() {
 	nd = $('.ct-q-ty-add').val(),
-	lg = $(".detail-exam-ct div").length, op = '<option value="add-'+lg+'" selected="selected">'+nd+'</option>',
+	lg = $(".detail-exam-ct div").length, op = '<option value="add-'+lg+'" selected="selected" id="add-'+lg+'">'+nd+'</option>',
 	tb = '<div class="add-'+lg+'"><label>'+nd+'</label></div>'
 	$(tb).insertBefore('.ahihihi');
 	$('#select-qtp').append(op);
@@ -397,7 +397,7 @@ function saveJLPT() { // btn
 	var iq,ia,q,a,e,g,c,u,ta,qti,qt
 	var qt = '[]',
 	oq = JSON.parse(qt);
-	for (var k = 1; k <= qtl; k++) {
+	for (var k = 1; k < qtl; k++) {
 		qa = $('.detail-exam-ct div:nth-child('+ k +') table').length;
 		if(qa == 0) continue;
 		var lex = '[]',

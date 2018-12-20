@@ -22,7 +22,6 @@
 				<f:form action="${contextPath}/admin/exam/${courseName}/update/${examName}" modelAttribute="jlptForm">
 					<!-- Main content -->
 					<f:input path="jlptId" type="hidden" />
-					<input name="timeout" value="2">
 					<section class="content">
 						<div class="row">
 							<div class="col-md-12">
@@ -31,8 +30,29 @@
 									<div class="box-body pad">
 										<div>
 											<button type="submit" class="btn btn-info btn-flat"
-												onclick="saveJLPT()" style="margin: 5px 0 0 40px">Hoàn
-												sdasasd tất</button>
+												onclick="saveJLPT()" style="margin: 5px 0 0 40px">Hoàn tất</button>
+										</div>
+										<div class="box-body pad">
+											<select class="form-control" name="timeout"
+															style="margin: 2px 10px 2px 0; float: right; width: 10%">
+																	<option value="30" >30 Phút</option>
+																	<option value="40" >40 Phút</option>
+																	<option value="50" >50 Phút</option>
+																	<option value="60" >60 Phút</option>
+														</select>
+										</div>
+											<div style="width: 220px; margin-left: 120px;">
+												<f:select class="form-control" path="jlptMn">
+													<f:options items="${jlptMn}"
+													itemLabel="jlptMenuName" itemValue="jlptMenuId" /> 
+												</f:select>
+											</div>
+										<div class="form-group" style="width: 975px;margin-left: 30px">
+											<h4>
+												<label> Đề thi</label>
+											</h4>
+											<f:input type="text" class="form-control" name="jlptName"
+												path="jlptName" id="jlptName" placeholder="Tên Đề thi" />
 										</div>
 										<div class="box-body">
 											<div class="detail-exam-ct">

@@ -404,15 +404,34 @@ public class AdminMinanonihongoController {
 			model.addAttribute("course", course);
 			List<JLPTMenu> je = jlptMenuRepository.findExJLPT(course.getCourseId(), jexercise);
 			model.addAttribute("je", je);
+			model.addAttribute("je", je);
 		}
 		return "/private/exam";
 	}
+	
+	@RequestMapping(value = { "/admin/add-exam/{courseName}" })
+	public String addJLPT(Model model, HttpServletRequest req, HttpServletResponse response,
+			@PathVariable String courseName) throws Exception {
+		common.getMenu(model);
+		Course course = courseRepository.findByCourseName(courseName);
+		List<JLPTMenu> jlptMenu = (List<JLPTMenu>) jlptMenuRepository.findAll();
+		if (course == null) {
+			return "404";
+		} else {
+			JLPT jlptForm = new JLPT();
+			jlptForm.setJlptId("dd");
+			model.addAttribute("jlptForm", jlptForm);
+			model.addAttribute("jlptMn", jlptMenu);
+		}
+		return "/private/upJLPT";
+	}
 
-	@RequestMapping(value = { "/admin/exam/{courseName}/{examName}" })
-	public String examDetail(Model model, HttpServletRequest req, HttpServletResponse response,
+	@RequestMapping(value = { "/admin/fix-exam/{courseName}/{examName}" })
+	public String fixJLPT(Model model, HttpServletRequest req, HttpServletResponse response,
 			@PathVariable String courseName, @PathVariable String examName) throws Exception {
 		common.getMenu(model);
 		Course course = courseRepository.findByCourseName(courseName);
+		List<JLPTMenu> jlptMenu = (List<JLPTMenu>) jlptMenuRepository.findAll();
 		if (course == null) {
 			return "404";
 		} else {
@@ -421,6 +440,7 @@ public class AdminMinanonihongoController {
 			JLPT jlptForm = jlptRepository.findByJlptId(jlptId);
 			model.addAttribute("jt", jt);
 			model.addAttribute("jlptForm", jlptForm);
+			model.addAttribute("jlptMn", jlptMenu);
 		}
 		return "/private/upJLPT";
 	}

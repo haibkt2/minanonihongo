@@ -7,4 +7,5 @@ import minanonihongo.model.JLPTQuestion;
 
 
 public interface JLPTQuestionRepository extends CrudRepository<JLPTQuestion, Integer> {
+	JLPTQuestion findByJlptQuestionId(String jlptQtId);
 }

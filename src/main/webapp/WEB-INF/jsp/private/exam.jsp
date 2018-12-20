@@ -25,17 +25,15 @@
 								<section class="content-header"
 									style="margin-bottom: 15px; text-align: center;">
 									<h3 class="box-title" style="float: center;">
-										Danh Sách Bài Đăng
+										Quản lý Đề thi
 									</h3>
 									
 								</section>
 								<section class="content-header"
 									style="margin-bottom: 15px;">
 									<div style="width: 10%; float: right; margin-right: 15px;">
-									<a href="${contextPath}/admin/add-post?postType=${postT.postTypeId}"><button class="btn btn-default">Thêm
-											Bài Viết</button></a>
+									<a href="${contextPath}/admin/add-exam/${course.courseName}"><button class="btn btn-default">Thêm mới Đề thi</button></a>
 									</div>
-									
 								</section>
 							</div>
 							<div class="box-body">
@@ -103,7 +101,7 @@
 							</table>
 							<c:forEach items="${je.jlpts}" var="js" varStatus="id">
 								<a class="right-link long"
-									href="${contextPath}/admin/exam/${js.course.courseName}/${js.jlptId.substring(5)}-${sv.toUrlFriendly(js.jlptName)}">
+									href="${contextPath}/admin/fix-exam/${js.course.courseName}/${js.jlptId.substring(5)}-${sv.toUrlFriendly(js.jlptName)}">
 									<span class="right-link-inner"> <span
 										class="right-link-content"> <span
 											class="fa icon-folder-open"> </span> <span class="right-txt">

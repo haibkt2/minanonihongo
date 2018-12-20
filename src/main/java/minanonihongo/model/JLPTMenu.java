@@ -18,7 +18,7 @@ public class JLPTMenu implements Serializable {
 
     @Id
     @Column(name="JLPT_MENU_ID")
-    private String jlptMenuId;
+    private int jlptMenuId;
 
     @Column(name="JLPT_MENU_NAME")
     private String jlptMenuName;
@@ -34,11 +34,11 @@ public class JLPTMenu implements Serializable {
 		this.jlpts = jlpts;
 	}
 
-	public String getJlptMenuId() {
+	public int getJlptMenuId() {
 		return jlptMenuId;
 	}
 
-	public void setJlptMenuId(String jlptMenuId) {
+	public void setJlptMenuId(int jlptMenuId) {
 		this.jlptMenuId = jlptMenuId;
 	}
 
