@@ -2,6 +2,7 @@
 package minanonihongo.controller;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import minanonihongo.model.Course;
+import minanonihongo.model.CourseGlobal;
 import minanonihongo.model.CourseIlm;
 import minanonihongo.model.CourseIlmType;
 import minanonihongo.model.Document;
@@ -33,6 +35,7 @@ import minanonihongo.model.JLPTQType;
 import minanonihongo.model.Post;
 import minanonihongo.model.PostType;
 import minanonihongo.model.User;
+import minanonihongo.repository.CourseGlobalRepository;
 import minanonihongo.repository.CourseIlmRepository;
 import minanonihongo.repository.CourseIlmTypeRepository;
 import minanonihongo.repository.CourseRepository;
@@ -45,6 +48,7 @@ import minanonihongo.repository.PostTypeRepository;
 import minanonihongo.repository.UserRepository;
 import minanonihongo.service.Common;
 import minanonihongo.service.CommonService;
+import minanonihongo.service.CourseGbService;
 import minanonihongo.service.CourseIlmService;
 import minanonihongo.service.DocServiceImpl;
 import minanonihongo.service.ExamCourseIlmService;
@@ -86,12 +90,18 @@ public class AdminMinanonihongoController {
 
 	@Autowired
 	CommonService commonService;
+	
+	@Autowired
+	CourseGbService courseGbService;
 
 	@Autowired
 	PostServiceImpl postServiceImpl;
 
 	@Autowired
 	ExamCourseIlmService examCourseIlmService;
+	
+	@Autowired
+	CourseGlobalRepository courseGlobalRepository;
 
 	@Autowired
 	VocaCourseIlmService vocaCourseIlmService;
@@ -136,10 +146,6 @@ public class AdminMinanonihongoController {
 	public String courses(Model model, @PathVariable String courseName, HttpServletRequest request) {
 		common.getMenu(model);
 		Course course = courseRepository.findByCourseName(courseName);
-		// String mess = request.getParameter("mess_up");
-		// if (mess != null) {
-		// model.addAttribute("course_up", courseIlmRepository.findByCourseIlmId(mess));
-		// }
 		if (course != null) {
 			List<CourseIlm> courseIlms = courseIlmRepository.findByCourse(course);
 			model.addAttribute("course", course);
@@ -159,13 +165,9 @@ public class AdminMinanonihongoController {
 		return "redirect:/home";
 	}
 
-	// show view form insert formation
 	@RequestMapping(value = "/admin/course/them-bai-hoc-moi/{course}", method = RequestMethod.GET)
 	public String course(Model model, HttpServletRequest request, HttpSession session) {
 		common.getMenu(model);
-		// set model
-		// model.addAttribute("courseForm", new CourseIlm());
-		// model.addAttribute("postId", commonService.autoPostid());
 		return "/private/addCourse";
 	}
 
@@ -280,6 +282,7 @@ public class AdminMinanonihongoController {
 			cIlm = new CourseIlm();
 			String cId = courseIlmForm.getCourseIlmId();
 			courseIlmForm.setCourse(courseRepository.findByCourseName(cId.substring(0, 2)));
+//			cIlm.setCourseGlobal(courseGbService.setcourseGlobal(courseIlmForm));
 		} else {
 			courseIlmForm.setCourse(cIlm.getCourse());
 		}
@@ -311,6 +314,8 @@ public class AdminMinanonihongoController {
 		courseIlmForm.setUpdateDate(commonService.currentDate());
 		courseIlmRepository.save(courseIlmForm);
 		vocaCourseIlmService.setVocaCourseIlm(listCurrent, deleOld, courseIlmForm);
+		CourseGlobal courseGlobal = courseGbService.setcourseGlobal(courseIlmForm);
+		courseGlobalRepository.save(courseGlobal);
 		common.getMenu(model);
 		model.addAttribute("courseIlmForm", courseIlmForm);
 		return "/private/upExam";
@@ -419,7 +424,12 @@ public class AdminMinanonihongoController {
 			return "404";
 		} else {
 			JLPT jlptForm = new JLPT();
-			jlptForm.setJlptId("dd");
+			jlptForm.setJlptId(jlptService.setJlptId());
+			List<JLPTQType> jt = (List<JLPTQType>) jlptQTypeRepository.findAll();
+			for(JLPTQType jlptqType : jt) {
+				jlptqType.setJlptQuestions(new ArrayList<>());
+			}
+			model.addAttribute("jt", jt);
 			model.addAttribute("jlptForm", jlptForm);
 			model.addAttribute("jlptMn", jlptMenu);
 		}

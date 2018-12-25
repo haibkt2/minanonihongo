@@ -28,8 +28,7 @@
 		<br>
 		<c:if test="${not empty courseIlm.getCourse().getDocuments()}">
 			<div class="document" id="document">
-				<i class="zmdi zmdi-dns">&nbsp;</i><strong>Tài liệu học cho
-					khóa hoc <c:out value="${courseName}"></c:out> :
+				<i class="zmdi zmdi-dns">&nbsp;</i><strong>Tài liệu học tập<c:out value="${courseName}"></c:out> :
 				</strong><br>
 				<c:forEach items="${courseIlm.getCourse().getDocuments()}" var="doc">
 			${doc.descrip} :

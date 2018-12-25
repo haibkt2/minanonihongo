@@ -46,7 +46,7 @@ function getsJson(id, ls) {
 						document.getElementById('total-number-test').innerHTML = obj.courseGlobal["totalNumber"];
 					if(document.getElementById('document') != null) {
 						for (var doc in obj.course["documents"]) {
-							document.getElementById('document').innerHTML = '<i class="zmdi zmdi-dns">&nbsp;</i><strong>Tài liệu học cho khóa hoc '+obj.course["courseName"]+'</strong> : <a href="${contextPath}/downloadFile?file='+obj.course["documents"][doc].locaFileDoc+'" id="file-doc">'+obj.course["documents"][doc].locaFileDoc+'</a><br>'
+							document.getElementById('document').innerHTML = '<i class="zmdi zmdi-dns">&nbsp;</i><strong>Tài liệu học tập '+obj.course["courseName"]+'</strong> : <a href="${contextPath}/downloadFile?file='+obj.course["documents"][doc].locaFileDoc+'" id="file-doc">'+obj.course["documents"][doc].locaFileDoc+'</a><br>'
 							}
 					}
 					if(document.getElementById('course-name') != null)

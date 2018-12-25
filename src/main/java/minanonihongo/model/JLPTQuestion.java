@@ -77,4 +77,12 @@ public class JLPTQuestion implements Serializable {
 		this.jlptAnswer = jlptAnswer;
 	}
 
+	public JLPTQType getJlptQType() {
+		return jlptQType;
+	}
+
+	public void setJlptQType(JLPTQType jlptQType) {
+		this.jlptQType = jlptQType;
+	}
+
 }

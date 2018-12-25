@@ -36,6 +36,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import minanonihongo.model.Course;
+import minanonihongo.model.CourseGlobal;
 import minanonihongo.model.CourseIlm;
 import minanonihongo.model.CourseIlmType;
 import minanonihongo.model.JLPTMenu;
@@ -47,6 +48,7 @@ import minanonihongo.model.PostType;
 import minanonihongo.model.Role;
 import minanonihongo.model.User;
 import minanonihongo.model.VocaCourseIlm;
+import minanonihongo.repository.CourseGlobalRepository;
 import minanonihongo.repository.CourseIlmRepository;
 import minanonihongo.repository.CourseIlmTypeRepository;
 import minanonihongo.repository.CourseRepository;
@@ -104,6 +106,9 @@ public class MinanonihongoController {
 
 	@Autowired
 	JLPTRsRepository jlptRsRepository;
+	
+	@Autowired
+	CourseGlobalRepository courseGlobalRepository;
 
 	@Autowired
 	JLPTMenuRepository jlptMenuRepository;
@@ -259,6 +264,10 @@ public class MinanonihongoController {
 		model.addAttribute("lesson_tasks", mapJson.get(0).get("lesson_tasks"));
 		model.addAttribute("lesson_lesson", mapJson.get(0).get("lesson_lesson"));
 		model.addAttribute("courseIlm", c);
+		CourseGlobal courseGlobal = courseGlobalRepository.countByTotalNumber(courseIlm.getCourseIlmId());
+		if(courseGlobal == null) courseGlobal = new CourseGlobal();
+		courseGlobal.setTotalNumber(courseGlobal.getTotalNumber()+1);
+		courseGlobalRepository.save(courseGlobal);
 		return "public/detailCourse";
 	}
 
@@ -389,13 +398,6 @@ public class MinanonihongoController {
 		model.addAttribute("postt", postTypes);
 		return "public/post";
 	}
-
-	// @RequestMapping(value = { "/luyen-de" })
-	// public String examMenu(Model model, HttpServletRequest req,
-	// HttpServletResponse response, HttpSession ss)
-	// throws Exception {
-	// return "public/menuExam";
-	// }
 
 	@RequestMapping(value = { "/luyen-de/{courseName}", "/luyen-de" })
 	public String examList(Model model, HttpServletRequest req, HttpServletResponse response,

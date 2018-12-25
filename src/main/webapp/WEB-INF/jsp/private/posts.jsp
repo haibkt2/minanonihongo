@@ -45,8 +45,8 @@
 									<thead>
 										<tr>
 											<th width="3%" style="font-size: 16px">STT</th>
-											<th width="35%" style="font-size: 16px">Tên Bài Học</th>
-											<th width="56%" style="font-size: 16px">Nội dung</th>
+											<th width="30%" style="font-size: 16px">Tên Bài Học</th>
+											<th width="60%" style="font-size: 16px">Nội dung</th>
 											<th width="6%"></th>
 										</tr>
 									</thead>

@@ -165,8 +165,11 @@ public class JLPTService {
 				String qti = json.getString("qti");
 				String qtn = json.getString("qt");
 				JLPTQType jlptqType = jlptQTypeRepository.findByJlptQTypeId(qti);
-				if (jlptqType == null)
+				if (jlptqType == null) {
 					jlptqType = new JLPTQType();
+					qti = setJlptQTId();
+				}
+					
 				jlptqType.setJlptTypeId(qti);
 				jlptqType.setJlptQTypeName(qtn);
 				jlptQTypeRepository.save(jlptqType);
@@ -187,10 +190,12 @@ public class JLPTService {
 						}
 						jlptQuestion.setEx(ex);
 						jlptQuestion.setQuestion(qt);
+						jlptQuestion.setJlpt(jlpt);
 						// examQuestion.setExam(exam);
 						jlptQuestion.setJlptAnswer(answers);
+						jlptQuestion.setJlptQType(jlptqType);
 						jlptQuestionRepository.save(jlptQuestion);
-						JSONArray la = (JSONArray) JSONSerializer.toJSON(json.getString("ans"));
+						JSONArray la = (JSONArray) JSONSerializer.toJSON(jsonq.getString("ans"));
 						for (Object jsa : la) {
 							JSONObject jsona = (JSONObject) jsa;
 							JLPTAnswer jlptAnswer = new JLPTAnswer();
@@ -213,6 +218,7 @@ public class JLPTService {
 			}
 			return true;
 		} catch (JSONException e) {
+			System.out.println(e.getMessage());
 			return false;
 		}
 
@@ -220,24 +226,24 @@ public class JLPTService {
 
 	public String setJlptQtId() {
 		List<JLPTQuestion> exams = (List<JLPTQuestion>) jlptQuestionRepository.findAll();
-		String jlptQtId = "EXQN00000";
+		String jlptQtId = "JLPTN0001";
 		if (exams.size() > 0) {
-			int id = Integer.parseInt(exams.get(exams.size() - 1).getJlptQuestionId().substring(4, 9)) + 1;
+			int id = Integer.parseInt(exams.get(exams.size() - 1).getJlptQuestionId().substring(5, 9)) + 1;
 			String countExId = "" + id;
-			if (countExId.trim().length() != 5) {
-				int count = 5 - countExId.trim().length();
+			if (countExId.trim().length() != 4) {
+				int count = 4 - countExId.trim().length();
 				for (int i = 0; i < count; i++) {
 					countExId = "0" + countExId;
 				}
 			}
-			jlptQtId = "EXQN".concat("" + countExId);
+			jlptQtId = "JLPTN".concat("" + countExId);
 		}
 		return jlptQtId;
 	}
 
 	public String setJlptAnId() {
 		List<JLPTAnswer> jlpts = (List<JLPTAnswer>) jlptAnswerRepository.findAll();
-		String examAnsId = "EXASN000001";
+		String examAnsId = "JLPTA000001";
 		if (jlpts.size() > 0) {
 			int id = Integer.parseInt(jlpts.get(jlpts.size() - 1).getJlptAnswerId().substring(5, 11)) + 1;
 			String countExId = "" + id;
@@ -247,16 +253,16 @@ public class JLPTService {
 					countExId = "0" + countExId;
 				}
 			}
-			examAnsId = "EXASN".concat("" + countExId);
+			examAnsId = "JLPTA".concat("" + countExId);
 		}
 		return examAnsId;
 	}
 
 	public String setJlptId() {
 		List<JLPT> jlpts = (List<JLPT>) jlptRepository.findAll();
-		String jlptId = "EXAMEC0000001";
+		String jlptId = "JLPTE00000000";
 		if (jlpts.size() > 0) {
-			int id = Integer.parseInt(jlpts.get(jlpts.size() - 1).getJlptId().substring(5, 12)) + 1;
+			int id = Integer.parseInt(jlpts.get(jlpts.size() - 1).getJlptId().substring(5, 13)) + 1;
 			String countExId = "" + id;
 			if (countExId.trim().length() != 7) {
 				int count = 7 - countExId.trim().length();
@@ -264,7 +270,23 @@ public class JLPTService {
 					countExId = "0" + countExId;
 				}
 			}
-			jlptId = "EXAMEC".concat("" + countExId);
+			jlptId = "JLPTE".concat("" + countExId);
+		}
+		return jlptId;
+	}
+	public String setJlptQTId() {
+		List<JLPTQType> jlptqTypes = (List<JLPTQType>) jlptQTypeRepository.findAll();
+		String jlptId = "JQT000";
+		if (jlptqTypes.size() > 0) {
+			int id = Integer.parseInt(jlptqTypes.get(jlptqTypes.size() - 1).getJlptQTypeId().substring(3, 6)) + 1;
+			String countExId = "" + id;
+			if (countExId.trim().length() != 3) {
+				int count = 3 - countExId.trim().length();
+				for (int i = 0; i < count; i++) {
+					countExId = "0" + countExId;
+				}
+			}
+			jlptId = "JQT".concat("" + countExId);
 		}
 		return jlptId;
 	}

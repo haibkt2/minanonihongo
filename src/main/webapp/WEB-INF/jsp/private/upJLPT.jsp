@@ -57,9 +57,9 @@
 										<div class="box-body">
 											<div class="detail-exam-ct">
 												<c:forEach items="${jt}" var="jt">
+												<c:if test="${not empty jt.jlptQuestions}">
 													<div class="${jt.jlptQTypeId}">
 														<label>${jt.jlptQTypeName}</label>
-
 														<c:forEach items="${jt.jlptQuestions}" var="qt">
 															<table id="data-exam" change-data="n" dt-db="ys"
 																class="scrollTable table table-bordered table-hover dataTable no-footer ${qt.jlptQuestionId}"
@@ -115,7 +115,9 @@
 															</table>
 														</c:forEach>
 													</div>
+													</c:if>
 												</c:forEach>
+												
 												<div class="ahihihi"></div>
 											</div>
 											<input type="hidden" value="add" id="ac-add-exam"> <input
