@@ -26,62 +26,45 @@
 					</h2>
 				</div>
 				<% int i = 0;int j = 0;%>
-				<c:forEach items="${posts}" var="post" varStatus="postId">
-					<c:if test="${postId.index%3 eq 0}">
+				<c:forEach items="${funs}" var="funs" varStatus="funsId">
+					<c:if test="${funsId.index%3 eq 0}">
 						<div class="page" id="page<%=++i%>">
 							<div class="news-item featured">
 								<a
-									href="${contextPath}/van-hoa-nhat-ban/${post.getPostId().substring(4)}-${sv.toUrlFriendly(post.getPostTitle())}">
+									href="${contextPath}/vui-tieng-nhat/${funs.getCourseBgId().substring(4)}-${sv.toUrlFriendly(funs.getCourseFunTitle())}">
 									<img class="lazyload"
-									src="${contextPath}/reponsitory/post/${post.getPostImg()}"
-									data-src="${contextPath}/reponsitory/post/${post.getPostImg()}">
+									src="${contextPath}/reponsitory/course-fun/${funs.courseFunImg}"
+									data-src="${contextPath}/reponsitory/course-fun/${funs.courseFunImg}">
 								</a> <a
-									href="${contextPath}/van-hoa-nhat-ban/${post.getPostId().substring(4)}-${sv.toUrlFriendly(post.getPostTitle())}"
-									title="${post.getPostTitle()}">
-									<div class="title">${post.getPostTitle()}</div>
+									href="${contextPath}/vui-tieng-nhat/${funs.getCourseBgId().substring(4)}-${sv.toUrlFriendly(funs.getCourseFunTitle())}"
+									title="${funs.courseFunTitle}">
+									<div class="title">${funs.courseFunTitle}</div>
 								</a> <span class="info"><i class="fa fa-user">
-										&nbsp;${post.getUser().getName()}</i> &nbsp; &nbsp; <i
+										&nbsp;</i> &nbsp; &nbsp; <i
 									class="fa fa-calendar-check-o"></i>&nbsp;${post.getUpdateDate()}
-									&nbsp; &nbsp; Lượt xem : ${post.getViewPost()} </span> <span
-									class="brief">${post.getPostTitle()} </span>
+									&nbsp; &nbsp; Lượt xem : ${funs.viewCourseFun} </span> <span
+									class="brief">${funs.courseFunTitle} </span>
 							</div>
 					</c:if>
-					<c:if test="${postId.index%3 ne 0}">
+					<c:if test="${funsId.index%3 ne 0}">
 					<%j++; %>
 						<div class="news-item featured-sub">
 							<a
-								href="${contextPath}/van-hoa-nhat-ban/${post.getPostId().substring(4)}-${sv.toUrlFriendly(post.getPostTitle())}">
+								href="${contextPath}/vui-tieng-nhat/${funs.getCourseBgId().substring(4)}-${sv.toUrlFriendly(funs.getCourseFunTitle())}">
 								<img class="lazyload"
-								src="${contextPath}/reponsitory/post/${post.getPostImg()}"
-								data-src="${contextPath}/reponsitory/post/${post.getPostImg()}">
+								src="${contextPath}/reponsitory/course-fun/${funs.courseFunImg}"
+								data-src="${contextPath}/reponsitory/course-fun/${funs.courseFunImg}">
 							</a> <a
-								href="${contextPath}/van-hoa-nhat-ban/${post.getPostId().substring(4)}-${sv.toUrlFriendly(post.getPostTitle())}"
-								title="${post.getPostTitle()}">
-								<div class="title">${post.getPostTitle()}</div>
-							</a> 
+									href="${contextPath}/vui-tieng-nhat/${funs.getCourseBgId().substring(4)}-${sv.toUrlFriendly(funs.getCourseFunTitle())}"
+									title="${funs.courseFunTitle}">
+									<div class="title">${funs.courseFunTitle}</div>
+								</a>
 						</div>
 					</c:if>
 					<%if(j>i) {%></div><%}%>
-		<c:set value="${postId.index/3 + 1}" var="np"></c:set>
+		<c:set value="${funsId.index/3 + 1}" var="np"></c:set>
 		</c:forEach>
 		</div>
-		</c:if>
-		<c:if test="${not empty post}">
-			<div class="blog-detail-container">
-				<h2 class="blog-detail-title">${post.getPostTitle()}</h2>
-				<span class="blog-detail-info"><i class="fa fa-user"></i>
-					Người đăng : ${post.getUser().getUserName()}&nbsp; &nbsp; <i
-					class="fa fa-calendar-check-o"></i> ${post.getUpdateDate()} &nbsp;
-					&nbsp; Lượt xem : ${post.getViewPost()}</span>
-				<div class="blog-social-like">
-					<iframe
-						src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Flocalhost%3A8888%2Fvan-hoa-nhat-ban%2F${post.getPostId()}&width=450&layout=standard&action=like&size=small&show_faces=true&share=true&height=80&appId=2272220076356331"
-						width="450" height="30" style="border: none; overflow: hidden"
-						scrolling="no" frameborder="0" allowTransparency="true"
-						allow="encrypted-media"></iframe>
-				</div>
-				<div class="blog-detail-content">${post.getPostContent()}</div>
-			</div>
 		</c:if>
 		<ul class="pagination" id="pagination">
 		</ul>
@@ -89,28 +72,24 @@
 	<div class="main-right" style="padding-bottom: 30px;">
 		<div class="list-group list-category">
 			<span class="list-group-item item-heading">Chuyên mục</span>
-			<c:forEach items="${postt}" var="postt">
-				<a
-					href="${contextPath}/van-hoa-nhat-ban/chuyen-muc/${postt.getPostTypeId()}-${sv.toUrlFriendly(postt.getPostTypeName())}"
-					class="list-group-item ${postt.getPostTypeName()}">${postt.getPostTypeName()}</a>
+			<c:forEach items="${funt}" var="funt">
+				<a href="${contextPath}/vui-tieng-nhat/chuyen-muc/${funt.courseFunTypeId}-${sv.toUrlFriendly(funt.courseFunTypeName)}"
+					class="list-group-item ${funt.courseFunTypeName}">${funt.courseFunTypeName}</a>
 			</c:forEach>
 		</div>
-		<h3 class="related-title">Bài viết đọc nhiều</h3>
+		<h3 class="related-title">Thú vị nhất</h3>
 
-		<c:forEach items="${postmn}" var="post">
+		<c:forEach items="${funmn}" var="fun">
 			<div class="related-news-item">
 				<a
-					href="${contextPath}/van-hoa-nhat-ban/${post.getPostId().substring(4)}-${sv.toUrlFriendly(post.getPostTitle())}">
+					href="${contextPath}/vui-tieng-nhat/${post.getPostId().substring(4)}-${sv.toUrlFriendly(post.getPostTitle())}">
 					<img class="lazyload"
-					src="${contextPath}/reponsitory/post/${post.getPostImg()}"
-					data-src="${contextPath}/reponsitory/post/${post.getPostImg()}">
-				</a><a href="${contextPath}/van-hoa-nhat-ban/${post.getPostId().substring(4)}-${sv.toUrlFriendly(post.getPostTitle())}"
-								title="${post.getPostTitle()}">
-								<div class="title">${post.getPostTitle()}</div>
-					</a> <span class="info"><i class="fa fa-user"> &nbsp;${post.getUser().getName()}</i> &nbsp; &nbsp; <i
-								class="fa fa-calendar-check-o"></i>&nbsp;${post.getUpdateDate()}
-								&nbsp; &nbsp; Lượt xem : ${post.getViewPost()} </span> <span
-								class="brief">${post.getPostTitle()} </span>
+					src="${contextPath}/reponsitory/course-fun/${fun.courseFunImg}"
+					data-src="${contextPath}/reponsitory/course-fun/${fun.courseFunImg}">
+				</a><a href="${contextPath}/vui-tieng-nhat/${fun.getCourseBgId().substring(4)}-${sv.toUrlFriendly(fun.courseFunTitle)}"
+								title="${fun.courseFunTitle}">
+								<div class="title">${fun.courseFunTitle}</div>
+					</a>  <span class="brief">${fun.courseFunTitle} </span>
 			</div>
 		</c:forEach>
 	</div>

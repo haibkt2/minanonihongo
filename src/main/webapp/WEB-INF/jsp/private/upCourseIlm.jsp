@@ -21,8 +21,8 @@
 		<div class="content-wrapper">
 			<section class="content-header">
 				<span><h1 style="text-align: center;">
-						Thêm bài học mới : <a href="" style="color: #00c0ef">Khóa
-							học ${courseIlmForm.getCourse().getCourseName()}</a>
+<!-- 						Thêm bài học mới : <a href="" style="color: #00c0ef">Khóa -->
+<%-- 							học ${courseIlmForm.getCourse().getCourseName()}</a> --%>
 					</h1></span>
 			</section>
 			<f:form action="${contextPath}/admin/update-course"

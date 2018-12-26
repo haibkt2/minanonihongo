@@ -66,23 +66,23 @@
 		</c:forEach>
 		</div>
 		</c:if>
-		<c:if test="${not empty post}">
-			<div class="blog-detail-container">
-				<h2 class="blog-detail-title">${post.getPostTitle()}</h2>
-				<span class="blog-detail-info"><i class="fa fa-user"></i>
-					Người đăng : ${post.getUser().getUserName()}&nbsp; &nbsp; <i
-					class="fa fa-calendar-check-o"></i> ${post.getUpdateDate()} &nbsp;
-					&nbsp; Lượt xem : ${post.getViewPost()}</span>
-				<div class="blog-social-like">
-					<iframe
-						src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Flocalhost%3A8888%2Fvan-hoa-nhat-ban%2F${post.getPostId()}&width=450&layout=standard&action=like&size=small&show_faces=true&share=true&height=80&appId=2272220076356331"
-						width="450" height="30" style="border: none; overflow: hidden"
-						scrolling="no" frameborder="0" allowTransparency="true"
-						allow="encrypted-media"></iframe>
-				</div>
-				<div class="blog-detail-content">${post.getPostContent()}</div>
-			</div>
-		</c:if>
+<%-- 		<c:if test="${not empty post}"> --%>
+<!-- 			<div class="blog-detail-container"> -->
+<%-- 				<h2 class="blog-detail-title">${post.getPostTitle()}</h2> --%>
+<!-- 				<span class="blog-detail-info"><i class="fa fa-user"></i> -->
+<%-- 					Người đăng : ${post.getUser().getUserName()}&nbsp; &nbsp; <i --%>
+<%-- 					class="fa fa-calendar-check-o"></i> ${post.getUpdateDate()} &nbsp; --%>
+<%-- 					&nbsp; Lượt xem : ${post.getViewPost()}</span> --%>
+<!-- 				<div class="blog-social-like"> -->
+<!-- 					<iframe -->
+<%-- 						src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Flocalhost%3A8888%2Fvan-hoa-nhat-ban%2F${post.getPostId()}&width=450&layout=standard&action=like&size=small&show_faces=true&share=true&height=80&appId=2272220076356331" --%>
+<!-- 						width="450" height="30" style="border: none; overflow: hidden" -->
+<!-- 						scrolling="no" frameborder="0" allowTransparency="true" -->
+<!-- 						allow="encrypted-media"></iframe> -->
+<!-- 				</div> -->
+<%-- 				<div class="blog-detail-content">${post.getPostContent()}</div> --%>
+<!-- 			</div> -->
+<%-- 		</c:if> --%>
 		<ul class="pagination" id="pagination">
 		</ul>
 	</div>

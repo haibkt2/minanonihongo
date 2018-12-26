@@ -63,15 +63,7 @@
 								</tr>
 							</tbody>
 						</table>
-						<p>
-							<span style="font-size: 14px;">Giới thiệu: Đây là phần bài
-								tập luyện trắc nghiệm theo từng phần, không phải đề hoàn thiện
-								kỳ thi năng lực Nhật Ngữ Quốc tế JLPT. Để xem các đề hoàn chỉnh,
-								các bạn xem tại link:<strong> </strong>
-							</span><a class="button button3 mo-tai-cho"
-								href="de-thi-nang-luc-tieng-nhat-jlpt_n5.html"><span
-								class="fa icon-book"></span>&nbsp;&nbsp;&nbsp;Xem đề N5 JLPT</a>
-						</p>
+						
 						<p></p>
 						<p>
 							<br>

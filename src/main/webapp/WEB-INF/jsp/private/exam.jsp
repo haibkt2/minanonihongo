@@ -3,6 +3,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<jsp:useBean id="sv" class="minanonihongo.service.Common" />
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
@@ -67,27 +68,14 @@
 						<table style="width: 100%;" cellpadding="0">
 							<tbody>
 								<tr>
-									<td
-										style="height: 30px; text-align: center; font-size: 18px; color: #aa4c4c; font-weight: Bold;">ĐỀ
-										LUYỆN THI TRẮC NGHIỆM N5</td>
+									<td style="height: 30px; text-align: center; font-size: 18px; color: #aa4c4c; font-weight: Bold;">
+									Danh sách Đề thi
+									</td>
 								</tr>
 							</tbody>
 						</table>
-						<p>
-							<span style="font-size: 14px;">Giới thiệu: Đây là phần bài
-								tập luyện trắc nghiệm theo từng phần, không phải đề hoàn thiện
-								kỳ thi năng lực Nhật Ngữ Quốc tế JLPT. Để xem các đề hoàn chỉnh,
-								các bạn xem tại link:<strong> </strong>
-							</span><a class="button button3 mo-tai-cho"
-								href="de-thi-nang-luc-tieng-nhat-jlpt_n5.html"><span
-								class="fa icon-book"></span>&nbsp;&nbsp;&nbsp;Xem đề N5 JLPT</a>
-						</p>
-						<p></p>
-						<p>
-							<br>
-						</p>
+						
 						<div class="divider divider3"></div>
-						<p></p>
 						<c:forEach items="${je}" var="je">
 							<br>
 							<table style="width: 100%;" border="0">
@@ -101,7 +89,7 @@
 							</table>
 							<c:forEach items="${je.jlpts}" var="js" varStatus="id">
 								<a class="right-link long"
-									href="${contextPath}/admin/fix-exam/${js.course.courseName}/${js.jlptId.substring(5)}-${sv.toUrlFriendly(js.jlptName)}">
+									href="${contextPath}/admin/fix-exam/${js.course.courseName}/${js.jlptId.substring(5)}-${sv.toUrlFriendly(js.getJlptName())}">
 									<span class="right-link-inner"> <span
 										class="right-link-content"> <span
 											class="fa icon-folder-open"> </span> <span class="right-txt">

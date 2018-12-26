@@ -104,7 +104,7 @@ public class Common {
 		question.put("id", id);
 		question.put("ex", ex);
 		question.put("type", type);
-		question.put("value", index + " ." + value);
+		question.put("value",value);
 		question.put("grade", grade);
 		return question;
 	}

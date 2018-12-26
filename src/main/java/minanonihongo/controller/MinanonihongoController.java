@@ -20,6 +20,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.http.client.ClientProtocolException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -36,6 +37,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import minanonihongo.model.Course;
+import minanonihongo.model.CourseFun;
+import minanonihongo.model.CourseFunType;
 import minanonihongo.model.CourseGlobal;
 import minanonihongo.model.CourseIlm;
 import minanonihongo.model.CourseIlmType;
@@ -48,6 +51,8 @@ import minanonihongo.model.PostType;
 import minanonihongo.model.Role;
 import minanonihongo.model.User;
 import minanonihongo.model.VocaCourseIlm;
+import minanonihongo.repository.CourseFunRepository;
+import minanonihongo.repository.CourseFunTypeRepository;
 import minanonihongo.repository.CourseGlobalRepository;
 import minanonihongo.repository.CourseIlmRepository;
 import minanonihongo.repository.CourseIlmTypeRepository;
@@ -63,6 +68,7 @@ import minanonihongo.repository.UserRepository;
 import minanonihongo.repository.VocaCourseIlmRepository;
 import minanonihongo.service.Common;
 import minanonihongo.service.CommonService;
+import minanonihongo.service.CourseFunServiceImpl;
 import minanonihongo.service.CourseIlmService;
 import minanonihongo.service.GoogleUtils;
 import minanonihongo.service.JLPTResultService;
@@ -109,6 +115,12 @@ public class MinanonihongoController {
 	
 	@Autowired
 	CourseGlobalRepository courseGlobalRepository;
+	
+	@Autowired
+	CourseFunTypeRepository courseFunTypeRepository;
+
+	@Autowired
+	CourseFunRepository courseFunRepository;
 
 	@Autowired
 	JLPTMenuRepository jlptMenuRepository;
@@ -127,6 +139,9 @@ public class MinanonihongoController {
 
 	@Autowired
 	PostServiceImpl postServiceImpl;
+	
+	@Autowired
+	CourseFunServiceImpl courseFunServiceImpl;
 
 	@Autowired
 	private RestFB restFb;
@@ -219,12 +234,52 @@ public class MinanonihongoController {
 		return "redirect:" + u.getPath();
 	}
 
-	@RequestMapping(value = { "/vui-tieng-nhat/{postname}", "/vui-tieng-nhat" }, method = RequestMethod.GET)
-	public String funnyCourse(Model model, @PathVariable final Optional<String> postname, HttpServletRequest req,
-			HttpServletResponse response, HttpSession ss) {
+	@RequestMapping(value = { "/vui-tieng-nhat" }, method = RequestMethod.GET)
+	public String funnyHome(Model model, HttpServletRequest req, HttpServletResponse response, HttpSession ss) {
+		courseFunServiceImpl.getMenu(model);
+		List<CourseFunType> funTypes = (List<CourseFunType>) courseFunTypeRepository.findAll();
+		if (funTypes != null) {
+			for (int i = 0; i < funTypes.size(); i++) {
+				List<CourseFun> cfuns = funTypes.get(i).getCourseFuns();
+				if (cfuns != null && cfuns.size() > 0) {
+					model.addAttribute("funs", cfuns);
+					break;
+				}
+			}
+		}
 		return "public/funnyCourse";
 	}
 
+	@RequestMapping(value = { "/vui-tieng-nhat/{funName}" })
+	public String funDetail(Model model, HttpServletRequest req, HttpServletResponse response, HttpSession ss,
+			@PathVariable final String funName) {
+		courseFunServiceImpl.getMenu(model);
+		String funId = funName.split("-")[0];
+		CourseFun cFun = courseFunRepository.findByCourseBgId("CFUN" + funId);
+		cFun.setViewCourseFun(cFun.getViewCourseFun() + 1);
+		courseFunRepository.save(cFun);
+		model.addAttribute("cFun", cFun);
+		return "public/detailCFun";
+	}
+
+	@RequestMapping(value = { "/vui-tieng-nhat/chuyen-muc/{type}" }, method = RequestMethod.GET)
+	public String funType(Model model, @PathVariable final Optional<String> type, HttpServletRequest req,
+			HttpServletResponse response, HttpSession ss) {
+		boolean t = type.isPresent();
+		List<CourseFunType> funTypes = (List<CourseFunType>) courseFunTypeRepository.findAll();
+		if (t) {
+			String postTypeId = type.get().substring(0, 1);
+			List<Post> posts = postRepository.findPostCm(postTypeId);
+			model.addAttribute("posts", posts);
+		} else {
+			return "redirect:/van-hoa-nhat-ban";
+		}
+		List<CourseFun> funmn = courseFunRepository.findCourseFunMn();
+		model.addAttribute("funmn", funmn);
+		model.addAttribute("funt", funTypes);
+		return "public/funnyCourse";
+	}
+	
 	@RequestMapping(value = { "/khoa-hoc/{courseName}" })
 	public String course(Model model, String logout, String view, HttpServletRequest req, HttpServletResponse response,
 			HttpSession ss, @PathVariable String courseName) {

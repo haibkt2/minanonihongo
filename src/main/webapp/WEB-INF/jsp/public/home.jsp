@@ -49,14 +49,9 @@
 				</script>
 				<div class="center-container">
 					<div class="student-feedback-title">
-						<h1 class="green-text">Nơi học tập Tiếng Nhật của</h1>
-						<h2>
-							Hơn <span class="counter green-text">0</span> người học. <input
-								type="hidden" value="1221" id="counter">
-						</h2>
+						<h1 class="green-text">Nơi học tập - chia sẽ Tiếng Nhật</h1>
 						<br>
-						<h3 class="green-text">Cùng nhau chia sẽ học tập và tìm hiểu
-							về văn hóa Nhật Bản !!</h3>
+						<h3 class="green-text">của những người đam mê Tiếng Nhật</h3>
 					</div>
 					<br>
 					<div class="preview-course-container">
@@ -108,18 +103,6 @@
 	<div class="go-top">
 		<i class="fa fa-sort-asc"></i>
 	</div>
-	<script>
-		var c = 0;
-		var v;
-		window.onload = function myFunction() {
-			v = $('#counter').val();
-			if (parseInt(v) >= parseInt(c)) {
-				$('.counter').text(c);
-				setTimeout(myFunction, 10);
-			}
-			c++;
-		}
-	</script>
 	<jsp:include page="footer.jsp"></jsp:include>
 </body>
 </html>

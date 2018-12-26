@@ -45,7 +45,7 @@
 					</a> <a href="javascript:void(0);" class="jp-pause" style="float: right; margin-right: 8px"
 						id="jp-pause-${id.index+1000}" tabindex="1"
 						onClick="pauseMp4(${id.index+1000})"><i
-							class="zmdi zmdi-pause-circle-outline"></i></a><br> Ví dụ :
+							class="zmdi zmdi-pause-circle-outline"></i></a><br> Ví dụ : ${vc.example}
 					</span>
 				</div>
 

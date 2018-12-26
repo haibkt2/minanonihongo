@@ -216,8 +216,7 @@
 													<h4>
 														<label>Thêm câu hỏi</label>
 													</h4>
-													<div
-														style="width: 100%; font-size: 20px; margin-left: 15px">
+													<div style="width: 100%; font-size: 20px; margin-left: 15px">
 														<div class="show-ma-gr">
 															<a onclick="showMnGr()" href="javascript:void(0);">&nbsp;<i
 																class="fa fa-fw fa-plus-square-o"></i></a>
@@ -233,8 +232,6 @@
 													</div>
 												</div>
 												<br>
-											</div>
-											<div class="form-group add-exam-qt">
 												<div class="col-xs-11 ">
 												<h4>
 													<label>Giải thích</label>

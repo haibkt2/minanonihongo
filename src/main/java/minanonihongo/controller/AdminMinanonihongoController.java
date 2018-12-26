@@ -162,7 +162,7 @@ public class AdminMinanonihongoController {
 			@RequestParam("delQt") String del) throws Exception {
 		CourseIlm courseIlm = courseIlmRepository.findByCourseIlmId(courseIlmForm.getCourseIlmId());
 		examCourseIlmService.setExamCourseIlm(exam, del, courseIlm);
-		return "redirect:/home";
+		return "redirect:/admin/courses/"+courseIlm.getCourse().getCourseName();
 	}
 
 	@RequestMapping(value = "/admin/course/them-bai-hoc-moi/{course}", method = RequestMethod.GET)
@@ -373,7 +373,7 @@ public class AdminMinanonihongoController {
 			postForm.setPostImg(fileName);
 		}
 		postRepository.save(postForm);
-		return "private/upPost";
+		return "redirect:/admin/posts/"+postType.getPostTypeId();
 	}
 
 	@RequestMapping(value = "/admin/upload-doc-descrip/{id}/{descrip}", method = RequestMethod.POST)
@@ -408,7 +408,6 @@ public class AdminMinanonihongoController {
 			model.addAttribute("courses", courses);
 			model.addAttribute("course", course);
 			List<JLPTMenu> je = jlptMenuRepository.findExJLPT(course.getCourseId(), jexercise);
-			model.addAttribute("je", je);
 			model.addAttribute("je", je);
 		}
 		return "/private/exam";

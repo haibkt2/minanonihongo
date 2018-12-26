@@ -2,7 +2,6 @@ package minanonihongo.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,8 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -29,14 +26,18 @@ public class CourseFun implements Serializable {
 	@Temporal(TemporalType.DATE)
 	@Column(name = "CREATE_DATE")
 	private Date createDate;
+	
+	private String courseFunTitle;
+	
+	private String courseFunContent;
+	
+	private int viewCourseFun;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "UPDATE_DATE")
 	private Date updateDate;
 	
-	private String locaFileImg;
-
-	private String courseIlmFlg;
+	private String courseFunImg;
 
 	@ManyToOne
 	@JoinColumn(name = "COURSE_FUN_TYPE_ID")
@@ -62,23 +63,35 @@ public class CourseFun implements Serializable {
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
 	}
-	public String getLocaFileImg() {
-		return locaFileImg;
+	public String getCourseFunImg() {
+		return courseFunImg;
 	}
-	public void setLocaFileImg(String locaFileImg) {
-		this.locaFileImg = locaFileImg;
-	}
-	public String getCourseIlmFlg() {
-		return courseIlmFlg;
-	}
-	public void setCourseIlmFlg(String courseIlmFlg) {
-		this.courseIlmFlg = courseIlmFlg;
+	public void setCourseFunImg(String courseFunImg) {
+		this.courseFunImg = courseFunImg;
 	}
 	public CourseFunType getCourseFunType() {
 		return courseFunType;
 	}
 	public void setCourseFunType(CourseFunType courseFunType) {
 		this.courseFunType = courseFunType;
+	}
+	public String getCourseFunTitle() {
+		return courseFunTitle;
+	}
+	public void setCourseFunTitle(String courseFunTitle) {
+		this.courseFunTitle = courseFunTitle;
+	}
+	public String getCourseFunContent() {
+		return courseFunContent;
+	}
+	public void setCourseFunContent(String courseFunContent) {
+		this.courseFunContent = courseFunContent;
+	}
+	public int getViewCourseFun() {
+		return viewCourseFun;
+	}
+	public void setViewCourseFun(int viewCourseFun) {
+		this.viewCourseFun = viewCourseFun;
 	}
 
 }
