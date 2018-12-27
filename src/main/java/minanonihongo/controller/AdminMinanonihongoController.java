@@ -225,19 +225,9 @@ public class AdminMinanonihongoController {
 	@ResponseBody
 	public String deleCourse(Model model, HttpServletRequest request, HttpSession session,
 			@PathVariable final String id, @PathVariable final String courseId) {
-		CourseIlm courseIlm = courseIlmRepository.findByCourseIlmId(id);
-		Course course = courseRepository.findByCourseId(courseId);
-		if (courseIlm != null && course != null) {
-			String f_img = localFile + course.getCourseName() + "/img/" + courseIlm.getLocaFileImg();
-			String f_fvd = localFile + course.getCourseName() + "/img/" + courseIlm.getLocaFileImg();
-			List<CourseIlm> courseIlms = courseIlmRepository.findByCourse(course);
-			model.addAttribute("courseIlms", courseIlms);
-			if (courseIlmService.deleCourse(courseIlm)) {
-				File fimg = new File(f_img);
-				fimg.delete();
-				File fvd = new File(f_fvd);
-				fvd.delete();
-			}
+		Post post = postRepository.findByPostId(id);
+		if (post != null) {
+			postRepository.delete(post);
 		}
 		return "ss";
 	}

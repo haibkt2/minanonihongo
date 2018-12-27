@@ -284,7 +284,15 @@ function fixAns(btn) {
 	dc ='<div class="input-group"><span class="input-group-addon"> <input class="right-wrong" type="checkbox" '+c+' name="'+n+'">'
 			+ '</span> <input type="text" class="form-control" value="'+t+'">' 
 			+ '<span class="input-group-btn"><button type="button" onclick="'+a+'(this)"class="btn btn-info btn-flat add-ans"><i class="fa fa-fw fa-upload"></i></button></span></div>'
+	cn = '<a onclick="canAns(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-fw fa-times"></i></a>';
+	row.cells.item(1).innerHTML =cn;
 	row.cells.item(0).innerHTML =dc;
+}
+function canAns(btn) {
+	var row = btn.parentNode.parentNode,
+	cn = '<a onclick="fixAns(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-fw fa-plus-square-o"></i></a>';
+	row.cells.item(1).innerHTML =cn;
+	row.cells.item(0).innerHTML ='';
 }
 function insAns(e) {
 	var r = e.parentNode.parentNode,
@@ -315,7 +323,7 @@ function upAnswer(e) {
 	v = e.parentNode.parentNode.children[1].value,
 	n = e.parentNode.parentNode.children[0].children[0].name;
 	if(cd == true) c='checked';
-	i = '<input type="radio" name="'+n+'" disabled '+c+'>'+v;
+	i = '<input type="radio" name="'+n+'" disabled '+c+' style="margin-right: 10px">'+v;
 	row.parentNode.innerHTML =i;
 	$('.'+n).attr('change-data','c');
 }

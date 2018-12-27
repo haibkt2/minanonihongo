@@ -90,7 +90,7 @@
 <!-- 								</a> -->
 <!-- 							</div> -->
 <!-- 						</div> -->
-				
+				<c:if test="${course.courseName ne 'Alphabet'}">
 				<div class="col-md-4 col-sm-6 col-xs-12">
 					<div class="info-box">
 						<span class="info-box-icon bg${bg}"><i
@@ -100,13 +100,14 @@
 							<span class="info-box-text">Đề thi ${course.courseName}</span>
 						</div>
 						<div style="float: right;margin-right: 8px">
-						<a href="${contextPath}/admin/courses/${course.courseName}" class="small-box-footer">Đề thi - ${course.courseName}&nbsp;
+						<a href="${contextPath}/admin/exam/${course.courseName}" class="small-box-footer">Đề thi - ${course.courseName}&nbsp;
 						<i class="fa fa-arrow-circle-right"></i>
 						</a></div>
 						<!-- /.info-box-content -->
 					</div>
 					<!-- /.info-box -->
 				</div>
+				</c:if>
  				<%if(j%3==0){%></div><%}%>
 				</c:forEach>
 <!-- 				<div class="row"> -->

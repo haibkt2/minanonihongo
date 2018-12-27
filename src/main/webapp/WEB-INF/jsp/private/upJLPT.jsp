@@ -95,7 +95,7 @@
 																				<td></td>
 																				<td><a onclick="fixAns(this)"
 																					href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-																						<i class="fa fa-pencil"></i>
+																						<i class="fa fa-fw fa-plus-square-o"></i>
 																				</a></td>
 																			</tr>
 																		</c:if>
@@ -105,7 +105,7 @@
 																	id="tfoot-${qt.jlptQuestionId}">
 																	<tr>
 																		<td>${qt.ex}</td>
-																		<td><a class="del-voca" onclick="delAns(this)"
+																		<td><a class="del-voca" 
 																			href="javascript:void(0);">&nbsp;<i
 																				class="fa fa-trash-o">&nbsp;</i></a><a
 																			onclick="fixEx(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i
@@ -148,7 +148,7 @@
 														<tfoot class="list-explain-add">
 															<tr>
 																<td class="nd-explain"></td>
-																<td><a onclick="delAns(this)"
+																<td><a 
 																	href="javascript:void(0);">&nbsp;<i
 																		class="fa fa-trash-o">&nbsp;</i></a><a
 																	onclick="fixEx(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i

@@ -78,7 +78,7 @@
 															role="grid" aria-describedby="example2_info">
 															<thead id="${qt.examQuestionId}">
 																<tr style="background-color: #cbe1f2;">
-																	<td><label>${qt.question}</label></td>
+																	<td>${qt.question}</td>
 																	<td width="80px" class="act-exam"><a
 																		onclick="delQt('${qt.examQuestionId}')"
 																		href="javascript:void(0);">&nbsp;<i
@@ -92,7 +92,7 @@
 																	<tr id="${as.examAnswerId}">
 																		<td><input type="radio"
 																			name="${qt.examQuestionId}"
-																			<c:if test="${as.answerRghtWrng eq 1}">checked</c:if> disabled>&nbsp;&nbsp;&nbsp;${as.answer}</td>
+																			<c:if test="${as.answerRghtWrng eq 1}">checked</c:if> disabled style="margin-right: 10px">${as.answer}</td>
 																		<td><a class="del-voca" onclick="delAns(this)"
 																			href="javascript:void(0);">&nbsp;<i
 																				class="fa fa-trash-o">&nbsp;</i></a><a
@@ -103,7 +103,7 @@
 																	<tr>
 																		<td></td>
 																		<td><a onclick="fixAns(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-																			<i class="fa fa-pencil"></i></a></td>
+																			<i class="fa fa-fw fa-plus-square-o"></i></a></td>
 																	</tr>
 																	</c:if>
 																</c:forEach>
@@ -112,9 +112,7 @@
 																id="tfoot-${qt.examQuestionId}">
 																<tr>
 																	<td>${qt.ex}</td>
-																	<td><a class="del-voca" onclick="delAns(this)"
-																		href="javascript:void(0);">&nbsp;<i
-																			class="fa fa-trash-o">&nbsp;</i></a><a
+																	<td><a class="del-voca" href="javascript:void(0);">&nbsp;</a><a
 																		onclick="fixEx(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i
 																			class="fa fa-pencil"></i></a></td>
 																</tr>
@@ -151,9 +149,7 @@
 														<tfoot class="list-explain-add">
 															<tr>
 																<td class="nd-explain"></td>
-																<td><a onclick="delAns(this)"
-																	href="javascript:void(0);">&nbsp;<i
-																		class="fa fa-trash-o">&nbsp;</i></a><a
+																<td><a href="javascript:void(0);">&nbsp;</a><a
 																	onclick="fixEx(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i
 																		class="fa fa-pencil"></i></a></td>
 															</tr>

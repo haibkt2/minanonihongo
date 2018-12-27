@@ -103,8 +103,9 @@ public class Common {
 		question.put("lesson_id", lesson_id);
 		question.put("id", id);
 		question.put("ex", ex);
+		question.put("tex", "task-"+id);
 		question.put("type", type);
-		question.put("value",value);
+		question.put("value","Câu "+index+" : "+value);
 		question.put("grade", grade);
 		return question;
 	}

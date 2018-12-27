@@ -199,8 +199,14 @@
 																	</div>
 																</div>
 															</div>
-															<p style="margin: 10px 0; font-size: 16px;"
-																v-html="task.ex" v-if="task.type == 3"></p>
+															<div class="view-detail-ex">
+																	<a v-on:click="showDtEx([task.tex])" href="javascript:void(0);" v-bind:id="[task.tex]">&nbsp;<i
+																		class="fa fa-fw fa-plus-square-o"></i></a>
+																</div>
+																<div v-bind:class="[task.tex]" style="display: none;">
+																	<p style="margin: 10px 0; font-size: 16px;"
+																		v-html="task.ex" v-if="task.type == 3"></p>
+																</div>
 
 															<div v-if="task.type == 3" class="col-md-11"
 																style="display: inline-block; width: 100%; height: 10px;"></div>

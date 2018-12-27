@@ -147,6 +147,16 @@ var user = new Vue({
             }
             var dt = JSON.stringify(t.answers);
         },
+        showDtEx: function(e) {
+        	var dp = $('.'+e).css("display");
+        	if(dp == 'none') {
+        		$('.'+e).css("display", 'block');
+        		$('#'+e +' i').attr("class", 'fa fa-fw fa-minus');
+        	} else {
+        		$('.'+e).css("display", 'none');
+        		$('#'+e +' i').attr("class", 'fa fa-fw fa-plus-square-o');
+        	}
+        },
         confirmRemove: function() {
             var e = this,
                 t = {

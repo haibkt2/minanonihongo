@@ -64,7 +64,6 @@
 					<%if(j>i) {%></div><%}%>
 		<c:set value="${funsId.index/3 + 1}" var="np"></c:set>
 		</c:forEach>
-		</div>
 		</c:if>
 		<ul class="pagination" id="pagination">
 		</ul>
