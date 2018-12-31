@@ -22,6 +22,7 @@
 				<f:form action="${contextPath}/admin/exam/${courseName}/update/${examName}" modelAttribute="jlptForm">
 					<!-- Main content -->
 					<f:input path="jlptId" type="hidden" />
+					<input type="hidden" value="${courseName}" name="cou-name" />
 					<section class="content">
 						<div class="row">
 							<div class="col-md-12">
@@ -52,11 +53,11 @@
 												<label> Đề thi</label>
 											</h4>
 											<f:input type="text" class="form-control" name="jlptName"
-												path="jlptName" id="jlptName" placeholder="Tên Đề thi" />
+												path="jlptName" id="jlptName" placeholder="Tên Đề thi"/>
 										</div>
 										<div class="box-body">
 											<div class="detail-exam-ct">
-												<c:forEach items="${jt}" var="jt">
+												<c:forEach items="${jt}" var="jt" varStatus="iqt">
 												<c:if test="${not empty jt.jlptQuestions}">
 													<div class="${jt.jlptQTypeId}">
 														<label>${jt.jlptQTypeName}</label>
@@ -93,7 +94,7 @@
 																			test="${(in.index + 1) eq qt.jlptAnswer.size() }">
 																			<tr>
 																				<td></td>
-																				<td><a onclick="fixAns(this)"
+																				<td><a onclick="fixAdd(this)"
 																					href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 																						<i class="fa fa-fw fa-plus-square-o"></i>
 																				</a></td>
@@ -105,9 +106,7 @@
 																	id="tfoot-${qt.jlptQuestionId}">
 																	<tr>
 																		<td>${qt.ex}</td>
-																		<td><a class="del-voca" 
-																			href="javascript:void(0);">&nbsp;<i
-																				class="fa fa-trash-o">&nbsp;</i></a><a
+																		<td><a
 																			onclick="fixEx(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i
 																				class="fa fa-pencil"></i></a></td>
 																	</tr>
@@ -120,8 +119,9 @@
 												
 												<div class="ahihihi"></div>
 											</div>
-											<input type="hidden" value="add" id="ac-add-exam"> <input
-												type="hidden" value="[]" id="ac-del-exam" name="delQt">
+											<input type="hidden" value="add" id="ac-add-exam"> 
+											<input type="hidden" value="[]" id="ac-del-exam" name="delQt">
+											<input type="hidden" value="[]" id="ac-del-ans" name="delAn">
 										</div>
 										<div class="box-body add-question-ans">
 											<div class="form-group col-lg-11">
@@ -148,10 +148,7 @@
 														<tfoot class="list-explain-add">
 															<tr>
 																<td class="nd-explain"></td>
-																<td><a 
-																	href="javascript:void(0);">&nbsp;<i
-																		class="fa fa-trash-o">&nbsp;</i></a><a
-																	onclick="fixEx(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i
+																<td><a onclick="fixEx(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i
 																		class="fa fa-pencil"></i></a></td>
 															</tr>
 														</tfoot>
@@ -249,15 +246,15 @@
 														<span class="input-group-addon"> <select
 															class="form-control select-qtp" id="select-qtp"
 															style="margin-bottom: 2px">
-																<c:forEach items="${jt}" var="jt">
-																	<option value="${jt.jlptQTypeId}" id="${jt.jlptQTypeId}">${jt.jlptQTypeName}</option>
+																<c:forEach items="${mondai}" var="mondai" varStatus="inmd">
+																	<option value="${mondai.jlptQTypeId}" id="${mondai.jlptQTypeId}">${mondai.jlptQTypeName}</option>
 																</c:forEach>
 														</select>
 														</span>
 														<div style="width: 100%; height: 5px;"></div>
 														<div class="input-group">
 															<input type="text" class="form-control ct-q-ty-add"
-																placeholder="Thêm thể loại câu hỏi ..."> <span
+																placeholder="Mondai câu hỏi mới ..."> <span
 																class="input-group-btn">
 																<button type="button" onclick="addQTy()"
 																	class="btn btn-info btn-flat add-ans">

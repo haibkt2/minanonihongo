@@ -36,14 +36,14 @@
 				style="margin-left: 50px;">
 				<div class="lesson-content-detail" id="lesson-content-detail"
 					style="display: none">
-					<div class="detail-ques">
+					<div class="detail-ques lesson-content-detail">
 						<%
 							int stt = 0;
 						%>
 						<c:forEach items="${jt}" var="jt" varStatus="jti">
 						<br>
 <%-- 							<spring:message code="spring.datasource.url"/>						 --%>
-							<p><span style="color: #0000ff;"><strong><span style="font-size: 16px;">もんだい ${jti.index+1}＿＿＿のことばはひらがなどうかきますか。１．２．３．４からいちばんいいものをひとつえらんでください。</span></strong></span></p>
+							<p><span style="color: #0000ff;"><strong><span style="font-size: 16px;">もんだい ${jti.index+1}${jt.jlptQTypeName}</span></strong></span></p>
 							<c:forEach items="${jt.getJlptQuestions()}" var="question"
 								varStatus="st">
 								<c:if test="${question.getJlpt().getJlptId() eq jlptId}">
@@ -57,10 +57,10 @@
 											<label
 												for="answer${answer.getJlptAnswerId().substring(answer.getJlptAnswerId().length()-2, answer.getJlptAnswerId().length())}"
 												class="col-md-11 answers-input"
-												style="font-weight: normal; font-size: 13px; color: gray">
+												style="font-weight: normal; font-size: 15px; color: gray">
 												<span style="display: none;">${answer.getJlptAnswerId().substring(answer.getJlptAnswerId().length()-2, answer.getJlptAnswerId().length())}</span>
 												<input type="radio"
-												class="custom-control-input col-md-1 answers-input"
+												class="custom-control-input answers-input"
 												id="answer${answer.getJlptAnswerId().substring(answer.getJlptAnswerId().length()-2, answer.getJlptAnswerId().length())}"
 												name="task${question.getJlptQuestionId().substring(question.getJlptQuestionId().length()-2, question.getJlptQuestionId().length())}"
 												v-on:change="storeValueToLocal(${question.getJlptQuestionId().substring(question.getJlptQuestionId().length()-2, question.getJlptQuestionId().length())},${answer.getJlptAnswerId().substring(answer.getJlptAnswerId().length()-2, answer.getJlptAnswerId().length())})">

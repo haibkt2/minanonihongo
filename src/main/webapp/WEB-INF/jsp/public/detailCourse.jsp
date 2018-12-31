@@ -72,7 +72,7 @@
 						role="grid" aria-describedby="example2_info">
 						<thead>
 							<tr style="background-color: #cbe1f2;">
-								<td width="23%"><label>Hirakana/Katakana </label></td>
+								<td width="23%"><label>Hiragana/Katakana </label></td>
 								<td width="2%"><label>JP</label></td>
 								<td width="20%"><label>Kanji</label></td>
 								<td width="45%"><label>Ý Nghĩa</label></td>
@@ -85,7 +85,9 @@
 									varStatus="id">
 									<tr id="${voca.vocaCourseIlmId}">
 										<td width="23%">${voca.hirakana}</td>
-										<td width="2%" class="ad-audio"><audio
+										<td width="2%" class="ad-audio">
+										<c:if test="${not empty voca.audio}">
+										<audio
 												id="mp3Mini_${id.index}" preload="none">
 												<source type="audio/mpeg"
 													src="${contextPath}/reponsitory/${courseIlm.getCourse().getCourseName()}/voca/${voca.getCourseIlm().getCourseIlmId()}/${voca.audio}">
@@ -101,7 +103,9 @@
 															href="javascript:void(0);" class="jp-pause"
 															id="jp-pause-${id.index}" tabindex="1"
 															onClick="pauseMp4(${id.index})"><i
-																class="zmdi zmdi-pause-circle-outline"></i></a></span></span></span></span></td>
+																class="zmdi zmdi-pause-circle-outline"></i></a></span></span></span></span>
+																</c:if>
+																</td>
 										<td width="20%">${voca.kanji}</td>
 										<td width="45%">${voca.translate}</td>
 									</tr>

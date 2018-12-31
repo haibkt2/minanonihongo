@@ -1,10 +1,7 @@
 
 package minanonihongo.controller;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +22,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import minanonihongo.model.Course;
+import minanonihongo.model.CourseFun;
+import minanonihongo.model.CourseFunType;
 import minanonihongo.model.CourseGlobal;
 import minanonihongo.model.CourseIlm;
 import minanonihongo.model.CourseIlmType;
@@ -32,9 +31,12 @@ import minanonihongo.model.Document;
 import minanonihongo.model.JLPT;
 import minanonihongo.model.JLPTMenu;
 import minanonihongo.model.JLPTQType;
+import minanonihongo.model.JLPTQuestion;
 import minanonihongo.model.Post;
 import minanonihongo.model.PostType;
 import minanonihongo.model.User;
+import minanonihongo.repository.CourseFunRepository;
+import minanonihongo.repository.CourseFunTypeRepository;
 import minanonihongo.repository.CourseGlobalRepository;
 import minanonihongo.repository.CourseIlmRepository;
 import minanonihongo.repository.CourseIlmTypeRepository;
@@ -48,6 +50,7 @@ import minanonihongo.repository.PostTypeRepository;
 import minanonihongo.repository.UserRepository;
 import minanonihongo.service.Common;
 import minanonihongo.service.CommonService;
+import minanonihongo.service.CourseFunServiceImpl;
 import minanonihongo.service.CourseGbService;
 import minanonihongo.service.CourseIlmService;
 import minanonihongo.service.DocServiceImpl;
@@ -90,7 +93,7 @@ public class AdminMinanonihongoController {
 
 	@Autowired
 	CommonService commonService;
-	
+
 	@Autowired
 	CourseGbService courseGbService;
 
@@ -98,8 +101,11 @@ public class AdminMinanonihongoController {
 	PostServiceImpl postServiceImpl;
 
 	@Autowired
+	CourseFunServiceImpl courseFunServiceImpl;
+
+	@Autowired
 	ExamCourseIlmService examCourseIlmService;
-	
+
 	@Autowired
 	CourseGlobalRepository courseGlobalRepository;
 
@@ -114,6 +120,12 @@ public class AdminMinanonihongoController {
 
 	@Autowired
 	PostTypeRepository postTypeRepository;
+
+	@Autowired
+	CourseFunTypeRepository courseFunTypeRepository;
+
+	@Autowired
+	CourseFunRepository courseFunRepository;
 
 	@Autowired
 	Common common;
@@ -132,8 +144,94 @@ public class AdminMinanonihongoController {
 		return "/private/home";
 	}
 
+	@RequestMapping(value = "/admin/mn-mondai", method = RequestMethod.GET)
+	public String mnMondai(Model model, HttpServletRequest request, HttpSession session) {
+		common.getMenu(model);
+		List<JLPTQType> jlptqTypes = (List<JLPTQType>) jlptQTypeRepository.findAll();
+		model.addAttribute("qt", jlptqTypes);
+		return "private/mondai";
+	}
+
+	@RequestMapping(value = "/admin/mondai-descrip/{id}/{descrip}", method = RequestMethod.POST)
+	public String upMondai(Model model, HttpServletRequest request, @PathVariable final String id,
+			@PathVariable final String descrip) {
+		JLPTQType qT = jlptQTypeRepository.findByJlptQTypeId(id);
+		if (qT == null) {
+			qT = new JLPTQType();
+			qT.setJlptQTypeName(descrip);
+			qT.setJlptTypeId(jlptService.setJlptQTId());
+		} else {
+			qT.setJlptQTypeName(descrip);
+		}
+		jlptQTypeRepository.save(qT);
+		List<JLPTQType> jlptqTypes = (List<JLPTQType>) jlptQTypeRepository.findAll();
+		model.addAttribute("qt", jlptqTypes);
+		return "/private/upMondai";
+	}
+
+	@RequestMapping(value = "/admin/fix-fun", method = RequestMethod.GET)
+	public String fixFun(Model model, HttpServletRequest request, HttpSession session, @RequestParam("id") String id) {
+		common.getMenu(model);
+		CourseFun courseFun = courseFunRepository.findByCourseBgId(id);
+		if (courseFun == null)
+			return "error";
+		model.addAttribute("funForm", courseFun);
+		return "private/upFun";
+	}
+
+	@RequestMapping(value = "/admin/update-fun", method = RequestMethod.POST)
+	public String doSaveFun(@ModelAttribute("funForm") CourseFun funForm, Model model, HttpSession session,
+			@RequestParam("file-img") MultipartFile img, @RequestParam("fun-t-id") String fnId) throws Exception {
+		CourseFun fun = courseFunRepository.findByCourseBgId(funForm.getCourseBgId());
+		CourseFunType courseFunType = courseFunTypeRepository.findByCourseFunTypeId(fnId);
+		funForm.setCourseFunType(courseFunType);
+		if (fun == null) {
+			fun = new CourseFun();
+			funForm.setCreateDate(commonService.currentDate());
+			fun.setCourseFunImg(null);
+		} else
+			funForm.setCreateDate(fun.getCreateDate());
+		funForm.setUpdateDate(commonService.currentDate());
+		if (img.isEmpty()) {
+			funForm.setCourseFunImg(fun.getCourseFunImg());
+		} else {
+			String fileName = common.toUrlFriendly(img.getOriginalFilename());
+			String local = "/Fun/" + common.toUrlFriendly(funForm.getCourseFunType().getCourseFunTypeName()) + "/";
+			if (!commonService.saveFile(img, local)) {
+				return "error";
+			}
+			funForm.setCourseFunImg(fileName);
+		}
+		courseFunRepository.save(funForm);
+		return "redirect:/admin/fun-course/" + courseFunType.getCourseFunTypeId();
+	}
+
+	@GetMapping("/admin/fun-course/{funTypeId}")
+	public String fun(Model model, @PathVariable String funTypeId) {
+		common.getMenu(model);
+		CourseFunType funType = courseFunTypeRepository.findByCourseFunTypeId(funTypeId.split("-")[0]);
+		List<CourseFun> funs = courseFunRepository.findByCourseFunType(funType);
+		model.addAttribute("fun", funs);
+		model.addAttribute("funt", funType);
+		return "/private/funs";
+	}
+
+	@RequestMapping(value = "/admin/add-fun", method = RequestMethod.GET)
+	public String addFun(Model model, HttpServletRequest request, HttpSession session,
+			@RequestParam("funType") String fT) {
+		common.getMenu(model);
+		CourseFunType funType = courseFunTypeRepository.findByCourseFunTypeId(fT);
+		if (funType == null)
+			return "error";
+		CourseFun funForm = new CourseFun();
+		funForm.setCourseBgId(courseFunServiceImpl.setCFId());
+		funForm.setCourseFunType(funType);
+		model.addAttribute("funForm", funForm);
+		return "private/upFun";
+	}
+
 	@GetMapping("/admin/posts/{postTypeId}")
-	public String exam(Model model, @PathVariable String postTypeId) {
+	public String post(Model model, @PathVariable String postTypeId) {
 		common.getMenu(model);
 		PostType postType = postTypeRepository.findByPostTypeId(postTypeId.split("-")[0]);
 		List<Post> posts = postRepository.findByPostType(postType);
@@ -162,7 +260,7 @@ public class AdminMinanonihongoController {
 			@RequestParam("delQt") String del) throws Exception {
 		CourseIlm courseIlm = courseIlmRepository.findByCourseIlmId(courseIlmForm.getCourseIlmId());
 		examCourseIlmService.setExamCourseIlm(exam, del, courseIlm);
-		return "redirect:/admin/courses/"+courseIlm.getCourse().getCourseName();
+		return "redirect:/admin/courses/" + courseIlm.getCourse().getCourseName();
 	}
 
 	@RequestMapping(value = "/admin/course/them-bai-hoc-moi/{course}", method = RequestMethod.GET)
@@ -225,9 +323,9 @@ public class AdminMinanonihongoController {
 	@ResponseBody
 	public String deleCourse(Model model, HttpServletRequest request, HttpSession session,
 			@PathVariable final String id, @PathVariable final String courseId) {
-		Post post = postRepository.findByPostId(id);
-		if (post != null) {
-			postRepository.delete(post);
+		CourseIlm courseIlm = courseIlmRepository.findByCourseIlmId(id);
+		if (courseIlm != null) {
+			courseIlmService.deleCourse(courseIlm);
 		}
 		return "ss";
 	}
@@ -242,9 +340,9 @@ public class AdminMinanonihongoController {
 		if (courseIlms.size() > 0) {
 			courseIlm.setCourseIlmId(courseIlms.get(courseIlms.size() - 1).getCourseIlmId());
 		}
+		courseIlm.setCourse(course);
 		String cilmId = courseIlmService.setCourseIlmId(courseIlm);
 		courseIlm.setCourseIlmId(cilmId);
-		courseIlm.setCourse(course);
 		List<CourseIlmType> courseIlmType = (List<CourseIlmType>) courseIlmTypeRepository.findAll();
 		model.addAttribute("courseIlmForm", courseIlm);
 		model.addAttribute("courseIlmType", courseIlmType);
@@ -266,13 +364,17 @@ public class AdminMinanonihongoController {
 	public String fixUpCourse(Model model, HttpServletRequest request, HttpSession session,
 			@RequestParam("file-img") MultipartFile img, @RequestParam("file-video") MultipartFile video,
 			@ModelAttribute("courseIlmForm") CourseIlm courseIlmForm, @RequestParam("list-current") String listCurrent,
-			@RequestParam("dele-old") String deleOld) throws Exception {
+			@RequestParam("dele-old") String deleOld, HttpServletResponse response) throws Exception {
+		response.addHeader("X-XSS-Protection", "0");
 		CourseIlm cIlm = courseIlmRepository.findByCourseIlmId(courseIlmForm.getCourseIlmId());
-		if (cIlm == null) {
+		if (cIlm == null || cIlm.getCourse() == null) {
 			cIlm = new CourseIlm();
-			String cId = courseIlmForm.getCourseIlmId();
-			courseIlmForm.setCourse(courseRepository.findByCourseName(cId.substring(0, 2)));
-//			cIlm.setCourseGlobal(courseGbService.setcourseGlobal(courseIlmForm));
+			cIlm.setCreateDate(commonService.currentDate());
+			String cId = courseIlmForm.getCourseIlmId().substring(0, 2);
+			if ("N6".equals(cId))
+				cId = "Alphabet";
+			courseIlmForm.setCourse(courseRepository.findByCourseName(cId));
+			// cIlm.setCourseGlobal(courseGbService.setcourseGlobal(courseIlmForm));
 		} else {
 			courseIlmForm.setCourse(cIlm.getCourse());
 		}
@@ -363,7 +465,7 @@ public class AdminMinanonihongoController {
 			postForm.setPostImg(fileName);
 		}
 		postRepository.save(postForm);
-		return "redirect:/admin/posts/"+postType.getPostTypeId();
+		return "redirect:/admin/posts/" + postType.getPostTypeId();
 	}
 
 	@RequestMapping(value = "/admin/upload-doc-descrip/{id}/{descrip}", method = RequestMethod.POST)
@@ -398,11 +500,23 @@ public class AdminMinanonihongoController {
 			model.addAttribute("courses", courses);
 			model.addAttribute("course", course);
 			List<JLPTMenu> je = jlptMenuRepository.findExJLPT(course.getCourseId(), jexercise);
+			for (JLPTMenu jlptMenu : je) {
+				List<JLPT> jlpts = jlptMenu.getJlpts();
+				int k = jlpts.size();
+				for (int i = 0; i < k; i++) {
+					JLPT jlpt = jlpts.get(i);
+					if (jlpt == null || !jlpt.getCourse().equals(course)) {
+						jlpts.remove(jlpt);
+						i--;
+						k--;
+					}
+				}
+			}
 			model.addAttribute("je", je);
 		}
 		return "/private/exam";
 	}
-	
+
 	@RequestMapping(value = { "/admin/add-exam/{courseName}" })
 	public String addJLPT(Model model, HttpServletRequest req, HttpServletResponse response,
 			@PathVariable String courseName) throws Exception {
@@ -414,11 +528,9 @@ public class AdminMinanonihongoController {
 		} else {
 			JLPT jlptForm = new JLPT();
 			jlptForm.setJlptId(jlptService.setJlptId());
-			List<JLPTQType> jt = (List<JLPTQType>) jlptQTypeRepository.findAll();
-			for(JLPTQType jlptqType : jt) {
-				jlptqType.setJlptQuestions(new ArrayList<>());
-			}
-			model.addAttribute("jt", jt);
+
+			List<JLPTQType> jlptqTypes = (List<JLPTQType>) jlptQTypeRepository.findAll();
+			model.addAttribute("mondai", jlptqTypes);
 			model.addAttribute("jlptForm", jlptForm);
 			model.addAttribute("jlptMn", jlptMenu);
 		}
@@ -431,23 +543,47 @@ public class AdminMinanonihongoController {
 		common.getMenu(model);
 		Course course = courseRepository.findByCourseName(courseName);
 		List<JLPTMenu> jlptMenu = (List<JLPTMenu>) jlptMenuRepository.findAll();
+		List<JLPTQType> mondai = (List<JLPTQType>) jlptQTypeRepository.findAll();
 		if (course == null) {
 			return "404";
 		} else {
 			String jlptId = "JLPTE" + examName.split("-")[0];
+			JLPT jlpt = jlptRepository.findByJlptId(jlptId);
 			List<JLPTQType> jt = jlptQTypeRepository.findQQuestion(jlptId);
+			for (JLPTQType jlptqType : jt) {
+				List<JLPTQuestion> jlptQuestions = jlptqType.getJlptQuestions();
+				int k = jlptQuestions.size();
+				for (int i = 0; i < k; i++) {
+					JLPTQuestion jlptQuestion = jlptQuestions.get(i);
+					if (jlptQuestion == null || !jlptQuestion.getJlpt().equals(jlpt)) {
+						jlptQuestions.remove(jlptQuestion);
+						i--;
+						k--;
+					}
+				}
+				if (jlptqType.getJlptQuestions() == null || jlptqType.getJlptQuestions().size() == 0)
+					jt.remove(jlptqType);
+			}
 			JLPT jlptForm = jlptRepository.findByJlptId(jlptId);
 			model.addAttribute("jt", jt);
+			model.addAttribute("mondai", mondai);
 			model.addAttribute("jlptForm", jlptForm);
 			model.addAttribute("jlptMn", jlptMenu);
 		}
 		return "/private/upJLPT";
 	}
-	@RequestMapping(value = { "/admin/exam/{courseName}/update/{examName}" })
-	public String saveJLPT(Model model, HttpServletRequest request, HttpSession session, @RequestParam("exam") String exam,@RequestParam("timeout") String timeout,
-			@RequestParam("delQt") String del,@ModelAttribute("jlptForm") JLPT jlptForm) throws Exception {
+
+	@RequestMapping(value = { "/admin/exam/{courseName}/update/{examName}", "/admin/exam/{courseName}/update" })
+	public String saveJLPT(Model model, HttpServletRequest request, HttpSession session,
+			@RequestParam("exam") String exam, @RequestParam("timeout") String timeout,
+			@PathVariable Optional<String> examName, @RequestParam("delQt") String del,
+			@RequestParam("cou-name") String courseName, @RequestParam("delAn") String delAn,
+			@ModelAttribute("jlptForm") JLPT jlptForm) throws Exception {
 		jlptForm.setTimeout(timeout);
+		Course course = courseRepository.findByCourseName(courseName);
+		jlptForm.setCourse(course);
+		jlptService.delAns(delAn);
 		jlptService.setJLPT(exam, del, jlptForm);
-		return "redirect:/home";
+		return "redirect:/admin/exam/" + courseName;
 	}
 }

@@ -19,10 +19,9 @@
 <div class="main" style="min-height: 750px">
 	<div class="main-center">
 		<div class="main-left">
-			<c:if test="${not empty postt}">
 				<div class="heading-box">
 					<h2 class="blog-heading">
-						<span style="color: #588d3f;">${posts.get(0).getPostType().getPostTypeName()}</span>
+						<span style="color: #588d3f;"></span>
 					</h2>
 				</div>
 				<% int i = 0;int j = 0;%>
@@ -41,11 +40,12 @@
 									<div class="title">${funs.courseFunTitle}</div>
 								</a> <span class="info"><i class="fa fa-user">
 										&nbsp;</i> &nbsp; &nbsp; <i
-									class="fa fa-calendar-check-o"></i>&nbsp;${post.getUpdateDate()}
+									class="fa fa-calendar-check-o"></i>&nbsp;${fun.getUpdateDate()}
 									&nbsp; &nbsp; Lượt xem : ${funs.viewCourseFun} </span> <span
 									class="brief">${funs.courseFunTitle} </span>
 							</div>
 					</c:if>
+					</div>
 					<c:if test="${funsId.index%3 ne 0}">
 					<%j++; %>
 						<div class="news-item featured-sub">
@@ -64,7 +64,6 @@
 					<%if(j>i) {%></div><%}%>
 		<c:set value="${funsId.index/3 + 1}" var="np"></c:set>
 		</c:forEach>
-		</c:if>
 		<ul class="pagination" id="pagination">
 		</ul>
 	</div>
@@ -81,7 +80,7 @@
 		<c:forEach items="${funmn}" var="fun">
 			<div class="related-news-item">
 				<a
-					href="${contextPath}/vui-tieng-nhat/${post.getPostId().substring(4)}-${sv.toUrlFriendly(post.getPostTitle())}">
+					href="${contextPath}/vui-tieng-nhat/${fun.getCourseBgId().substring(4)}-${sv.toUrlFriendly(fun.getCourseFunTitle())}">
 					<img class="lazyload"
 					src="${contextPath}/reponsitory/course-fun/${fun.courseFunImg}"
 					data-src="${contextPath}/reponsitory/course-fun/${fun.courseFunImg}">

@@ -69,7 +69,7 @@
 										</div>
 										<div class="form-group mana-cv">
 											<h4>
-												<label> Video Hội Thoại</label>
+												<label></label>
 											</h4>
 											<div class="btn btn-default btn-file">
 												<i class="fa fa-fw fa-file-image-o"></i> Ảnh<input

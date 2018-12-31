@@ -51,7 +51,7 @@
 					<ul>
 						<c:if test="${courseFuns != null}">
 							<c:forEach items="${courseFuns}" var="courseFun">
-								<li><a href=""><i class="fa fa-fw fa-check-square-o"></i>
+								<li><a href="${contextPath}/admin/fun-course/${courseFun.courseFunTypeId}-${courseFun.courseFunTypeName}"><i class="fa fa-fw fa-check-square-o"></i>
 										${courseFun.courseFunTypeName} </a></li>
 							</c:forEach>
 						</c:if>

@@ -160,7 +160,7 @@
 												<td>${cl.courseIlmType.courseIlmTypeName}</td>
 												<td>${cl.lessonName}</td>
 												<td><span class="brief">${cl.introduce}</span></td>
-												<td><a class="movie-play" onclick="adminView(this)"
+												<td><c:if test="${not empty cl.locaFileCourse}"><a class="movie-play" onclick="adminView(this)"
 													id="fr-${id.index}"> <img id="videoImg"
 														src="${contextPath}/reponsitory/${cl.course.courseName}/img/${cl.locaFileImg}" />
 														<br> <span class="play-icon-btn"> <i
@@ -175,7 +175,7 @@
 																src="${contextPath}/reponsitory/${cl.course.courseName}/video/${cl.locaFileCourse}"
 																type="video/mp4">
 														</video>
-													</div></td>
+													</div></c:if></td>
 												<td style="min-height: 30px;"><a class="del-voca"
 													data-toggle="modal"
 													data-target="#modal-dele-course-${id.index}"

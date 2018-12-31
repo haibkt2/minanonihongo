@@ -25,11 +25,11 @@
 					<h2 class="blog-detail-title">${fun.courseFunTitle}</h2>
 					<span class="blog-detail-info"><i class="fa fa-user"></i>
 						Người đăng : &nbsp; &nbsp; <i
-						class="fa fa-calendar-check-o"></i> ${cFun.updateDate} &nbsp;
-						&nbsp; Lượt xem : ${cFun.viewCourseFun}</span>
+						class="fa fa-calendar-check-o"></i> ${fun.updateDate} &nbsp;
+						&nbsp; Lượt xem : ${fun.viewCourseFun}</span>
 					<div class="blog-social-like">
 						<iframe
-							src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Flocalhost%3A8888%2Fvui-tieng-nhat%2F${cFun.getCourseBgId().substring(4)}-${sv.toUrlFriendly(cFun.getCourseFunTitle())}&width=450&layout=standard&action=like&size=small&show_faces=true&share=true&height=80&appId=2272220076356331"
+							src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Flocalhost%3A8888%2Fvui-tieng-nhat%2F${fun.getCourseBgId().substring(4)}-${sv.toUrlFriendly(fun.getCourseFunTitle())}&width=450&layout=standard&action=like&size=small&show_faces=true&share=true&height=80&appId=2272220076356331"
 							width="450" height="30" style="border: none; overflow: hidden"
 							scrolling="no" frameborder="0" allowTransparency="true"
 							allow="encrypted-media"></iframe>
@@ -58,7 +58,7 @@
 							}(document, 'script', 'facebook-jssdk'));
 						</script>
 						<div class="fb-comments"
-							data-href="https://localhost:8888/van-hoa-nhat-ban/${post.getPostId().substring(4)}-${sv.toUrlFriendly(post.getPostTitle())}"
+							data-href="https://localhost:8888/van-hoa-nhat-ban/${fun.getCourseBgId().substring(4)}-${sv.toUrlFriendly(fun.getCourseFunTitle())}"
 							data-width="700" data-numposts="1"></div>
 					</div>
 

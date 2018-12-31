@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>HaiLDX - Thêm bài học mới.</title>
+<title>HaiLDX - Quản lý đề thi</title>
 <link rel="icon" href="${contextPath}/resources/public/img/fav.png" />
 <title></title>
 </head>
@@ -64,6 +64,9 @@
 							</tbody>
 						</table>
 						<p></p>
+						<div style="width: 10%; float: right; margin-right: 15px;">
+									<a href="${contextPath}/admin/mn-mondai"><button class="btn btn-default" style="background-color: #d6f5ff ">Mondai câu hỏi</button></a>
+									</div>
 						<p></p>
 						<table style="width: 100%;" cellpadding="0">
 							<tbody>

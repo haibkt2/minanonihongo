@@ -28,6 +28,10 @@ function updateExam(e,c) {
 function addAnswer(){
 	var ltb = $(".detail-exam-ct table").length;
 	var an = $('.ct-answser').val();
+	if(an.trim()=='') {
+		alert("Không bỏ trống câu trả lời.")
+	}else {
+		an = an.trim();
 	var c = $(".right-wrong").is(":checked");
 	var ac = '<a class="del-voca" onclick="delAns(this)" href="javascript:void(0);">&nbsp;<i class="fa fa-trash-o">&nbsp;</i></a><a onclick="fixAns(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-pencil"></i></a>';
 	var gr;
@@ -45,7 +49,7 @@ function addAnswer(){
 	cell1.innerHTML = ac;
 	$(".right-wrong").prop("checked", false); 
 	$('.ct-answser').val('');
-	
+	}
 }
 function addExam() {
 	var lg = $(".list-ans-add tr").length,
@@ -159,7 +163,7 @@ function addJLPT() {
 			if(''==qt.trim()){
 				alert("Chưa nhập câu hỏi !!")
 			}else {
-			var isA = '<a onclick="fixAns(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-pencil"></i></a>',
+			var isA = '<a onclick="fixAdd(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-fw fa-plus-square-o"></i></a>',
 			table = document.getElementById("data-ans").getElementsByTagName('tbody')[0],
 			row = table.insertRow(lg),
 			cell0 = row.insertCell(0),
@@ -187,8 +191,14 @@ function addJLPT() {
 			
 			$('.add-exam-an-dt table tfoot tr td:nth-child(2) a').removeAttr("style");
 			
-			var qty = $(".select-qtp option:selected").val(), n = $('.add-exam-an-dt').html();
-			
+			var qty = $(".select-qtp option:selected").val(), 
+			n = $('.add-exam-an-dt').html(),
+			tt = $('.'+qty).length;
+			if(!tt) {
+				mn = $(".select-qtp option:selected").text(),
+				tb = '<div class="'+qty+'"><label>'+mn+'</label></div>',
+				$(tb).insertBefore('.ahihihi');
+			}
 			$('.'+qty).append(n);
 			
 			$('.add-exam-an-dt #data-exam').attr('id','data-exam');
@@ -241,6 +251,23 @@ function addQTy() {
 	$('.ct-q-ty-add').val('');
 }
 
+function addMondai() {
+	nd = $('.ct-q-ty-add').val(),
+	url = "/admin/mondai-descrip/add-mondai/"+nd;
+	$.ajax({
+		type : "POST",
+		url : url,
+		dataType : "html",
+		cache : false,
+		success : function(data) {
+			$("#result").html(data);
+		},
+		error : function() {
+			console.log("FAIL : ", "ERROR");
+		}
+	});
+}
+
 function delQt(id) {
 	var de = $('#ac-del-exam').val(),
 	id = $('.'+id+' thead').attr('id');	
@@ -253,12 +280,19 @@ function delQt(id) {
 }
 
 function delAns(btn) {
-	var row = btn.parentNode.parentNode;
+	var de = $('#ac-del-ans').val(),
+	row = btn.parentNode.parentNode,
+	id = row.id	
+	de = JSON.parse(de);
+	de.push({
+		"id" : id
+	}),
+	$('#ac-del-ans').val(JSON.stringify(de));
 	row.parentNode.removeChild(row);
 }
 function fixQt(btn) {
 	CKEDITOR.instances['explain-add'] .setData('');
-	showMnGr();
+	showMnGr('f');
 	var row = btn.parentNode.parentNode,
 	cc = row.cells.item(0).innerHTML,
 	id = row.offsetParent.tHead.id;
@@ -284,19 +318,47 @@ function fixAns(btn) {
 	dc ='<div class="input-group"><span class="input-group-addon"> <input class="right-wrong" type="checkbox" '+c+' name="'+n+'">'
 			+ '</span> <input type="text" class="form-control" value="'+t+'">' 
 			+ '<span class="input-group-btn"><button type="button" onclick="'+a+'(this)"class="btn btn-info btn-flat add-ans"><i class="fa fa-fw fa-upload"></i></button></span></div>'
+//	cn = '<a onclick="canAns(this, "del")" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-fw fa-times"></i></a>';
+	cn ='<a class="del-voca" onclick="delAns(this)" href="javascript:void(0);">&nbsp;<i class="fa fa-trash-o">&nbsp;</i></a><a onclick="fixAns(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-pencil"></i></a>';
+	
+	row.cells.item(1).innerHTML =cn;
+	row.cells.item(0).innerHTML =dc;
+}
+function fixAdd(btn) {
+	var row = btn.parentNode.parentNode,
+	c='',
+	ad = btn.parentNode.parentNode.children[0].childNodes[0];
+	if(typeof(ad) == 'undefined') cd = false,
+	n = btn.parentNode.parentNode.id,
+	t = '',
+	a = 'insAns';
+	else cd = btn.parentNode.parentNode.children[0].childNodes[0].checked,
+	n = btn.parentNode.parentNode.children[0].childNodes[0].name,
+	a = 'upAnswer',
+	t = btn.parentNode.parentNode.children[0].childNodes[1].textContent;
+	if(cd == true ) c='checked';
+	dc ='<div class="input-group"><span class="input-group-addon"> <input class="right-wrong" type="checkbox" '+c+' name="'+n+'">'
+			+ '</span> <input type="text" class="form-control" value="'+t+'">' 
+			+ '<span class="input-group-btn"><button type="button" onclick="'+a+'(this)"class="btn btn-info btn-flat add-ans"><i class="fa fa-fw fa-upload"></i></button></span></div>'
 	cn = '<a onclick="canAns(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-fw fa-times"></i></a>';
 	row.cells.item(1).innerHTML =cn;
 	row.cells.item(0).innerHTML =dc;
 }
 function canAns(btn) {
 	var row = btn.parentNode.parentNode,
-	cn = '<a onclick="fixAns(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-fw fa-plus-square-o"></i></a>';
+	cn = '<a onclick="fixAdd(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-fw fa-plus-square-o"></i></a>';
 	row.cells.item(1).innerHTML =cn;
 	row.cells.item(0).innerHTML ='';
 }
 function insAns(e) {
 	var r = e.parentNode.parentNode,
-	ans = r.children[1].value,
+	cn = '<a onclick="fixAdd(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-fw fa-plus-square-o"></i></a>';
+	r.parentNode.parentNode.children[1].innerHTML = cn;
+	var ans = r.children[1].value;
+	if(ans.trim()=='') {
+		alert("Không để trống câu trả lời");
+	} else {
+		ans = ans.trim(),
 	lg = r.parentNode.parentNode.parentNode.childElementCount,
 	cl = r.parentNode.parentNode.parentNode.parentNode.tHead.id,
 	cd = $('.'+cl+' tbody tr:nth-child('+lg+') td:nth-child(1) input:nth-child(1)').is(':checked'),
@@ -314,22 +376,28 @@ function insAns(e) {
 	cell1.innerHTML = ac,
 	r.children[1].value = '',
 	f = lg + 1,
-	$('.'+cl+' tbody tr:nth-child('+f+') td:nth-child(1)').html('')
+	$('.'+cl+' tbody tr:nth-child('+f+') td:nth-child(1)').html('');
+	}
 }
 function upAnswer(e) {
 	var row = e.parentNode.parentNode,
 	cd = e.parentNode.parentNode.children[0].children[0].checked,
 	c='',
-	v = e.parentNode.parentNode.children[1].value,
-	n = e.parentNode.parentNode.children[0].children[0].name;
+	v = e.parentNode.parentNode.children[1].value;
+	if(v.trim()=='') {alert("Không để trống câu trả lời");
+	}
+	else{
+		v = v.trim(),
+		n = e.parentNode.parentNode.children[0].children[0].name;
 	if(cd == true) c='checked';
 	i = '<input type="radio" name="'+n+'" disabled '+c+' style="margin-right: 10px">'+v;
 	row.parentNode.innerHTML =i;
 	$('.'+n).attr('change-data','c');
 }
+}
 function fixEx(btn) {
 	CKEDITOR.instances['question-add'] .setData('');
-	showMnCv();
+	showMnCv('f');
 	var row = btn.parentNode.parentNode,
 	cc = row.cells.item(0).innerHTML,
 	id = row.offsetParent.tFoot.id;
@@ -489,39 +557,41 @@ function addCourse() { // btn
 }
 }
 function addVoca() {
-	if(false==addAudio()){
+	var af = addAudio();
+	if('error'==af){
 		alert("Định dạng lỗi");
 	} else {
-	var lg = $(".scrollContent tr").length;
-	var id = $('#edit-voca').attr("value");
-	var audio = $('#edit-voca-audio').attr("value");
-	var ac = '<a onclick = "deleteRow(this)" class="del-voca" href="javascript:void(0);">&nbsp;<i class="fa fa-trash-o">&nbsp;</i></a>&nbsp;&nbsp;<a onclick = "fixRow(this)" href="javascript:void(0);">&nbsp;<i class="fa fa-pencil"></i></a></td></tr>';
-	var table = document.getElementById("data-voca");
-	var hirakana = document.getElementById("hirakana").value;
-	var kanji = document.getElementById("kanji").value;
-	var translate = document.getElementById("translate").value;
-	var an = $("#audio-name").val();
-	var example = document.getElementById("example").value;
-	var row;
-	index = $('#edit-voca').attr("index");
-	var c = $("#course-name").val();
-	if (id == 'o') {
+	var lg = $(".scrollContent tr").length,
+	id = $('#edit-voca').attr("value"),
+	audio = $('#edit-voca-audio').attr("value"),
+	ac = '<a onclick = "deleteRow(this)" class="del-voca" href="javascript:void(0);">&nbsp;<i class="fa fa-trash-o">&nbsp;</i></a>&nbsp;&nbsp;<a onclick = "fixRow(this)" href="javascript:void(0);">&nbsp;<i class="fa fa-pencil"></i></a></td></tr>',
+	table = document.getElementById("data-voca"),
+	 hirakana = document.getElementById("hirakana").value,
+	 kanji = document.getElementById("kanji").value,
+	 translate = document.getElementById("translate").value,
+	 an = $("#audio-name").val(),
+	 example = document.getElementById("example").value,
+	 row,
+	index = $('#edit-voca').attr("index"),
+	 c = $("#course-name").val(),
+	 cI = $("#courseIlmId").val();
+	if (id == 'o' || id.split('-')[0] == 'num') {
 		id = 'num-' + lg;
 		var aid = id.split("-")[1]+100;
-		if(an=='') audio = '';
+		if(an=='');
 		else {
 		audio = '<audio id="mp3Mini_'+aid+'" preload="none"> <source type="audio/mpeg" src="/reponsitory/'+c+'/rb/'+an+'">'
-		+ ' <source type="audio/ogg" src="/reponsitory/N5/voca/watashi.ogg"> </audio><span id="mp3MiniPlayer_'+aid+'" class="jp-audio mp4"><span'
+		+ ' <source type="audio/ogg" src="/reponsitory/"> </audio><span id="mp3MiniPlayer_'+aid+'" class="jp-audio mp4"><span'
 		+ ' class="jp-type-single"><span class="jp-gui jp-interface"><span class="jp-controls"><a href="javascript:void(0);" class="jp-play"'
 		+' id="jp-play-'+aid+'" tabindex="1" onclick="playMp4('+aid+')"><i class="fa fa-fw fa-play-circle-o"></i></a><a href="javascript:void(0);" class="jp-pause"'
 		+' id="jp-pause-'+aid+'" tabindex="1" onClick="pauseMp4('+aid+')"><i class="fa fa-fw fa-pause"></i></a></span></span></span></span>';}
 	} else {
 		var aid = parseInt(id.substring(4, 15));
 		document.getElementById("edit-voca").value = 'o';
-		document.getElementById("edit-voca-audio").value = 'o';
-		if(an !='') {
+		document.getElementById("edit-voca-audio").value = '';
+		if(an !='' && af != 'empty') {
 			  audio = '<audio id="mp3Mini_'+aid+'" preload="none"> <source type="audio/mpeg" src="/reponsitory/'+c+'/rb/'+an+'">'
-		+ ' <source type="audio/ogg" src="/reponsitory/N5/voca/watashi.ogg"> </audio><span id="mp3MiniPlayer_'+aid+'" class="jp-audio mp4"><span'
+		+ ' <source type="audio/mpeg" src="/reponsitory/"> </audio><span id="mp3MiniPlayer_'+aid+'" class="jp-audio mp4"><span'
 		+ ' class="jp-type-single"><span class="jp-gui jp-interface"><span class="jp-controls"><a href="javascript:void(0);" class="jp-play"'
 		+' id="jp-play-'+aid+'" tabindex="1" onclick="playMp4('+aid+')"><i class="fa fa-fw fa-play-circle-o"></i></a><a href="javascript:void(0);" class="jp-pause"'
 		+' id="jp-pause-'+aid+'" tabindex="1" onClick="pauseMp4('+aid+')"><i class="fa fa-fw fa-pause"></i></a></span></span></span></span>';;
@@ -591,8 +661,8 @@ function addAudio() {
 	});
 }else {
 	$("#audio-upload").val('');
-	return false;}
-	}}
+	return "error";}
+	}else return "empty"}
 function deleteRow(btn) {
 	var row = btn.parentNode.parentNode;
 	var id = row.id.split('-')[0];
@@ -622,7 +692,7 @@ function fixRow(btn) {
 		if('fix' == doing) {
 			alert("Chưa update giá trị đang chỉnh sửa!!")
 		} else {
-		showMnVc();
+		showMnVc('f');
 		$([document.documentElement, document.body]).animate({
 	        scrollTop: $(".mana-voca").offset().top
 	    }, 1000);
@@ -632,7 +702,7 @@ function fixRow(btn) {
 		document.getElementById("example").value = row.cells.item(3).innerHTML;
 		document.getElementById("edit-voca").value = row.id;
 		document.getElementById("edit-voca-audio").value = row.cells.item(4).innerHTML;
-		document.getElementById("audio-name").value = an;
+		document.getElementById("audio-name").value = an; //an
 		var d = document.getElementById("edit-voca");
 		$('#edit-voca').attr('doing','fix');
 		d.setAttribute("index", index);
@@ -758,63 +828,65 @@ function upMtDoc(fx) {
 		}
 	});
 }
-function showMnGr() {
+
+function upMondai(fx) {
+	var row = fx.parentNode.parentNode;
+	var index = row.id;
+	var nd = $(".form-control."+index).val();
+	var idv = $(".mt."+index).attr("id");
+	var url = "/admin/mondai-descrip/"+idv+"/"+nd;
+	$.ajax({
+		type : "POST",
+		url : url,
+		dataType : "html",
+		cache : false,
+		success : function(data) {
+			$("#result").html(data);
+		},
+		error : function() {
+			console.log("FAIL : ", "ERROR");
+		}
+	});
+}
+function showMnGr(a) {
 	var dp = $('.mana-gr').css("display");
 	if(dp == 'none') {
 		$('.mana-gr').css("display", 'block');
 		$('.hiden-ma-gr').css("display", 'block');
 		$('.show-ma-gr').css("display", 'none');
 	} else {
+		if(a != 'f') {
 		$('.mana-gr').css("display", 'none');
 		$('.hiden-ma-gr').css("display", 'none');
 		$('.show-ma-gr').css("display", 'block');
 	}
 }
-function showMnVc() {
+}
+function showMnVc(a) {
 	var dp = $('.mana-voca').css("display");
 	if(dp == 'none') {
 		$('.mana-voca').css("display", 'block');
 		$('.hiden-ma-vc').css("display", 'block');
 		$('.show-ma-vc').css("display", 'none');
 	} else {
-		$('.hiden-ma-vc').css("display", 'none');
-		$('.show-ma-vc').css("display", 'block');
-		$('.mana-voca').css("display", 'none');
+		if(a != 'f') {
+			$('.hiden-ma-vc').css("display", 'none');
+			$('.show-ma-vc').css("display", 'block');
+			$('.mana-voca').css("display", 'none');
+		}
 	}
 }
-function showMnCv() {
+function showMnCv(a) {
 	var dp = $('.mana-cv').css("display");
 	if(dp == 'none') {
 		$('.mana-cv').css("display", 'block');
 		$('.hiden-ma-cv').css("display", 'block');
 		$('.show-ma-cv').css("display", 'none');
 	} else {
+		if(a != 'f') {
 		$('.mana-cv').css("display", 'none');
 		$('.hiden-ma-cv').css("display", 'none');
 		$('.show-ma-cv').css("display", 'block');
+		}
 	}
-}
-function addJlpt() {
-	var data = [{id : 1,
-		question : "sdada",
-		  anser: [
-		    {"id": "1", "name": "Snatch", "type": "crime"},
-		    {"id": "1", "name": "Snatch", "type": "crime"},
-		    {"id": "1", "name": "Snatch", "type": "crime"},
-		    {"id": "1", "name": "Snatch", "type": "crime"},
-		    {"id": "1", "name": "Snatch", "type": "crime"},
-		    {"id": "1", "name": "Snatch", "type": "crime"}
-		]}];
-
-		data.push(
-		    {id: "7", 
-		     question : "",
-		     anser : [{
-		       id :"2",
-		       name: "Douglas Adams", 
-		     type: "comedy"}
-		     ]
-		    }
-		);
-		console.log(data)
 }

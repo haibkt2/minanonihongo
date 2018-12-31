@@ -9,6 +9,7 @@ import minanonihongo.model.CourseGlobal;
 import minanonihongo.model.CourseIlm;
 import minanonihongo.model.VocaCourseIlm;
 import minanonihongo.repository.CourseGlobalRepository;
+import minanonihongo.repository.CourseIlmRepository;
 import minanonihongo.repository.ExamAnswerRepository;
 import minanonihongo.repository.ExamQuestionRepository;
 import minanonihongo.repository.ExamRepository;
@@ -30,6 +31,9 @@ public class CourseGbService {
 
 	@Autowired
 	CourseGlobalRepository courseGlobalRepository;
+	
+	@Autowired
+	CourseIlmRepository courseIlmRepository;
 
 	public CourseGlobal setcourseGlobal(CourseIlm courseIlm) throws Exception {
 		CourseGlobal courseGlobal = courseGlobalRepository.findByCourseIlm(courseIlm);
@@ -55,5 +59,15 @@ public class CourseGbService {
 		courseGlobal.setUpdateDate(common.currentDate());
 		courseGlobalRepository.save(courseGlobal);
 		return courseGlobal;
+	}
+
+	public void addTotalNumber(String id) throws Exception {
+		if (id != null) {
+			CourseGlobal courseGlobal = courseGlobalRepository.countByTotalNumber(id);
+			if (courseGlobal == null)
+				courseGlobal = setcourseGlobal(courseIlmRepository.findByCourseIlmId(id));
+			courseGlobal.setTotalNumber(courseGlobal.getTotalNumber() + 1);
+			courseGlobalRepository.save(courseGlobal);
+		}
 	}
 }

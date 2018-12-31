@@ -53,19 +53,6 @@
 					<br>
 				</c:if>
 				<div class="introduce" id="introduce">${courseIlm.getIntroduce() }</div>
-				<br> <a class="movie-play"> <img id="videoImg"
-					src="${contextPath}/reponsitory/${courseIlm.getCourse().getCourseName()}/img/${courseIlm.getLocaFileImg()}" />
-					<br> <span class="play-icon-btn"> <i
-						class="zmdi zmdi-play"></i>
-				</span>
-				</a>
-				<div id="iframe-video" style="display: none;">
-					<video width="100%" height="395" controls id="cVideo">
-						<source
-							src="${contextPath}/reponsitory/${courseIlm.getCourse().getCourseName()}/video/${courseIlm.getLocaFileCourse()}"
-							type="video/mp4" id="srVideo">
-					</video>
-				</div>
 				<script type="text/javascript">
 					var vid = document.getElementById("cVideo");
 					// sự kiện click vào chạy video

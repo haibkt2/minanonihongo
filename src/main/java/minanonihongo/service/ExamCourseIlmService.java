@@ -55,9 +55,9 @@ public class ExamCourseIlmService {
 				JSONObject json = (JSONObject) js;
 				String id = json.getString("id");
 				ExamQuestion examQuestion = examQuestionRepository.findByExamQuestionId(id);
-				if(examQuestion != null) {
-					if(examQuestion.getExamAnswer()!=null) {
-						for(ExamAnswer examAnswer : examQuestion.getExamAnswer()) {
+				if (examQuestion != null) {
+					if (examQuestion.getExamAnswer() != null) {
+						for (ExamAnswer examAnswer : examQuestion.getExamAnswer()) {
 							examAnswerRepository.delete(examAnswer);
 						}
 					}
@@ -65,51 +65,53 @@ public class ExamCourseIlmService {
 				}
 			}
 			JSONArray lx = (JSONArray) JSONSerializer.toJSON(examJson);
-			Exam exam = new Exam();
-			exam.setCourseIlm(courseIlm);
-			exam.setExamName("Bài Tập");
-			exam.setUser((User) session.getAttribute("user"));
-			if (courseIlm.getExams() == null || courseIlm.getExams().size() == 0) {
-				exam.setExamId(setExamId());
-			} else
-				exam.setExamId(courseIlm.getExams().get(0).getExamId());
-			examRepository.save(exam);
-			for (Object js : lx) {
-				JSONObject json = (JSONObject) js;
-				String change = json.getString("c");
-				if ("c".equals(change)) {
-					List<ExamAnswer> answers = new ArrayList<>();
-					ExamQuestion examQuestion = new ExamQuestion();
-					String iq = json.getString("iq");
-					String qt = json.getString("qt");
-					String ex = json.getString("ex");
-					if (examQuestionRepository.findByExamQuestionId(iq) == null) {
-						examQuestion.setExamQuestionId(setExamQtId());
-					} else {
-						examQuestion.setExamQuestionId(iq);
-					}
-					examQuestion.setEx(ex);
-					examQuestion.setQuestion(qt);
-					examQuestion.setExam(exam);
-					examQuestion.setExamAnswer(answers);
-					examQuestionRepository.save(examQuestion);
-					JSONArray la = (JSONArray) JSONSerializer.toJSON(json.getString("ans"));
-					for (Object jsa : la) {
-						JSONObject jsona = (JSONObject) jsa;
-						ExamAnswer examAnswer = new ExamAnswer();
-						String ia = jsona.getString("ia");
-						if (examAnswerRepository.findByExamAnswerId(ia) == null) {
-							examAnswer.setExamAnswerId(setExamAnId());
+			if (!lx.isEmpty()) {
+				Exam exam = new Exam();
+				exam.setCourseIlm(courseIlm);
+				exam.setExamName("Bài Tập");
+				exam.setUser((User) session.getAttribute("user"));
+				if (courseIlm.getExams() == null || courseIlm.getExams().size() == 0) {
+					exam.setExamId(setExamId());
+				} else
+					exam.setExamId(courseIlm.getExams().get(0).getExamId());
+				examRepository.save(exam);
+				for (Object js : lx) {
+					JSONObject json = (JSONObject) js;
+					String change = json.getString("c");
+					if ("c".equals(change)) {
+						List<ExamAnswer> answers = new ArrayList<>();
+						ExamQuestion examQuestion = new ExamQuestion();
+						String iq = json.getString("iq");
+						String qt = json.getString("qt");
+						String ex = json.getString("ex");
+						if (examQuestionRepository.findByExamQuestionId(iq) == null) {
+							examQuestion.setExamQuestionId(setExamQtId());
 						} else {
-							examAnswer.setExamAnswerId(ia);
+							examQuestion.setExamQuestionId(iq);
 						}
-						String g = jsona.getString("g");
-						String a = jsona.getString("a");
-						examAnswer.setAnswer(a);
-						examAnswer.setAnswerRghtWrng(g);
-						examAnswer.setExamQuestion(examQuestion);
-						examAnswerRepository.save(examAnswer);
-						answers.add(examAnswer);
+						examQuestion.setEx(ex);
+						examQuestion.setQuestion(qt);
+						examQuestion.setExam(exam);
+						examQuestion.setExamAnswer(answers);
+						examQuestionRepository.save(examQuestion);
+						JSONArray la = (JSONArray) JSONSerializer.toJSON(json.getString("ans"));
+						for (Object jsa : la) {
+							JSONObject jsona = (JSONObject) jsa;
+							ExamAnswer examAnswer = new ExamAnswer();
+							String ia = jsona.getString("ia");
+							if (examAnswerRepository.findByExamAnswerId(ia) == null) {
+								examAnswer.setExamAnswerId(setExamAnId());
+							} else {
+								examAnswer.setExamAnswerId(ia);
+							}
+							String g = jsona.getString("g");
+							String a = jsona.getString("a");
+							examAnswer.setAnswer(a);
+							examAnswer.setAnswerRghtWrng(g);
+							examAnswer.setExamQuestion(examQuestion);
+							examAnswerRepository.save(examAnswer);
+							answers.add(examAnswer);
+						}
 					}
 				}
 			}
@@ -158,7 +160,7 @@ public class ExamCourseIlmService {
 		List<Exam> exams = (List<Exam>) examRepository.findAll();
 		String examAnsId = "EXAMEC0000001";
 		if (exams.size() > 0) {
-			int id = Integer.parseInt(exams.get(exams.size() - 1).getExamId().substring(5, 12)) + 1;
+			int id = Integer.parseInt(exams.get(exams.size() - 1).getExamId().substring(7, 13)) + 1;
 			String countExId = "" + id;
 			if (countExId.trim().length() != 7) {
 				int count = 7 - countExId.trim().length();

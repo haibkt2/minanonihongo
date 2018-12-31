@@ -83,7 +83,7 @@
 						role="grid" aria-describedby="example2_info">
 						<thead>
 							<tr style="background-color: #cbe1f2;">
-								<td width="23%"><label>Hirakana/Katakana
+								<td width="23%"><label>Hiragana/Katakana
 								</label></td>
 								<td width="2%"><label>JP</label></td>
 								<td width="20%"><label>Kanji</label></td>

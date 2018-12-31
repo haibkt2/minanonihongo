@@ -169,7 +169,7 @@ public class CourseIlmService {
 	}
 
 	public String setCourseIlmId(CourseIlm courseIlm) {
-		String courseIlmId = "COURSE001";
+		String courseIlmId = "";
 		if (courseIlm.getCourseIlmId() != null) {
 			String cilmId = courseIlm.getCourseIlmId();
 			int id = Integer.parseInt(cilmId.substring(cilmId.length() - 3, cilmId.length())) + 1;
@@ -181,6 +181,9 @@ public class CourseIlmService {
 				}
 			}
 			courseIlmId = cilmId.substring(0, cilmId.length() - 3).concat("" + countUsId);
+		}
+		else {
+			courseIlmId = courseIlm.getCourse().getCourseId().substring(8, 10)+"COURSE001";
 		}
 		return courseIlmId;
 	}

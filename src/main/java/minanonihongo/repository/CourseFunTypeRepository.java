@@ -6,4 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 import minanonihongo.model.CourseFunType;
 public interface CourseFunTypeRepository extends CrudRepository<CourseFunType, Integer> {
 	
+	CourseFunType findByCourseFunTypeId(String funId);
 }

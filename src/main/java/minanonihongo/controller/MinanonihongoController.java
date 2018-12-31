@@ -20,7 +20,6 @@ import javax.servlet.http.HttpSession;
 import org.apache.http.client.ClientProtocolException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -39,9 +38,9 @@ import org.springframework.web.multipart.MultipartFile;
 import minanonihongo.model.Course;
 import minanonihongo.model.CourseFun;
 import minanonihongo.model.CourseFunType;
-import minanonihongo.model.CourseGlobal;
 import minanonihongo.model.CourseIlm;
 import minanonihongo.model.CourseIlmType;
+import minanonihongo.model.JLPT;
 import minanonihongo.model.JLPTMenu;
 import minanonihongo.model.JLPTQType;
 import minanonihongo.model.JLPTResult;
@@ -69,6 +68,7 @@ import minanonihongo.repository.VocaCourseIlmRepository;
 import minanonihongo.service.Common;
 import minanonihongo.service.CommonService;
 import minanonihongo.service.CourseFunServiceImpl;
+import minanonihongo.service.CourseGbService;
 import minanonihongo.service.CourseIlmService;
 import minanonihongo.service.GoogleUtils;
 import minanonihongo.service.JLPTResultService;
@@ -112,10 +112,10 @@ public class MinanonihongoController {
 
 	@Autowired
 	JLPTRsRepository jlptRsRepository;
-	
+
 	@Autowired
 	CourseGlobalRepository courseGlobalRepository;
-	
+
 	@Autowired
 	CourseFunTypeRepository courseFunTypeRepository;
 
@@ -138,8 +138,11 @@ public class MinanonihongoController {
 	CommonService commonService;
 
 	@Autowired
+	CourseGbService courseGbService;
+
+	@Autowired
 	PostServiceImpl postServiceImpl;
-	
+
 	@Autowired
 	CourseFunServiceImpl courseFunServiceImpl;
 
@@ -258,7 +261,7 @@ public class MinanonihongoController {
 		CourseFun cFun = courseFunRepository.findByCourseBgId("CFUN" + funId);
 		cFun.setViewCourseFun(cFun.getViewCourseFun() + 1);
 		courseFunRepository.save(cFun);
-		model.addAttribute("cFun", cFun);
+		model.addAttribute("fun", cFun);
 		return "public/detailCFun";
 	}
 
@@ -268,9 +271,10 @@ public class MinanonihongoController {
 		boolean t = type.isPresent();
 		List<CourseFunType> funTypes = (List<CourseFunType>) courseFunTypeRepository.findAll();
 		if (t) {
-			String postTypeId = type.get().substring(0, 1);
-			List<Post> posts = postRepository.findPostCm(postTypeId);
-			model.addAttribute("posts", posts);
+			String funTypeId = type.get().substring(0, 1);
+			CourseFunType courseFunType = courseFunTypeRepository.findByCourseFunTypeId(funTypeId);
+			List<CourseFun> funs = courseFunRepository.findByCourseFunType(courseFunType);
+			model.addAttribute("funs", funs);
 		} else {
 			return "redirect:/van-hoa-nhat-ban";
 		}
@@ -279,10 +283,10 @@ public class MinanonihongoController {
 		model.addAttribute("funt", funTypes);
 		return "public/funnyCourse";
 	}
-	
+
 	@RequestMapping(value = { "/khoa-hoc/{courseName}" })
 	public String course(Model model, String logout, String view, HttpServletRequest req, HttpServletResponse response,
-			HttpSession ss, @PathVariable String courseName) {
+			HttpSession ss, @PathVariable String courseName) throws Exception {
 		if ("Bang-chu-cai".equals(courseName)) {
 			courseName = new String(anphabe.getBytes(Charset.forName("ISO-8859-1")), Charset.forName("UTF-8"));
 		}
@@ -299,6 +303,7 @@ public class MinanonihongoController {
 				model.addAttribute("menu" + courseIlmType.getCourseIlmTypeId(),
 						(List<CourseIlm>) map.get(courseIlmType.getCourseIlmTypeName()));
 			}
+			courseGbService.addTotalNumber(courseIlm.getCourseIlmId());
 			model.addAttribute("courseIlmTypeList", courseIlmTypeList);
 			model.addAttribute("courseIlm", courseIlm);
 		} else {
@@ -319,10 +324,10 @@ public class MinanonihongoController {
 		model.addAttribute("lesson_tasks", mapJson.get(0).get("lesson_tasks"));
 		model.addAttribute("lesson_lesson", mapJson.get(0).get("lesson_lesson"));
 		model.addAttribute("courseIlm", c);
-		CourseGlobal courseGlobal = courseGlobalRepository.countByTotalNumber(courseIlm.getCourseIlmId());
-		if(courseGlobal == null) courseGlobal = new CourseGlobal();
-		courseGlobal.setTotalNumber(courseGlobal.getTotalNumber()+1);
-		courseGlobalRepository.save(courseGlobal);
+		courseGbService.addTotalNumber(courseIlm.getCourseIlmId());
+		if ("COURSELVN6".equals(courseIlm.getCourse().getCourseId())) {
+			return "public/anphalb";
+		}
 		return "public/detailCourse";
 	}
 
@@ -469,6 +474,18 @@ public class MinanonihongoController {
 			model.addAttribute("courses", courses);
 			model.addAttribute("course", course);
 			List<JLPTMenu> je = jlptMenuRepository.findExJLPT(course.getCourseId(), jexercise);
+			for (JLPTMenu jlptMenu : je) {
+				List<JLPT> jlpts = jlptMenu.getJlpts();
+				int k = jlpts.size();
+				for (int i = 0; i < k; i++) {
+					JLPT jlpt = jlpts.get(i);
+					if (jlpt == null || !jlpt.getCourse().equals(course)) {
+						jlpts.remove(jlpt);
+						i--;
+						k--;
+					}
+				}
+			}
 			model.addAttribute("je", je);
 		}
 		return "public/listExam";

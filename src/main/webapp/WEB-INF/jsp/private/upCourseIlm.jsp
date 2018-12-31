@@ -54,7 +54,7 @@
 												<label> Tên Bài Học</label>
 											</h4>
 											<f:input type="text" class="form-control" name="lessonName"
-												path="lessonName" id="lessonName" placeholder="Tên Bài Học" />
+												path="lessonName" id="lessonName" placeholder="Tên Bài Học" required="true"/>
 										</div>
 									</div>
 								</div>
@@ -83,7 +83,7 @@
 													role="grid" aria-describedby="example2_info">
 													<thead class="fixedHeader">
 														<tr style="background-color: #cbe1f2;">
-															<td width="140px"><label>Hirakana/Katakana</label></td>
+															<td width="140px"><label>Hiragana/Katakana</label></td>
 															<td width="80px"><label>Kanji</label></td>
 															<td width="295px"><label>Ý Nghĩa</label></td>
 															<td width="303px"><label>Ví dụ</label></td>
@@ -110,7 +110,7 @@
 																	<td>${voca.translate}</td>
 																	<td>${voca.example}</td>
 																	<td class="ad-audio"><c:if
-																			test="${voca.audio ne null}">
+																			test="${not empty voca.audio}">
 																			<audio id="mp3Mini_${id.index}" preload="none">
 																				<source type="audio/mpeg"
 																					src="/reponsitory/${courseIlmForm.getCourse().getCourseName()}/voca/${voca.getCourseIlm().getCourseIlmId()}/${voca.audio}">
@@ -158,9 +158,9 @@
 								<div class="mana-voca" style="display: none;">
 									<div class="form-group">
 										<div class="col-xs-3 ">
-											<label style="margin-left: 10px;">Hirakana/Katakana</label> <input
+											<label style="margin-left: 10px;">Hiragana/Katakana</label> <input
 												id="hirakana" type="text" class="form-control"
-												placeholder="Hirakana/Katakana.." style="margin-left: 5px">
+												placeholder="Hiragana/Katakana.." style="margin-left: 5px">
 										</div>
 										<div class="col-xs-3">
 											<label style="margin-left: 5px">Kanji</label> <input
@@ -213,7 +213,7 @@
 										<div class="form-group" style="width: 100%"></div>
 										<div class="form-group">
 											<h4>
-												<label>Ngữ Pháp</label>
+												<label>Nội dung (Ngữ Pháp)</label>
 											</h4>
 											<div style="width: 100%; font-size: 20px; margin-left: 15px">
 												<div class="show-ma-gr">
@@ -301,7 +301,7 @@
 				<input type="hidden" name="edit-voca" id="edit-voca" value="o"
 					index="o" />
 				<input type="hidden" name="edit-voca-audio" id="edit-voca-audio"
-					value="o" />
+					value="" />
 				<input type="hidden" name="list-current" id="list-current" />
 				<input type="hidden" name="dele-old" id="dele-old" value="[]" />
 			</f:form>

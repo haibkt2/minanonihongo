@@ -55,7 +55,7 @@
 					</div>
 					<br>
 					<div class="preview-course-container">
-						<h3 class="head-title">Danh sách bài học</h3>
+						<h3 class="head-title"></h3>
 						<div class="courses-linear">
 							<c:forEach items="${course}" var="c">
 								<c:forEach items="${c.courseIlms}" var="ci" varStatus="id">

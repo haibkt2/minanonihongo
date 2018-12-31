@@ -32368,4 +32368,78 @@ thead.fixedHeader {
 .hiden-ex{
 	display: none;
 }
+.frame5 {
+    width: 19%;
+    height:100px;
+    float: left;
+    overflow: hidden;
+    display: block;
+    background :#d6f5ff;
+border: 1px solid #ddd;
+    margin: 0 2px 4px 4px;
+    color: red;
+}
+.frame-inside {
+    padding: 5px;
+    margin: 5px;
+    display: block;
+    text-align: left
+}
+.read {
+    background: url(../../../reponsitory/Alphabet/img/speaker.jpg);
+    opacity: .3;
+    border: 0;
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 30px;
+    height: 30px
+}
+.read {
+    background: url(../../../reponsitory/Alphabet/img/speaker.jpg);
+    opacity: .3;
+    border: 0;
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 30px;
+    height: 30px
+}
+
+.read.hint {
+    left: 60px;
+    background: url(../../../reponsitory/Alphabet/img/speaker.jpg)
+}
+
+.read:hover {
+    opacity: .9
+}
+
+.read:hover:active {
+    opacity: 1
+}
+.pic {
+    position: relative
+}
+.ct-chu-cai{
+	font-size: 70px;
+	margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 65%;
+/*     margin-right: -50%; */
+/*     color :  */
+    transform: translate(-50%, -50%)
+}
+.dt-mean-text{
+	font-size: 16px;
+	margin: 0;
+    position: absolute;
+    top: 80%;
+    left: 10%;
+    color: black;
+/*     transform: translate(-50%, -50%) */
+}
 /*# sourceMappingURL=styles.css.map */

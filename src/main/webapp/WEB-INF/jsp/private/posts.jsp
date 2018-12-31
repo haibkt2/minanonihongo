@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>HaiLDX - Thêm bài học mới.</title>
+<title>HaiLDX</title>
 <link rel="icon" href="${contextPath}/resources/public/img/fav.png" />
 <title></title>
 </head>
@@ -26,7 +26,7 @@
 								<section class="content-header"
 									style="margin-bottom: 15px; text-align: center;">
 									<h3 class="box-title" style="float: center;">
-										Danh Sách Bài Đăng
+										Quản lý bài viết
 									</h3>
 									
 								</section>
@@ -45,7 +45,7 @@
 									<thead>
 										<tr>
 											<th width="3%" style="font-size: 16px">STT</th>
-											<th width="30%" style="font-size: 16px">Tên Bài Học</th>
+											<th width="30%" style="font-size: 16px">Tên Bài Đăng</th>
 											<th width="60%" style="font-size: 16px">Nội dung</th>
 											<th width="6%"></th>
 										</tr>

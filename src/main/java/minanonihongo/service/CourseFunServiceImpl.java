@@ -27,14 +27,14 @@ public class CourseFunServiceImpl {
 	@Autowired
 	private CourseFunTypeRepository courseFunTypeRepository;
 
-	public String setPostId() {
+	public String setCFId() {
 		List<CourseFun> fun = (List<CourseFun>) courseFunRepository.findAll();
-		String vocaId = "CFUN000001";
+		String vocaId = "CFUN00001";
 		if (fun.size() > 0) {
-			int id = Integer.parseInt(fun.get(fun.size() - 1).getCourseBgId().substring(4, 10)) + 1;
+			int id = Integer.parseInt(fun.get(fun.size() - 1).getCourseBgId().substring(4, 9)) + 1;
 			String countUsId = "" + id;
-			if (countUsId.trim().length() != 6) {
-				int count = 6 - countUsId.trim().length();
+			if (countUsId.trim().length() != 5) {
+				int count = 5 - countUsId.trim().length();
 				for (int i = 0; i < count; i++) {
 					countUsId = "0" + countUsId;
 				}

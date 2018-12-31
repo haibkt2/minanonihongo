@@ -102,7 +102,7 @@
 																	<c:if test="${(in.index + 1) eq qt.examAnswer.size() }">
 																	<tr>
 																		<td></td>
-																		<td><a onclick="fixAns(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+																		<td><a onclick="fixAdd(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 																			<i class="fa fa-fw fa-plus-square-o"></i></a></td>
 																	</tr>
 																	</c:if>
@@ -123,6 +123,7 @@
 											</div>
 											<input type="hidden" value="add" id="ac-add-exam">
 											<input type="hidden" value="[]" id="ac-del-exam" name="delQt">
+											<input type="hidden" value="[]" id="ac-del-ans" name="delAn">
 										</div>
 										<div class="box-body add-question-ans">
 											<div class="form-group col-lg-11">

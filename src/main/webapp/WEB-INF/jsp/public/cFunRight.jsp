@@ -29,7 +29,7 @@
 		<c:forEach items="${funmn}" var="fun">
 			<div class="related-news-item">
 				<a
-					href="${contextPath}/vui-tieng-nhat/${post.getPostId().substring(4)}-${sv.toUrlFriendly(post.getPostTitle())}">
+					href="${contextPath}/vui-tieng-nhat/${fun.getCourseBgId().substring(4)}-${sv.toUrlFriendly(fun.getCourseFunTitle())}">
 					<img class="lazyload"
 					src="${contextPath}/reponsitory/course-fun/${fun.courseFunImg}"
 					data-src="${contextPath}/reponsitory/course-fun/${fun.courseFunImg}">

@@ -134,6 +134,19 @@ public class JLPTService {
 		return jsons;
 	}
 
+	public boolean delAns(String del) throws Exception {
+		JSONArray dl = (JSONArray) JSONSerializer.toJSON(del);
+		for (Object js : dl) {
+			JSONObject json = (JSONObject) js;
+			String id = json.getString("id");
+			JLPTAnswer jlptAnser = jlptAnswerRepository.findByJlptAnswerId(id);
+			if (jlptAnser != null) {
+				jlptAnswerRepository.delete(jlptAnser);
+			}
+		}
+		return true;
+	}
+
 	public boolean setJLPT(String jlptJson, String del, JLPT jlptForm) throws Exception {
 		JLPTType jlptType = jlptTypeRepository.findByJlptTypeId("JLPT02");
 		try {
@@ -156,22 +169,26 @@ public class JLPTService {
 			if (jlpt == null) {
 				jlpt = new JLPT();
 			}
+			jlpt.setJlptId(jlptForm.getJlptId());
 			jlpt.setUser((User) session.getAttribute("user"));
 			jlpt.setJlptName(jlptForm.getJlptName());
 			jlpt.setTimeout(jlptForm.getTimeout());
 			jlpt.setJlptType(jlptType);
+			jlpt.setJlptMn(jlptForm.getJlptMn());
+			jlpt.setCourse(jlptForm.getCourse());
+			jlptRepository.save(jlpt);
 			for (Object js : lx) { // qtype
 				JSONObject json = (JSONObject) js;
 				String qti = json.getString("qti");
 				String qtn = json.getString("qt");
-				JLPTQType jlptqType = jlptQTypeRepository.findByJlptQTypeId(qti);
-				if (jlptqType == null) {
-					jlptqType = new JLPTQType();
+				JLPTQType jlptqType = new JLPTQType();
+				JLPTQType jqt = jlptQTypeRepository.findByJlptQTypeId(qti);
+				if (jqt == null) {
 					qti = setJlptQTId();
 				}
-					
 				jlptqType.setJlptTypeId(qti);
 				jlptqType.setJlptQTypeName(qtn);
+				jlptqType.setJlptQuestions(new ArrayList<>());
 				jlptQTypeRepository.save(jlptqType);
 				JSONArray lq = (JSONArray) JSONSerializer.toJSON(json.getString("qs"));
 				for (Object jsq : lq) {
@@ -264,8 +281,8 @@ public class JLPTService {
 		if (jlpts.size() > 0) {
 			int id = Integer.parseInt(jlpts.get(jlpts.size() - 1).getJlptId().substring(5, 13)) + 1;
 			String countExId = "" + id;
-			if (countExId.trim().length() != 7) {
-				int count = 7 - countExId.trim().length();
+			if (countExId.trim().length() != 8) {
+				int count = 8 - countExId.trim().length();
 				for (int i = 0; i < count; i++) {
 					countExId = "0" + countExId;
 				}
@@ -274,6 +291,7 @@ public class JLPTService {
 		}
 		return jlptId;
 	}
+
 	public String setJlptQTId() {
 		List<JLPTQType> jlptqTypes = (List<JLPTQType>) jlptQTypeRepository.findAll();
 		String jlptId = "JQT000";
