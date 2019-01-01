@@ -12,34 +12,7 @@
 <link rel="icon" href="${contextPath}/resources/public/img/fav.png" />
 <title></title>
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
-	<div class="wrapper">
-		<jsp:include page="header.jsp"></jsp:include>
-		<jsp:include page="menu.jsp"></jsp:include>
-		<div class="content-wrapper">
-			<section class="content">
-				<div class="row">
-				
-					<div class="col-xs-12">
-						<div class="box">
-							<div class="box-hesader">
-								<section class="content-header"
-									style="margin-bottom: 15px; text-align: center;">
-									<h3 class="box-title" style="float: center;">
-										Quản lý bài viết
-									</h3>
-									
-								</section>
-								<section class="content-header"
-									style="margin-bottom: 15px;">
-									<div style="width: 10%; float: right; margin-right: 15px;">
-									<a href="${contextPath}/admin/add-post?postType=${postT.postTypeId}">	<button class="btn btn-default">Thêm
-											Bài Viết</button></a>
-									</div>
-									
-								</section>
-							</div>
-							<div id="result">
+
 							<div class="box-body">
 								<br>
 								<table id="data-show" class="table table-bordered table-hover">
@@ -98,13 +71,7 @@
 									</tbody>
 								</table>
 							</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</section>
-		</div>
-		<jsp:include page="footer.jsp"></jsp:include>
+						
 		<script>
 			$(function() {
 				$('#data-show').DataTable({
@@ -117,13 +84,12 @@
 				})
 			})
 		</script>
-		<script src="${contextPath}/resources/private/js/jquery.min.js"></script>
-		<script
-			src="${contextPath}/resources/private/js/jquery.dataTables.min.js"></script>
-		<script
-			src="${contextPath}/resources/private/js/dataTables.bootstrap.min.js"></script>
+<%-- 		<script src="${contextPath}/resources/private/js/jquery.min.js"></script> --%>
+<!-- 		<script -->
+<%-- 			src="${contextPath}/resources/private/js/jquery.dataTables.min.js"></script> --%>
+<!-- 		<script -->
+<%-- 			src="${contextPath}/resources/private/js/dataTables.bootstrap.min.js"></script> --%>
 		<script src="${contextPath}/resources/private/js/up.lesson.js"></script>
-	</div>
 </body>
 
 </html>

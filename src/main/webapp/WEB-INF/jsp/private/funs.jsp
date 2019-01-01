@@ -86,8 +86,8 @@
 															<button type="button" class="btn btn-default pull-left"
 																data-dismiss="modal">Hủy</button>
 															<button type="button"
-																class="btn btn-primary bt-dele-course"
-																id="${fn.courseBgId}" fun="${fn.courseBgId}"
+																class="btn btn-primary bt-dele-fun"
+																id="${fn.courseBgId}"
 																data-dismiss="modal">Xóa</button>
 														</div>
 													</div>

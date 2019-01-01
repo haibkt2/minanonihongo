@@ -88,6 +88,13 @@ public class Common {
 	}
 	
 
+	public JSONObject getMondai(String id, String value) throws Exception {
+		JSONObject mondai = new JSONObject();
+		mondai.put("id", id);
+		mondai.put("value", value);
+		return mondai;
+	}
+	
 	public JSONObject getAnswer(String id, String task_id, String value, String grade) throws Exception {
 		JSONObject answer = new JSONObject();
 		answer.put("id", id);
@@ -98,15 +105,17 @@ public class Common {
 	}
 
 	public JSONObject getQuestion(int index, String lesson_id, String id, String type, String value, int grade,
-			String ex) throws Exception {
+			String ex, String idQt, String valQt) throws Exception {
 		JSONObject question = new JSONObject();
 		question.put("lesson_id", lesson_id);
 		question.put("id", id);
 		question.put("ex", ex);
 		question.put("tex", "task-"+id);
 		question.put("type", type);
-		question.put("value","Câu "+index+" : "+value);
+		question.put("value","Câu"+index+" : "+value);
 		question.put("grade", grade);
+		question.put("idQT", idQt);
+		question.put("valQT", "もんだい  : "+valQt);
 		return question;
 	}
 

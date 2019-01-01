@@ -42,6 +42,14 @@ public class JLPT implements Serializable {
 	@JoinColumn(name = "JLPT_TYPE_ID")
 	private JLPTType jlptType;
 
+	public List<JLPTResult> getJlptResult() {
+		return jlptResult;
+	}
+
+	public void setJlptResult(List<JLPTResult> jlptResult) {
+		this.jlptResult = jlptResult;
+	}
+
 	@ManyToOne
 	@JoinColumn(name = "COURSE_ID")
 	private Course course;

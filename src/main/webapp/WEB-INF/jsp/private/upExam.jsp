@@ -133,7 +133,7 @@
 														role="grid" aria-describedby="example2_info">
 														<thead>
 															<tr style="background-color: #cbe1f2;">
-																<td><label class="nd-qt"></label></td>
+																<td><p class="nd-qt"></p></td>
 																<td class="act-exam" width="80px"><a
 																	href="javascript:void(0);">&nbsp;<i
 																		class="fa fa-trash-o">&nbsp;</i></a><a

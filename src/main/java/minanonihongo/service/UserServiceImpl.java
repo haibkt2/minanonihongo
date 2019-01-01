@@ -78,7 +78,7 @@ public class UserServiceImpl {
 				User u = userRepository.findByEmail(value,rg);
 				if (u != null)
 					if (!u.getUserId().equals(user.getUserId()) && value.equals(u.getEmail()))
-						return "er";
+						return "ermail";
 				user.setEmail(value);
 				break;
 			case "birthday":

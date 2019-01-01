@@ -93,14 +93,22 @@ public class JLPTService {
 			if (jt.getJlptQuestions() != null) {
 				total_marks += jt.getJlptQuestions().size();
 				int index = 0;
+				String idQtype = "";
 				for (JLPTQuestion jlptQuestion : jt.getJlptQuestions()) {
 					if (jlptId.equals(jlptQuestion.getJlpt().getJlptId())) {
 						index++;
+						String idQc = jlptQuestion.getJlptQType().getJlptQTypeId();
+						String valQn = jlptQuestion.getJlptQType().getJlptQTypeName();
+						String idQt = "2";
+						if(idQtype.equals(idQc)) {
+							idQt = "3";
+						}
 						lesson_tasks.add(common.getQuestion(index, lsId,
 								jlptQuestion.getJlptQuestionId().substring(
 										jlptQuestion.getJlptQuestionId().length() - 2,
 										jlptQuestion.getJlptQuestionId().length()),
-								"3", jlptQuestion.getQuestion(), 1, jlptQuestion.getEx()));
+								"3", jlptQuestion.getQuestion(), 1, jlptQuestion.getEx(), idQt, valQn));
+						idQtype = idQc;
 						JSONArray ans = new JSONArray();
 						if (jlptQuestion.getJlptAnswer() != null) {
 							for (JLPTAnswer jlptAnswer : jlptQuestion.getJlptAnswer()) {

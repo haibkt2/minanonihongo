@@ -72,7 +72,7 @@
 							<tbody>
 								<tr>
 									<td style="height: 30px; text-align: center; font-size: 18px; color: #aa4c4c; font-weight: Bold;">
-									Danh sách Đề thi
+									
 									</td>
 								</tr>
 							</tbody>
@@ -103,6 +103,12 @@
 									</span>
 								</span>
 								</a>
+<!-- 								<a class="right-link-ac" -->
+<%-- 									href="${contextPath}/admin/del-exam/${js.course.courseName}/${js.jlptId.substring(5)}-${sv.toUrlFriendly(js.getJlptName())}"> --%>
+<!-- 									<span class="right-link-content-ac"> -->
+<!-- 												<i class="fa fa-trash-o"></i> -->
+<!-- 								</span> -->
+<!-- 								</a> -->
 							</c:forEach>
 							<div style="width: 100%; height: 60px"></div>
 						</c:forEach>

@@ -29,9 +29,11 @@ import minanonihongo.model.CourseIlm;
 import minanonihongo.model.CourseIlmType;
 import minanonihongo.model.Document;
 import minanonihongo.model.JLPT;
+import minanonihongo.model.JLPTAnswer;
 import minanonihongo.model.JLPTMenu;
 import minanonihongo.model.JLPTQType;
 import minanonihongo.model.JLPTQuestion;
+import minanonihongo.model.JLPTResult;
 import minanonihongo.model.Post;
 import minanonihongo.model.PostType;
 import minanonihongo.model.User;
@@ -42,9 +44,12 @@ import minanonihongo.repository.CourseIlmRepository;
 import minanonihongo.repository.CourseIlmTypeRepository;
 import minanonihongo.repository.CourseRepository;
 import minanonihongo.repository.DocRepository;
+import minanonihongo.repository.JLPTAnswerRepository;
 import minanonihongo.repository.JLPTMenuRepository;
 import minanonihongo.repository.JLPTQTypeRepository;
+import minanonihongo.repository.JLPTQuestionRepository;
 import minanonihongo.repository.JLPTRepository;
+import minanonihongo.repository.JLPTRsRepository;
 import minanonihongo.repository.PostRepository;
 import minanonihongo.repository.PostTypeRepository;
 import minanonihongo.repository.UserRepository;
@@ -72,6 +77,8 @@ public class AdminMinanonihongoController {
 	DocRepository docRepository;
 	@Autowired
 	JLPTRepository jlptRepository;
+	
+	JLPTRsRepository jlptRsRepository;
 
 	@Autowired
 	CourseIlmRepository courseIlmRepository;
@@ -81,6 +88,12 @@ public class AdminMinanonihongoController {
 
 	@Autowired
 	JLPTMenuRepository jlptMenuRepository;
+
+	@Autowired
+	JLPTQuestionRepository jlptQuestionRepository;
+
+	@Autowired
+	JLPTAnswerRepository jlptAnserRepository;
 
 	@Autowired
 	JLPTQTypeRepository jlptQTypeRepository;
@@ -317,6 +330,43 @@ public class AdminMinanonihongoController {
 		}
 		model.addAttribute("course", course);
 		return "/private/upDoc";
+	}
+	@RequestMapping(value = "/admin/dele-post/{id}", method = RequestMethod.POST)
+	public String delePost(Model model, HttpServletRequest request, HttpSession session, @PathVariable final String id) {
+		Post post = postRepository.findByPostId(id);
+		if (post != null) {
+			postRepository.delete(post);
+		}
+		List<Post> posts = (List<Post>) postRepository.findAll();
+		model.addAttribute("post", posts);
+		return "private/delPost";
+	}
+	
+	@RequestMapping(value = "/admin/dele-fun/{id}", method = RequestMethod.POST)
+	public String deleCFun(Model model, HttpServletRequest request, HttpSession session, @PathVariable final String id) {
+		CourseFun courseFun = courseFunRepository.findByCourseBgId(id);
+		if (courseFun != null) {
+			courseFunRepository.delete(courseFun);
+		}
+		List<CourseFun> fun = (List<CourseFun>) courseFunRepository.findAll();
+		model.addAttribute("fun", fun);
+		return "private/delFun";
+	}
+
+	@RequestMapping(value = "/admin/dele-mondai//{id}", method = RequestMethod.POST)
+	public String deleMondai(Model model, HttpServletRequest request, HttpSession session,
+			@PathVariable final String id) {
+		JLPTQType jlptqType = jlptQTypeRepository.findByJlptQTypeId(id);
+		for (JLPTQuestion jlptQuestion : jlptqType.getJlptQuestions()) {
+			for (JLPTAnswer jlptAnswer : jlptQuestion.getJlptAnswer()) {
+				jlptAnserRepository.delete(jlptAnswer);
+			}
+			jlptQuestionRepository.delete(jlptQuestion);
+		}
+		jlptQTypeRepository.delete(jlptqType);
+		List<JLPTQType> jlptqTypes = (List<JLPTQType>) jlptQTypeRepository.findAll();
+		model.addAttribute("qt", jlptqTypes);
+		return "/private/upMondai";
 	}
 
 	@RequestMapping(value = "/admin/dele-course/{courseId}/{id}", method = RequestMethod.POST)
@@ -571,6 +621,31 @@ public class AdminMinanonihongoController {
 			model.addAttribute("jlptMn", jlptMenu);
 		}
 		return "/private/upJLPT";
+	}
+
+	@RequestMapping(value = { "/admin/del-exam/{courseName}/{examName}" })
+	public String delJLPT(Model model, HttpServletRequest req, HttpServletResponse response,
+			@PathVariable String courseName, @PathVariable String examName) throws Exception {
+		common.getMenu(model);
+		Course course = courseRepository.findByCourseName(courseName);
+		if (course == null) {
+			return "404";
+		} else {
+			String jlptId = "JLPTE" + examName.split("-")[0];
+			JLPT jlpt = jlptRepository.findByJlptId(jlptId);
+			for (JLPTQuestion jlptQuestion : jlpt.getJlptQuestion()) {
+				for (JLPTAnswer jlptAnswer : jlptQuestion.getJlptAnswer()) {
+					jlptAnserRepository.delete(jlptAnswer);
+				}
+				jlptQuestionRepository.delete(jlptQuestion);
+			}
+			
+			for(JLPTResult jlResult : jlpt.getJlptResult()) {
+				jlptRsRepository.delete(jlResult);
+			}
+			jlptRepository.delete(jlpt);
+		}
+		return "redirect:/admin/exam/" + courseName;
 	}
 
 	@RequestMapping(value = { "/admin/exam/{courseName}/update/{examName}", "/admin/exam/{courseName}/update" })

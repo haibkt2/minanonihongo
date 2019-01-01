@@ -39,6 +39,7 @@
 					<br>
 				</c:forEach>
 			</div>
+			<div class="introduce" id="introduce">${courseIlm.getIntroduce() }</div>
 		</c:if>
 
 		<div class="img-group-wrap clearfix group-7">

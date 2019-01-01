@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import minanonihongo.model.Course;
+import minanonihongo.model.CourseGlobal;
 import minanonihongo.model.CourseIlm;
 import minanonihongo.model.CourseIlmType;
 import minanonihongo.model.Document;
@@ -71,10 +72,13 @@ public class CourseIlmService {
 		else {
 			Course crs = courseIlm.getCourse();
 			List<Document> docList = new ArrayList<>();
-			if ("000".equals(id.substring(id.length() - 3, id.length()))) {
-				for (Document doc : courseIlm.getCourse().getDocuments()) {
-					docList.add(new Document(doc.getLocaFileDoc(), doc.getDescrip()));
-				}
+			if (1 == courseIlm.getCourseIlmType().getCourseIlmTypeId()) {
+				if (courseIlm.getCourse().getDocuments().size() > 0) {
+					for (Document doc : courseIlm.getCourse().getDocuments()) {
+						docList.add(new Document(doc.getLocaFileDoc(), doc.getDescrip()));
+					}
+				} else
+					docList.add(new Document("", "Chưa cập nhật"));
 			}
 			crs.setDocuments(docList);
 			courseIlm.setCourse(crs);
@@ -114,7 +118,7 @@ public class CourseIlmService {
 								examQuestion.getExamQuestionId().substring(
 										examQuestion.getExamQuestionId().length() - 2,
 										examQuestion.getExamQuestionId().length()),
-								"3", examQuestion.getQuestion(), 1, examQuestion.getEx()));
+								"3", examQuestion.getQuestion(), 1, examQuestion.getEx(), "3", ""));
 						JSONArray ans = new JSONArray();
 						if (examQuestion.getExamAnswer() != null) {
 							for (ExamAnswer examAnswer : examQuestion.getExamAnswer()) {
@@ -157,14 +161,19 @@ public class CourseIlmService {
 			}
 			examRepository.delete(ex);
 		}
-		if (courseIlm.getCourseGlobal() != null) {
-			courseGlobalRepository.delete(courseIlm.getCourseGlobal());
-		}
 		List<VocaCourseIlm> vocaCourseIlms = courseIlm.getVocaCourseIlms();
 		if (vocaCourseIlms != null && vocaCourseIlms.size() > 0) {
 			vocaCourseIlmRepository.deleteVocaCourseIlmId(courseIlm.getCourseIlmId());
 		}
-		courseIlmRepository.delete(courseIlm);
+		if (courseIlm.getCourseGlobal() != null) {
+			try {
+				courseGlobalRepository.delete(courseIlm.getCourseGlobal());
+			} catch (Exception e) {
+				courseIlmRepository.delete(courseIlm);
+			}
+		} else {
+			courseIlmRepository.delete(courseIlm);
+		}
 		return true;
 	}
 
@@ -181,9 +190,8 @@ public class CourseIlmService {
 				}
 			}
 			courseIlmId = cilmId.substring(0, cilmId.length() - 3).concat("" + countUsId);
-		}
-		else {
-			courseIlmId = courseIlm.getCourse().getCourseId().substring(8, 10)+"COURSE001";
+		} else {
+			courseIlmId = courseIlm.getCourse().getCourseId().substring(8, 10) + "COURSE001";
 		}
 		return courseIlmId;
 	}

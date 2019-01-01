@@ -138,6 +138,7 @@ var user = new Vue({
                 var n = t.tasks[s].id;
                 if (3 == parseInt(t.tasks[s].type)) {
                     var r = object[n];
+//                    alert(r);
                     if (void 0 != r && void 0 != r.value && "" != r.value) {
                         answerValue = r.value;
                         for (var a = 0; a < t.answers[n].length; a++) t.answers[n][a].checked = !1, t.answers[n][a].id == answerValue && (t.answers[n][a].checked = !0)
@@ -185,7 +186,7 @@ var user = new Vue({
             var r = {
                     rejectUnauthorized: !1
                 },
-                a = io.connect("http://45.63.127.141:5000", {
+                a = io.connect("", {
                     transports: ["websocket"]
                 }, r);
             a.on("connect_error", function(e) {

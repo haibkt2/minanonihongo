@@ -31,8 +31,8 @@
 				<a
 					href="${contextPath}/vui-tieng-nhat/${fun.getCourseBgId().substring(4)}-${sv.toUrlFriendly(fun.getCourseFunTitle())}">
 					<img class="lazyload"
-					src="${contextPath}/reponsitory/course-fun/${fun.courseFunImg}"
-					data-src="${contextPath}/reponsitory/course-fun/${fun.courseFunImg}">
+					src="${contextPath}/reponsitory/Fun/${sv.toUrlFriendly(fun.getCourseFunType().getCourseFunTypeName())}/${fun.courseFunImg}"
+					data-src="${contextPath}/reponsitory/Fun/${sv.toUrlFriendly(fun.getCourseFunType().getCourseFunTypeName())}/${fun.courseFunImg}">
 				</a><a href="${contextPath}/vui-tieng-nhat/${fun.getCourseBgId().substring(4)}-${sv.toUrlFriendly(fun.courseFunTitle)}"
 								title="${fun.courseFunTitle}">
 								<div class="title">${fun.courseFunTitle}</div>

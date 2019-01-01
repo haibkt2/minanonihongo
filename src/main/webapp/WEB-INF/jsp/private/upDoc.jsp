@@ -60,7 +60,7 @@
 									<button type="button" class="btn btn-default pull-left"
 										data-dismiss="modal">Hủy</button>
 									<button type="button" class="btn btn-primary bt-dele-doc"
-										onclick="deleteCourse(this)" id="${doc.docId}"
+										 id="${doc.docId}"
 										course="${doc.course.courseId}" data-dismiss="modal">Xóa</button>
 								</div>
 							</div>

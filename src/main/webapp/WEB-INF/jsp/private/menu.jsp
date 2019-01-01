@@ -40,10 +40,12 @@
 							href="${contextPath}/admin/exam"><i
 								class="fa fa-fw fa-check-square-o"></i>
 								Đề thi Ôn tập</a></li>
-								<li><a
-							href="${contextPath}/admin/courses"><i
-								class="fa fa-fw fa-check-square-o"></i>
-								Đề thi JLPT</a></li>
+<!-- 								<li> -->
+<%-- 								<a href="${contextPath}/admin/courses"><i --%>
+<!-- 								class="fa fa-fw fa-check-square-o"></i> -->
+<!-- 								Đề thi JLPT</a> -->
+								
+<!-- 								</li> -->
 					</ul>
 				<li><a> <i class="fa fa-fw fa-sun-o"></i> <span>Vui
 							Tiếng Nhật</span> <span class="pull-right-container"> </span>
@@ -68,14 +70,14 @@
 							</c:forEach>
 						</c:if>
 					</ul></li>
-				<li><a href="${contextPath}/admin/notification"> <i
-						class="fa fa-fw fa-bullhorn"></i> <span>Thông Báo</span> <span
-						class="pull-right-container"> </span>
-				</a></li>
-				<li><a href="${contextPath}/admin/mn-user"> <i
-						class="fa fa-fw fa-users"></i> <span>Quản Lý Người Dùng</span> <span
-						class="pull-right-container"> </span>
-				</a></li>
+<%-- 				<li><a href="${contextPath}/admin/notification"> <i --%>
+<!-- 						class="fa fa-fw fa-bullhorn"></i> <span>Thông Báo</span> <span -->
+<!-- 						class="pull-right-container"> </span> -->
+<!-- 				</a></li> -->
+<%-- 				<li><a href="${contextPath}/admin/mn-user"> <i --%>
+<!-- 						class="fa fa-fw fa-users"></i> <span>Quản Lý Người Dùng</span> <span -->
+<!-- 						class="pull-right-container"> </span> -->
+<!-- 				</a></li> -->
 				<li><a href="${contextPath}/"> <i
 						class="fa fa-fw fa-mail-forward"></i> <span>Minanonihongo</span> <span
 						class="pull-right-container"> </span>

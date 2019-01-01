@@ -8086,6 +8086,14 @@ margin-left: 5px;
 	overflow: hidden;
 	float: left;
 }
+.right-link-ac {
+	display: block;
+	vertical-align: middle;
+	color: black;
+	overflow: hidden;
+	float: left;
+	margin: 15px
+}
 
 .right-link span {
 	color: #fff;
@@ -8101,6 +8109,12 @@ margin-left: 5px;
 	width: 800px;
 	height: 45px;
 }
+.right-link-content-ac {
+	display: table-cell;
+	vertical-align: middle;
+	width: 70px;
+	height: 30px;
+}
 
 .right-link.short {
 	width: 50%;
@@ -8112,7 +8126,7 @@ margin-left: 5px;
 }
 
 .right-link.long {
-	width: 100%;
+	width: 90%;
 }
 
 .right-link.long .fa, .right-link.long .right-txt {

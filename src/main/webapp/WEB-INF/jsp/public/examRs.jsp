@@ -153,6 +153,7 @@
 												<tr>
 													<td colspan="2" class="test-detail-result">
 														<div v-for="(task, index) in tasks" class="question-box">
+														<p><span style="color: #0000ff;"><strong><span style="font-size: 16px;" v-if="task.idQT == 2" v-html="task.valQT"></span></strong></span></p>
 															<div v-if="task.type == 3" class="answer-box">
 																<p style="margin: 10px 0; font-size: 16px;"
 																	v-html="task.value" v-if="task.type == 3"></p>

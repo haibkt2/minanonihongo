@@ -36,8 +36,8 @@ function addAnswer(){
 	var ac = '<a class="del-voca" onclick="delAns(this)" href="javascript:void(0);">&nbsp;<i class="fa fa-trash-o">&nbsp;</i></a><a onclick="fixAns(this)" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-pencil"></i></a>';
 	var gr;
 	if(c){
-		gr = '<input type="radio" name="qtid'+ltb+'" disabled checked>&nbsp;&nbsp;&nbsp;';
-	} else gr = '<input type="radio" name="qtid'+ltb+'" disabled>&nbsp;&nbsp;&nbsp;';
+		gr = '<input type="radio" name="qtid'+ltb+'" disabled checked style="margin-right: 10px">';
+	} else gr = '<input type="radio" name="qtid'+ltb+'" disabled style="margin-right: 10px">';
 	var lg = $(".list-ans-add tr").length;
 	var table = document.getElementById("data-ans").getElementsByTagName('tbody')[0];
 	var row;
@@ -108,7 +108,7 @@ function addExam() {
 			$('.add-exam-an-dt table').attr('id','data-ans');
 			$('.add-exam-an-dt table tbody').removeAttr("class");
 			$('.add-exam-an-dt table tbody').attr('class','list-ans-add');	
-			$('#data-ans thead tr td label').attr('class','nd-qt');	
+			$('#data-ans thead tr td p').attr('class','nd-qt');	
 			$('#data-ans tfoot tr td:first-child').attr('class','nd-explain');
 			cl = $("#data-ans").attr("class").replace("qtid"+ltb, "");
 			$("#data-ans").attr("class", cl);
@@ -196,7 +196,7 @@ function addJLPT() {
 			tt = $('.'+qty).length;
 			if(!tt) {
 				mn = $(".select-qtp option:selected").text(),
-				tb = '<div class="'+qty+'"><label>'+mn+'</label></div>',
+				tb = '<div class="'+qty+'"><label>もんだい  : '+mn+'</label></div>',
 				$(tb).insertBefore('.ahihihi');
 			}
 			$('.'+qty).append(n);
@@ -205,7 +205,7 @@ function addJLPT() {
 			$('.add-exam-an-dt table').attr('id','data-ans');
 			$('.add-exam-an-dt table tbody').removeAttr("class");
 			$('.add-exam-an-dt table tbody').attr('class','list-ans-add');	
-			$('#data-ans thead tr td label').attr('class','nd-qt');	
+			$('#data-ans thead tr td p').attr('class','nd-qt');	
 			$('#data-ans tfoot tr td:first-child').attr('class','nd-explain');
 			cl = $("#data-ans").attr("class").replace("qtid"+ltb, "");
 			$("#data-ans").attr("class", cl);
@@ -245,7 +245,7 @@ function addJLPT() {
 function addQTy() {
 	nd = $('.ct-q-ty-add').val(),
 	lg = $(".detail-exam-ct div").length, op = '<option value="add-'+lg+'" selected="selected" id="add-'+lg+'">'+nd+'</option>',
-	tb = '<div class="add-'+lg+'"><label>'+nd+'</label></div>'
+	tb = '<div class="add-'+lg+'"><label>もんだい  : '+nd+'</label></div>'
 	$(tb).insertBefore('.ahihihi');
 	$('#select-qtp').append(op);
 	$('.ct-q-ty-add').val('');
@@ -557,7 +557,11 @@ function addCourse() { // btn
 }
 }
 function addVoca() {
-	var af = addAudio();
+	var af = addAudio(),
+	hirakana = document.getElementById("hirakana").value;
+	if(hirakana.trim()==''){
+		alert("Không được để trống!");
+	}else {
 	if('error'==af){
 		alert("Định dạng lỗi");
 	} else {
@@ -566,7 +570,7 @@ function addVoca() {
 	audio = $('#edit-voca-audio').attr("value"),
 	ac = '<a onclick = "deleteRow(this)" class="del-voca" href="javascript:void(0);">&nbsp;<i class="fa fa-trash-o">&nbsp;</i></a>&nbsp;&nbsp;<a onclick = "fixRow(this)" href="javascript:void(0);">&nbsp;<i class="fa fa-pencil"></i></a></td></tr>',
 	table = document.getElementById("data-voca"),
-	 hirakana = document.getElementById("hirakana").value,
+	 
 	 kanji = document.getElementById("kanji").value,
 	 translate = document.getElementById("translate").value,
 	 an = $("#audio-name").val(),
@@ -628,6 +632,7 @@ function addVoca() {
 	$('#edit-voca').attr('doing','add');
 //	$('#audio-upload')[0].reset();
 }}
+}
 //
 //$(document).ready(function() {
 //	$("#submit-vc").click(function(event) {
@@ -773,7 +778,60 @@ $(".bt-dele-doc").click(function(e) {
 			$("#result").html(data);
 		},
 		error : function(e) {
-			alert("Sorry! ");
+//			alert("Sorry! ");
+		}
+	});
+});
+$(".bt-dele-post").click(function(e) {
+	e.preventDefault();
+	var id = $(this).attr("id");
+	var url = "/admin/dele-post/"+id;
+	$.ajax({
+		url : url,
+		type : "POST",
+		data: id,
+		dataType : "text",
+		success : function(data) {
+			$("#result").html(data);
+		},
+		error : function(e) {
+//			alert("Sorry! ");
+		}
+	});
+});
+
+$(".bt-dele-fun").click(function(e) {
+	e.preventDefault();
+	var id = $(this).attr("id");
+	var url = "/admin/dele-fun/"+id;
+	$.ajax({
+		url : url,
+		type : "POST",
+		data: id,
+		dataType : "text",
+		success : function(data) {
+			$("#result").html(data);
+		},
+		error : function(e) {
+//			alert("Sorry! ");
+		}
+	});
+});
+
+$(".bt-dele-mondai").click(function(e) {
+	e.preventDefault();
+	var id = $(this).attr("id");
+	var url = "/admin/dele-mondai/"+id;
+	$.ajax({
+		url : url,
+		type : "POST",
+		data: id,
+		dataType : "text",
+		success : function(data) {
+			$("#result").html(data);
+		},
+		error : function(e) {
+//			alert("Sorry! ");
 		}
 	});
 });
@@ -791,7 +849,7 @@ $(".bt-dele-course").click(function(e) {
 			$("."+id).css("display","none");
 		},
 		error : function(e) {
-			alert("Sorry! ");
+//			alert("Sorry! ");
 		}
 	});
 });
@@ -833,6 +891,8 @@ function upMondai(fx) {
 	var row = fx.parentNode.parentNode;
 	var index = row.id;
 	var nd = $(".form-control."+index).val();
+	if(nd.trim()=='') {alert("Không được để trống");}
+	else {
 	var idv = $(".mt."+index).attr("id");
 	var url = "/admin/mondai-descrip/"+idv+"/"+nd;
 	$.ajax({
@@ -847,6 +907,7 @@ function upMondai(fx) {
 			console.log("FAIL : ", "ERROR");
 		}
 	});
+}
 }
 function showMnGr(a) {
 	var dp = $('.mana-gr').css("display");

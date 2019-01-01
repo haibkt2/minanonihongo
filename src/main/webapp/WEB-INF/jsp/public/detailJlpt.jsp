@@ -33,10 +33,10 @@
 				}(document, 'script', 'facebook-jssdk'));
 			</script>
 			<div class="cover-container" id="cover-container"
-				style="margin-left: 50px;">
-				<div class="lesson-content-detail" id="lesson-content-detail"
-					style="display: none">
-					<div class="detail-ques lesson-content-detail">
+				style="margin-left: 50px; ">
+				<div class="lesson-content-detail detail-bod" id="lesson-content-detail"
+					style="display: none;">
+					<div class="detail-ques" >
 						<%
 							int stt = 0;
 						%>
@@ -47,7 +47,7 @@
 							<c:forEach items="${jt.getJlptQuestions()}" var="question"
 								varStatus="st">
 								<c:if test="${question.getJlpt().getJlptId() eq jlptId}">
-								<div style="margin-top: 25px; display: inline-block;"
+								<div style="margin-top: 25px;color:#103b5c; font-weight : normal;" 
 									v-html="tasks[<%=stt++%>].value"></div>
 								<div
 									style="width: 100%; flex-wrap: wrap; display: flex; -webkit-box-pack: justify;">
@@ -183,6 +183,7 @@
 												<td colspan="2" class="content-test-detail">
 													<div v-for="(task, index) in tasks">
 														<div v-if="task.type == 3">
+														<p><span style="color: #0000ff;"><strong><span style="font-size: 16px;" v-if="task.idQT == 2" v-html="task.valQT"></span></strong></span></p>
 															<p style="margin: 10px 0; font-size: 16px;"
 																v-html="task.value" v-if="task.type == 3"></p>
 															<div class="col-sm-6 answer-area"
@@ -199,15 +200,14 @@
 																	</div>
 																</div>
 															</div>
-															<div class="view-detail-ex">
+															<p class="view-detail-ex">
 																	<a v-on:click="showDtEx([task.tex])" href="javascript:void(0);" v-bind:id="[task.tex]">&nbsp;<i
 																		class="fa fa-fw fa-plus-square-o"></i></a>
-																</div>
+																</p>
 																<div v-bind:class="[task.tex]" style="display: none;">
 																	<p style="margin: 10px 0; font-size: 16px;"
 																		v-html="task.ex" v-if="task.type == 3"></p>
 																</div>
-
 															<div v-if="task.type == 3" class="col-md-11"
 																style="display: inline-block; width: 100%; height: 10px;"></div>
 															<hr v-if="task.type == 3"

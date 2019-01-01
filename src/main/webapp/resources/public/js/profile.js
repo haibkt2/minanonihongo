@@ -172,7 +172,13 @@ var user = new Vue({
                     !1
                 },
                 success: function(a) {
-                	alert(a);
+                	if(a=='ermail') {
+                		return $(".error-list").css("color", "red"),
+                        r.errors = [],
+                        r.errors.push("Mail này đã đăng ký!"),
+                        r.allowPress = !0,
+                        !1
+                	}else {
                         switch ($(".error-list").css("color", "#588d3f"),
                         r.errors = [],
                         r.errors.push("Bạn đã đổi thông tin thành công"),
@@ -210,7 +216,7 @@ var user = new Vue({
                             }
                             r.allowPress = !0
                         }, 2e3)
-                    
+                	}
                 }
             })
         },

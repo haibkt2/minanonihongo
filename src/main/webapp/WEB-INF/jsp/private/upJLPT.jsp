@@ -60,7 +60,7 @@
 												<c:forEach items="${jt}" var="jt" varStatus="iqt">
 												<c:if test="${not empty jt.jlptQuestions}">
 													<div class="${jt.jlptQTypeId}">
-														<label>${jt.jlptQTypeName}</label>
+														<label>もんだい  : ${jt.jlptQTypeName}</label>
 														<c:forEach items="${jt.jlptQuestions}" var="qt">
 															<table id="data-exam" change-data="n" dt-db="ys"
 																class="scrollTable table table-bordered table-hover dataTable no-footer ${qt.jlptQuestionId}"
@@ -83,7 +83,7 @@
 																			<td><input type="radio"
 																				name="${qt.jlptQuestionId}"
 																				<c:if test="${as.answerRghtWrng eq 1}">checked</c:if>
-																				disabled>&nbsp;&nbsp;&nbsp;${as.answer}</td>
+																				disabled style="margin-right: 10px">${as.answer}</td>
 																			<td><a class="del-voca" onclick="delAns(this)"
 																				href="javascript:void(0);">&nbsp;<i
 																					class="fa fa-trash-o">&nbsp;</i></a><a
@@ -131,7 +131,7 @@
 														role="grid" aria-describedby="example2_info">
 														<thead>
 															<tr style="background-color: #cbe1f2;">
-																<td><label class="nd-qt"></label></td>
+																<td><p class="nd-qt"></p></td>
 																<td class="act-exam" width="80px"><a
 																	href="javascript:void(0);">&nbsp;<i
 																		class="fa fa-trash-o">&nbsp;</i></a><a

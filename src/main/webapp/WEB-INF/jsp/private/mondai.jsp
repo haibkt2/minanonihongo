@@ -37,6 +37,7 @@
 											<thead>
 												<tr>
 													<th style="text-align: center;"></th>
+													<th style="text-align: center;width: 30px"></th>
 												</tr>
 											</thead>
 											<tbody>
@@ -60,8 +61,40 @@
 																		href="javascript:void(0);" onclick="delMtDoc(this)"><i
 																		class="fa fa-fw fa-times"></i></a>
 																</div></td>
+																<td style="min-height: 30px;"><a class="del-voca"
+																data-toggle="modal"
+																data-target="#modal-dele-mondai-${d.index}"
+																href="javascript:void(0);">&nbsp;<i
+																	class="fa fa-trash-o">&nbsp;</i></a></td>
 														</tr>
-
+														<div class="modal fade in" id="modal-dele-mondai-${d.index}"
+															style="padding-right: 17px;">
+															<div class="modal-dialog">
+																<div class="modal-content">
+																	<div class="modal-header">
+																		<button type="button" class="close"
+																			data-dismiss="modal" aria-label="Close">
+																			<span aria-hidden="true">×</span>
+																		</button>
+																		<h4 class="modal-title"
+																			style="text-align: center; color: red">Bạn có
+																			chắc muốn xóa :</h4>
+																	</div>
+																	<div class="modal-body">
+																		<p>もんだい : ${qt.jlptQTypeName}</p>
+																	</div>
+																	<div class="modal-footer">
+																		<button type="button"
+																			class="btn btn-default pull-left"
+																			data-dismiss="modal">Hủy</button>
+																		<button type="button"
+																			class="btn btn-primary bt-dele-mondai"
+																			 id="${qt.jlptQTypeId}"
+																			 data-dismiss="modal">Xóa</button>
+																	</div>
+																</div>
+															</div>
+														</div>
 													</c:forEach>
 												</c:if>
 											</tbody>

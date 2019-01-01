@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
+import minanonihongo.model.JLPT;
 import minanonihongo.model.JLPTResult;
 import minanonihongo.model.User;
 
@@ -16,4 +17,6 @@ public interface JLPTRsRepository extends CrudRepository<JLPTResult, Integer> {
 
 	List<JLPTResult> findByUser(User user);
 	JLPTResult findByJlptRsId(String jlprRs);
+	
+	List<JLPTResult> findByJlpt(JLPT jlpt);
 }
