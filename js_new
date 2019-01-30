@@ -1,0 +1,856 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta charset="UTF-8">
+<title>
+  <c:if test="${messagetimesheet == 'false'}">
+    <spring:message code="lbl.timesheet.title" />
+  </c:if>
+  <c:if test="${messagetimesheet != 'false'}">
+    <spring:message code="lbl.mytimesheet.title" />
+  </c:if>
+</title>
+<link href="${contextPath}/resources/css/multifreezer.css"
+    rel="stylesheet">
+<link href="${contextPath}/resources/css/MonthPicker.min.css"
+    rel="stylesheet">
+<link href="${contextPath}/resources/css/MonthPicker.css"
+    rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    rel="stylesheet">
+<link
+    href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"
+    rel="stylesheet" />
+<link rel="stylesheet"
+    href="${contextPath}/resources/css/timepicker.css">
+<style>
+	#chooice-month {
+		margin-top: 0px !important;
+		height: 50px;
+	}
+	.error-modal-req-off {
+		width: 100%;
+	    padding: 0px 10px;
+	    padding-top: 2px;
+	    color: red;
+	}
+	#chooice-month-content {
+		width: 921px !important;
+	}
+	
+	#chooice-month-content-show {
+		width: 100% !important;;
+	}
+	
+	#month-picker {
+		width: 120px !important;
+		position: absolute;
+    	transform: translateX(-50%);
+    	left: 50%;
+	}
+	
+	.table-checkin_summonth {
+		width: calc(921px - 22px) !important;
+		margin-left: 0;
+		margin: 0 auto;
+	}
+	
+	#reqOffModal {
+		z-index: 9000;
+	}
+	#reqOffModal form{
+		min-width: 600px;
+    	min-height: max-content;
+	}
+	#reqOffModal .table-request-off button.btn {
+		border-radius: 50%;
+	    padding: 8px;
+	    width: 30px;
+	    height: 30px;
+	    font-size: 11px;
+	    vertical-align: middle;
+	    text-align: center;
+	}
+	.row.off-row {
+		margin: 8px 0px;    
+		margin-left: 16px;
+	}
+	.row.off-row .form-control {
+	    margin: 0px 8px;
+	    max-width: 150px;
+	}
+	.table-request-off {
+		margin: 48px;
+		margin-bottom: 16px;
+	}
+	.table-request-off th{
+		min-width: 86px;
+	}
+	.table-request-off td{
+		padding: 3px 0px;
+	}
+	.table-request-off td b.req-type {
+		width: 100%;
+    	padding-bottom: 8px;
+	}
+	#reqOffModal .modal-content {
+		height: 400px;
+		padding-top: 32px;
+		padding-bottom: 32px;
+	}
+</style>
+<script src="${contextPath}/resources/js/jquery-1.12.1.min.js"></script>
+<script src="${contextPath}/resources/js/jquery-1.10.2.js"></script>
+<script src="${contextPath}/resources/js/materialize.min.js"></script>
+<script src="${contextPath}/resources/js/bootstrap.min.js"></script>
+<script src="${contextPath}/resources/js/jquery-ui.js"></script>
+<script src="${contextPath}/resources/js/jquery-ui.min.js"></script>
+<script src="${contextPath}/resources/js/timepicker.js"></script>
+<script src="${contextPath}/resources/js/MonthPicker.js"></script>
+<script src="${contextPath}/resources/js/jquery.alertable.min.js"></script>
+
+<script>
+  $(document).ready(function() {
+     $('#month-picker').MonthPicker(
+         {
+             Button : false,
+             MonthFormat : 'yy/mm',
+             OnAfterChooseMonth : function() {
+                 var queryParameters = {}, queryString = location.search
+                         .substring(1), re = /([^&=]+)=([^&]*)/g, m;
+                 while (m = re.exec(queryString)) {
+                     queryParameters[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+                 }
+                 queryParameters['m'] = $(this)
+                         .val();
+                 location.search = $
+                         .param(queryParameters);
+             }
+         });
+  });
+</script>
+
+</head>
+<jsp:include page="header.jsp"></jsp:include>
+<body onload="startTime();">
+  <br />
+  <br />
+  <div class="pagetitle" style="text-transform: uppercase;">
+      <c:if test="${buttontRq == 'false' && useridsame != 'same'}">
+        [${timesheetUsers.getUser().getName()}] <spring:message code="lbl.timesheet.title" />
+      </c:if>
+      
+      <c:if test="${buttontRq == 'false' && useridsame == 'same'}">
+        <spring:message code="lbl.mytimesheet.title" />
+      </c:if>
+      
+      <c:if test="${messagetimesheet != 'false'}">
+        <spring:message code="lbl.mytimesheet.title" />
+      </c:if>
+  </div>
+  <!-------Chooice-month-------->
+  <div id="chooice-month">
+     <div id="chooice-month-content">
+        <div id="chooice-month-content-show">
+           <form action="${contextPath}/reportDaily/${buttontRq=='false'? timesheetUsers.getUser().getUserId():Id}" method="GET">
+              <div class="form-group">
+              	<button type="button" style="height: 27px; float: left;"
+		          class="btn btn-danger btn-sm"
+		          data-toggle="modal" data-target="#reqOffModal">
+          		  <spring:message code="btn.requestoff" /></button>
+                <c:if test="${buttontRq=='true'}">
+                  <input type="text" id="month-picker" name="m"
+                      value="<%=request.getParameter("m")%>" class="form-control"
+                      style="width: 18%; display: inline-block; text-align: center; margin-left: 70px; cursor: pointer" readonly="readonly"/>
+                </c:if>
+                <c:if test="${buttontRq=='false'}">
+                  <input type="text" name="m"
+                      value="<%=request.getParameter("m")%>" class="form-control"
+                      style="width: 18%; display: inline-block; text-align: center; margin-left: 70px; cursor: pointer" readonly="readonly" onclick="disable"/>
+                </c:if>
+                  <input type="image" src="${contextPath}/resources/img/excel.png"
+                      alt="excel" id="header-flag"
+                      style="height: 5%; margin-left: 55%;" />
+              </div>
+           </form>
+        </div>
+     </div>
+  </div>
+    <br />
+    <c:if test="${message == 'nodata'}">
+      <div style="margin-left: 50px; color: red;"><spring:message code="msg.nodataexport" /></div>
+    </c:if>
+       <table class="table-checkin_summonth">
+          <thead>
+            <tr>
+                <th rowspan="2" width="180"><spring:message code="tbl.hourworked" /></th>
+                <th colspan="2" width="150"><spring:message code="tbl.ot" /></th>
+                <th colspan="2"><spring:message code="tbl.on" /></th>
+                <th rowspan="2" width="180"><spring:message code="tbl.latehours" /></th>
+                <th rowspan="2" width="170"><spring:message code="tbl.dayworked" /></th>
+                <th rowspan="2" width="170"><spring:message code="tbl.holidays" /></th>
+                <th rowspan="2" width="220"><spring:message code="tbl.specworkdays" /></th>
+            </tr>
+            <tr>
+                <th width="120"><spring:message code="tbl.basic" /></th>
+                <th width="140"><spring:message code="tbl.weekend" /></th>
+                <th width="120"><spring:message code="tbl.basic" /></th>
+                <th width="140"><spring:message code="tbl.weekend" /></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+                <td>${timesheetUsers.getSumTimeWorked()}</td>
+                <td>${timesheetUsers.getSumOverTime()}</td>
+                <td>${timesheetUsers.getSumWeekendOverTime()}</td>
+                <td>${timesheetUsers.getSumOverNight()}</td>
+                <td>${timesheetUsers.getSumWeekendOverNight()}</td>
+                <td>${timesheetUsers.getSumTimeLate()}</td>
+                <td>${timesheetUsers.getSumDayWorked()}</td>
+                <td>${countHoli}</td>
+                <td><c:if test="${timesheetUsers.getDateSpecifilyWorkedays()>=0}">
+                               ${timesheetUsers.getDateSpecifilyWorkedays()}
+                    </c:if>
+                </td>
+            </tr>
+          </tbody>
+       </table>
+
+        <br /> <br />
+        <div id="table-checkinout">
+           <table
+               class="table table-condensed table-checkin-freeze-multi table-bordered table-hover"
+               id="tabla" data-scroll-height="445">
+              <colgroup class="widthColMonth">
+                  <col width="110px;">
+                  <col width="75px;">
+                  <col width="75px;">
+                  <col width="60px;">
+                  <col width="80px;">
+                  <col width="70px;">
+                  <col width="75px;">
+                  <col width="70px;">
+                  <col width="60px;">
+                  <col width="100px;">
+                  <col width="70px;">
+                  <col width="70px;">
+                  <col>
+              </colgroup>
+              <thead>
+                  <tr>
+                      <th rowspan="2"><spring:message code="tbl.date" /></th>
+                      <th colspan="2"><spring:message code="tbl.workingtime" /></th>
+                      <th rowspan="2"><spring:message code="tbl.late" /></th>
+                      <th colspan="2"><spring:message code="tbl.ot" /></th>
+                      <th colspan="2"><spring:message code="tbl.on" /></th>
+                      <th rowspan="2"><spring:message code="tbl.sumworkingtime" /></th>
+                      <th rowspan="2"><spring:message code="tbl.holiday" /></th>
+                      <th rowspan="2" colspan="2"><spring:message code="tbl.action" /></th>
+                  </tr>
+                  <tr>
+                      <th><spring:message code="tbl.in" /></th>
+                      <th><spring:message code="tbl.out" /></th>
+                      <th><spring:message code="tbl.basic" /></th>
+                      <th><spring:message code="tbl.weekend" /></th>
+                      <th><spring:message code="tbl.basic" /></th>
+                      <th><spring:message code="tbl.weekend" /></th>
+                  </tr>
+              </thead>
+              <tbody id="myTable">
+                  <c:forEach var="timeSheet" items="${timesheetUsers.getTimesheets()}"
+                      varStatus="timeSheetIndex">
+                      <tr>
+                          <c:if
+                              test="${lstDayOfWeekDiff.get(timeSheetIndex.index) != 'Sat' && lstDayOfWeekDiff.get(timeSheetIndex.index) != 'Sun'}">
+                              <td style="white-space: nowrap;">
+                                  <div style="float: left; padding-left: 15%; padding-right: 3%;"><c:if test="${timeSheetIndex.count < 10}">0${timeSheetIndex.count}</c:if><c:if test="${timeSheetIndex.count >= 10}">${timeSheetIndex.count}</c:if></div>
+                                  <div style="float: left; padding-left: 3%; padding-right: 15%;">(${listDayOfWeek.get(timeSheetIndex.index)})</div>
+                              </td>
+                              <c:set var = "hasRequestedIn" value = "${timeSheet.getRequestCheckInNew(Locale)}"/>
+                              <td>${hasRequestedIn}</td>
+                              <c:set var = "hasRequestedOut" value = "${timeSheet.getRequestCheckOutNew(Locale)}"/>
+                              <td>${hasRequestedOut}</td>
+                              <td>${timeSheet.getTimeLate()}</td>
+                              <td>${timeSheet.getTimeOt()}</td>
+                              <td>${timeSheet.getTimeWeOt()}</td>
+                              <td>${timeSheet.getTimeOn()}</td>
+                              <td>${timeSheet.getTimeWeOn()}</td>
+                              <td>${timeSheet.getTimeSum()}</td>
+                              <td>${timeSheet.holId.getName()}</td>
+                              <td style="white-space: nowrap;" colspan="2">
+                                  <button type="button" style="height: 27px; width: 65px;"
+                                      class="btn btn-primary btn-sm"
+                                      onclick="document.getElementById('request').style.display='block';changeIncidentValue(this);"
+                                      ${buttontRq=='false' || fn:containsIgnoreCase(hasRequestedIn, 'RE') || fn:containsIgnoreCase(hasRequestedOut, 'RE') || fn:containsIgnoreCase(hasRequestedIn, '中') || fn:containsIgnoreCase(hasRequestedOut, '中') ? 'disabled="disabled"': ''}><spring:message code="btn.request" /></button>
+                                  <a
+                                  href="${pageContext.request.contextPath}/offDay?mm=<%=request.getParameter("m")%>/${timeSheetIndex.count}" class="${buttontRq=='false'?'disabled' :timeSheet.timesheetId > 0 ?'disabled': ''} "><button
+                                          type="button" class="btn btn-danger btn-sm"
+                                          style="height: 27px; width: 55px;"
+                                          ${buttontRq=='false'?'disabled="disabled"' : timeSheet.timesheetId > 0 ?'disabled="disabled"': ''}><spring:message code="btn.off" /></button></a>
+                              </td>
+                          </c:if>
+                          <c:if
+                              test="${lstDayOfWeekDiff.get(timeSheetIndex.index) == 'Sat' && timeSheet.timesheetId == null}">
+                              <td style="white-space: nowrap; background-color: #CCF5FF;">
+                                  <div style="float: left; padding-left: 15%; padding-right: 3%;"><c:if test="${timeSheetIndex.count < 10}">0${timeSheetIndex.count}</c:if><c:if test="${timeSheetIndex.count >= 10}">${timeSheetIndex.count}</c:if></div>
+                                  <div style="float: left; padding-left: 3%; padding-right: 15%;">(${listDayOfWeek.get(timeSheetIndex.index)})</div>
+                              </td>
+                              <td style="background-color: #CCF5FF;"></td>
+                              <td style="background-color: #CCF5FF;"></td>
+                              <td style="background-color: #CCF5FF;"></td>
+                              <td style="background-color: #CCF5FF;"></td>
+                              <td style="background-color: #CCF5FF;"></td>
+                              <td style="background-color: #CCF5FF;"></td>
+                              <td style="background-color: #CCF5FF;"></td>
+                              <td style="background-color: #CCF5FF;"></td>
+                              <td style="background-color: #CCF5FF;"></td>
+                              <td style="white-space: nowrap;"
+                                  colspan="2">
+                                  <button type="button" style="height: 27px; width: 65px;"
+                                      class="btn btn-primary btn-sm"
+                                      onclick="document.getElementById('request').style.display='block';changeIncidentValue(this);"
+                                      ${buttontRq=='false'?'disabled="disabled"': ''}><spring:message code="btn.request" /></button>
+                                  <a
+                                  href="${pageContext.request.contextPath}/offDay?mm=<%=request.getParameter("m")%>/${timeSheetIndex.count}" class="disabled"><button
+                                          type="button" class="btn btn-danger btn-sm"
+                                          style="height: 27px; width: 55px;" disabled="disabled" ><spring:message code="btn.off" /></button></a>
+                              </td>
+                          </c:if>
+
+                          <c:if
+                              test="${lstDayOfWeekDiff.get(timeSheetIndex.index) == 'Sat' && timeSheet.timesheetId > 0}">
+                              <td style="white-space: nowrap; background-color: #CCF5FF;">
+                                  <div style="float: left; padding-left: 15%; padding-right: 3%;"><c:if test="${timeSheetIndex.count < 10}">0${timeSheetIndex.count}</c:if><c:if test="${timeSheetIndex.count >= 10}">${timeSheetIndex.count}</c:if></div>
+                                  <div style="float: left; padding-left: 3%; padding-right: 15%;">(${listDayOfWeek.get(timeSheetIndex.index)})</div>
+                              </td>
+                              <c:set var = "hasRequestedIn" value = "${timeSheet.getRequestCheckInNew(Locale)}"/>
+                              <td style="background-color: #CCF5FF;">${hasRequestedIn}</td>
+                              <c:set var = "hasRequestedOut" value = "${timeSheet.getRequestCheckOutNew(Locale)}"/>
+                              <td style="background-color: #CCF5FF;">${hasRequestedOut}</td>
+                              <td style="background-color: #CCF5FF;">${timeSheet.getTimeLate()}</td>
+                              <td style="background-color: #CCF5FF;">${timeSheet.getTimeOt()}</td>
+                              <td style="background-color: #CCF5FF;">${timeSheet.getTimeWeOt()}</td>
+                              <td style="background-color: #CCF5FF;">${timeSheet.getTimeOn()}</td>
+                              <td style="background-color: #CCF5FF;">${timeSheet.getTimeWeOn()}</td>
+                              <td style="background-color: #CCF5FF;">${timeSheet.getTimeSum()}</td>
+                              <td style="background-color: #CCF5FF;">${timeSheet.holId.getName()}</td>
+                              <td style="white-space: nowrap;"
+                                  colspan="2">
+                                  <button type="button" style="height: 27px; width: 65px;"
+                                      class="btn btn-primary btn-sm"
+                                      onclick="document.getElementById('request').style.display='block';changeIncidentValue(this);"
+                                      ${buttontRq=='false' || fn:containsIgnoreCase(hasRequestedIn, 'RE') || fn:containsIgnoreCase(hasRequestedOut, 'RE') || fn:containsIgnoreCase(hasRequestedIn, '中') || fn:containsIgnoreCase(hasRequestedOut, '中') ? 'disabled="disabled"': ''}><spring:message code="btn.request" /></button>
+                                  <a
+                                  href="${pageContext.request.contextPath}/offDay?mm=<%=request.getParameter("m")%>/${timeSheetIndex.count}" class="disabled"><button
+                                          type="button" class="btn btn-danger btn-sm"
+                                          style="height: 27px; width: 55px;" disabled="disabled"><spring:message code="btn.off" /></button></a>
+                              </td>
+                          </c:if>
+
+                          <c:if
+                              test="${lstDayOfWeekDiff.get(timeSheetIndex.index) == 'Sun' && timeSheet.timesheetId == null }">
+                              <td style="white-space: nowrap; background-color: #ffe6e6;">
+                                  <div style="float: left; padding-left: 15%; padding-right: 3%;"><c:if test="${timeSheetIndex.count < 10}">0${timeSheetIndex.count}</c:if><c:if test="${timeSheetIndex.count >= 10}">${timeSheetIndex.count}</c:if></div>
+                                  <div style="float: left; padding-left: 3%; padding-right: 15%;">(${listDayOfWeek.get(timeSheetIndex.index)})</div>
+                              </td>
+                              <td style="background-color: #ffe6e6;"></td>
+                              <td style="background-color: #ffe6e6;"></td>
+                              <td style="background-color: #ffe6e6;"></td>
+                              <td style="background-color: #ffe6e6;"></td>
+                              <td style="background-color: #ffe6e6;"></td>
+                              <td style="background-color: #ffe6e6;"></td>
+                              <td style="background-color: #ffe6e6;"></td>
+                              <td style="background-color: #ffe6e6;"></td>
+                              <td style="background-color: #ffe6e6;"></td>
+                              <td style="white-space: nowrap; "
+                                  colspan="2">
+                                  <button type="button" style="height: 27px; width: 65px;"
+                                      class="btn btn-primary btn-sm"
+                                      onclick="document.getElementById('request').style.display='block';changeIncidentValue(this);"
+                                      ${buttontRq=='false'?'disabled="disabled"': ''}><spring:message code="btn.request" /></button>
+                                  <a href="${pageContext.request.contextPath}/Offday?mm=<%=request.getParameter("m")%>/${timeSheetIndex.count}" class="disabled"><button
+                                          type="button" class="btn btn-danger btn-sm"
+                                          style="height: 27px; width: 55px;" disabled="disabled"><spring:message code="btn.off" /></button></a>
+                              </td>
+                          </c:if>
+                          <c:if
+                              test="${lstDayOfWeekDiff.get(timeSheetIndex.index) == 'Sun' && timeSheet.timesheetId > 0}">
+                              <td style="white-space: nowrap; background-color: #ffe6e6;">
+                                  <div style="float: left; padding-left: 15%; padding-right: 3%;"><c:if test="${timeSheetIndex.count < 10}">0${timeSheetIndex.count}</c:if><c:if test="${timeSheetIndex.count >= 10}">${timeSheetIndex.count}</c:if></div>
+                                  <div style="float: left; padding-left: 3%; padding-right: 15%;">(${listDayOfWeek.get(timeSheetIndex.index)})</div>
+                              </td>
+                              <c:set var = "hasRequestedIn" value = "${timeSheet.getRequestCheckInNew(Locale)}"/>
+                              <td style="background-color: #ffe6e6;">${hasRequestedIn}</td>
+                              <c:set var = "hasRequestedOut" value = "${timeSheet.getRequestCheckOutNew(Locale)}"/>
+                              <td style="background-color: #ffe6e6;">${hasRequestedOut}</td>
+                              <td style="background-color: #ffe6e6;">${timeSheet.getTimeLate()}</td>
+                              <td style="background-color: #ffe6e6;">${timeSheet.getTimeOt()}</td>
+                              <td style="background-color: #ffe6e6;">${timeSheet.getTimeWeOt()}</td>
+                              <td style="background-color: #ffe6e6;">${timeSheet.getTimeOn()}</td>
+                              <td style="background-color: #ffe6e6;">${timeSheet.getTimeWeOn()}</td>
+                              <td style="background-color: #ffe6e6;">${timeSheet.getTimeSum()}</td>
+                              <td style="background-color: #CCF5FF;">${timeSheet.holId.getName()}</td>
+                              <td style="white-space: nowrap; "
+                                  colspan="2">
+                                  <button type="button" style="height: 27px; width: 65px;"
+                                      class="btn btn-primary btn-sm"
+                                      onclick="document.getElementById('request').style.display='block';changeIncidentValue(this);"
+                                      ${buttontRq=='false' || fn:containsIgnoreCase(hasRequestedIn, 'RE') || fn:containsIgnoreCase(hasRequestedOut, 'RE') || fn:containsIgnoreCase(hasRequestedIn, '中') || fn:containsIgnoreCase(hasRequestedOut, '中') ? 'disabled="disabled"': ''}><spring:message code="btn.request" /></button>
+                                  <a
+                                  href="${pageContext.request.contextPath}/offDay?mm=<%=request.getParameter("m")%>/${timeSheetIndex.count}" class="disabled"><button
+                                          type="button" class="btn btn-danger btn-sm"
+                                          style="height: 27px; width: 55px;" disabled="disabled"><spring:message code="btn.off" /></button></a>
+                              </td>
+                          </c:if>
+                      </tr>
+                  </c:forEach>
+              </tbody>
+           </table>
+        </div>
+        <div id="request" class="modal">
+           <form:form id="submitForm" class="modal-content animate"
+               method="POST" modelAttribute="formrequest">
+              <input class="time-input" style="width: 92%;" type="hidden"
+                  id="timesheetuserid" name="timesheetuserid" />
+              <center>
+                  <h2><spring:message code="lbl.sendpopup.title" /></h2>
+              </center>
+              <div style="padding-left: 60px">
+                 <table class="table-request">
+                    <tr>
+                      <td><b><spring:message code="lbl.sendpopup.date" /></b></td>
+                      <td><input class="time-input" style="width: 166px;" readonly="readonly"
+                          type="text" id="date_sendrequest" name="date-request" /></td>
+                    </tr>
+                    <tr>
+                      <td><b><spring:message code="lbl.sendpopup.before" /> </b></td>
+                      <td><input class="time-input"  id="time_in"
+                          name="time_in"  style="background: #dddddd; width: 81px; cursor: default" readonly="readonly"/> <input class="time-input" 
+                          id="time_out" name="time_out" style="background: #dddddd; width: 81px; cursor: default" readonly="readonly"/></td>
+                    </tr>
+
+                    <tr>
+                      <td><b><spring:message code="lbl.sendpopup.after" /></b></td>
+                      <td style="border: none;"><input class="time-input"
+                          type="text" id="arrivalTime" name="time_in_request"
+                          readonly="readonly" value="" style="width: 81px"/> <input class="time-input" type="text"
+                          id="closeTime" name="time_out_request" readonly="readonly" value="" style="width: 81px"/></td>
+                    </tr>
+                    <tr>
+                      <td><b><spring:message code="lbl.sendpopup.reason" /></b></td>
+                      <td><textarea name="reason" style="height: 100px; width: 220px" id="text_reason"></textarea></td>
+                    </tr>
+                 </table>
+              </div>
+              <br />
+              <div align="center" style="margin-left: 15px; margin-top: 20px;">
+                  <button type="submit" style="height: 27px; width: 60px;"
+                      class="btn btn-primary btn-sm" onclick="onclickSend();"><spring:message code="btn.send"/></button>
+                      <a style="height: 27px; width: 80px;color:white;" class="btn btn-danger btn-sm" onclick="onclickCancel();" ><spring:message code="btn.cancel" /></a>
+              </div>
+           </form:form>
+        </div>
+        <div id="reqOffModal" class="modal fade" role="dialog">
+			<form:form id="reqOff" class="modal-content animate" method="POST"
+				modelAttribute="formrequest">			
+	       	 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+				<input class="time-input" style="width: 92%;" type="hidden"
+					id="timesheetuserid" name="timesheetuserid" />
+				<center>
+					<h2>
+						<spring:message code="lbl.sendpopup.requestoff" />
+					</h2>
+				</center>
+				<div>
+					<table class="table-request-off">
+						<thead>
+							<tr>
+								<td><b>Off Type:</b></td>
+								<td>
+									<select name="offType" id="off-type" class="form-control-lg">
+										<option value="01">Full date</option>
+										<option value="02">Morning</option>
+										<option value="03">Afternoon</option>
+									</select>
+									&nbsp;
+									<button type="button" id="btn-add-off-req" class="form-control-sm btn btn-primary">
+										<i class="glyphicon glyphicon-plus"></i>
+									</button>
+								</td>						
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+						<tfoot>						
+							<tr>
+								<th><b><spring:message code="lbl.sendpopup.reason" /></b></th>
+								<td style="width: 100%;"><textarea name="reason" class="form-control" style="width: 100%;"
+										id="reasonOff" onkeypress="changeDateValue(this)"></textarea></td>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+				<br />
+				<div align="center">
+					<button type="button" id="sendRequestOff" style="height: 27px; width: 60px;"
+						class="btn btn-primary btn-sm">
+						<spring:message code="btn.send" />
+					</button>
+					<a style="height: 27px; width: 80px; color: white;"
+						class="btn btn-danger btn-sm" data-dismiss="modal"><spring:message
+							code="btn.cancel" /></a>
+				</div>
+			</form:form>
+		</div>
+        <input id="message_noempty" type="hidden" value="<spring:message code="msg.validate.notempty.timerq"/>"/>
+        <input id="message_noemptyrs" type="hidden" value="<spring:message code="msg.validate.notempty.reason"/>"/>
+        <input id="message_success" type="hidden" value="<spring:message code="msg.saverequest.success"/>"/>
+<jsp:include page="footer.jsp"></jsp:include>
+<script>
+  $(document).ready(function() {
+    $('#month-picker').MonthPicker({
+        Button : false,
+        MonthFormat : 'yy/mm'
+    });
+  });
+</script>
+<script>
+    $('#arrivalTime').TimePicker();
+    $('#closeTime').TimePicker();
+</script>
+<script>
+    function changeIncidentValue(elem) {
+        var row = $(elem).closest("tr"); // Find the row
+        var strdate = row.find("td div:eq(0)").text();
+        var dayinmonthVal = strdate.replace(" ", "");
+        var month = document.getElementById('month-picker').value
+        var dateVal = month + '/' + dayinmonthVal;
+        var time_in = row.find("td:eq(1)").text();
+        if (time_in.length > 5) {
+        	var _timeIn = reverse(time_in).substring(0,5);
+        	time_in = reverse(_timeIn);
+        } else if (time_in.length < 5) {
+        	time_in ="";
+        }
+        var time_out = row.find("td:eq(2)").text();
+        if (time_out.length > 5) {
+            var _timeOut = reverse(time_out).substring(0,5);
+            time_out = reverse(_timeOut);
+        } else if (time_out.length < 5) {
+            time_out ="";
+        }
+        $('#time_in').val(time_in);
+        $('#time_out').val(time_out);
+        $('#date_sendrequest').val(dateVal);
+
+    }
+    function reverse (s) {
+        var o = '';
+        for (var i = s.length - 1; i >= 0; i--)
+            o += s[i];
+        return o;
+    }
+</script>
+<script>
+    function onclickCancel() {
+        document.getElementById('arrivalTime').value = ""
+        document.getElementById('closeTime').value = ""
+        document.getElementById('text_reason').value = ""
+        document.getElementById('request').style.display='none';
+        location.reload();
+    }
+    
+$( document ).ready(function() {
+        
+        $("#submitForm").submit(function(event) {
+            event.preventDefault();
+            var timein = $("#arrivalTime").val();
+            var timeout = $("#closeTime").val();
+            var reason = $("#text_reason").val();
+            if (timein.length == 0 && timeout.length == 0) {
+                alert($('#message_noempty').val());
+            } else {
+                if (reason.length == 0) {
+                    alert($('#message_noemptyrs').val());
+                } else {
+                    ajaxPost();
+                }
+            }
+        });
+        
+        function ajaxPost(){
+            var contextpath = '${contextPath}';
+            $.ajax({
+                 type: "POST",
+                 data : $("#submitForm").serialize(),
+                 dataType : 'json',
+                 url: contextpath+"/sendRequest",
+                 success :function() {
+                     $.alertable.alert($('#message_success').val()).always(function() {
+                         document.getElementById('request').style.display='none';
+                         location.reload();
+                      });
+                     
+                 },
+                 error: function() {
+                     alert("Error!");
+                }
+            });
+        }
+        
+    })
+    
+    
+    document.getElementById('btn-add-off-req').addEventListener('click', function (e) {
+    	let offType = document.getElementById('off-type').value;
+    	let reqOffModalEl = document.getElementById('reqOffModal');
+    	switch (offType) {
+    		case '01' : offDay(reqOffModalEl, 'full', 'Full Day:'); break;
+  			case '02' : offDay(reqOffModalEl, 'morning', 'Morning:'); break;
+  			case '03' : offDay(reqOffModalEl, 'afternoon', 'Afternoon:'); break;
+  			default : alert('Nothing to process');
+    	}
+    });
+
+	function offDay(e, type, label) {
+   		let offAfternoon = document.getElementById('off-' + type);
+    	let dateOffItemCount = 0;
+    	let divIcon, buttonDel, input, div, td;
+    	let classItem = 'date-off-' + type + '-item-' + ((type === 'full') ? 'to' : '');
+    	if (!offAfternoon) {
+    		let tr = document.createElement('tr');
+    		tr.id = 'off-' + type;
+    		tr.innerHTML = '<th></th><td><b class="req-type">' + label + '</b></td>';
+	    	e.getElementsByTagName('tbody')[0].appendChild(tr);
+	    } else {
+	    	dateOffItemCount = offAfternoon.getElementsByClassName(classItem).length;
+	    }	    		
+    	td = document.querySelector('#reqOffModal tbody #off-' + type + ' td');
+    	div = document.createElement('div');
+    	div.className = 'row off-row';
+    	// Check type full day off
+    	if (type === 'full') {
+    		let inputFrom = document.createElement('input');
+		    inputFrom.type = 'text';
+		    inputFrom.setAttribute('typeoff', type);
+		    inputFrom.name = 'date_off_full_from';
+		    inputFrom.id = 'date-picker-from-' + type + '-' + dateOffItemCount;
+        	inputFrom.setAttribute('onchange', 'changeDateValue(this)');
+		    inputFrom.className = 'form-control off-date-input date-off-' + type + '-item-from col date-picker';
+		    div.appendChild(inputFrom);
+		    div.append('~');
+    	}
+    	// Create input element
+    	input = document.createElement('input');
+	    input.type = 'text';
+	    input.name = 'date_off_' + type + ((type === 'full') ? '_to' : '');
+	    input.setAttribute('typeoff', type);
+	    input.id = 'date-picker' + ((type === 'full') ? '-to' : '') + '-' + type + '-' + dateOffItemCount;
+	    input.className = 'form-control off-date-input ' + classItem + ' col date-picker ' + type;
+      	input.setAttribute('onchange', 'changeDateValue(this)');
+	    div.appendChild(input);
+	    // Create button delelte element
+	    buttonDel = document.createElement('button');
+	    buttonDel.type = 'button';
+	    buttonDel.setAttribute('onclick', 'deleteRowOffReq(this)');
+	    buttonDel.className = 'btn btn-danger';
+	    // Create icon minus
+	    divMinus = document.createElement('i');
+	    divMinus.className = 'glyphicon glyphicon-minus';
+	    buttonDel.append(divMinus);
+	    div.appendChild(buttonDel);
+	    td.appendChild(div);
+	    $('.date-picker').datepicker({
+	    	minDate: new Date()
+	    });
+   }
+
+	function deleteRowOffReq(e) {
+		let parentElement = e.parentElement.parentElement;
+		parentElement.removeChild(e.parentElement);
+		if (parentElement.parentElement.getElementsByTagName('div').length == 0)
+			parentElement.parentElement.parentElement.removeChild(parentElement.parentElement);
+	}
+
+	document.getElementById('sendRequestOff').addEventListener('click', function (e) {
+		let form = document.getElementById('reqOff');
+        var contextpath = '${contextPath}';
+        function ajaxPost(){
+            var contextpath = '${contextPath}';
+            
+        }
+		if (validateDate(form)) {
+			if (form.date_off_full_from) {
+				form.date_off_full_from.value = form.date_off_full_from.value + ',' + form.date_off_full_to.value;
+			}
+			let formData = $('#reqOff').serialize();
+			console.log(formData);
+			$.ajax({
+                type: "POST",
+                data : formData,
+                url: contextpath + "/sendRequestOff",
+                success :function() {
+                    $.alertable.alert($('#message_success').val()).always(function() {
+                        document.getElementById('request').style.display='none';
+                        location.reload();
+                     });                    
+                },
+                error: function() {
+                	if (form.date_off_full_from) {
+                		form.date_off_full_from.value = form.date_off_full_from.value.split(',')[0];
+                	}
+                    alert("Error!");
+               }
+           });
+		}
+		e.preventDefault();
+	});
+
+  function changeDateValue(e) {
+	e.style = null;
+    let errorList = e.parentElement.getElementsByClassName('error-modal-req-off');
+    if(errorList.length != 0) {
+    	if (errorList.length == 1) {
+    		e.parentElement.removeChild(errorList[0]);
+    	} else {
+    		for (let key in errorList) {
+    			e.parentElement.removeChild(errorList[key]);
+    	    }
+    	}
+    }
+    let errorListCheck = document.querySelectorAll('#reqOff .error-modal-req-off');
+    if (errorListCheck.length == 0) {
+		document.getElementById('sendRequestOff').disabled = false;
+    }
+  }
+
+  function validateDate(form) {
+	    console.log('------------------------------------');
+	    let errorList = document.querySelectorAll('#reqOff .error-modal-req-off');
+	    while(errorList[0]) {
+	    	errorList[0].parentNode.removeChild(errorList[0]);
+	    }
+    	let totalDate = [];
+	 	let temp = [];
+	 	let error = 0;
+	    
+	    let dateFullOffFromData = document.querySelectorAll('#reqOff input.off-date-input.date-off-full-item-from');
+	    let dateMorningOffData = document.querySelectorAll('#reqOff input.off-date-input.morning');
+	    let dateAfternoonOffData = document.querySelectorAll('#reqOff input.off-date-input.afternoon');
+	    console.log(dateFullOffFromData);
+	    
+	    if (dateFullOffFromData.length == 0 && dateMorningOffData.length == 0 && dateAfternoonOffData.length == 0 ) {
+	    	alert('<spring:message code="msg.validate.offstyle"/>');
+	    	error++;
+	    }
+	    
+		let key;
+		console.log(dateFullOffFromData)
+		dateFullOffFromData.forEach(function(e) {
+			console.log(e)
+			let fullOffFrom = e.value.split('/');
+			console.log(e.value);
+			let to = e.parentElement.getElementsByClassName('date-off-full-item-to')[0];
+			console.log(e.value);
+			if (e.value == '') {
+		    	makeError(e.id, '<spring:message code="msg.validate.emptydatefrom"/>');
+		    	error++;
+		    }
+			if (to.value == '') {
+		    	makeError(to.id, '<spring:message code="msg.validate.emptydateto"/>');
+		    	error++;
+		    }
+		    let fullOffFromDate = new Date(fullOffFrom[2], fullOffFrom[0] - 1, fullOffFrom[1], 0, 0, 0, 0);
+		    let fullOffTo = to.value.split('/');
+		    let fullOffToDate = new Date(fullOffTo[2], fullOffTo[0] - 1, fullOffTo[1], 0, 0, 0, 0);
+		    
+		    if (fullOffFromDate.getTime() > fullOffToDate.getTime()) {
+		    	makeError(to.id, '<spring:message code="msg.validate.gather"/>');
+		    	error++;
+		    } else {
+		    	temp = getDateArray(fullOffFromDate, fullOffToDate);
+		    	if (totalDate.includes(e.value)) {
+		    		makeError(e.id, '<spring:message code="msg.validate.datefromexist"/>');
+		    		error++;
+		    	}
+		    	if (totalDate.includes(to.value)) {
+		    		makeError(to.id, '<spring:message code="msg.validate.datetoexist"/>');
+		    		error++;
+		    	}
+		    	if (!totalDate.includes(e.value) && !totalDate.includes(to.value)) {
+		    		totalDate = totalDate.concat(temp);
+		    		e.value = temp.toString();
+		    		console.log(e.value);
+		    	}
+		    }
+		});
+		dateMorningOffData.forEach(function(e) {
+			if (e.value == '') {
+		    	makeError(e.id, '<spring:message code="msg.validate.notemptymorning"/>');
+		    	error++;
+		    }
+		    if (totalDate.includes(e.value)) {
+		    	makeError(e.id, '<spring:message code="msg.validate.dateexist"/>');
+		    	error++;
+		    } else {
+		    	totalDate = totalDate.concat(e.value);
+		    }
+		});
+
+		dateAfternoonOffData.forEach(function(e) {
+			if (e.value == '') {
+		    	makeError(e.id, '<spring:message code="msg.validate.notemptyafternoon"/>');
+		    	error++;
+		    }
+		    if (totalDate.includes(e.value)) {
+		    	makeError(e.id, '<spring:message code="msg.validate.dateexist"/>');
+		    	error++;
+		    } else {
+		    	totalDate = totalDate.concat(e.value);
+		    }
+		});
+		
+		if (document.getElementById('reasonOff').value == '') {
+			makeError(document.getElementById('reasonOff').id, '<spring:message code="msg.validate.offreason"/>');
+	    	error++;
+		}
+    	console.log('------------------------------------');
+    	if (error > 0) {
+    		document.getElementById('sendRequestOff').disabled = true;
+    		return false;
+    	}
+		return true;
+	}
+
+  function getDateArray(start, end) {
+	var arr = new Array();
+	var dt = new Date(start);
+	var temp_dt;
+	while (dt <= end) {
+		temp_dt = new Date(dt);
+		arr.push(((temp_dt.getMonth() < 10) ? '0' : '') + (temp_dt.getMonth() + 1) + '/' + temp_dt.getDate() + '/' + temp_dt.getFullYear());
+	    dt.setDate(dt.getDate() + 1);
+	}
+	return arr;
+  }
+
+  function makeError(id, message) {    
+      let el = document.getElementById(id);
+      el.style = "border: solid 1px red;";
+      let errMess = document.createElement('span');
+      errMess.className = 'error-modal-req-off';
+      errMess.innerHTML  = '- ' + message;
+      el.parentElement.appendChild(errMess);
+  }
+    
+</script>
+</body>
+</html>
+
