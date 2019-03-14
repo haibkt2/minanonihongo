@@ -1,0 +1,24 @@
+package r2hello.tutorial.action;
+
+import java.util.List;
+
+public class SinhVien {
+
+    public String hoTen;
+    public int diem;
+    public sv2 s2;
+    List<sv3> sv3;
+	public sv2 getS2() {
+		return s2;
+	}
+	public void setS2(sv2 s2) {
+		this.s2 = s2;
+	}
+	public List<sv3> getSv3() {
+		return sv3;
+	}
+	public void setSv3(List<sv3> sv3) {
+		this.sv3 = sv3;
+	}
+    
+}
