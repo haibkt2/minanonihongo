@@ -1,0 +1,86 @@
+package r2hello.tutorial.action;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Scanner;
+
+public class JavaAndroidVn {
+
+	public static void main(String[] args) {
+		Scanner input = new Scanner(System.in);
+		System.out.println("Nhập số sinh viên: ");
+		int n = input.nextInt();
+
+		ArrayList<SinhVien> danhSach = new ArrayList();
+
+		for (int i = 0; i < n; i++) {
+			input.nextLine();
+			SinhVien x = new SinhVien();
+			System.out.println("Thông tin gia đình thứ " + i);
+			System.out.print("Họ và Tên: ");
+			x.hoTen = input.nextLine();
+			System.out.print("Điểm: ");
+			x.diem = input.nextInt();
+			
+			ArrayList<sv3> danhSach2 = new ArrayList();
+			for (int j = 0; j < n; j++) {
+				input.nextLine();
+				sv3 s3 = new sv3();
+				System.out.println("Thông tin sinh viên thứ " + i);
+				System.out.print("Họ và Tên: ");
+				s3.hoTen = input.nextLine();
+				System.out.print("Điểm: ");
+				s3.diem = input.nextInt();
+				danhSach2.add(s3);
+			}
+			x.sv3 = danhSach2;
+			x.s2 = new sv2("hai"+i,i);
+			danhSach.add(x);
+		}
+		
+
+		// Sắp xếp danh sách theo số điểm giảm dần!
+		Collections.sort(danhSach, new Comparator<SinhVien>() {
+			@Override
+			public int compare(SinhVien sv1, SinhVien sv2) {
+				int vl =  sv2.hoTen.compareTo(sv1.hoTen);
+				if(vl == 0) {
+					String d2 = String.valueOf(sv2.diem);
+					String d1 = String.valueOf(sv1.diem);
+					return d2.compareTo(d1);
+					
+				}
+				else return vl;
+			}
+			
+		});
+		
+
+		System.out.println("Danh sách sắp xếp theo thứ tự điểm giảm dần là: ");
+		for (int i = 0; i < danhSach.size(); i++) {
+			System.out.println("----------");
+			System.out.println("Tên: " + danhSach.get(i).hoTen + " Điểm: "
+					+ danhSach.get(i).diem);
+			
+			for (int j = 0; j < danhSach.get(i).getSv3().size(); j++) {
+				Collections.sort(danhSach.get(i).getSv3(), new Comparator<sv3>() {
+					@Override
+					public int compare(sv3 sv1, sv3 sv2) {
+						int vl =  sv2.hoTen.compareTo(sv1.hoTen);
+						if(vl == 0) {
+							String d2 = String.valueOf(sv2.diem);
+							String d1 = String.valueOf(sv1.diem);
+							return d2.compareTo(d1);
+							
+						}
+						else return vl;
+					}
+					
+				});
+				System.out.println("Tên: " + danhSach.get(i).getSv3().get(j).hoTen + " Điểm: "
+						+ danhSach.get(i).getSv3().get(j).diem);
+			}
+		}
+	}
+}
